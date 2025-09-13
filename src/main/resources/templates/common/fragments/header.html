@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="HeaderFragment">
+    <div style="border: solid 1px; padding: 15px;">
+        <h1>Header 영역</h1>
+
+        <div style="margin-top: 10px;">
+            <a th:href="@{/}">홈</a>
+            <a th:href="@{/test/test1}">test1</a>
+            <a th:href="@{/test/test2}">test2</a>
+            <a th:href="@{/test/test3}">test3</a>
+        </div>
+    </div>
+</html>

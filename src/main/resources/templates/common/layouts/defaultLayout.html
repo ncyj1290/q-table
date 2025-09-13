@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <th:block th:replace="~{common/fragments/config :: ConfigFragment}"></th:block>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Q-Table</title>
+</head>
+<body>
+    <!-- Header -->
+    <th:block th:replace="~{common/fragments/header :: HeaderFragment}"></th:block>
+
+    <!-- Main Content -->
+    <div class="container-fluid" style="padding: 20px;">
+        <th:block layout:fragment="Content"></th:block>
+    </div>
+
+    <!-- Footer -->
+    <th:block th:replace="~{common/fragments/footer :: FooterFragment}"></th:block>
+</body>
+</html>
