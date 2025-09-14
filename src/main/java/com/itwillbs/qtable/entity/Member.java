@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "members")
+@Table(name = "member")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,16 +22,12 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, length = 50)
+    
+    @Column(length = 20)
     private String name;
-
-    @Column(length = 100)
-    private String email;
-
-    @Column(nullable = false)
-    @Builder.Default
-    private Boolean active = true;
+    
+    @Column()
+    private String password;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

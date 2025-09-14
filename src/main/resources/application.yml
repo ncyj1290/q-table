@@ -10,7 +10,7 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://qtable-db.crqya2um8g7x.ap-northeast-2.rds.amazonaws.com:3306/qtable_db
+    url: jdbc:mysql://qtable-db-free.crqya2um8g7x.ap-northeast-2.rds.amazonaws.com:3306/qtable_db
     username: admin
     password: Test1234!
     driver-class-name: com.mysql.cj.jdbc.Driver
