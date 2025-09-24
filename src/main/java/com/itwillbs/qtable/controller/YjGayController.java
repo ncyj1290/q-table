@@ -18,6 +18,5 @@ public class YjGayController {
 		return "zzzzzzzz";
 	}
 	
-	sdgf[sdfsdfsdfdsfsdfdsfsdfdsfdsfdsfsdf]
 	
 }
