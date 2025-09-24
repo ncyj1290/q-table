@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+/* 페이지 레이아웃 구조 */
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+
+.main-container {
+    padding: 30px 80px;
+}
+
+
+.header {
+	border: solid 1px; 
+	padding: 15px;
+}
+
+.footer {
+	border: solid 1px;
+	padding: 15px;
+}

@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "member")
+@Table(name = "members")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,9 +19,12 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class Member {
 
+	
+	// 테스트로 만든 member임
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     
     @Column(length = 20)
     private String name;

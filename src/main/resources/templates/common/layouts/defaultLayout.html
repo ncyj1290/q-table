@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <th:block th:replace="~{common/fragments/config :: ConfigFragment}"></th:block>
@@ -10,7 +9,7 @@
     <th:block th:replace="~{common/fragments/header :: HeaderFragment}"></th:block>
 
     <!-- Main Content -->
-    <div class="container-fluid" style="padding: 20px;">
+    <div class="main-container">
         <th:block layout:fragment="Content"></th:block>
     </div>
 
