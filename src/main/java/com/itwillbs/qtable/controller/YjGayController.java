@@ -12,5 +12,11 @@ public class YjGayController {
 		return "zzzzzzzz";
 	}
 	
+	@GetMapping("YjGay2")
+	public String yjGay2() {
+		
+		return "zzzzzzzz";
+	}
+	
 	
 }
