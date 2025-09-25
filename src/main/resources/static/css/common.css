@@ -83,6 +83,8 @@
 	height: 1px; /* 원하는 높이로 고정 */
 	background-color: var(--color-sub);
 	border: none;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 
