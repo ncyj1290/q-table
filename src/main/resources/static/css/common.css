@@ -183,3 +183,73 @@
 }
 
 
+
+/* 공통 체크박스*/
+.component-checkbox {
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border: 2px solid var(--color-main); 
+	border-radius: 6px;
+	background: #fff;
+	cursor: pointer;
+	position: relative; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.component-checkbox:checked::before {
+	content: '✔';
+	color: var(--color-main);
+	font-size: 35px;
+	position: absolute;
+	top: -10px;
+	left: 0;
+	line-height: 28px;
+}
+
+/*공통 입력란*/
+.component-write{
+	border: 2px solid var(--color-main); 
+	border-radius: 10px;
+	width: 20rem;
+	height: 1.8rem;
+}
+
+.component-write:focus{
+	border-color: var(--color-focus); 
+	  outline: none;        
+	  box-shadow: none;
+}
+
+/*title box*/
+.title-box {
+  background: var(--color-sub);       
+  padding: 10px 24px;      
+  border-radius: 20px;     
+  width: 30%;
+  height: 3%; /*사이트 크기에 맞춰 조절*/
+}
+
+.form-box {
+    width: 100%;
+    padding: 30px;
+    background-color: #fffef9;  
+    background-color: var(--color-sub);
+    border-radius: 12px;      
+    box-shadow: var(--main-box-shadow);
+    position: relative; /* 1. ::before의 위치 기준점이 되도록 설정 */
+    overflow: hidden;   /* 2. ::before가 둥근 모서리 밖으로 삐져나가지 않도록 잘라냄 */
+}
+.form-box::before{
+  	content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 7px; /* 테두리 두께 */
+    background: var(--color-sub); /* 그라데이션 변수 적용 */
+}
+
+
