@@ -8,21 +8,23 @@
 
 <body>
 	<div layout:fragment="Content">
-		<h1>인서트 테스트</h1>
+		<h1>인서트 테스트!?</h1>
 		<form action="testInsert" method="post">
-			name: <input type="text" name="name">
+			name: <input type="text" name="name" class="component-write">
 			password: <input type="password" name="pw">
-			<input type="submit" value="인서트">
+			<input class="positive-button" type="submit" value="인서트"><br>
+			<button type="submit" class="negative-button">취소</button>
+			<button type="submit" class="positive-button">저장</button><br>
+
+			<a>테스트 test TEST 안녕하세요! 반갑습니다?</a>
 		</form>
-		<button type="submit" class="negative-button">취소</button>
-		<button type="submit" class="positive-button">저장</button>
 		
 		<input type="checkbox" class="component-checkbox"> 체크박스 <br>
 		<input type="text" class="component-write"> 입력란<br>
-	    <h2 class="title-box"></h2><br>
-	    <h2 class="form-box"></h2><br>
-	    <h2 class="search-box"></h2><br>
-
+		<h2 class="title-box"></h2><br>
+		<h2 class="form-box"></h2><br>
+		<h2 class="search-box"></h2><br>
+		
 		<div class="horizontal-line"></div>
 
 		<div class="select-box">
