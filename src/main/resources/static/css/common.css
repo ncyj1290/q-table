@@ -107,10 +107,10 @@
   padding: 6px 40px 6px 12px;
   border: none;
   border-radius: 18px;
-  background-color: white;
+  background-color: #FFFFFF;
   font-size: 16px;
   font-weight: bold;
-  color: #444444;
+  color: var(--color-font-negative);
   outline: none;
   appearance: none;
   cursor: pointer;
