@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+</head>
+
+<body class="hold-transition sidebar-mini">
+	<div class="wrapper">
+		<nav th:replace="~{admin/fragments/header :: header}"></nav>
+
+		<aside th:replace="~{admin/fragments/sidebar :: sidebar}"></aside>
+
+		<div class="content-wrapper">
+			<th:block layout:fragment="content"></th:block>
+		</div>
+
+		<footer th:replace="~{admin/fragments/footer :: footer}"></footer>
+	</div>
+
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+</body>
+
+</html>
