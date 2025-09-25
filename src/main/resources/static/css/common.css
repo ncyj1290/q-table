@@ -18,6 +18,9 @@
 	/* 긍정 버튼 색 */
 	--color-font-positive: #FFFFFF;
 	
+	/* 배경 색 */
+	--background-color: #FFFFFF;
+	
 	/* 검색창 및 포커스 색 */
 	--color-focus: #7D8FA6;
 	
@@ -61,7 +64,7 @@
 	color:var(--color-font-negative);;
 	border: 1px solid var(--color-main);
 	border-radius: 20px;
-	background-color:#FFFFFF;
+	background-color: var(--background-color);
 	align-content: center;
 	text-align: center;
 	text-decoration: none;
@@ -98,7 +101,7 @@
   border: 2px solid var(--color-sub);
   border-radius: 18px;
   box-sizing: border-box;
-  background-color: white;
+  background-color: var(--background-color);
 }
 
 .select-box select {
@@ -107,7 +110,7 @@
   padding: 6px 40px 6px 12px;
   border: none;
   border-radius: 18px;
-  background-color: #FFFFFF;
+  background-color: var(--background-color);
   font-size: 16px;
   font-weight: bold;
   color: var(--color-font-negative);
@@ -156,7 +159,7 @@
 
 .page-selector{
 	border: none;
-	background-color: #FFFFFF;
+	background-color: var(--background-color);
 	color: #FABFBF;
 	font-weight: bold;
 	width: 30px;
@@ -174,7 +177,7 @@
 .page-arrow{
 	border: 2px solid var(--color-main);
 	border-radius: 10px;
-	background-color: #FFFFFF;
+	background-color: var(--background-color);
 	color: #FABFBF;
 	font-weight: bold;
 	font-family: var(--font-main);	
@@ -191,7 +194,7 @@
 	height: 25px;
 	border: 2px solid var(--color-main); 
 	border-radius: 6px;
-	background: #fff;
+	background: var(--background-color);
 	cursor: pointer;
 	position: relative; 
 	display: flex;
@@ -235,7 +238,7 @@
 .form-box {
     width: 100%;
     padding: 30px;
-    background-color: #fffef9;  
+    background-color: var(--background-color);  
     background-color: var(--color-sub);
     border-radius: 12px;      
     box-shadow: var(--main-box-shadow);
