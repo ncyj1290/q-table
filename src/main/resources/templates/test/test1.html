@@ -1,8 +1,11 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+
 <head>
-<meta charset="UTF-8">
-<title>test1</title>
+	<meta charset="UTF-8">
+	<title>test1</title>
 </head>
+
 <body>
 	<div layout:fragment="Content">
 		<h1>인서트 테스트</h1>
@@ -12,5 +15,22 @@
 			<input type="submit" value="인서트">
 		</form>
 	</div>
+
+	<button type="submit" class="negative-button">취소</button>
+	<button type="submit" class="positive-button">저장</button>
+
+	<div class="horizontal-line"></div>
+
+	<div class="select-box">
+		<select>
+			<option>옵션1</option>
+			<option>옵션2</option>
+			<option>옵션3</option>
+			<option>옵션4</option>
+			<option>옵션5</option>
+			<option>옵션6</option>
+		</select>
+	</div>
 </body>
+
 </html>

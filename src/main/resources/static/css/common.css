@@ -1,6 +1,183 @@
 @charset "UTF-8";
 
 /* 공통 css (폰트, 색상이나 기본 ui컴포넌트) */
+:root{
 
+	/* 메인 컬러 */
+	--color-main: #FF6B6B;
+	
+	/* 서브 컬러 */
+	--color-sub: #FABFBF;	
+
+	/* 글자 색 */
+	--color-font: #333333;
+
+	/* 부정 버튼 색 */
+	--color-font-negative: #444444;
+	
+	/* 긍정 버튼 색 */
+	--color-font-positive: #FFFFFF;
+	
+	/* 검색창 및 포커스 색 */
+	--color-focus: #7D8FA6;
+	
+	/* placeholder색 및 강조되지 않는 글 */
+	--color-placeholder: #979797;
+}
+
+/* ================================== */
+/* 긍정 버튼 */
+/* ================================== */
+.positive-button{
+	width: 100px;
+	height: 30px;
+	font-weight: bold;
+	font-size: 15px;
+	color: var(--color-font-positive);
+	border: 1px;
+	border-radius: 20px;
+	background-color: var(--color-main);
+	align-content: center;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.positive-button:active{
+	transform: scale(0.95);
+	background-position: 100% 0%;
+}
+
+
+
+/* ================================== */
+/* 부정 버튼 */
+/* ================================== */
+.negative-button{
+	width: 100px;
+	height: 30px;
+	font-weight: bold;
+	font-size: 15px;
+	color:var(--color-font-negative);;
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+	background-color:#FFFFFF;
+	align-content: center;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.negative-button:active{
+	transform: scale(0.95);
+	background-position: 100% 0%;
+}
+
+
+
+/* ================================== */
+/* 구분선 */
+/* ================================== */
+.horizontal-line {
+	width: 100%;
+	height: 1px; /* 원하는 높이로 고정 */
+	background-color: var(--color-sub);
+	border: none;
+}
+
+
+
+/* ================================== */
+/* 드롭다운 */
+/* ================================== */
+.select-box {
+  position: relative;
+  width: 250px;
+  border: 2px solid var(--color-sub);
+  border-radius: 18px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.select-box select {
+  width: 100%;
+  height: 30px;
+  padding: 6px 40px 6px 12px;
+  border: none;
+  border-radius: 18px;
+  background-color: white;
+  font-size: 16px;
+  font-weight: bold;
+  color: #444444;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* 커스텀 삼각형 화살표 */
+.select-box::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-sub);
+  transform: translateY(-50%);
+}
+
+
+
+/* ================================== */
+/* 페이징 */
+/* ================================== */
+.page-selector-layout{
+	margin-top: 50px;
+	width: 100%;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.page-selector{
+	border: none;
+	background-color: #FFFFFF;
+	color: #FABFBF;
+	font-weight: bold;
+	width: 30px;
+	margin: 0px 5px;	
+}
+
+
+.page-selector:disabled{
+	border: 2px solid var(--color-main);
+	border-radius: 10px;
+	text-decoration: none;
+}
+
+
+.page-arrow{
+	border: 2px solid var(--color-main);
+	border-radius: 10px;
+	background-color: #FFFFFF;
+	color: #FABFBF;
+	font-weight: bold;
+	font-family: var(--font-main);	
+	width: 30px;
+	margin: 0px 5px;
+}
 
 
