@@ -11,7 +11,6 @@
 .main-container {
     margin: 5px 143px;
 	margin-bottom: 40px;
-    border: solid 1px;
     display: flex;
   	justify-content: center;
 }
