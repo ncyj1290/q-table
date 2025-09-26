@@ -247,7 +247,7 @@
 }
 
 /* ================================== */
-/* form */
+/* form-box */
 /* ================================== */
 .form-box {
     width: 100%;
@@ -278,5 +278,20 @@
     overflow: hidden;   
 }
 
+.searchBox{
+	width: 25%;
+    padding: 10px;
+	margin-left: 37%;
+    background-color: var(--color-font-positive);
+    border-radius: 45px; 
+	border: 2px solid var(--color-focus);    
+    position: relative; 
+    overflow: hidden;  
+	color: var(--color-placeholder); 
+}
 
-
+.searchBox:focus{
+	border-color: var(--color-main); 
+	outline: none;        
+ 	box-shadow: none;
+}
