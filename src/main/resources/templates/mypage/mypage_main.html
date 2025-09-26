@@ -4,6 +4,7 @@
 <head>
 	<link rel="stylesheet" th:href="@{/css/mypage/mypage_nav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypage_main.css}">
 	<meta charset="UTF-8">
 	<title>my_page</title>
 </head>
@@ -12,6 +13,20 @@
 	<div layout:fragment="Content">
 		<div th:replace="mypage/profile :: mainnav"></div>
 		<div th:replace="mypage/mypage_nav :: mainnav"></div>
+		<div class="horizontal-line"></div>
+		<div class="reservation-empty-container">
+		  <div class="reservation-header">
+		    <span class="reserve-label" onclick="reserveTab(this, 'visit')">방문예정</span>
+		    <span class="reserve-label">|</span>
+		    <span class="reserve-label" onclick="reserveTab(this, 'cancel')">취소</span>
+		  </div>
+		  <div class="reservation-empty-content">
+		    <div class="reserve-text">예약한 매장이 없어요</div>
+		    <div class="reserve-text">맛집을 찾으러 가볼까요?</div>
+		    <button class="positive-button" style="width: 180px; height: 50px; font-size: 25px; border-radius: 10px; justify-content: center; margin-top: 10px;">맛집 찾아보기</button>
+		  </div>
+		</div>
+
 	</div>
 
 </body>
