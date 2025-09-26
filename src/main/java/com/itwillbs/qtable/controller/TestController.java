@@ -37,6 +37,11 @@ public class TestController {
         return "test/test3";  
     }
     
+    @GetMapping("/test4")
+    public String test4() {
+        return "test/test4";  
+    }
+    
 //    @PostMapping("testInsert")
 //    public String testInsert(@RequestParam("name") String name, @RequestParam("pw") String password) {
 //        Member member = new Member();

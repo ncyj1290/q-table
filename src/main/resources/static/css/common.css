@@ -15,17 +15,17 @@
 	/* 부정 버튼 색 */
 	--color-font-negative: #444444;
 	
-	/* 긍정 버튼 색 */
+	/* 긍정 버튼 & title box */
 	--color-font-positive: #FFFFFF;
-	
-	/* 배경 색 */
-	--background-color: #FFFFFF;
 	
 	/* 검색창 및 포커스 색 */
 	--color-focus: #7D8FA6;
 	
 	/* placeholder색 및 강조되지 않는 글 */
 	--color-placeholder: #979797;
+	
+	/* 폼 박스 그림자 (크기는 페이지에 맞춰서 사용) */
+	--form-box-shadow: 0px 2px 8px rgb(219 212 212); 
 }
 
 /* ================================== */
@@ -64,7 +64,7 @@
 	color:var(--color-font-negative);;
 	border: 1px solid var(--color-main);
 	border-radius: 20px;
-	background-color: var(--background-color);
+	background-color:#FFFFFF;
 	align-content: center;
 	text-align: center;
 	text-decoration: none;
@@ -101,7 +101,7 @@
   border: 2px solid var(--color-sub);
   border-radius: 18px;
   box-sizing: border-box;
-  background-color: var(--background-color);
+  background-color: white;
 }
 
 .select-box select {
@@ -110,7 +110,7 @@
   padding: 6px 40px 6px 12px;
   border: none;
   border-radius: 18px;
-  background-color: var(--background-color);
+  background-color: #FFFFFF;
   font-size: 16px;
   font-weight: bold;
   color: var(--color-font-negative);
@@ -159,7 +159,7 @@
 
 .page-selector{
 	border: none;
-	background-color: var(--background-color);
+	background-color: #FFFFFF;
 	color: #FABFBF;
 	font-weight: bold;
 	width: 30px;
@@ -177,7 +177,7 @@
 .page-arrow{
 	border: 2px solid var(--color-main);
 	border-radius: 10px;
-	background-color: var(--background-color);
+	background-color: #FFFFFF;
 	color: #FABFBF;
 	font-weight: bold;
 	font-family: var(--font-main);	
@@ -187,14 +187,16 @@
 
 
 
-/* 공통 체크박스*/
+/* ================================== */
+/* 공통 체크박스 */
+/* ================================== */
 .component-checkbox {
 	appearance: none;
 	width: 25px;
 	height: 25px;
 	border: 2px solid var(--color-main); 
 	border-radius: 6px;
-	background: var(--background-color);
+	background: #fff;
 	cursor: pointer;
 	position: relative; 
 	display: flex;
@@ -208,11 +210,13 @@
 	font-size: 35px;
 	position: absolute;
 	top: -10px;
-	left: 0;
-	line-height: 28px;
+	left: 0px;
+	line-height: 30px;
 }
 
-/*공통 입력란*/
+/* ================================== */
+/* 공통 입력란 */
+/* ================================== */
 .component-write{
 	border: 2px solid var(--color-main); 
 	border-radius: 10px;
@@ -222,26 +226,36 @@
 
 .component-write:focus{
 	border-color: var(--color-focus); 
-	  outline: none;        
-	  box-shadow: none;
+	 outline: none;        
+	 box-shadow: none;
 }
 
-/*title box*/
+/* ================================== */
+/* title box */
+/* ================================== */
 .title-box {
-  background: var(--color-sub);       
-  padding: 10px 24px;      
-  border-radius: 20px;     
-  width: 30%;
-  height: 3%; /*사이트 크기에 맞춰 조절*/
+	width: 100%;
+	height: 40px;
+	padding: 4px;
+	padding-left: 10px;
+	background-color: var(--color-main);
+	border-radius: 25px;
+	position: relative;
+	overflow: hidden;
+	color: var(--color-font-positive);
+	font-size: 28px;
 }
 
+/* ================================== */
+/* form */
+/* ================================== */
 .form-box {
     width: 100%;
     padding: 30px;
-    background-color: var(--background-color);  
-    background-color: var(--color-sub);
-    border-radius: 12px;      
-    box-shadow: var(--main-box-shadow);
+    background-color: var(--color-font-positive);
+    border-radius: 20px; 
+	border: 2px solid #F68686;    
+    box-shadow: var(--form-box-shadow);
     position: relative; /* 1. ::before의 위치 기준점이 되도록 설정 */
     overflow: hidden;   /* 2. ::before가 둥근 모서리 밖으로 삐져나가지 않도록 잘라냄 */
 }
@@ -252,7 +266,15 @@
     left: 0;
     right: 0;
     height: 7px; /* 테두리 두께 */
-    background: var(--color-sub); /* 그라데이션 변수 적용 */
 }
 
 
+.form-box1 {
+    width: 100%;
+    padding: 30px;
+    background-color: var(--color-font-positive);
+    border-radius: 20px; 
+	border: 2px solid #F68686;    
+    position: relative; /* 1. ::before의 위치 기준점이 되도록 설정 */
+    overflow: hidden;   /* 2. ::before가 둥근 모서리 밖으로 삐져나가지 않도록 잘라냄 */
+}
