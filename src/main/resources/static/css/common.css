@@ -254,10 +254,9 @@
     padding: 30px;
     background-color: var(--color-font-positive);
     border-radius: 20px; 
-	border: 2px solid #F68686;    
     box-shadow: var(--form-box-shadow);
-    position: relative; /* 1. ::before의 위치 기준점이 되도록 설정 */
-    overflow: hidden;   /* 2. ::before가 둥근 모서리 밖으로 삐져나가지 않도록 잘라냄 */
+    position: relative;
+    overflow: hidden;   
 }
 .form-box::before{
   	content: '';
@@ -269,7 +268,7 @@
 }
 
 
-.form-box1 {
+.form-noshadow {
     width: 100%;
     padding: 30px;
     background-color: var(--color-font-positive);
