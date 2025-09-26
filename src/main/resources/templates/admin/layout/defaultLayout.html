@@ -2,7 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+	<th:block th:replace="~{common/fragments/config :: ConfigFragment}"></th:block>
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.css}">
 	<link rel="stylesheet" th:href="@{/css/admin/adminlte.css}">
 </head>
 
@@ -19,9 +20,8 @@
 		<footer th:replace="~{admin/fragments/footer :: footer}"></footer>
 	</div>
 
-	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.js}"></script>
+	<script th:src="@{/js/admin/adminlte.js}"></script>
 </body>
 
 </html>
