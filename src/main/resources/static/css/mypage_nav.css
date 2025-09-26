@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+.navigation-icons {
+	display: flex;
+	justify-content: space-between;
+	max-width: 650px;
+	margin: 0 auto;
+}
+
+
+/* ================================== */
+/* 개별 아이콘 */
+/* ================================== */
+.reservation-icon{
+	text-decoration: none; 
+	color:inherit;
+	text-align: center;
+}
+
+.history-icon{
+	text-decoration: none; 
+	color:inherit;
+	text-align: center;
+}
+
+.review-icon{
+	text-decoration: none; 
+	color:inherit;
+	text-align: center;
+}
+
+.scrap-icon{
+	text-decoration: none; 
+	color:inherit;
+	text-align: center;
+}
+
+.qmoney-icon{
+	text-decoration: none; 
+	color:inherit;
+	text-align: center;
+}
+
+
+/* ================================== */
+/* 아이콘 이미지 */
+/* ================================== */
+.nav-image{
+	width: 60px;
+	height: 60px;
+}
+
+.nav-image:active{
+	transform: scale(0.95);
+	background-position: 100% 0%;
+}
+
+
+/* ================================== */
+/* 아이콘 글자 */
+/* ================================== */
+.nav-font{
+	margin-top: 4px;
+	font-size: 12px;
+	font-weight: bold;
+}
