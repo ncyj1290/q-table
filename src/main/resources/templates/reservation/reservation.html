@@ -1,0 +1,121 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+<head>
+    <title>예약 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/reservation/reservation.css}">
+</head>
+<body>
+<div layout:fragment="Content">
+    <div class="reservation-container">
+        <!-- 왼쪽 메인 섹션 -->
+        <div class="reservation-form">
+            <!-- 통합 예약 폼 -->
+            <div class="form-box">
+                <!-- 예약자 정보 -->
+                <div class="section-title">
+                    <i class="fas fa-user-edit"></i>
+                    <span>예약자 정보</span>
+                </div>
+                <div class="horizontal-line-gray"></div>
+                <div class="form-row-horizontal">
+                    <label for="customerName">이름</label>
+                    <input type="text" class="component-write" placeholder="이름">
+                </div>
+                <div class="form-row-horizontal">
+                    <label for="customerEmail">이메일</label>
+                    <input type="email" class="component-write" placeholder="abcd@gmail.com">
+                </div>
+
+                <!-- 특별 요청 사항 -->
+                <div class="section-title">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>특별 요청 사항</span>
+                </div>
+                <div class="horizontal-line-gray"></div>
+                <div class="form-row-horizontal">
+                    <label for="allergies">알레르기</label>
+                    <textarea class="request-textarea" placeholder="음식 관련 주의사항을 기재해주세요"></textarea>
+                </div>
+                <div class="form-row-horizontal">
+                    <label for="specialRequest">고객 요청사항</label>
+                    <textarea class="request-textarea" placeholder="요구 사항을 기재해주세요"></textarea>
+                </div>
+
+                <!-- 정책 안내 -->
+                <div class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span>정책 안내</span>
+                </div>
+                <div class="horizontal-line-gray"></div>
+                <div class="policy-section">
+                    <h4>예약 취소 정책 안내</h4>
+                    <ul class="policy-list">
+                        <li>예약일 7일전까지 취소시 환불: 100% 환불</li>
+                        <li>예약일 3일전 - 50% 환불</li>
+                        <li>당일 취소 및 노쇼: 환불 불가</li>
+                    </ul>
+
+                    <div class="policy-content">
+                        <h4>노쇼 이용객 정책 안내</h4>
+                        <p>예약시간 리마인드 후 예약을 취소하지 않는다면</p>
+                        <p>3회 이상 시 그 다음 서비스 이용이 제한됩니다</p>
+                    </div>
+
+                    <div class="checkbox-row">
+                        <input type="checkbox" class="component-checkbox">
+                        <label for="agreePolicy">위의 사항을 확인하고 동의</label>
+                    </div>
+                </div>
+
+                <!-- 예약하기 버튼 -->
+                <div class="horizontal-line-gray"></div>
+                <div class="reservation-button-container">
+                    <button class="positive-button reservation-btn">예약하기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 우측 예약 정보 섹션 -->
+        <div class="store-info-card">
+            <div class="store-header">
+                <div class="store-image">
+                    <img src="/img/Q_money.png" alt="매장 이미지">
+                </div>
+                <div class="store-info">
+                    <h3>매장명</h3>
+                    <span class="store-location">부산 서면 ---</span>
+                </div>
+            </div>
+
+            <div class="reservation-details">
+                <div class="detail-row">
+                    <i class="fas fa-calendar-alt detail-icon"></i>
+                    <span class="detail-value">2025년 10월 8일</span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-clock detail-icon"></i>
+                    <span class="detail-value">오후 8:00</span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-user detail-icon"></i>
+                    <span class="detail-value">2명</span>
+                </div>
+            </div>
+
+            <div class="service-fee">
+                <h4>서비스 이용료</h4>
+                <div class="fee-item">
+                    <span class="fee-label">예약금</span>
+                    <span class="fee-amount">3000 Q-money</span>
+                </div>
+                <div class="fee-item total">
+                    <span class="fee-label">총 결제</span>
+                    <span class="fee-amount total-amount">6000 Q-money</span>
+                </div>
+                <p class="fee-note">※ 총 결제 금액 = 인원 수 * 예약금</p>
+<!--                 <p class="fee-note">※ 식사대금의 결제가 아닙니다. 당일의 식사대금은 반드시 현지의 매장에서 지불해 주십시요.</p> -->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
