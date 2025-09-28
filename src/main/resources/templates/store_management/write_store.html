@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+	
+	<head>
+	    <title>매장 관리자</title>
+	    <link rel="stylesheet" th:href="@{/css/store_management/write_store.css}">
+	</head>
+	
+	<body>
+		
+		<div layout:fragment="Content">
+			
+			
+			<div class="write-store-layout">
+				
+				<div class="d-flex flex-row justify-content-center">
+					<h1>매장 정보 등록</h1>	
+				</div>
+				
+				<!-- 매장 이미지 업로드 영역 -->
+				<div>
+					<i class="bi bi-shop"></i>
+				</div>
+				
+				<!-- 매장 기본 정보(매장 명, 전화 번호 입력) -->
+				<div class="component-layout">
+					<label for="store_name" class="input-label"><b>매장 명</b></label>
+					<input type="text" class="component-write" placeholder="매장 명" id="store_name" name="store_name">	
+				</div>
+				
+				<div class="component-layout">
+					<label for="store_phone" class="input-label"><b>매장 전화번호</b></label>
+					<input type="text" class="component-write" placeholder="매장 전화번호" id="store_phone" name="store_phone">	
+				</div>
+				
+				<br>
+				
+				<!-- 주소 입력 영역 -->
+				<div class="component-layout">
+					<label for="post_code" class="input-label"><b>우편 번호</b></label>
+					<input type="text" class="component-write" placeholder="우편 번호" id="post_code" name="post_code" readonly>	
+					<button class="positive-button">주소 선택</button>
+				</div>
+				
+				<div class="component-layout">
+					<label for="address" class="input-label"><b>주소</b></label>
+					<input type="text" class="component-write" placeholder="매장 주소" id="address" name="address" readonly>	
+				</div>
+				
+				<div class="component-layout">
+					<label for="address_detail" class="input-label"><b>주소(상세)</b></label>
+					<input type="text" class="component-write" placeholder="매장 상세 주소" id="address_detail" name="address_detail">	
+				</div>
+				
+				<br>
+				
+				
+	
+			</div>
+			
+			
+		</div>
+		   
+			
+	
+	</body>
+	
+</html>
