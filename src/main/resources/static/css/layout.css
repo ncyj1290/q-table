@@ -2,7 +2,7 @@
 
 /* 페이지 레이아웃 구조 */
 
-*{
+* {
 	margin: 0;
 	padding: 0;
 }
@@ -22,19 +22,18 @@
 	padding-right: 10px;
 }
 
-.footer {
-	height: 18%;
-	border: solid 1px;
-}
+/*.footer {*/
+/*	height: 18%;*/
+/*	border: solid 1px;*/
+/*}*/
 
 body {
-  font-family: 'Roboto', sans-serif;
-  color: var(--color-font);
+	font-family: 'Roboto', sans-serif;
+	color: var(--color-font);
 }
 
 
 ::placeholder {
-  color: var(--color-placeholder);
-  opacity: 0.8;
+	color: var(--color-placeholder);
+	opacity: 0.8;
 }
-

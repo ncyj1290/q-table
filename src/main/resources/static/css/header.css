@@ -1,0 +1,66 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 40px;
+    background: #fff;
+/*    margin: 20px 0;    좌우 auto 제거 */
+    border-bottom: 0.5px solid #ddd;
+    width: 100%;      /* 화면 전체 폭 */
+    max-width: 1400px; /* 최대 폭 제한 */
+    box-sizing: border-box; /* padding 포함 폭 계산 */
+	margin-bottom: 25px;
+}
+.header img {
+  max-height: 60px;   /* 헤더 높이에 맞게 최대 세로 크기 제한 */
+  width: auto;        /* 가로는 자동 계산 → 비율 유지 */
+  object-fit: contain;
+}
+/* 로고 */
+/*.logo {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  font-weight: bold;*/
+/*  color: #f27b7b;  파스텔 레드 느낌 */
+/*  gap: 6px;*/
+/*}*/
+
+/* 검색창 */
+.search-box {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  border: 2px solid #9bb0c8;
+  border-radius: 25px;
+  padding: 5px 10px;
+  margin: 0 40px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.search-box button {
+  border: none;
+  background: none;
+  color: #9bb0c8;
+  cursor: pointer;
+  font-size: 16px;
+}
+.menu-icons a {
+  color: #f27b7b; /* 기존 아이콘 색상과 동일하게 */
+  text-decoration: none; /* 밑줄 제거 */
+}
+/* 메뉴 아이콘 */
+.menu-icons {
+  display: flex;
+  gap: 25px;
+  font-size: 20px;
+  color: #f27b7b;
+  cursor: pointer;
+}
