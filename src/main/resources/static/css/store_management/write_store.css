@@ -2,24 +2,173 @@ body{
 	min-width: 1800px;
 }
 
+/* ================================================= */
+/* Root Layout */
 .write-store-layout{
-/*	align-items: center;*/
 	display: flex;
   	flex-direction: column;
-	padding: 10px;
+	height: fit-content;
+	align-items: center;
+	padding: 50px;
+	gap: 20px;
+	border-radius: 20px; 
+    box-shadow: var(--form-box-shadow);
+	min-width: 1800px;
+}
+
+/* ================================================= */
+/* Store Profile Layout */
+.store-profile-layout{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	gap: 20px;
 }
 
-.component-layout{
+/* Store Profile Image Size And Style */
+.store-profile{
+	width: 200px;
+	height: 200px;
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+}
+
+/* ================================================= */
+/* Layouts for Check Box */
+.check-box-line-layout{
+	display: flex;
+	flex-direction: row;
+	align-items: start;
+	align-self: start;
+	width: 900px;
+	gap: 20px;	
+	height: fit-content;
+}
+
+
+.checkbox-layout-row{
+	display: flex;
+	flex-direction: row;
+	align-items: start;
+	align-self: start;
+	width: 120px;
+	gap: 10px;	
+	height: fit-content;
+}
+
+/* ================================================= */
+/* Component Layout -> Row Type */
+.component-layout-row{
+	padding-left: 100px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	width: 1000px;
 	gap: 50px;	
-	height: 30px;
+	height: fit-content;
 }
 
 
+.component-layout-column{
+	padding-left: 100px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 1000px;
+	height: fit-content;
+	gap: 10px;	
+}
+
+/* ================================================= */
+/* Component Write Resizing */
+.component-write{
+	width: 400px;
+}
+
+
+textarea.component-write{
+	width: 600px;
+	height: 100px;
+}
+
+/* ================================================= */
+/* Select Box Resizing */
+.select-box{
+	width: 150px;
+	height: 25px;
+	border-color: var(--color-main);
+}
+
+/* ================================================= */
+/* Title Label */
+.title-label{
+	justify-content: left;
+	width: 300px;
+}
+
+/* ================================================= */
+/* Input Label */
 .input-label{
 	justify-content: left;
-	width: 150px;
+	width: 200px;
 }
+
+/* ================================================= */
+/* Holiaday Choice Button -> 토글 형식 생각 필요 */
+.holiday-button{
+	border-radius: 20px;
+	border: 1px solid var(--color-main);
+	background-color: white;
+	width: 80px;
+	height: 80px;
+}
+
+.holiday-button:hover{
+	border-radius: 20px;
+	border: 1px solid var(--color-main);
+	background-color: var(--color-sub);
+	color: white;
+}
+
+/* ================================================= */
+/* Store Picture Upload Session Components */
+.store_picture_layout{
+	display: flex;
+	flex-direction: column;
+	height: fit-content;
+	align-items: center;
+	gap: 20px;
+}
+
+
+.store_picture_element{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 50px;
+	width: 800px;
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+	padding: 10px 50px;
+	gap: 50px;
+}
+
+/* Store Pictures Upload Info Label */
+.info-picture-label{
+	align-self: self-start !important;
+	color: gray;
+}
+
+/* ================================================= */
+/* Facility Choice Button -> 마찬가지로 토글 형식 생각 필요 */
+.facility-button{
+	background-color: white;
+	width: 60px;
+	height: 60px;
+}
+
+.facility-button:hover{
+	background-color: var(--color-sub);
+	color: white;
+}
+

@@ -17,51 +17,438 @@
 				</div>
 				
 				<!-- 매장 이미지 업로드 영역 -->
-				<div>
-					<i class="bi bi-shop"></i>
+				<div class="store-profile-layout">
+					<img src="icons/icon_store_profile.png" class="store-profile">
+					<button class="positive-button">프로필 업로드</button>
 				</div>
 				
+				<div class="horizontal-line"></div>
+
 				<!-- 매장 기본 정보(매장 명, 전화 번호 입력) -->
-				<div class="component-layout">
+				<div class="component-layout-row">
 					<label for="store_name" class="input-label"><b>매장 명</b></label>
 					<input type="text" class="component-write" placeholder="매장 명" id="store_name" name="store_name">	
 				</div>
 				
-				<div class="component-layout">
+				<div class="component-layout-row">
 					<label for="store_phone" class="input-label"><b>매장 전화번호</b></label>
-					<input type="text" class="component-write" placeholder="매장 전화번호" id="store_phone" name="store_phone">	
+					<input type="text" class="component-write" placeholder="매장 전화번호 - 숫자만 입력하세요." id="store_phone" name="store_phone">	
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="store_account_number" class="input-label"><b>매장 계좌번호</b></label>
+					<input type="text" class="component-write" placeholder="매장 계좌번호 - 숫자만 입력하세요." id="store_account_number" name="store_account_number">
+						
+					<select name="store_account_bank" class="select-box">
+						<option>국민은행</option>
+						<option>부산은행</option>
+						<option>우리은행</option>					
+						<option>은행 계속 ...</option>
+					</select>
 				</div>
 				
 				<br>
 				
 				<!-- 주소 입력 영역 -->
-				<div class="component-layout">
+				<div class="component-layout-row">
 					<label for="post_code" class="input-label"><b>우편 번호</b></label>
 					<input type="text" class="component-write" placeholder="우편 번호" id="post_code" name="post_code" readonly>	
 					<button class="positive-button">주소 선택</button>
 				</div>
 				
-				<div class="component-layout">
+				<div class="component-layout-row">
 					<label for="address" class="input-label"><b>주소</b></label>
 					<input type="text" class="component-write" placeholder="매장 주소" id="address" name="address" readonly>	
 				</div>
 				
-				<div class="component-layout">
+				<div class="component-layout-row">
 					<label for="address_detail" class="input-label"><b>주소(상세)</b></label>
 					<input type="text" class="component-write" placeholder="매장 상세 주소" id="address_detail" name="address_detail">	
 				</div>
 				
 				<br>
 				
+				<div class="component-layout-row">
+					<label for="total_seat" class="input-label"><b>총 좌석 수</b></label>
+					<input type="text" class="component-write" placeholder="매장 내 총 좌석수 입력" id="total_seat" name="total_seat">	
+				</div>
+								
+				<div class="component-layout-row">
+					<label for="reservation_deposit" class="input-label"><b>예약금 설정</b></label>
+					<input type="text" class="component-write" placeholder="예약금 입력" id="reservation_deposit" name="reservation_deposit">	
+				</div>
 				
+				<br>
+				
+				<div class="component-layout-row">
+					<label for="store_description" class="title-label"><h4>매장 소개</h4></label>
+				</div>
+				
+				<div class="component-layout-row">
+					<textarea type="text" class="component-write" placeholder="" id="store_description" name="store_description"></textarea>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 매장 운영 시간 입력 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>매장 운영 시간 선택</h4></label>
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="is_24hour" class="input-label">24시간 운영하는 매장 인가요?</label>
+					<input type="checkbox" class="component-checkbox" name="is_24hour" id="is_24hour">
+				</div>
 	
+				
+				<div class="component-layout-row">
+					<label for="open_time" class="input-label"><b>Open Time</b></label>
+						
+					<select name="open_time" class="select-box">
+						<option>00:00</option>
+						<option>00:30</option>
+						<option>01:00</option>					
+						<option>01:30</option>
+						<option>...</option>
+					</select>
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="close_time" class="input-label"><b>Close Time</b></label>
+						
+					<select name="close_time" class="select-box">
+						<option>00:00</option>
+						<option>00:30</option>
+						<option>01:00</option>					
+						<option>01:30</option>
+						<option>...</option>
+					</select>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 매장 휴일 선택 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>휴일 선택(중복 가능)</h4></label>
+				</div>
+				
+				<div class="component-layout-row">
+					<button class="holiday-button">월</button>
+					<button class="holiday-button">화</button>
+					<button class="holiday-button">수</button>
+					<button class="holiday-button">목</button>
+					<button class="holiday-button">금</button>
+					<button class="holiday-button">토</button>
+					<button class="holiday-button">일</button>	
+				</div>
+				
+				<div class="horizontal-line"></div>
+
+				<!-- 매장 사진 업로드 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>매장 사진 업로드</h4></label>
+					<button class="positive-button">사진 업로드</button>
+				</div>
+				
+				<div class="store_picture_layout">
+					
+					<div class="store_picture_element">
+						<i class="bi bi-trash fs-4"></i>
+						<label><b>Picture Names - UUID 12345678 - 1번 사진</b></label>
+					</div>
+					
+					<div class="store_picture_element">
+						<i class="bi bi-trash fs-4"></i>
+						<label><b>Picture Names - UUID 12345678 - 2번 사진</b></label>
+					</div>
+					
+					<div class="store_picture_element">
+						<i class="bi bi-trash fs-4"></i>
+						<label><b>Picture Names - UUID 12345678 - 3번 사진</b></label>
+					</div>
+					
+					<!-- Just Info Text -->
+					<label class="info-picture-label">* 사진은 최대 8개까지 등록할 수 있습니다.</label>
+					
+				</div>
+				
+				<div class="horizontal-line"></div>
+
+				<!-- 매장 휴일 선택 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>음식 분류 카테고리(중복 가능)</h4></label>
+				</div>
+				
+				<div class="component-layout-column">
+					
+					<!-- Store Category -> Country -->
+					<label class="title-label" style="align-self: start;"><h5>국가별</h5></label>
+					
+					<!-- Country - 1 -->
+					<div class="check-box-line-layout">
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>한식</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>중식</label>	
+						</div>
+
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>일식</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>양식</label>	
+						</div>		
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>분식</label>	
+						</div>	
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>기타</label>	
+						</div>		
+					</div>
+					
+					<!-- Country - 2 -->
+					<div class="check-box-line-layout">
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>프랑스</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>스페인</label>	
+						</div>
+
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>아메리칸</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>유러피안</label>	
+						</div>		
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>아시아</label>	
+						</div>	
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>퓨전</label>	
+						</div>		
+					</div>		
+					
+					<!-- Country - 3 -->
+					<div class="check-box-line-layout">
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>베트남</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>태국</label>	
+						</div>
+
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>인도</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>멕시코</label>	
+						</div>			
+					</div>	
+
+					<br>
+					
+					<!-- Store Category -> Meat(?) -->
+					<label class="title-label" style="align-self: start;"><h5>육류</h5></label>
+										
+					<div class="check-box-line-layout">
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>소고기</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>돼지고기</label>	
+						</div>
+
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>양고기</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>닭/오리</label>	
+						</div>		
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>곱창/막창</label>	
+						</div>	
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>족발/보쌈</label>	
+						</div>		
+					</div>
+					
+					<br>
+					
+					<!-- Store Category -> Seafood -->
+					<label class="title-label" style="align-self: start;"><h5>해산물</h5></label>
+										
+					<div class="check-box-line-layout">
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>스시</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>회</label>	
+						</div>
+
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>갑각류</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>해물탕/찜</label>	
+						</div>		
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>어패류</label>	
+						</div>		
+					</div>
+					
+					<br>
+					
+					<!-- Store Category -> Drink(alcohol) -->
+					<label class="title-label" style="align-self: start;"><h5>술</h5></label>
+										
+					<div class="check-box-line-layout">
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>이자카야</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>바</label>	
+						</div>
+
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>호프</label>	
+						</div>
+						
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>요리주점</label>	
+						</div>			
+					</div>
+					
+					<br>
+					<!-- Store Category -> Drink(alcohol) -->
+					<label class="title-label" style="align-self: start;"><h5>카페</h5></label>
+										
+					<div class="check-box-line-layout">
+						<div class="checkbox-layout-row">
+							<input type="checkbox" class="component-checkbox">
+							<label>카페</label>	
+						</div>
+					</div>
+										
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 편의 시설 선택 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>편의 시설(중복 가능)</h4></label>
+				</div>
+
+				<div class="component-layout-row">
+					<div><img src="icons/store_facility/icon_power.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_kid_allow.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_pet.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_nokid.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_wifi.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_parking.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_wheel_chair.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_group.png" class="facility-button"></div>
+					<div><img src="icons/store_facility/icon_room.png" class="facility-button"></div>
+				</div>
+
+				<div class="horizontal-line"></div>
+
+				<!-- 인당 평균 식사 비용 입력 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>인당 평균 비용(예상)</h4></label>
+				</div>
+				
+				<div class="component-layout-row">
+					<input type="text" class="component-write" placeholder="숫자만 입력하세요" id="store_cost_avg" name="store_cost_avg"><b>원</b>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 매장 메뉴 등록 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>메뉴 등록</h4></label>
+					<button class="positive-button">메뉴 추가</button>
+				</div>
+				
+				<!-- 메뉴 입력 요소들 들어갈 DIV, TODO: Layout CSS 정의 필요함. -->
+				<div>
+					
+					
+					
+					
+	
+					
+				</div>
+				
+				
+				<div class="component-layout-row">
+					<label class="title-label"><h4>메뉴판 사진 업로드</h4></label>
+					<button class="positive-button">사진 업로드</button>
+				</div>
+				
+				<br>
+				
+				<!-- 취소, 전송 버튼 -->
+				<div class="d-flex flex-row justify-content-center gap-3">
+					<button class="negative-button">취소</button>
+					<button class="positive-button">등록</button>
+				</div>
+				
 			</div>
 			
 			
 		</div>
-		   
-			
-	
+
 	</body>
 	
 </html>
