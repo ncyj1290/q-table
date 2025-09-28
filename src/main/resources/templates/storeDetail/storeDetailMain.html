@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+<head>
+    <title>식당상세페이지</title>
+    
+    <!-- css -->
+    <link rel="stylesheet" th:href="@{/css/storeDetail/storeDetail.css}">
+    <!-- js -->
+    <script th:src="@{/js/storeDetail/review.js}"></script>
+    <script th:src="@{/js/storeDetail/smoothSticky.js}"></script>
+    <script th:src="@{/js/storeDetail/dynamicCalendar.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="Content">
+    <div class="main-container">
+        <!-- 왼쪽: 식당 정보, 메뉴, 리뷰 -->
+        <div class="left-content">
+            <!-- 통합된 콘텐츠 박스 -->
+            <div class="form-box unified-content">
+                <div th:replace="~{storeDetail/fragments/storeInfoSection :: storeInfoSection}"></div>
+                <div th:replace="~{storeDetail/fragments/menuSection :: menuSection}"></div>
+                <div th:replace="~{storeDetail/fragments/reviewSection :: reviewSection}"></div>
+            </div>
+        </div>
+
+        <!-- 오른쪽: 예약달력 -->
+        <div class="right-content">
+            <div th:replace="~{storeDetail/fragments/reservationCalendar :: reservationCalendar}"></div>
+        </div>
+    </div>
+
+    <!-- 리뷰 작성 모달 -->
+    <div th:replace="~{storeDetail/fragments/reviewModal :: reviewModal}"></div>
+
+</th:block>
+</body>
+</html>
