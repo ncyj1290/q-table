@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+/* custom.css */
+.main-sidebar .brand-link .brand-image {
+  float: none !important;
+  max-height: none !important;
+  margin: -56px auto !important;
+  max-width: 90%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+/* 프로필 이미지 크기 */
+.main-sidebar .user-panel .profile-img {
+  width: 85px;
+  height: 75px;
+}
+
+/* 프로필 이름 글자 크기 */
+.user-panel .info a {
+	margin-top: 15px;
+	margin-left: 15px;
+	font-size: 1.5rem;
+}
