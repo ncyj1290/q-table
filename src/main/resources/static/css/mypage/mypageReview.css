@@ -8,6 +8,7 @@
 .stars{
 	color: ffa500;
 	font-size: 25px;
+	margin-left: 10px;
 }
 
 .review-title{
@@ -16,7 +17,7 @@
 }
 
 .review-date{
-	margin-left: 80%;
+	margin-left: 55%;
 	font-weight: bold;
 }
 

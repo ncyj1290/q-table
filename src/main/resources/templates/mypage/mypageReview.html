@@ -2,9 +2,9 @@
 	layout:decorate="~{common/layouts/defaultLayout}">
 
 <head>
-	<link rel="stylesheet" th:href="@{/css/mypage/mypage_nav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
-	<link rel="stylesheet" th:href="@{/css/mypage/mypage_main.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageReview.css}">
 	<meta charset="UTF-8">
 	<title>my_page</title>
@@ -14,14 +14,13 @@
 	<div layout:fragment="Content">
 		<div th:replace="mypage/profile :: mainnav"></div>
 		<div th:replace="mypage/mypageNav :: mainnav"></div>
-		<div class="horizontal-line"></div>
 
 			<div class="review-header">
 				<div>
 					<span class="review-title">야끼니꾸 서면점</span>
-					<span class="stars">★★★★☆</span>
+					<span class="stars">★ 4.6</span>
+					<span class="review-date">2025. 09. 21</span>
 				</div>
-				<span class="review-date">2025. 09. 21</span>
 			</div>
 			<div class="review-media">
 				<img src="/img/review_photo.jpg" alt="음식사진1" />

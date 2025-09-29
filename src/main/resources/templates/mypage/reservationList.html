@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
+	<meta charset="UTF-8">
+	<title>my_page</title>
+</head>
+
+<body>
+	<div layout:fragment="Content">
+		<div th:replace="mypage/profile :: mainnav"></div>
+		<div th:replace="mypage/mypageNav :: mainnav"></div>
+		<div class="reservation-empty-container">
+		  <div class="reservation-header">
+		    <span class="reserve-label" onclick="reserveTab(this, 'visit')">방문예정</span>
+		    <span class="reserve-label">|</span>
+		    <span class="reserve-label" onclick="reserveTab(this, 'cancel')">취소</span>
+		  </div>
+		  
+		  <div class="reservation-list">
+		    <div class="reservation-card">
+		      <div class="reservation-img">
+		        <img src="/img/reservation_food.jpg" alt="음식사진1" />
+		      </div>
+		      <div class="reservation-info">
+		        <div class="reservation-header">
+		          <span class="reservation-title">bhc 서면점</span>
+		          <span class="reservation-star">
+		            <span class="star-icon">⭐</span>
+		            <span class="star-score">4.8</span>
+		          </span>
+		          <span class="reservation-listicon">
+		            <img src="/img/listicon.png" alt="리스트 아이콘" />
+		          </span>
+		        </div>
+		        <div class="reservation-desc">일본식 야끼니꾸 집</div>
+		        <div class="reservation-date">2025. 09. 21</div>
+		        <div class="reservation-buttons">
+		          <button type="button" class="positive-button">예약 취소</button>
+		          <button type="button" class="positive-button">예약 변경</button>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="reservation-card">
+		      <div class="reservation-img">
+		        <img src="/img/review_photo2.jpg" alt="음식사진2" />
+		      </div>
+		      <div class="reservation-info">
+		        <div class="reservation-header">
+		          <span class="reservation-title">아웃백 서면점</span>
+		          <span class="reservation-star">
+		            <span class="star-icon">⭐</span>
+		            <span class="star-score">4.8</span>
+		          </span>
+		          <span class="reservation-listicon">
+		            <img src="/img/listicon.png" alt="리스트 아이콘" />
+		          </span>
+		        </div>
+		        <div class="reservation-desc">스테이크 전문 패밀리 레스토랑</div>
+		        <div class="reservation-date">2025. 05. 21</div>
+		        <div class="reservation-buttons">
+		          <button type="button" class="positive-button">예약 취소</button>
+		          <button type="button" class="positive-button">예약 변경</button>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="pagination">
+		      <span class="page-btn">1</span>
+		      <span class="page-btn">2</span>
+		      <span class="page-btn">3</span>
+		    </div>
+		  </div>
+
+		  
+		  
+		</div>
+
+	</div>
+
+</body>
+
+</html>
