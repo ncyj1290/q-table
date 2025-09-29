@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageHistory.css}">
+	<meta charset="UTF-8">
+	<title>history</title>
+</head>
+
+<body>
+	<div layout:fragment="Content">
+		<div th:replace="mypage/profile :: mainnav"></div>
+		<div th:replace="mypage/mypageNav :: mainnav"></div>
+		<span class="history-label">방문 내역</span>
+
+		<div class="visit-list">
+
+			<div class="visit-item">
+				<img src="/img/food1.jpg" class="store-img" />
+				<div class="visit-info">
+					<div class="store-title">
+						<div class="name-star-group">
+							<span class="store-name">야끼니꾸 서면점</span>
+							<span class="star">★ 4.8</span>
+						</div>
+						<img src="/img/scrap_full.png" class="scrap-full" />
+					</div>
+					<span class="desc"> 신선한 고기와 다양한 일본식 소스를 즐길 수 있는 정통 야끼니꾸 전문점입니다.<br>
+						합리적인 가격과 아늑한 분위기로 가족, 친구, 연인 모두 만족할 수 있는 인기 맛집이에요.</span>
+					<span class="date">2025.09.21</span>
+					<div class="visit-actions">
+						<button class="positive-button" style="margin-right: 10px;">리뷰 작성</button>
+						<button class="positive-button">재방문 하기</button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="visit-item">
+				<img src="/img/food2.jpg" class="store-img" />
+				<div class="visit-info">
+					<div class="store-title">
+						<div class="name-star-group">
+							<span class="store-name">아웃백 해운대점</span>
+							<span class="star">★ 4.72</span>
+						</div>
+						<img src="/img/scrap_full.png" class="scrap-full" />
+					</div>
+					<span class="desc"> 두툼한 스테이크와 다양한 시그니처 메뉴를 즐길 수 있는 패밀리 레스토랑입니다.<br> 
+						넓고 쾌적한 공간에서 가족 모임이나 친구들과의 식사에 제격이에요.</span>
+					<span class="date">2025.09.21</span>
+					<div class="visit-actions">
+						<button class="positive-button" style="margin-right: 10px;">리뷰 작성</button>
+						<button class="positive-button">재방문 하기</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- 반복 -->
+		</div>
+
+	</div>
+
+</body>
+
+</html>
