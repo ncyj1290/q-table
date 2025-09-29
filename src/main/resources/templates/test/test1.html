@@ -2,7 +2,7 @@
 	layout:decorate="~{common/layouts/defaultLayout}">
 
 <head>
-	<link rel="stylesheet" th:href="@{/css/mypage/mypage_nav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 	<meta charset="UTF-8">
 	<title>test1</title>
@@ -20,7 +20,7 @@
 
 			<a>테스트 test TEST 안녕하세요! 반갑습니다?</a>
 		</form>
-		<div th:replace="mypage/mypage_nav :: mainnav"></div>
+		<div th:replace="mypage/mypageNav :: mainnav"></div>
 		<div th:replace="mypage/profile :: mainnav"></div>
 		<input type="checkbox" class="component-checkbox"> 체크박스 <br>
 		<input type="text" class="component-write"> 입력란<br>
@@ -41,6 +41,11 @@
 			</select>
 		</div>
 	</div>
+	<div class="menu-icons">
+				    <a th:href="@{/}"><i class="fas fa-calendar-alt"></i></a>
+				    <a th:href="@{/}"><i class="fas fa-comment-dots"></i></a>
+				    <a th:href="@{/}"><i class="fas fa-user"></i></a>
+				  </div>
 
 </body>
 
