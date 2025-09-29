@@ -9,7 +9,8 @@
 
 
 .main-container {
-	margin: 5px 350px;
+/*	margin: 5px 350px;*/
+	margin: 5px auto 40px auto; /* 상 5px, 좌우 auto, 하 40px */
 	margin-bottom: 40px;
 }
 
