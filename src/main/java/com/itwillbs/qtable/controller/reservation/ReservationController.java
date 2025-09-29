@@ -1,4 +1,4 @@
-package com.itwillbs.qtable.controller;
+package com.itwillbs.qtable.controller.reservation;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,77 +1,119 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+
 <head>
 	<title>홈</title>
-<link rel="stylesheet" th:href="@{/css/main/index.css}">
+	<link rel="stylesheet" th:href="@{/css/main/index.css}">
+	<script th:src="@{/js/index/index.js}"></script>
+	<style>
+		.header {
+			border-bottom: 0.5px solid #ddd;
+		}
+		
+	</style>
 </head>
+
 <body>
 	<div layout:fragment="Content">
 		<div class="main-banner-full">
-		    <img src="img/banner.jpg" alt="메인 배너">
+			<img src="img/banner.jpg" alt="메인 배너">
 		</div>
-		
-		<div class="restaurant-section">
-		    <h5>추천 음식점</h5>
-		    <div class="restaurant-list">
-		        <div class="restaurant-card">1</div>
-		        <div class="restaurant-card">2</div>
-		        <div class="restaurant-card">3</div>
-		        <div class="restaurant-card">4</div>
-		        <div class="restaurant-card">5</div>
-		    </div>
-		</div>
-		<div class="location-section">
-		    <h5>인기 지역</h5>
-		    <div class="location-list">
-		        <div class="location-card">1</div>
-		        <div class="location-card">2</div>
-		        <div class="location-card">3</div>
-		        <div class="location-card">4</div>
-		        <div class="location-card">5</div>
-		    </div>
-		</div>
-		
-		<div class="restaurant-section">
-		    <h5>서울에서 인기있는 음식점</h5>
-			<div class="restaurant-wrapper">
-				<button class="scroll-btn left">&lt;</button>
-		    <div class="restaurant-list">
-		        <div class="restaurant-card">1</div>
-		        <div class="restaurant-card">2</div>
-		        <div class="restaurant-card">3</div>
-		        <div class="restaurant-card">4</div>
-		        <div class="restaurant-card">5</div>
-		    </div>
-			<button class="scroll-btn right">&gt;</button>
-			</div>
+
+		<div class="section restaurant-section">
+			<h5>추천 레스토랑</h5>
+			<div class="restaurant-wrapper" style="position: relative;">
+				<button class="scroll-btn left"></button>
+				<div class="card-list restaurant-list">
+					<div class="card">1</div>
+					<div class="card">2</div>
+					<div class="card">3</div>
+					<div class="card">4</div>
+					<div class="card">5</div>
+					<div class="card">6</div>
+					<div class="card">7</div>
+					<div class="card">8</div>
+					<div class="card">9</div>
+					<div class="card">10</div>
+				</div>
+				<button class="scroll-btn right"></button>
 			</div>
 		</div>
-		
-		<div class="restaurant-section">
-		    <h5>부산에서 인기있는  음식점</h5>
-		    <div class="restaurant-list">
-		        <div class="restaurant-card">1</div>
-		        <div class="restaurant-card">2</div>
-		        <div class="restaurant-card">3</div>
-		        <div class="restaurant-card">4</div>
-		        <div class="restaurant-card">5</div>
+		<div class="section restaurant-section location-section">
+		    <h5>인기지역</h5>
+		    <div class="restaurant-wrapper" style="position: relative;">
+		        <button class="scroll-btn left"></button>
+		        <div class="card-list location-list">
+		            <div class="card">1</div>
+		            <div class="card">2</div>
+		            <div class="card">3</div>
+		            <div class="card">4</div>
+		            <div class="card">5</div>
+		            <div class="card">6</div>
+		            <div class="card">7</div>
+		            <div class="card">8</div>
+		            <div class="card">9</div>
+		            <div class="card">10</div>
+		        </div>
+		        <button class="scroll-btn right"></button>
 		    </div>
 		</div>
-		
-		<div class="localrestaurant-section">
-		    <h5>전 지역의 레스토랑을 예약해보세요</h5>
-		    <div class="localrestaurant-list">
-		        <div class="localrestaurant-card">1</div>
-		        <div class="localrestaurant-card">2</div>
-		        <div class="localrestaurant-card">3</div>
-		    </div>
+
+
+		<div class="section restaurant-section">
+			<h5>서울 인기 레스토랑</h5>
+			<div class="restaurant-wrapper" style="position: relative;">
+				<button class="scroll-btn left"></button>
+				<div class="card-list restaurant-list">
+					<div class="card">1</div>
+					<div class="card">2</div>
+					<div class="card">3</div>
+					<div class="card">4</div>
+					<div class="card">5</div>
+					<div class="card">6</div>
+					<div class="card">7</div>
+					<div class="card">8</div>
+					<div class="card">9</div>
+					<div class="card">10</div>
+				</div>
+				<button class="scroll-btn right"></button>
+			</div>
 		</div>
-		<div class="localrestaurant-section">
-		    <div class="localrestaurant-list">
-		        <div class="localrestaurant-card">5</div>
-		        <div class="localrestaurant-card">6</div>
-		        <div class="localrestaurant-card">7</div>
-		    </div>
+		<div class="section restaurant-section">
+			<h5>부산 인기 레스토랑</h5>
+			<div class="restaurant-wrapper" style="position: relative;">
+				<button class="scroll-btn left"></button>
+				<div class="card-list restaurant-list">
+					<div class="card">1</div>
+					<div class="card">2</div>
+					<div class="card">3</div>
+					<div class="card">4</div>
+					<div class="card">5</div>
+					<div class="card">6</div>
+					<div class="card">7</div>
+					<div class="card">8</div>
+					<div class="card">9</div>
+					<div class="card">10</div>
+				</div>
+				<button class="scroll-btn right"></button>
+			</div>
 		</div>
+		<div class="section restaurant-section">
+			<h5>전 지역 레스토랑을 예약해보세요</h5>		
+				<div class="card-list alllocation-list">
+					<div class="card">1</div>
+					<div class="card">2</div>
+					<div class="card">3</div>	
+				</div>			
+				<div class="card-list alllocation-list">
+					<div class="card">4</div>
+					<div class="card">5</div>
+					<div class="card">6</div>	
+				</div>			
+		</div>
+
+
+
 	</div>
 </body>
+
 </html>

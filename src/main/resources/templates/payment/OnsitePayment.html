@@ -1,0 +1,97 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+<head>
+    <title>현장 결제 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/payment/onSitePayment.css}">
+</head>
+<body>
+<div layout:fragment="Content">
+	<div class="form-box">
+		<h1>결제 화면</h1>
+		
+		<!-- 식당 정보 섹션 -->
+		<div class="store-info-section">
+			<div class="store-image">
+				<img src="/img/test.png" alt="매장 이미지">
+			</div>
+			<div class="store-details">
+				<div class="info-row">
+					<span class="label">매장명</span>
+					<span class="value">참잘돼지국밥</span>
+				</div>
+				<div class="info-row">
+					<span class="label">날짜</span>
+					<span class="value">2025-09-20</span>
+				</div>
+				<div class="info-row">
+					<span class="label">시간</span>
+					<span class="value">오후 5시 10분</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="horizontal-line"></div>
+		
+		<!-- 결제 금액 입력 섹션 -->
+		<div class="amount-input-section">
+			<div class="amount-input-row">
+				<span class="amount-label">금액 입력란</span>
+				<div class="amount-input-container">
+					<input type="text" class="component-write" placeholder="금액을 입력하세요" maxlength="10">
+					<span class="currency">원</span>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 결제 정보 섹션 -->
+		<div class="payment-info-section">
+			<div class="payment-details">
+				<div class="info-row">
+					<div class="top-row">
+						<span class="label">입력금액</span>
+						<span class="value">100,000 원</span>
+					</div>
+				</div>
+				<div class="info-row">
+					<div class="top-row">
+						<span class="label">Q-money 결제할인</span>
+						<span class="value">- 2,000 원</span>
+					</div>
+					<span class="sale-info">주문금액의 5% 할인적용</span>
+				</div>
+				<div class="info-row">
+					<div class="top-row">
+						<span class="label">선납 예약금</span>
+						<span class="value">- 3,000 원</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="horizontal-line"></div>
+		
+		<!-- 최종 결제 정보 섹션 -->
+		<div class="final-amount-section">
+			<div class="final-amount-row">
+				<span class="final-label">최종 결제 금액</span>
+				<span class="final-value">95,000 원</span>
+			</div>
+		</div>
+
+		<div class="qmoney-info-section">
+			<div class="qmoney-row">
+				<span class="qmoney-label">현재 회원님의 Q-money</span>
+				<span class="qmoney-value">195,000 원</span>
+			</div>
+			<div class="qmoney-row">
+				<span class="qmoney-label">결제 후 회원 님의 Q-money</span>
+				<span class="qmoney-value">100,000 원</span>
+			</div>
+		</div>
+
+		<div class="payment-button-section">
+			<button class="positive-button payment-btn">결제 하기</button>
+		</div>
+	</div>
+</div>
+</body>
+</html>

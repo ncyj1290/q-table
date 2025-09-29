@@ -49,7 +49,7 @@ body{
 .horizontal-line-gray {
     width: 100%;
     height: 1.3px;
-    background-color: #CCCCCC;
+    background-color: var(--color-placeholder);
     border: none;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -74,12 +74,10 @@ body{
 .form-row-horizontal .component-write {
     padding: 12px 15px;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.1);
 }
 
 .form-row-horizontal .component-write:focus {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
 }
 
 .form-row-vertical {
@@ -105,14 +103,12 @@ body{
     font-family: inherit;
     font-size: 14px;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.1);
 }
 
 .request-textarea:focus {
     border-color: var(--color-focus);
     outline: none;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
 }
 
 .policy-section h4 {
