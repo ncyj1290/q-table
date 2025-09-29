@@ -12,7 +12,7 @@ public class MyPageController {
 		return "mypage/mypageMain";
 	}
 	
-	@GetMapping("/mypageReview")
+	@GetMapping("/mypage_review")
 	public String mypageReview() {
 		
 		return "mypage/mypageReview";
@@ -30,4 +30,9 @@ public class MyPageController {
 		return "mypage/mypageHistory";
 	}
 	
+	@GetMapping("/reservation_list")
+	public String reservationList() {
+		
+		return "mypage/reservationList";
+	}	
 }
