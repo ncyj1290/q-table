@@ -26,6 +26,9 @@
 	
 	/* 폼 박스 그림자 (크기는 페이지에 맞춰서 사용) */
 	--form-box-shadow: 0px 2px 8px rgb(219 212 212); 
+	
+	/* 별점 색 */
+	--color-star: #ffa500;
 }
 
 /* Text Area Resizer 제거 */

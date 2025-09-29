@@ -36,18 +36,47 @@ out/
 ### VS Code ###
 .vscode/
 
+### Application Properties (민감정보) ###
+# 프로덕션 설정 파일들
+application-prod.yml
+application-prod.properties
+application-local.yml
+application-local.properties
 
-
+### 로그 파일들 ###
+logs/
 *.log
+*.log.*
+spring.log
+
+### 프로젝트별 설정 ###
+.claude/
+
+### 임시 파일들 ###
 *.tmp
 *.bak
 *.swp
+*~
 .DS_Store
 Thumbs.db
 *.stackdump
 
+### 데이터베이스 ###
+*.db
+*.sqlite
+*.h2.db
 
-
+### AWS & 보안 관련 ###
 .aws/
 *.pem
+*.key
+.env
+.env.local
+.env.production
+
+### 업로드 파일들 ###
+uploads/
+files/
+temp/
+
 
