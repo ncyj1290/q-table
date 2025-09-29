@@ -15,8 +15,24 @@
   width: auto;        /* 가로는 자동 계산 → 비율 유지 */
   object-fit: contain;
 }
+.loginoff {
+    background-color: var(--color-main);
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 0 40px;
+    cursor: pointer;
+    border: none;
+	margin-top: 1px;
+}
+.loginoff a {
+    text-decoration: none;   /* 밑줄 제거 */
+    color: #fff;          /* 글자색 부모와 동일하게 */
+}
 
-
+.loginoff a:link, .loginoff a:visited, .loginoff a:hover, .loginoff a:active {
+    text-decoration: none;   /* 모든 상태에서 밑줄 제거 */
+    color: #fff;          /* 모든 상태에서 글자색 동일 */
+}
 /* 검색창 */
 .search-box {
   flex: 1;
@@ -29,13 +45,6 @@
   margin: 0 40px;
 }
 
-.search-box input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  padding: 5px 10px;
-}
 
 .search-box button {
   border: none;
@@ -43,6 +52,7 @@
   color: #9bb0c8;
   cursor: pointer;
   font-size: 16px;
+  margin: 3px 0px 3px 350px;
 }
 .menu-icons a {
   color:var(--color-main); /* 기존 아이콘 색상과 동일하게 */
