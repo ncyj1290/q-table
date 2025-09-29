@@ -1,0 +1,30 @@
+<div th:fragment="reviewModal" xmlns:th="http://www.thymeleaf.org">
+    <!-- 리뷰 작성 Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>리뷰 작성</h2>
+            <form>
+                <div>
+                    <label>평점</label>
+                    <div class="stars" id="starRating">
+                        <span class="star" data-rating="1">★</span>
+                        <span class="star" data-rating="2">★</span>
+                        <span class="star" data-rating="3">★</span>
+                        <span class="star" data-rating="4">★</span>
+                        <span class="star" data-rating="5">★</span>
+                    </div>
+                </div>
+                <div>
+                    <label for="reviewText">리뷰 내용</label>
+                    <textarea id="reviewText" name="reviewText" rows="5" class="input-field"></textarea>
+                </div>
+                <div>
+                    <label for="reviewImages">사진 첨부</label>
+                    <input type="file" id="reviewImages" name="reviewImages" multiple class="input-field">
+                </div>
+                <button type="submit" class="positive-button">작성 완료</button>
+            </form>
+        </div>
+    </div>
+</div>

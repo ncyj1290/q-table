@@ -1,0 +1,131 @@
+<div th:fragment="reviewSection" xmlns:th="http://www.thymeleaf.org">
+    <!-- 리뷰 섹션 -->
+    <div class="review-section">
+        <div class="section-title">
+            <div class="title-box">리뷰 및 평가</div>
+        </div>
+            <div class="rating-summary">
+                <div class="rating-header">
+                    <div class="rating-number">3.78</div>
+                    <div class="rating-info">
+                        <div class="stars">★★★★☆</div>
+                        <div class="rating-count">(242건)</div>
+                    </div>
+                </div>
+                <div class="rating-bars">
+                    <div class="rating-bar-item">
+                        <span class="rating-label">5.0</span>
+                        <div class="rating-bar-bg">
+                            <div class="rating-bar-fill" style="width: 30%;"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="rating-label">4.0</span>
+                        <div class="rating-bar-bg">
+                            <div class="rating-bar-fill" style="width: 40%;"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="rating-label">3.0</span>
+                        <div class="rating-bar-bg">
+                            <div class="rating-bar-fill" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="rating-label">2.0</span>
+                        <div class="rating-bar-bg">
+                            <div class="rating-bar-fill" style="width: 7%;"></div>
+                        </div>
+                    </div>
+                    <div class="rating-bar-item">
+                        <span class="rating-label">1.0</span>
+                        <div class="rating-bar-bg">
+                            <div class="rating-bar-fill" style="width: 3%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-controls">
+                <div class="review-sort">
+                    <div class="select-box">
+                        <select id="reviewSort">
+                            <option value="latest">최신순</option>
+                            <option value="highest">별점 높은순</option>
+                            <option value="lowest">별점 낮은순</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="positive-button">리뷰 작성</button>
+            </div>
+
+            <div class="reviews-list">
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                <img th:src="@{/img/test.png}" alt="프로필">
+                            </div>
+                            <div>
+                                <div class="reviewer-name">관리자</div>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <div class="review-date">2023-09-01</div>
+                    </div>
+                    <div class="review-content">
+                        댓글 댓글 댓글댓글댓글댓글댓글<br>댓글 댓글댓글댓글댓글댓글<br>
+                    </div>
+                    <div class="review-images">
+                        <div class="review-image">
+                            <img th:src="@{/img/test.png}" alt="리뷰 이미지">
+                        </div>
+                        <div class="review-image">
+                            <img th:src="@{/img/test.png}" alt="리뷰 이미지">
+                        </div>
+                        <div class="review-image">
+                            <img th:src="@{/img/test.png}" alt="리뷰 이미지">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                <img th:src="@{/img/test.png}" alt="프로필">
+                            </div>
+                            <div>
+                                <div class="reviewer-name">관리자</div>
+                                <div class="stars">★★★★☆</div>
+                            </div>
+                        </div>
+                        <div class="review-date">2023-09-01</div>
+                    </div>
+                    <div class="review-content">
+                        댓글 댓글댓글댓글댓글댓글<br>
+                        댓글 댓글댓글댓글댓글댓글<br>댓글 댓글댓글댓글댓글댓글<br>댓글 댓글댓글댓글댓글댓글<br>
+                    </div>
+                    <div class="review-images">
+                        <div class="review-image">
+                            <img th:src="@{/img/test.png}" alt="리뷰 이미지">
+                        </div>
+                        <div class="review-image">
+                            <img th:src="@{/img/test.png}" alt="리뷰 이미지">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이징 -->
+            <div class="page-selector-layout">
+                <div class="d-flex flex-row justify-content-center">
+                    <button class="page-arrow">&lt;</button>
+                    <button class="page-selector" disabled>1</button>
+                    <button class="page-selector">2</button>
+                    <button class="page-selector">3</button>
+                    <button class="page-arrow">&gt;</button>
+                </div>
+            </div>
+    </div>
+</div>

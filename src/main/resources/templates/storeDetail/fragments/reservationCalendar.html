@@ -1,0 +1,77 @@
+<div th:fragment="reservationCalendar" xmlns:th="http://www.thymeleaf.org">
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button class="calendar-nav-btn">◀</button>
+            <div class="calendar-title">2024년 9월</div>
+            <button class="calendar-nav-btn">▶</button>
+        </div>
+
+        <div class="calendar-weekdays">
+            <div class="weekday sunday">일</div>
+            <div class="weekday">월</div>
+            <div class="weekday">화</div>
+            <div class="weekday">수</div>
+            <div class="weekday">목</div>
+            <div class="weekday">금</div>
+            <div class="weekday saturday">토</div>
+        </div>
+
+        <div class="calendar-days">
+            <!-- 동적으로 생성될 달력 -->
+        </div>
+
+        <div class="horizontal-line"></div>
+
+        <div class="availability-legend">
+            <div class="legend-item">
+                <span class="legend-symbol available">O</span>
+                <span class="legend-text">예약가능</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-symbol unavailable">X</span>
+                <span class="legend-text">예약불가</span>
+            </div>
+        </div>
+
+        <div class="reservation-form">
+
+            <div class="form-row">
+                <div class="form-group-vertical">
+                    <label class="form-label">인원수</label>
+                    <div class="select-box">
+                        <select>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group-vertical">
+                    <label class="form-label">시간</label>
+                    <div class="select-box">
+                        <select>
+                            <option>20:45</option>
+                            <option>21:00</option>
+                            <option>21:15</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                <button class="positive-button reservation-submit-btn">예약하기</button>
+            </div>
+        </div>
+
+        <div class="horizontal-line"></div>
+
+        <div class="additional-info">
+            <div class="info-title"><i class="fa-solid fa-clipboard-list"></i> 예약규정</div>
+            <div class="location-text">
+            		예약 접수 개시 : 2개월전 <br>
+				예약 접수 종료 : 48시간 전
+			</div>
+        </div>
+    </div>
+</div>

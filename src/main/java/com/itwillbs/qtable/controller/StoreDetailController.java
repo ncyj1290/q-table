@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class StoreDetailController {
 	
 	
-	@GetMapping("storeDeatilMain")
+	@GetMapping("store_detail_main")
 	public String storeDeatilMain() {
 		return "storeDetail/storeDetailMain";
 	}
