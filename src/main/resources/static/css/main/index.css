@@ -27,7 +27,7 @@
 
 .restaurant-card {
     min-width: 200px;      /* 카드 최소 너비 */
-    height: 150px;
+    height: 200px;
     background-color: #f0f0f0;
     border-radius: 10px;
     flex-shrink: 0;        /* 크기 줄어드는 것 방지 */
@@ -36,7 +36,125 @@
     align-items: center;
     font-weight: bold;
 }
-.restaurant-section h3 {
+.restaurant-section h5 {
+    margin: 0 0 2vh 0vh; /* 상 0, 하 10px */
+    padding: 0;
+}
+
+
+.restaurant-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.3);
+    border: none;
+    color: white;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.scroll-btn.left {
+    left: 0;
+}
+
+.scroll-btn.right {
+    right: 0;
+}
+
+.restaurant-list {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.location-section {
+    width: 100%;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.location-list {
+    display: flex;
+    gap: 15px;            /* 카드 사이 간격 */
+    overflow-x: auto;      /* 가로 스크롤 */
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+    padding-bottom: 10px;  /* 스크롤바 여백 */
+	justify-content: center;
+}
+
+.location-list::-webkit-scrollbar {
+    height: 8px;
+}
+
+.location-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+.location-card {
+    min-width: 200px;      /* 카드 최소 너비 */
+    height: 100px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    flex-shrink: 0;        /* 크기 줄어드는 것 방지 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+.location-section h5 {
+    margin: 0 0 2vh 0vh; /* 상 0, 하 10px */
+    padding: 0;
+}
+.localrestaurant-section {
+    width: 100%;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.localrestaurant-list {
+    display: flex;
+    gap: 15px;            /* 카드 사이 간격 */
+    overflow-x: auto;      /* 가로 스크롤 */
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+    padding-bottom: 10px;  /* 스크롤바 여백 */
+	justify-content: center;
+}
+
+.localrestaurant-list::-webkit-scrollbar {
+    height: 8px;
+}
+
+.localrestaurant-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+.localrestaurant-card {
+    min-width: 340px;      /* 카드 최소 너비 */
+    height: 200px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    flex-shrink: 0;        /* 크기 줄어드는 것 방지 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+.localrestaurant-section h5 {
     margin: 0 0 2vh 0vh; /* 상 0, 하 10px */
     padding: 0;
 }

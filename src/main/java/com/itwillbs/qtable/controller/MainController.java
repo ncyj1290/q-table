@@ -12,9 +12,9 @@ public class MainController {
 	public String main(){
 		return "main";
 	}
-	@GetMapping("/reservation_list")
-	public String reservation_list(){
-		return "reservation_list";
+	@GetMapping("/login")
+	public String login(){
+		return "member/login ";
 	}
 	
 }
