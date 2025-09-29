@@ -2,12 +2,22 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start; /* 위쪽 정렬 */
-  background-color: #f57474;
+  background-color: var(--color-main);
   color: #000;
   padding: 12px 0 0 0;
   border-top: 1px solid #ddd;
   flex-wrap: wrap;
   position: relative; /* 아래쪽 위치 지정용 */
+  margin-top: auto;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 전체 높이 */
+}
+
+main {
+  flex: 1; /* 남는 공간 채우기 */
 }
 
 .footer-center, .footer-right {
