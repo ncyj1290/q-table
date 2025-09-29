@@ -13,7 +13,7 @@ body{
 	gap: 20px;
 	border-radius: 20px; 
     box-shadow: var(--form-box-shadow);
-	min-width: 1800px;
+	min-width: 1000px;
 }
 
 /* ================================================= */
@@ -51,7 +51,7 @@ body{
 	flex-direction: row;
 	align-items: start;
 	align-self: start;
-	width: 120px;
+	width: 130px;
 	gap: 10px;	
 	height: fit-content;
 }
@@ -103,7 +103,7 @@ textarea.component-write{
 /* Title Label */
 .title-label{
 	justify-content: left;
-	width: 300px;
+	width: 350px;
 }
 
 /* ================================================= */
@@ -163,12 +163,162 @@ textarea.component-write{
 /* Facility Choice Button -> 마찬가지로 토글 형식 생각 필요 */
 .facility-button{
 	background-color: white;
-	width: 60px;
-	height: 60px;
+	width: 50px;
+	height: 50px;
 }
 
 .facility-button:hover{
 	background-color: var(--color-sub);
 	color: white;
 }
+
+/* ================================================= */
+/* Ingredient Upload Session Components */
+.ingredient-main-layout{
+	display: flex;
+	flex-direction: row;
+	height: fit-content;
+	width: 1000px;
+	align-items: center;
+	gap: 20px;
+}
+
+
+.ingredient-layout-row{
+	display: flex;
+	flex-direction: row;
+	height: fit-content;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	gap: 50px;
+}
+
+
+.ingredient-layout{
+	display: flex;
+	flex-direction: column;
+	height: fit-content;
+	width: 1000px;
+	align-items: center;
+	gap: 20px;
+}
+
+
+.ingredient-element{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: fit-content;
+	width: 80%;
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+	padding: 20px 20px;
+	gap: 20px;
+}
+
+
+.ingredient-element-row{
+	padding-left: 100px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	gap: 20px;	
+	height: fit-content;
+}
+
+
+.ingredient-label{
+	justify-content: left;
+	width: 150px;
+}
+
+
+/* ================================================= */
+/* Menu Upload Session Components */
+.menu-main-layout{
+	display: flex;
+	flex-direction: row;
+	height: fit-content;
+	width: 1000px;
+	align-items: center;
+	gap: 20px;
+}
+
+
+.menu-layout-row{
+	display: flex;
+	flex-direction: row;
+	height: fit-content;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	gap: 50px;
+}
+
+
+.menu-layout{
+	display: flex;
+	flex-direction: column;
+	height: fit-content;
+	width: 1000px;
+	align-items: center;
+	gap: 20px;
+}
+
+
+.menu-border{
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+	padding: 20px 20px;
+}
+
+
+.menu-element{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: fit-content;
+	width: 80%;
+	gap: 20px;
+}
+
+
+.menu-element-row{
+	padding-left: 100px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	gap: 20px;	
+	height: fit-content;
+}
+
+
+.menu-label{
+	justify-content: left;
+	width: 150px;
+}
+
+
+.menu-description-size{
+	width: 400px !important;
+	height: 50px !important;
+}
+
+
+.menu-weight-size{
+	width: 200px !important;
+}
+
+
+/* Menu Image Size And Style */
+.menu-image-size{
+	width: 100px;
+	height: 100px;
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+}
+
 
