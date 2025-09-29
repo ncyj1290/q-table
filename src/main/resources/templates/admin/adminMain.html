@@ -6,32 +6,98 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>관리자 메인 페이지</title>
 
-	<!-- Google Font: Source Sans Pro -->
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-<!--	 Font Awesome Icons -->
 	<link rel="stylesheet" href="plugins/fontawesome-free/css/all.css">
-	<!-- Theme style -->
 	<link rel="stylesheet" href="css/admin/adminlte.css">
 </head>
 
 <body class="hold-transition sidebar-mini">
 
 	<th:block layout:fragment="content">
-		<div class="content-wrapper">
 
-		</div>
+		<section class="content">
+			<div class="container-fluid custom-padding">
+				<div class="row">
+					<div class="col-lg-3 col-6">
+						<div class="form-box summary-box">
+							<div class="summary-box-text">
+								<h4>사용자 신규회원</h4>
+								<h3>15명</h3>
+							</div>
+							<div class="summary-box-icon">
+								<i class="fas fa-user-plus"></i>
+							</div>
+							<a href="#" class="positive-button summary-box-button">자세히 보기</a>
+						</div>
+					</div>
+					<div class="col-lg-3 col-6">
+						<div class="form-box summary-box">
+							<div class="summary-box-text">
+								<h4>매장 신규회원</h4>
+								<h3>7명</h3>
+							</div>
+							<div class="summary-box-icon">
+								<i class="fas fa-store"></i>
+							</div>
+							<a href="#" class="positive-button summary-box-button">자세히 보기</a>
+						</div>
+					</div>
+					<div class="col-lg-3 col-6">
+						<div class="form-box summary-box">
+							<div class="summary-box-text">
+								<h4>답변 대기중 문의</h4>
+								<h3>8개</h3>
+							</div>
+							<div class="summary-box-icon">
+								<i class="fas fa-comments"></i>
+							</div>
+							<a href="#" class="positive-button summary-box-button">자세히 보기</a>
+						</div>
+					</div>
+					<div class="col-lg-3 col-6">
+						<div class="form-box summary-box">
+							<div class="summary-box-text">
+								<h4>신규 입점 신청</h4>
+								<h3>15명</h3>
+							</div>
+							<div class="summary-box-icon">
+								<i class="fas fa-file-signature"></i>
+							</div>
+							<a href="#" class="positive-button summary-box-button">자세히 보기</a>
+						</div>
+					</div>
+				</div>
 
-		<!-- Control Sidebar -->
-		<aside class="control-sidebar control-sidebar-dark">
-			<!-- Control sidebar content goes here -->
-			<div class="p-3">
-				<h5>Title</h5>
-				<p>Sidebar content</p>
+				<div class="row mt-4">
+					<div class="col-lg-6">
+						<div class="card">
+							<div class="card-header card-main-header">
+								<h3 class="card-title">매출액 추이</h3>
+							</div>
+							<div class="card-body">
+								<canvas id="salesChart"
+									style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="card">
+							<div class="card-header card-main-header">
+								<h3 class="card-title">사용자 / 매장 신규회원</h3>
+							</div>
+							<div class="card-body">
+								<canvas id="membersChart"
+									style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
-		</aside>
-		<!-- /.control-sidebar -->
-
+		</section>
+		<script th:src="@{/js/admin/chart.js}"></script>
 	</th:block>
 </body>
 

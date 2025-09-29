@@ -1,0 +1,76 @@
+package com.itwillbs.qtable.controller.admin;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequiredArgsConstructor
+public class AdminController {
+	
+//	어드민 메인페이지
+	@GetMapping("/admin_main")
+	public String adminMain() {
+		return "admin/adminMain";
+	}
+	
+//	사용자 회원관리 페이지
+	@GetMapping("/admin_member")
+	public String adminMember() {
+		return "admin/adminMember";
+	}
+	
+//	매장 회원관리 페이지
+	@GetMapping("/admin_store")
+	public String adminStore() {
+		return "admin/adminStore";
+	}
+	
+//	입점 신청관리 페이지
+	@GetMapping("/store_entry")
+	public String storeEntry() {
+		return "admin/storeEntry";
+	}
+	
+//	회원 결제 목록 페이지
+	@GetMapping("/member_payment")
+	public String memberPayment() {
+		return "admin/memberPayment";
+	}
+	
+//	매장 결제 목록 페이지
+	@GetMapping("/store_payment")
+	public String storePayment() {
+		return "admin/storePayment";
+	}
+
+//	매장 정산 페이지
+	@GetMapping("/store_refund")
+	public String adminRefund() {
+		return "admin/adminRefund";
+	}
+	
+//	매장 구독 페이지
+	@GetMapping("/admin_subscribe")
+	public String adminSubscribe() {
+		return "admin/adminSubscribe";
+	}
+	
+//	공통 코드 관리 페이지
+	@GetMapping("/comcode_list")
+	public String comCodeList() {
+		return "admin/comCodeList";
+	}
+	
+//	관리자 계정 목록 페이지
+	@GetMapping("/admin_account")
+	public String adminAccount() {
+		return "admin/adminAccount";
+	}
+	
+	
+	
+
+
+}
