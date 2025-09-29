@@ -2,23 +2,85 @@
 	
 	<head>
 	    <title>구독권 구매 페이지</title>
-	    <link rel="stylesheet" th:href="@{/css/store_management/store_management_main.css}">
+	    <link rel="stylesheet" th:href="@{/css/store_management/common_store_management.css}">
+		<link rel="stylesheet" th:href="@{/css/store_management/purchase_subscribe.css}">
 	</head>
 	
 	<body>
 		
 		<div layout:fragment="Content">
 			
+			<br>
 			
-			<h1>구독권 구매 페이지</h1>
-			
-			
-			
-			
-			
-		</div>
-		   
-			
+			<div class="root-layout">
+				
+				<!-- 사이드바 -> 상점 프로필 담는 DIV -->
+				<div class="store-profile-layout">
+					<img src="icons/icon_store_profile.png" class="store-profile">
+					
+					<b>매장이름</b>
+
+					<!-- 예약 허용 여부 선택 영역 -->
+					<div class="d-flex flex-row justify-content-start gap-3">
+						<b>예약 허용</b>
+						
+						<!-- Toggle Button -->
+						<div class="form-check form-switch">
+						  	<input class="form-check-input" type="checkbox" style="width: 50px;" checked>
+						</div>
+					</div>
+					
+					<!-- 매장 관리자 페이지 카테고리(사이드바) -->
+					<div th:replace="storeManagement/storeManagementSideBar :: storeManagementSideBar"></div>
+				</div>
+				
+				
+				<!-- 메인 컨텐츠 담는 DIV -->
+				<div class="sub-layout">
+					
+					<div class="row-component">
+						<h3>구독권 구매</h3>	
+					</div>
+					
+					<div style="color: var(--color-main); margin-left: 150px;">남은 구독일: <b>100 Day</b></div> 
+					
+					<!-- 구매 가능한 구독권 출력 -->
+					<!-- 90일 -->
+					<div class="row-component">
+						<div class="subscribe-layout">
+							<img src="icons/icon_subscribe.png" class="subscribe-icon-size">
+							
+							<label class="subscribe-label-size"><b>90일 구독권</b></label>
+							<label class="subscribe-label-size"><b>가격:500,000₩</b></label>
+						</div>	
+					</div>
+					
+					<!-- 180일 -->
+					<div class="row-component">
+						<div class="subscribe-layout">
+							<img src="icons/icon_subscribe.png" class="subscribe-icon-size">
+							
+							<label class="subscribe-label-size"><b>180일 구독권</b></label>
+							<label class="subscribe-label-size"><b>가격:800,000₩</b></label>
+						</div>	
+					</div>
+							
+					<!-- 365일 -->			
+					<div class="row-component">
+						<div class="subscribe-layout">
+							<img src="icons/icon_subscribe.png" class="subscribe-icon-size">
+							
+							<label class="subscribe-label-size"><b>365일 구독권</b></label>
+							<label class="subscribe-label-size"><b>가격:1,000,000₩</b></label>
+						</div>	
+					</div>
+				
+				</div>
+				<!-- 메인 컨텐츠 Layout End -->
+				
+			</div>
+
+		</div>		
 	
 	</body>
 	
