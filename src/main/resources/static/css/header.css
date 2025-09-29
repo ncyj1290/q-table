@@ -52,7 +52,8 @@
 .menu-icons {
   display: flex;
   gap: 25px;
-  font-size: 20px;
+  font-size: 25px;
   color:var(--color-main);
   cursor: pointer;
+  margin-top: 5px;
 }
