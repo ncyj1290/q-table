@@ -64,7 +64,6 @@ textarea::-webkit-resizer {
 }
 
 
-
 /* ================================== */
 /* 부정 버튼 */
 /* ================================== */
@@ -232,9 +231,10 @@ textarea::-webkit-resizer {
 /* ================================== */
 .component-write{
 	border: 2px solid var(--color-main); 
-	border-radius: 10px;
+	border-radius: 20px;
 	width: 20rem;
 	height: 1.8rem;
+	padding-left: 10px;
 }
 
 .component-write:focus{
