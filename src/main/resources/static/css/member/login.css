@@ -1,1 +1,172 @@
 @charset "UTF-8";
+
+
+/* 배경 이미지와 콘텐츠를 모두 감싸는 컨테이너 (기준점) */
+#backgroundLogin {
+    position: relative;
+    width: 1300px;
+    height: 759px;
+}
+
+/* 배경 이미지 스타일 */
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* 배경 위에 올라갈 모든 콘텐츠의 컨테이너 */
+#loginContent {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    gap: 5%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 왼쪽 로고 영역 */
+.login-left {
+    text-align: center;
+}
+
+#logo {
+    width: 335px;
+    height: auto;
+}
+
+/* 세로 구분선 */
+.vertical-line {
+    width: 1px;
+    height: 60%; /* 전체 높이의 60% */
+    background-color: var(--color-sub);
+}
+
+/* 오른쪽 로그인 폼 영역 */
+.login-right {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+}
+
+.login-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-evenly;
+    
+}
+
+.login-tabs .tab {
+    border: none;
+    background: none;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    color: #888;
+    cursor: pointer;
+    border-bottom: 5px solid transparent;
+    width: 190px;
+}
+
+.login-tabs .tab.active {
+    color: var(--color-main);
+    border-bottom: 5px solid var(--color-main);
+    font-weight: bold;
+}
+
+
+.inputArea {
+	display: flex;
+	flex-direction: column;
+    gap: 13px;
+}
+
+.component-write {
+    padding-top: 0.5px;
+    padding-left: 9px;
+	overflow: hidden;
+	width: 100% !important;
+}
+
+.component-write>input {
+	border: none;
+    width:inherit;
+}
+
+.component-write>input:focus-visible {
+	outline: none;
+}
+
+.login-form {
+	display:flex;
+	flex-direction: column;
+    gap: 13px;
+    align-items: stretch;
+}
+
+.login-options {
+    display: flex;
+    font-size: 0.9rem;
+    gap: 12px;
+}
+
+.lable{
+    transform: translateY(3px);
+}
+
+.login-options>div {
+    display: flex;
+    gap: 5px;
+}
+
+.login-btn {
+    width: 100%;
+}
+
+.find-links {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.find-links a {
+    text-decoration: none;
+    color: var(--color-placeholder);
+}
+.find-links span {
+    color: var(--color-placeholder);
+    margin: 0 10px;
+}
+
+.social-login {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+#social-title {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+}
+
+.social-login p {
+    margin-top: 0;
+    width: 103%;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icons img {
+    width: 40px;
+    height: 40px;
+}
