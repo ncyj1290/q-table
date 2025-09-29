@@ -1,0 +1,211 @@
+@charset "UTF-8";
+
+.form-box {
+	max-width: 400px;
+	margin: 0 auto;
+	border: 1px solid var(--color-main);
+}
+
+.form-box h1 {
+	text-align: center;
+	color: var(--color-main);
+	font-size: 24px;
+	margin-bottom: 30px;
+	font-weight: bold;
+}
+
+
+/* 식당 정보 섹션 */
+.store-info-section {
+	display: flex;
+	gap: 20px;
+	margin-bottom: 30px;
+	align-items: flex-start;
+}
+
+.store-image {
+	flex-shrink: 0;
+	width: 120px;
+	height: 120px;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.store-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.store-details {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.info-row {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.info-row .label {
+	font-weight: bold;
+	color: var(--color-font);
+	font-size: 16px;
+	min-width: 50px;
+}
+
+.info-row .value {
+	color: var(--color-font);
+	font-size: 16px;
+	font-weight: 500;
+}
+
+/* 결제 금액 입력 섹션 */
+.amount-input-section {
+	margin: 20px 0;
+}
+
+.amount-input-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.amount-label {
+	font-weight: bold;
+	color: var(--color-font);
+	font-size: 16px;
+	min-width: 80px;
+}
+
+.amount-input-container {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	max-width: 200px;
+	position: relative;
+}
+
+.component-write {
+	padding-right: 10px;
+}
+
+.currency {
+	position: absolute;
+	right: 10px;
+	color: var(--color-font);
+	font-weight: bold;
+	font-size: 16px;
+	pointer-events: none;
+}
+
+/* 결제 정보 섹션 */
+.payment-info-section {
+	margin: 20px 0;
+}
+
+.payment-details {
+	display: flex;
+	flex-direction: column;
+}
+
+.payment-details .info-row {
+	align-items: flex-start;
+	padding: 8px 0;
+	flex-direction: column;
+}
+
+.payment-details .info-row .top-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.payment-details .info-row .label {
+	font-weight: bold;
+	color: var(--color-font);
+	font-size: 16px;
+	flex-shrink: 0;
+}
+
+.payment-details .info-row .value {
+	color: var(--color-font);
+	font-size: 16px;
+	font-weight: 500;
+	text-align: right;
+	flex-shrink: 0;
+}
+
+.payment-details .info-row .sale-info {
+	color: var(--color-placeholder);
+	font-size: 12px;
+	text-align: left;
+	margin-top: 5px;
+	padding-left: 0;
+}
+
+/* 최종 결제 정보 섹션 */
+.final-amount-section {
+	margin: 20px 0;
+}
+
+.final-amount-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0;
+}
+
+.final-label {
+	font-weight: bold;
+	color: var(--color-font);
+	font-size: 18px;
+}
+
+.final-value {
+	color: var(--color-main);
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.qmoney-info-section {
+	background: #d3d3d3;
+	border-radius: 15px;
+	padding: 20px;
+	margin: 20px 0;
+}
+
+.qmoney-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 0;
+	gap: 20px;
+}
+
+.qmoney-label {
+	font-weight: bold;
+	color: var(--color-font);
+	font-size: 16px;
+}
+
+.qmoney-value {
+	color: var(--color-main);
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.payment-button-section {
+	text-align: center;
+	margin: 30px 0;
+}
+
+.payment-btn {
+	width: 150px;
+	height: 45px;
+	font-size: 18px;
+}
