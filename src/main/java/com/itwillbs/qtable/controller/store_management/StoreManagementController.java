@@ -10,13 +10,13 @@ public class StoreManagementController {
 	/* 매장 관리자가 이용하는 매장 관리 메인 페이지 */
 	@GetMapping("/store_management_main")
 	public String storeManagement() {
-		return "store_management/store_management_main";
+		return "storeManagement/store_management_main";
 	}
 	
 	/* 매장 등록/수정 페이지 */
 	@GetMapping("/write_store")
 	public String wirteStore() {
-		return "store_management/write_store";
+		return "storeManagement/writeStore";
 	}
 	
 	
