@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+
+#sidebar{
+	width: 400px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 30px 20px;
+    box-sizing: border-box;
+    align-self: flex-start;
+    position: sticky;
+    top: 20px;
+    flex-shrink: 0;
+    height: auto;
+    max-height: 100%;
+    overflow-y: hidden;
+}
