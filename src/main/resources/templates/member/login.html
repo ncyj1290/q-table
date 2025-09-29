@@ -15,13 +15,14 @@
 			<div class="vertical-line"></div>
 			<div class="login-right">
 				<div class="login-tabs">
-					<button class="tab active">개인회원</button>
-					<button class="tab">매장회원</button>
+					<div class="tab active">개인 회원</div>
+					<div class="tab">매장 회원</div>
+					<div class="underline"></div>
 				</div>
 				<form class="login-form">
-					<input type="text" placeholder="아이디" class="component-write">
-					<input type="password" placeholder="비밀번호" class="component-write"> 
-					<input type="hidden" name="memType">
+					<input type="text" placeholder="아이디" class="component-write" id="id">
+					<input type="password" placeholder="비밀번호" class="component-write" id="passwd"> 
+					<input type="hidden" name="memType" id="memType">
 					<div class="login-options">
 						<div>
 							<input type="checkbox" class="component-checkbox" id="remember-me">
@@ -41,7 +42,7 @@
 					<div class="social-login">
 						<div id="social-title">
 						<div class="horizontal-line"></div>
-						<p>소셜 계정으로 로그인</p>
+						<p>소셜 계정 로그인</p>
 						<div class="horizontal-line"></div>
 						</div>
 						<div class="social-icons">

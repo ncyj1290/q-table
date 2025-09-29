@@ -60,7 +60,7 @@
     display: flex;
     margin-bottom: 20px;
     justify-content: space-evenly;
-    
+	position: relative;
 }
 
 .login-tabs .tab {
@@ -70,14 +70,28 @@
     font-size: 1.1rem;
     color: #888;
     cursor: pointer;
-    border-bottom: 5px solid transparent;
+/*    border-bottom: 5px solid var(--color-placeholder);*/
     width: 190px;
+	text-align: center;
+	transition: all 0.3s ease
 }
 
 .login-tabs .tab.active {
     color: var(--color-main);
-    border-bottom: 5px solid var(--color-main);
+/*    border-bottom: 5px solid var(--color-main);*/
     font-weight: bold;
+}
+
+.underline {
+  position: absolute;
+  height: 3px;
+  background-color: #ff6b6b;
+  bottom: 0;
+  left: 0; /* 초기 위치 */
+
+  /* ★★★ 여기가 애니메이션의 핵심! ★★★ */
+  /* 너비와 위치(transform)가 변할 때 0.3초 동안 부드럽게 움직이도록 설정 */
+  transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 
