@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+<head>
+	<meta charset="UTF-8">
+	<title>Q-Table 검색</title>
+	<link rel="stylesheet" th:href="@{/css/search/search.css}">
+</head>
+<body>
+	<!-- <!-- Header -->
+    <th:block th:replace="~{common/fragments/header :: HeaderFragment}"></th:block>
+ -->
+	<th:block layout:fragment="Content">
+		<th:block th:replace="~{search/searchSidebar :: searchSidebar}"></th:block>
+	</th:block>	
+</body>
+</html>

@@ -1,0 +1,1 @@
+console.log('search js 연동 확인');
