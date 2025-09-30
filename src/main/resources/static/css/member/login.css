@@ -88,9 +88,6 @@
   background-color: #ff6b6b;
   bottom: 0;
   left: 0; /* 초기 위치 */
-
-  /* ★★★ 여기가 애니메이션의 핵심! ★★★ */
-  /* 너비와 위치(transform)가 변할 때 0.3초 동안 부드럽게 움직이도록 설정 */
   transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
