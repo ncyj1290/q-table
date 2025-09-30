@@ -1,0 +1,86 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/qmoneyCharge.css}">
+	<meta charset="UTF-8">
+	<title>my_page</title>
+</head>
+
+<body>
+	<div layout:fragment="Content">
+		<div class="qmoney-charge-container">
+		        <h2>Q-money 충전</h2>
+		        <div class="charge-amount-group">
+		            <button type="button" class="form-noshadow">10,000원
+						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
+					</button>
+		            <button type="button" class="form-noshadow">30,000원
+						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
+					</button>
+		            <button type="button" class="form-noshadow">50,000원
+						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
+					</button>
+		        </div>
+				
+			<div class="horizontal-line"></div>
+			
+		        <div class="payment-method-section">
+		            <label class="payment-card">결제수단 선택</label>
+		            <div class="payment-method-row">
+		                <input type="radio" name="payMethod" id="card" value="card" checked>
+		                <label for="card" class="payment-radio-label">신용카드</label>
+		            </div>
+		            <div class="pay-icon-row">
+		                <label>
+		                    <input type="radio" name="payMethod" value="kakaopay">
+		                    <span class="pay-icon pay-kakao"></span>
+		                    카카오페이
+		                </label>
+		                <label>
+		                    <input type="radio" name="payMethod" value="naverpay">
+		                    <span class="pay-icon pay-naver"></span>
+		                    네이버페이
+		                </label>
+		                <label>
+		                    <input type="radio" name="payMethod" value="tosspay">
+		                    <span class="pay-icon pay-toss"></span>
+		                    토스페이
+		                </label>
+		            </div>
+		            <select class="card-select">
+		                <option value="">카드사 선택</option>
+		                <option value="shinhan">신한카드</option>
+		                <option value="kb">국민카드</option>
+		                <option value="lotte">롯데카드</option>
+		                <!-- 필요한 카드사 추가 -->
+		            </select>
+		        </div>
+		        <div class="refund-policy-section">
+		            <label class="label">환불정책</label>
+		            <table class="refund-policy-table">
+		                <tr>
+		                    <td>결제일로부터 7일 이내</td>
+		                    <td>전액 환불</td>
+		                    <td>결제 금액 100% 환불 가능</td>
+		                </tr>
+		                <tr>
+		                    <td>결제일로부터 7일 경과 후</td>
+		                    <td>부분 환불</td>
+		                    <td>결제 금액 50% 환불 가능</td>
+		                </tr>
+		            </table>
+		        </div>
+		        <div class="agree-row">
+		            <input type="checkbox" id="agree" required>
+		            <label for="agree">결제 및 환불 정책에 동의합니다. (필수)</label>
+		        </div>
+		        <button type="submit" class="charge-submit-btn">결제하기</button>
+		    </div>
+	</div>
+</body>
+</html>

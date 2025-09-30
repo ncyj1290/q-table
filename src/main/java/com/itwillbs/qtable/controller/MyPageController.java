@@ -35,4 +35,10 @@ public class MyPageController {
 		
 		return "mypage/reservationList";
 	}	
+	
+	@GetMapping("/qmoney_charge")
+	public String qmoneycharge() {
+		
+		return "mypage/qmoneyCharge";
+	}
 }

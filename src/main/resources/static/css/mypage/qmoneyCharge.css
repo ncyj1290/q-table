@@ -1,0 +1,35 @@
+h2{
+	font-size: 3rem;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 30px;
+}
+.charge-amount-group{
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  justify-content: center; 
+}
+
+.form-noshadow {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 6px;
+  width: 15em;
+  height: 30%;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.qmoney-icon {
+  order: -1; /* 이미지를 텍스트 이전으로 이동 */
+  width: 20px;
+  height: 20px;
+}
+.payment-card{
+	font-weight: bold;
+	font-size: 30px;
+}
