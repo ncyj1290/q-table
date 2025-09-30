@@ -8,6 +8,7 @@ public class SearchController {
 	
 	@GetMapping("search")
 	public String search() {
+		
 		return "search/search";
 	}
 	

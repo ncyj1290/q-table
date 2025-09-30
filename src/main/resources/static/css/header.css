@@ -52,7 +52,7 @@
   padding: 5px 10px;
 }
 
-.search-box button {
+.search-box a {
   border: none;
   background: none;
   color: #9bb0c8;
