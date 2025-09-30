@@ -44,7 +44,13 @@
   padding: 5px 10px;
   margin: 0 40px;
 }
-
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 5px 10px;
+}
 
 .search-box button {
   border: none;
@@ -52,7 +58,7 @@
   color: #9bb0c8;
   cursor: pointer;
   font-size: 16px;
-  margin: 3px 0px 3px 350px;
+/*  margin: 3px 0px 3px 350px;*/
 }
 .menu-icons a {
   color:var(--color-main); /* 기존 아이콘 색상과 동일하게 */

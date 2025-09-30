@@ -1,0 +1,124 @@
+.signup-container {
+	width: 500px;
+	border: 1px solid #f5c2c2;
+	border-radius: 10px;
+	padding: 30px;
+}
+
+.signup-tabs {
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.signup-tabs .tab {
+	flex: 1;
+	text-align: center;
+	padding: 10px 0;
+	font-weight: bold;
+	color: #aaa;
+	border-bottom: 2px solid #eee;
+	cursor: pointer;
+}
+
+.signup-tabs .tab.active {
+	color: #f08a8a;
+	border-bottom: 2px solid #f08a8a;
+}
+
+.signup-form .form-group,
+.signup-form .form-group-inline {
+	margin-bottom: 15px;
+}
+
+.form-group:input{
+	margin-bottom: 1px;
+}
+
+.signup-form label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.signup-form input,
+.signup-form select {
+	width: 100%;
+	padding: 8px 10px;
+	border: 1px solid #f5c2c2;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+
+.signup-form .form-group-inline {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.signup-form .form-group-inline input,
+.signup-form .form-group-inline select {
+	flex: 1;
+}
+
+.address-group,
+.email-group {
+	display: flex;
+	gap: 10px;
+}
+
+.address-group input,
+.email-group input {
+	flex: 1;
+}
+.address-group{
+	margin-bottom: 10px;
+}
+
+.address-group button,
+.email-group button {
+	background-color: #f08a8a;
+	border: none;
+	color: white;
+	padding: 8px 12px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.terms {
+	margin: 20px 0;
+}
+
+.terms label {
+	display: block;
+	margin-bottom: 5px;
+	font-size: 14px;
+}
+
+.terms a {
+	font-size: 12px;
+	color: #999;
+	text-decoration: none;
+	margin-left: 5px;
+}
+
+.submit-btn {
+	width: 100%;
+	padding: 12px 0;
+	background-color: #f08a8a;
+	border: none;
+	border-radius: 25px;
+	color: white;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.check-msg {
+	font-size: 12px;
+}
+
+.check-msg.available {
+	color: green;
+}
+
+.check-msg.match {
+	color: green;
+}
