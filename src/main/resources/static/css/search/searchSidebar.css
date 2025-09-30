@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 #sidebar{
-    padding: 30px 30px;
+    padding: 30px 25px;
     box-sizing: border-box;
     align-self: flex-start;
     position: sticky;
@@ -33,6 +33,10 @@
 	justify-content: space-between;
 }
 
+.top > h5 {
+	font-weight: bold;
+}
+
 .top > span {
 	color:var(--color-placeholder);
 	font-size:small;
@@ -50,13 +54,29 @@
 .selectedKeywords > .keyword {
 	font-size: 12px;
 }
+.selectedKeywords > .active {
+	font-size: 12px;
+	width: 10rem;
+	font-weight: bold;
+	color:#ffffff;
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+	background-color:var(--color-main);
+	align-content: center;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
 
-.selectedKeywords:last-child > span {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-    height: 100%;
+
+section.part:last-child .selectedKeywords > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	height: 100%;
     gap: 10px;
+	border-radius: 8px;
+	padding: 7px;
 }
 
 .keyword {
@@ -80,13 +100,63 @@
 
 .select {
 	font-size: 15px;
-	color:#ffffff;
 	border: 1px solid var(--color-main);
 	border-radius: 20px;
-	background-color:var(--color-main);
+	background-color:#ffffff;
 	align-content: center;
 	text-align: center;
 	text-decoration: none;
     margin-top: 10px;
-	
+}
+
+.range {
+	text-align: center;
+}
+.range > span {
+	cursor: default !important;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+
+/* ===============================
+          슬라이더 영역 
+==================================*/
+
+.noUi-connect {
+	background: var(--color-main) !important;
+}
+
+.noUi-handle {
+	border: 3px solid var(--color-main) !important;
+    border-radius: 50% !important;
+	width: 30px !important;
+    height: 30px !important;
+    background: #FFF !important;
+    cursor: default !important;
+    box-shadow: 
+	inset 0 0 1px #FFF, 
+	inset 0 1px 7px #EBEBEB, 
+	0 3px 6px -3px #BBB 
+	!important;
+}
+
+.noUi-handle:after,
+.noUi-handle:before {
+    display: none !important;
+}
+
+.noUi-horizontal {
+    height: 9px !important;
+}
+
+.noUi-horizontal .noUi-handle {
+    top: -12px !important;
+}
+
+.noUi-target {
+    background: rgb(228, 228, 228) !important;
+    border-radius: 4px;
+    border: 0.5px solid #ffffff !important;
+    box-shadow: inset 0 1px 1px #F0F0F0, 0 3px 6px -5px #BBB;
 }
