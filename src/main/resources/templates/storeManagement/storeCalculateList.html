@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+	
+	<head>
+	    <title>정산 목록</title>
+	    <link rel="stylesheet" th:href="@{/css/store_management/commonStoreManagement.css}">
+		<link rel="stylesheet" th:href="@{/css/store_management/storeCalculateList.css}">
+	</head>
+	
+	<body>
+		
+		<div layout:fragment="Content">
+			
+			<br>
+			
+			<div class="root-layout">
+				
+				<!-- Store Management Side Bar -->
+				<div th:replace="storeManagement/storeProfile :: storeProfile"></div>
+				
+				<!-- 메인 컨텐츠 담는 DIV -->
+				<div class="sub-layout">
+					
+					<div class="row-component">
+						<h3>정산 목록</h3>	
+					</div>
+					
+					<!-- 목록 배치 레이아웃 -->
+					<div class="list-layout">
+						
+						<!-- 리스트 항목 안내 태그 -->
+						<div class="element-row" style="background-color: var(--color-main); color: white;">
+							<label class="label-num-size"><b>번호</b></label>
+							<label class="label-status-size"><b>상태</b></label>
+							<label class="label-date-size"><b>날짜</b></label>
+							<label class="label-price-size"><b>금액</b></label>
+						</div>
+						
+						<!-- 더미 리스트 항목 1 -->
+						<a href="/store_calculate_detail" class="element-row">
+							<b class="label-num-size">1</b>
+							<b class="label-status-size">정산 완료</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-price-size">100,000  ₩</b></b>
+						</a>
+						
+						<!-- 더미 리스트 항목 2 -->
+						<a href="/store_calculate_detail" class="element-row">
+							<b class="label-num-size">2</b>
+							<b class="label-status-size">정산 대기</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-price-size">500,000  ₩</b></b>
+						</a>
+						
+						<!-- 더미 리스트 항목 3 -->
+						<a href="/store_calculate_detail" class="element-row">
+							<b class="label-num-size">3</b>
+							<b class="label-status-size">정산 반려</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-price-size">50,000  ₩</b></b>
+						</a>
+
+					</div>
+					
+					<!-- 페이지네이션 셀렉터 -->
+					<div class="page-selector-layout">
+						<button onclick="location.href=''" class="page-selector" disabled>&lt</button>
+						<button onclick="location.href=''" class="page-selector">1</button>
+						<button onclick="location.href=''" class="page-selector">2</button>
+						<button onclick="location.href=''" class="page-selector">3</button>
+						<button onclick="location.href=''" class="page-selector">&gt</button>
+					</div>
+	
+				</div>
+				<!-- 메인 컨텐츠 Layout End -->
+				
+			</div>
+
+		</div>		
+	
+	</body>
+	
+</html>

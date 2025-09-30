@@ -1,0 +1,93 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+	
+	<head>
+	    <title>예약 상세 정보</title>
+	    <link rel="stylesheet" th:href="@{/css/store_management/commonStoreManagement.css}">
+		<link rel="stylesheet" th:href="@{/css/store_management/storeReservationDetail.css}">
+	</head>
+	
+	<body>
+		
+		<div layout:fragment="Content">
+			
+			<br>
+			
+			<div class="root-layout">
+				
+				<!-- Store Management Side Bar -->
+				<div th:replace="storeManagement/storeProfile :: storeProfile"></div>
+				
+				<!-- 메인 컨텐츠 담는 DIV -->
+				<div class="sub-layout">
+					
+					<div class="row-component">
+						<h3>예약 상세 정보</h3>	
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">예약자:</label>
+						<label class="info-data-label">USER_01</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">예약 날짜:</label>
+						<label class="info-data-label">25.09.19</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">예약 시간:</label>
+						<label class="info-data-label">18:00</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">총 인원: </label>
+						<label class="info-data-label">5 명</label>
+					</div>
+					
+					<br>
+					
+					<div class="detail-column">
+						<label class="info-label">예약자 요구사항</label>
+						<div class="component-write"></div>
+					</div>
+					
+					<div class="detail-column">
+						<label class="info-label">예약자 알레르기 사항</label>
+						<div class="component-write"></div>
+					</div>
+
+					<div class="horizontal-line"></div>
+					
+					<div class="detail-row">
+						<label class="info-label">예약 결과</label>
+						
+						<select class="select-box">
+							<option>방문 완료</option>
+							<option>노쇼</option>
+							<option>에약 거절</option>
+						</select>
+					</div>
+					
+					<div class="detail-column">
+						<label class="info-label">예약 거절 사유</label>
+						<textarea class="component-write"></textarea>
+					</div>
+					
+					<br>
+					
+					<!-- 취소, 전송 버튼 -->
+					<div class="row-component-gap20">
+						<button class="negative-button" onclick="history.back()">취소</button>
+						<button class="positive-button" onclick="location.href='/store_reservation_list'">등록</button>
+					</div>
+	
+				</div>
+				<!-- 메인 컨텐츠 Layout End -->
+				
+			</div>
+
+		</div>		
+	
+	</body>
+	
+</html>

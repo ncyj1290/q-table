@@ -1,0 +1,18 @@
+<div th:fragment="storeProfile" class="store-profile-layout">
+	<img src="icons/icon_store_profile.png" class="store-profile">
+	
+	<b>매장이름</b>
+
+	<!-- 예약 허용 여부 선택 영역 -->
+	<div class="d-flex flex-row justify-content-start gap-3">
+		<b>예약 허용</b>
+		
+		<!-- Toggle Button -->
+		<div class="form-check form-switch">
+		  	<input class="form-check-input" type="checkbox" style="width: 50px;" checked onclick="confirm('예약 받기 변경 하겠습니까?')">
+		</div>
+	</div>
+	
+	<!-- 매장 관리자 페이지 카테고리(사이드바) -->
+	<div th:replace="storeManagement/storeManagementSideBar :: storeManagementSideBar"></div>
+</div>

@@ -18,12 +18,13 @@
 	box-shadow: var(--form-box-shadow);
 	height: 500px;
 	align-items: start;
-	gap: 20px;
+	gap: 10px;
 	padding: 20px;
 	min-width: 1100px;
 }
 
 
+/* 수평 요소 배치 레이아웃 */
 .row-component{
 	display: flex;
   	flex-direction: row;
@@ -33,6 +34,18 @@
 }
 
 
+.row-component-gap20{
+	display: flex;
+  	flex-direction: row;
+	width: 100%;
+	height: 50px;
+	justify-content: center;
+	gap: 20px;
+}
+
+
+
+/* 매장 프로필 이미지 배치 레이아웃 */
 .store-profile-layout{
 	display: flex;
 	flex-direction: column;
@@ -47,7 +60,7 @@
 }
 
 
-/* Store Profile Image Size And Style */
+/* 매장 프로필 이미지 사이즈 및 스타일 */
 .store-profile{
 	width: 100px;
 	height: 100px;
@@ -56,6 +69,7 @@
 }
 
 
+/* 사이드 바 배치용 레이아웃 */
 .side-bar-layout{
 	display: flex;
 	flex-direction: column;
@@ -64,11 +78,20 @@
 }
 
 
+/* 사이드 바 바로가기 버튼 사이즈 및 스타일 */
 .category-button-size{
 	border: 1px var(--color-sub);
 	box-shadow: var(--form-box-shadow);
-	width: 180px !important;
+	width: 190px !important;
 	text-decoration: none;
 }
+
+
+
+
+
+
+
+
 
 

@@ -1,4 +1,4 @@
-package com.itwillbs.qtable.controller.store_management;
+package com.itwillbs.qtable.controller.storeManagement;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,6 @@ public class StoreManagementController {
 		return "storeManagement/store_management_main";
 	}
 	
-	
 	/* ================================================= */
 	/* 매장 등록/수정 페이지 */
 	@GetMapping("/write_store")
@@ -21,12 +20,37 @@ public class StoreManagementController {
 		return "storeManagement/writeStore";
 	}
 
+	/* ================================================= */
+	/* 예약 목록 페이지 */
+	@GetMapping("/store_reservation_list")
+	public String storeReservationList() {
+		return "storeManagement/storeReservationList";
+	}
+	
+	/* 예약 상세 페이지 */
+	@GetMapping("/store_reservation_detail")
+	public String storeReservationDetail() {
+		return "storeManagement/storeReservationDetail";
+	}
 	
 	/* ================================================= */
 	/* 구독권 구매 페이지 */
 	@GetMapping("/purchase_subscribe")
 	public String purchaseSubscribe() {
 		return "storeManagement/purchaseSubscribe";
+	}
+	
+	/* ================================================= */
+	/* 정산 목록 페이지 */
+	@GetMapping("/store_calculate_list")
+	public String calculateList() {
+		return "storeManagement/storeCalculateList";
+	}
+	
+	/* 정산 상세 페이지 */
+	@GetMapping("/store_calculate_detail")
+	public String calculateDetail() {
+		return "storeManagement/storeCalculateDetail";
 	}
 	
 	

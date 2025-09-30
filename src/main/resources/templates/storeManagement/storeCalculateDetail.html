@@ -1,0 +1,71 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+	
+	<head>
+	    <title>정산 상세 정보</title>
+	    <link rel="stylesheet" th:href="@{/css/store_management/commonStoreManagement.css}">
+		<link rel="stylesheet" th:href="@{/css/store_management/storeCalculateDetail.css}">
+	</head>
+	
+	<body>
+		
+		<div layout:fragment="Content">
+			
+			<br>
+			
+			<div class="root-layout">
+				
+				<!-- Store Management Side Bar -->
+				<div th:replace="storeManagement/storeProfile :: storeProfile"></div>
+				
+				<!-- 메인 컨텐츠 담는 DIV -->
+				<div class="sub-layout">
+					
+					<div class="row-component">
+						<h3>정산 상세 정보</h3>	
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">매장 명:</label>
+						<label class="info-data-label">영재게이 삼겹살 전문점</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">정산 날짜:</label>
+						<label class="info-data-label">25.09.19</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">정산 금액:</label>
+						<label class="info-data-label">1,800,000,000 ₩</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">정산 상태: </label>
+						<label class="info-data-label">완료</label>
+					</div>
+					
+					<br>
+					
+					<div class="detail-column">
+						<label class="info-label">반려 사유</label>
+						<div class="component-write">없음</div>
+					</div>
+
+					<br>
+					
+					<!-- 취소, 전송 버튼 -->
+					<div class="row-component-gap20">
+						<button class="negative-button" onclick="history.back()">취소</button>
+						<button class="positive-button" onclick="location.href='/store_calculate_list'">등록</button>
+					</div>
+	
+				</div>
+				<!-- 메인 컨텐츠 Layout End -->
+				
+			</div>
+
+		</div>		
+	
+	</body>
+	
+</html>

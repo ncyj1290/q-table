@@ -1,0 +1,53 @@
+.detail-layout{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 800px;
+}
+
+.sub-layout{
+	height: 500px !important;
+}
+
+
+/* 일반적으로 사용할 로우형 레이아웃 */
+.detail-row{
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	padding: 0px 20px;
+	justify-content: center;
+	gap: 20px;
+}
+
+
+/* Text Area와 함꼐 쓸 때 사용하는 컬럼형 레이아웃  */
+.detail-column{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100px;
+	padding: 0px 20px;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.component-write{
+	width: 600px;
+	height: 100px;
+}
+
+
+/* 안내 라벨 스타 */
+.info-label{
+	color: var(--color-main);
+	font-weight: bold;
+	font-size: 20px;
+}
+
+
+/* 데이터 라벨 스타 */
+.info-data-label{
+	font-size: 20px;	
+}

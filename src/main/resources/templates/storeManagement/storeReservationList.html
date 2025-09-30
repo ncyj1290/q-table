@@ -1,0 +1,157 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+	
+	<head>
+	    <title>예약 목록</title>
+	    <link rel="stylesheet" th:href="@{/css/store_management/commonStoreManagement.css}">
+		<link rel="stylesheet" th:href="@{/css/store_management/storeReservationList.css}">
+	</head>
+	
+	<body>
+		
+		<div layout:fragment="Content">
+			
+			<br>
+			
+			<div class="root-layout">
+				
+				<!-- Store Management Side Bar -->
+				<div th:replace="storeManagement/storeProfile :: storeProfile"></div>
+				
+				<!-- 메인 컨텐츠 담는 DIV -->
+				<div class="sub-layout">
+					
+					<div class="row-component">
+						<h3>예약 목록</h3>	
+					</div>
+					
+					<div class="filter-button-layout">
+						<b>목록 필터</b>
+						<button class="positive-button">받은 예약</button>	
+						<button class="positive-button">취소 예약</button>	
+						<button class="positive-button">전체 예약</button>	
+						<button class="positive-button">날짜 순</button>	
+					</div>
+					
+					<!-- 목록 배치 레이아웃 -->
+					<div class="list-layout">
+						
+						<!-- 리스트 항목 안내 태그 -->
+						<div class="element-row" style="background-color: var(--color-main); color: white;">
+							<label class="label-num-size"><b>번호</b></label>
+							<label class="label-id-size"><b>예약자 ID</b></label>
+							<label class="label-date-size"><b>예약 날짜</b></label>
+							<label class="label-time-size"><b>예약 시간</b></label>
+							<label class="label-result-size"><b>취소 여부</b></label>
+						</div>
+						
+						<!-- 더미 리스트 항목 1 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">1</b>
+							<b class="label-id-size">Hungry123</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">18:00</b></b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 2 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">2</b>
+							<b class="label-id-size">Angry321</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">18:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 3 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">3</b></b>
+							<b class="label-id-size">Tired001</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">18:00</b>
+							<b class="label-result-size">Y</b>
+						</a>
+		
+						<!-- 더미 리스트 항목 4 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">4</b>
+							<b class="label-id-size">YJgay123</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">18:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 5 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">5</b>
+							<b class="label-id-size">T_T</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">20:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 6 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">6</b>
+							<b class="label-id-size">HI_HI</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">20:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 7 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">7</b>
+							<b class="label-id-size">NICE01</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">20:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 8 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">8</b>
+							<b class="label-id-size">BABA</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">20:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 9 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">9</b>
+							<b class="label-id-size">BAD33</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">20:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+						
+						<!-- 더미 리스트 항목 10 -->
+						<a href="/store_reservation_detail" class="element-row">
+							<b class="label-num-size">10</b>
+							<b class="label-id-size">GGAI123</b>
+							<b class="label-date-size">25.09.30</b>
+							<b class="label-time-size">20:00</b>
+							<b class="label-result-size">N</b>
+						</a>
+		
+					</div>
+					
+					<!-- 페이지네이션 셀렉터 -->
+					<div class="page-selector-layout">
+						<button onclick="location.href=''" class="page-selector" disabled>&lt</button>
+						<button onclick="location.href=''" class="page-selector">1</button>
+						<button onclick="location.href=''" class="page-selector">2</button>
+						<button onclick="location.href=''" class="page-selector">3</button>
+						<button onclick="location.href=''" class="page-selector">&gt</button>
+					</div>
+	
+				</div>
+				<!-- 메인 컨텐츠 Layout End -->
+				
+			</div>
+
+		</div>		
+	
+	</body>
+	
+</html>
