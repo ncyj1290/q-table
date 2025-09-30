@@ -15,10 +15,108 @@
 <body class="hold-transition sidebar-mini">
 
 	<th:block layout:fragment="content">
+	
+		<div class="page-container">
+			<div class="table-header">
+				<div class="table-title">회원 / 매장 상세보기</div>
+			</div>
 
-		<div class="table-header">
-			<div class="table-title">회원 / 매장 상세보기</div>
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-7">
+							<div class="detail-card">
+								<div class="detail-grid">
+									<div class="detail-item">
+										<label>아이디</label>
+										<input type="text" class="component-write" readonly value="user_kim">
+									</div>
+									<div class="detail-item">
+										<label>생년월일</label>
+										<input type="text" class="component-write" readonly value="1995-03-15">
+									</div>
+									<div class="detail-item full-width">
+										<label>주소</label>
+										<input type="text" class="component-write" readonly value="부산광역시 해운대구">
+									</div>
+									<div class="detail-item full-width">
+										<label>이메일</label>
+										<input type="text" class="component-write" readonly
+											value="kim.minjun@example.com">
+									</div>
+									<div class="detail-item">
+										<label>가입일자</label>
+										<input type="text" class="component-write" readonly value="2025-01-15">
+									</div>
+									<div class="detail-item">
+										<label>Q머니 보유량</label>
+										<input type="text" class="component-write" readonly value="50,000원">
+									</div>
+									<div class="detail-item">
+										<label>탈퇴일자</label>
+										<input type="text" class="component-write" readonly value="-">
+									</div>
+									<div class="detail-item">
+										<label>회원상태</label>
+										<input type="text" class="component-write" readonly value="정상">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-5">
+							<div class="profile-card"> <img src="/img/profile.png" alt="프로필 사진"
+									class="profile-img-large">
+								<span class="profile-name-large">OOO님</span>
+							</div>
+							<div class="detail-card mt-4">
+								<div class="detail-grid">
+									<div class="detail-item">
+										<label>매장명</label>
+										<input type="text" class="component-write" readonly value="Q-Table 레스토랑">
+									</div>
+									<div class="detail-item">
+										<label>사업자 등록번호</label>
+										<input type="text" class="component-write" readonly value="123-45-67890">
+									</div>
+									<div class="detail-item">
+										<label>매장 테이블 수</label>
+										<input type="text" class="component-write" readonly value="15개">
+									</div>
+									<div class="detail-item">
+										<label>매장 사진 파일</label>
+										<input type="text" class="component-write" readonly value="store_image.jpg">
+									</div>
+									<div class="detail-item">
+										<label>매장 메뉴</label>
+										<input type="text" class="component-write" readonly value="파스타, 스테이크 등">
+									</div>
+									<div class="detail-item">
+										<label>매장 운영시간</label>
+										<input type="text" class="component-write" readonly value="11:00 ~ 22:00">
+									</div>
+									<div class="detail-item full-width">
+										<label>예약금</label>
+										<input type="text" class="component-write" readonly value="10,000원">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="detail-buttons">
+						<a href="#" class="positive-button">수정</a>
+						<a href="#" class="negative-button">목록</a>
+					</div>
+				</div>
+			</section>
 		</div>
+		
+		<script>
+		  $(function() {
+		    $('body').addClass('detail-page-layout');
+		  });
+		</script>
 
 	</th:block>
 </body>
