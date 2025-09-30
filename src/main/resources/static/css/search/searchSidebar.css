@@ -14,8 +14,12 @@
 	gap: 50px;
     align-items: stretch;
     max-width: 300px;
+	user-select: none; /* 표준 속성 */
+	-webkit-user-select: none; /* Safari, Chrome 등 */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE/Edge */
 }
-
+ 
 #sidebar span {
 	cursor: pointer;
 	text-align: center;
@@ -66,8 +70,12 @@
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
+	transition: background-color 0.2s ease;
 }
 
+.selectedKeywords > .active:hover{
+	background-color: #F05F5F;
+}
 
 section.part:last-child .selectedKeywords > div {
     display: flex;
@@ -87,7 +95,9 @@ section.part:last-child .selectedKeywords > div {
 	height:25px;
 }
 
-
+.keyword:hover {
+	background-color: #FFF8F8;
+}
 
 .keyword > img {
 	width:30px;
@@ -121,6 +131,22 @@ section.part:last-child .selectedKeywords > div {
 }
 #price > span:first-child {
 	width: 49.98px;
+}
+
+.dashed-box {
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 20px 15px;
+  color: #888;
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.4s ease;
+}
+
+.dashed-box:hover {
+	border-color: var(--color-main); 
+	color: var(--color-main);
+	background-color: #FFF8F8; 
 }
 
 /* ===============================

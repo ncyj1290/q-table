@@ -1,10 +1,31 @@
 $(function() {
 	console.log('searchSidebar js 연동');
 	initializePriceSlider();
+	
+	//키워드들 클릭했을때
 	$('.selectedKeywords:not(.no-toggle)').on('click', '.keyword', function() {
 		toggleActive(this);
+		//쿼리스트링 반영하는것도 짜야함 
+	});
+	
+	//초기화 눌렀을때
+	$('.top').on('click','.reset', function() {
+		removeActive(this);
+		//쿼리스트링에서삭제 하느것도 해야함
 	});
 });
+
+function removeActive(el) {
+	let isNoReset = $(el).closest('.top').hasClass('no-reset');
+	if(isNoReset) {
+		const parentEl = $(el).closest('section.part').find('.selectedKeywords');
+		parentEl.empty();
+		parentEl.append(`<span class="dashed-box">+ 키워드를 선택해주세요</span>`);
+		$(el).closest('section.part').find('.select').hide();
+		return;	
+	}
+	$(el).closest('section.part').find('.keyword').removeClass('active');
+}
 
 function toggleActive (el) {
 	const parentEl = $(el).closest('.selectedKeywords');
