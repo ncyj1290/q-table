@@ -27,6 +27,12 @@ public class AdminController {
 		return "admin/adminStore";
 	}
 	
+//	매장 회원관리 페이지
+	@GetMapping("/admin_detail")
+	public String adminDetail() {
+		return "admin/adminDetail";
+	}
+	
 //	입점 신청관리 페이지
 	@GetMapping("/store_entry")
 	public String storeEntry() {
@@ -63,10 +69,22 @@ public class AdminController {
 		return "admin/comCodeList";
 	}
 	
+//	공통 코드 추가 페이지
+	@GetMapping("/comcode_commit")
+	public String comcodeCommit() {
+		return "admin/comcodeCommit";
+	}
+	
 //	관리자 계정 목록 페이지
 	@GetMapping("/admin_account")
 	public String adminAccount() {
 		return "admin/adminAccount";
+	}
+	
+//	관리자 계정 추가 페이지
+	@GetMapping("/admin_commit")
+	public String adminCommit() {
+		return "admin/adminCommit";
 	}
 	
 	
