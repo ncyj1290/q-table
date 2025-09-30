@@ -30,27 +30,33 @@
 			<div class="horizontal-line"></div>
 			
 		        <div class="payment-method-section">
+					<img src="/img/spoon.png" alt="숟가락" class="charge-spoon">
 		            <label class="payment-card">결제수단 선택</label>
+					
 		            <div class="payment-method-row">
-		                <input type="radio" name="payMethod" id="card" value="card" checked>
-		                <label for="card" class="payment-radio-label">신용카드</label>
+		                <button type="button" class="form-noshadow">신용카드</button>
 		            </div>
 		            <div class="pay-icon-row">
-		                <label>
-		                    <input type="radio" name="payMethod" value="kakaopay">
-		                    <span class="pay-icon pay-kakao"></span>
-		                    카카오페이
-		                </label>
-		                <label>
-		                    <input type="radio" name="payMethod" value="naverpay">
-		                    <span class="pay-icon pay-naver"></span>
-		                    네이버페이
-		                </label>
-		                <label>
-		                    <input type="radio" name="payMethod" value="tosspay">
-		                    <span class="pay-icon pay-toss"></span>
-		                    토스페이
-		                </label>
+						<div class="pay-icon-items">
+		                    <button type="button" class="form-noshadow">
+								<img src="/img/kakao_pay.jpg" alt="kakao_pay" class="kakao_pay" />
+								<span>카카오페이</span>
+							</button>
+						</div>   
+		                   
+					<div class="pay-icon-items">
+		                    <button type="button" class="form-noshadow">
+								<img src="/img/naver_pay.png" alt="kakao_pay" class="kakao_pay" />
+								<span>텍스트</span>
+							</button>
+						</div> 
+						
+						<div class="pay-icon-items">
+		                    <button type="button" class="form-noshadow">
+								<img src="/img/toss_pay.jpg" alt="kakao_pay" class="kakao_pay" />
+								<span>텍스트</span>
+							</button>
+						</div> 
 		            </div>
 		            <select class="card-select">
 		                <option value="">카드사 선택</option>
