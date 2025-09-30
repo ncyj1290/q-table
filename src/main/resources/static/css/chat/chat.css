@@ -135,7 +135,15 @@
     background-position: 100px;
     flex: 1;
     padding: 20px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages-area::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .chat-input-area {
@@ -146,11 +154,19 @@
 	align-items: center;
 }
 
-.chat-message-input {
+/* 메시지 입력 컨테이너 */
+.message-input-container {
 	flex: 1;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.chat-message-input {
+	width: 100%;
 	border: 2px solid var(--color-sub);
 	border-radius: 20px;
-	padding: 8px 15px;
+	padding: 8px 45px 8px 15px;
 	outline: none;
 }
 
@@ -158,3 +174,95 @@
 	border-color: var(--color-focus);
 }
 
+/* 첨부파일 아이콘 */
+.attachment-icon {
+	position: absolute;
+	right: 15px;
+	font-size: 16px;
+	color: var(--color-placeholder);
+	cursor: pointer;
+	transition: color 0.2s;
+}
+
+.attachment-icon:hover {
+	color: var(--color-main);
+}
+
+/* 메시지 전체 영역 */
+.message-container {
+	display: flex;
+	margin-bottom: 20px;
+	align-items: flex-end;
+}
+
+/* 받은 메시지 스타일 */
+
+.message-container.received .message-profile {
+	margin-right: 12px;
+}
+
+.profile-image {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-color: #e9ecef;
+}
+
+.message-content {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	max-width: 45%;
+}
+
+.message-container.received .message-area {
+	background-color: #e9ecef;
+	color: var(--color-font);
+	border-radius: 18px 18px 18px 5px;
+}
+
+.message-container.received .message-time {
+	margin-left: 8px;
+	margin-bottom: 4px;
+}
+
+/* 보낸 메시지 스타일 */
+.message-container.sent {
+	justify-content: flex-end;
+}
+
+
+.message-container.sent .message-area {
+	background-color: var(--color-main);
+	color: white;
+	border-radius: 18px 18px 5px 18px;
+}
+
+.message-container.sent .message-time {
+	margin-right: 8px;
+	margin-bottom: 4px;
+}
+
+/* 공통 메시지 스타일 */
+.message-area {
+	padding: 16px 20px;
+	word-wrap: break-word;
+	min-width: 60px;
+	min-height: 20px;
+}
+
+.message-area p {
+	margin: 0;
+	line-height: 1.4;
+}
+
+.message-time {
+	font-size: 12px;
+	color: var(--color-placeholder);
+	white-space: nowrap;
+}
+
+.chat-input-area i {
+	width: 15px;
+	height: 15px;
+}
