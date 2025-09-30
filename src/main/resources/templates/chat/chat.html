@@ -1,0 +1,83 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+<head>
+    <title>1대1 문의 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/chat/chat.css}">
+</head>
+<body>
+<div layout:fragment="Content">
+	<!-- 페이지 헤더 텍스트 -->
+	<div class="chat-page-header">
+		<h1>Q-Talk</h1>
+	</div>
+	
+	<!-- 메인 콘텐츠 전체 영역 -->
+	<div class="chat-main-container">
+	
+		<!-- 좌측 사이드바 영역 -->
+		<div class="chat-sidebar">
+			<!-- 검색바 영역 -->
+			<div class="chat-search-section">
+				<input type="text" class="component-write" placeholder="메시지 검색">
+			</div>
+			
+			<!-- 채팅방 리스트 영역 -->
+			<div class="chat-room-list">
+				<div class="chat-room-item">
+					<div class="chat-room-profile">
+					</div>
+					<div class="chat-room-info">
+						<div class="chat-room-name">관리자</div>
+						<div class="chat-room-last-message">마지막 대화내용...</div>
+					</div>
+					<div class="chat-room-badge">
+						<span class="unread-count">5</span>
+					</div>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<div class="chat-room-item">
+					<div class="chat-room-profile">
+					</div>
+					<div class="chat-room-info">
+						<div class="chat-room-name">매장1</div>
+						<div class="chat-room-last-message">마지막 대화내용...</div>
+					</div>
+					<div class="chat-room-badge">
+					</div>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<div class="chat-room-item">
+					<div class="chat-room-profile">
+					</div>
+					<div class="chat-room-info">
+						<div class="chat-room-name">매장2</div>
+						<div class="chat-room-last-message">마지막 대화내용...</div>
+					</div>
+					<div class="chat-room-badge">
+						<span class="unread-count">1</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 우측 대화창 영역 -->
+		<div class="chat-content-area">
+			<div class="chat-content-header">
+				<h3>매장 1</h3>
+			</div>
+			<div class="chat-messages-area">
+			
+			</div>
+			<div class="chat-input-area">
+				<input type="text" class="chat-message-input" placeholder="메시지 입력">
+				<button class="positive-button">전송</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+@charset "UTF-8";
+
+/* 페이지 헤더 텍스트 */
+.chat-page-header h1{
+	color: var(--color-main);
+	text-align: center;
+}
+
+/* 메인 컨텐츠 컨테이너 */
+.chat-main-container {
+	border: 1px solid var(--color-main);
+	border-radius: 10px;
+	padding: 20px;
+	display: flex;
+	gap: 20px;
+	width: 1200px;
+	margin: 0 auto;
+	height: 700px;
+	box-sizing: border-box;
+}
+
+/* 좌측 사이드바 */
+.chat-sidebar {
+	padding: 20px;
+	width: 300px;
+	min-width: 300px;
+	border: 1px solid var(--color-sub);
+	border-radius: 10px;
+}
+
+.chat-search-section {
+	margin-bottom: 20px;
+}
+
+.chat-search-section input {
+	width: 100%;
+}
+
+.chat-room-list {
+	height: 400px;
+	overflow-y: auto;
+}
+
+.chat-room-item {
+	display: flex;
+	align-items: center;
+	padding: 12px;
+	border-radius: 8px;
+	margin-bottom: 8px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.chat-room-item:hover {
+	background-color: var(--color-sub);
+}
+
+.chat-room-item.active {
+	background-color: var(--color-sub);
+}
+
+.chat-room-profile {
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	background-color: #e9ecef;
+	margin-right: 12px;
+	flex-shrink: 0;
+}
+
+.chat-room-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.chat-room-name {
+	font-weight: bold;
+	color: var(--color-font);
+	margin-bottom: 4px;
+	font-size: 16px;
+}
+
+.chat-room-last-message {
+	font-size: 14px;
+	color: var(--color-placeholder);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.chat-room-badge {
+	flex-shrink: 0;
+}
+
+.unread-count {
+	background-color: var(--color-main);
+	color: white;
+	border-radius: 50%;
+	width: 22px;
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+/* 우측 채팅 영역 */
+.chat-content-area {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--color-sub);
+	border-radius: 8px;
+	background-color: white;
+}
+
+.chat-content-header {
+	padding: 15px 20px;
+	border-bottom: 1px solid var(--color-sub);
+}
+
+.chat-content-header h3 {
+	margin: 0;
+	color: var(--color-font);
+	font-size: 18px;
+}
+
+.chat-messages-area {
+    background-image: url('/img/Q-table_logo.png');
+    background-size: 70% 100%;
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0.6); /* 흰색+투명 덮기 */
+    background-blend-mode: lighten; /* or overlay / multiply 등 시도 가능 */
+    background-position: 100px;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.chat-input-area {
+	padding: 15px 20px;
+	border-top: 1px solid var(--color-sub);
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.chat-message-input {
+	flex: 1;
+	border: 2px solid var(--color-sub);
+	border-radius: 20px;
+	padding: 8px 15px;
+	outline: none;
+}
+
+.chat-message-input:focus {
+	border-color: var(--color-focus);
+}
+
