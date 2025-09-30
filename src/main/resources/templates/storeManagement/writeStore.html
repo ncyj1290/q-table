@@ -3,6 +3,8 @@
 	<head>
 	    <title>매장 관리자</title>
 	    <link rel="stylesheet" th:href="@{/css/store_management/write_store.css}">
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script src="js/storeManagement/writeStore.js"></script>
 	</head>
 	
 	<body>
@@ -15,11 +17,11 @@
 				<div class="d-flex flex-row justify-content-center">
 					<h1>매장 정보 등록</h1>	
 				</div>
-				
-				<!-- 매장 이미지 업로드 영역 -->
+
 				<div class="store-profile-layout">
 					<img src="icons/icon_store_profile.png" class="store-profile">
-					<button class="positive-button">프로필 업로드</button>
+					<label class="positive-button" for="store_profile_file">프로필 업로드</label>
+					<input type="file" name="store_profile_file" id="store_profile_file" style="display: none;" accept=".jpg, .jpeg, .png">
 				</div>
 				
 				<div class="horizontal-line"></div>
@@ -53,7 +55,7 @@
 				<div class="component-layout-row">
 					<label for="post_code" class="input-label"><b>*우편 번호</b></label>
 					<input type="text" class="component-write" placeholder="우편 번호" id="post_code" name="post_code" readonly>	
-					<button class="positive-button">주소 선택</button>
+					<button class="positive-button" id="address_button">주소 선택</button>
 				</div>
 				
 				<div class="component-layout-row">
@@ -104,7 +106,7 @@
 				<div class="component-layout-row">
 					<label for="open_time" class="input-label"><b>Open Time</b></label>
 						
-					<select name="open_time" class="select-box">
+					<select name="open_time" id="open_time" class="select-box">
 						<option>00:00</option>
 						<option>00:30</option>
 						<option>01:00</option>					
@@ -116,7 +118,7 @@
 				<div class="component-layout-row">
 					<label for="close_time" class="input-label"><b>Close Time</b></label>
 						
-					<select name="close_time" class="select-box">
+					<select name="close_time" id="close_time" class="select-box">
 						<option>00:00</option>
 						<option>00:30</option>
 						<option>01:00</option>					
@@ -133,13 +135,14 @@
 				</div>
 				
 				<div class="component-layout-row">
-					<button class="holiday-button">월</button>
-					<button class="holiday-button">화</button>
-					<button class="holiday-button">수</button>
-					<button class="holiday-button">목</button>
-					<button class="holiday-button">금</button>
-					<button class="holiday-button">토</button>
-					<button class="holiday-button">일</button>	
+					<input type="hidden" name="holidays" id="holidays">
+					<button class="holiday-button" value="srhd_01">월</button>
+					<button class="holiday-button" value="srhd_02">화</button>
+					<button class="holiday-button" value="srhd_03">수</button>
+					<button class="holiday-button" value="srhd_04">목</button>
+					<button class="holiday-button" value="srhd_05">금</button>
+					<button class="holiday-button" value="srhd_06">토</button>
+					<button class="holiday-button" value="srhd_07">일</button>	
 				</div>
 				
 				<div class="horizontal-line"></div>
@@ -147,30 +150,23 @@
 				<!-- 매장 사진 업로드 영역 -->
 				<div class="component-layout-row">
 					<label class="title-label"><h4>매장 사진 업로드</h4></label>
-					<button class="positive-button">사진 업로드</button>
+					<button class="positive-button" id="sp_upload">사진 업로드</button>
+					
+					<!-- 상점 사진 임시로 담는 곳 -->
+					<div id="store_picture_input" style="display:none;"></div>
 				</div>
 				
 				<div class="store_picture_layout">
 					
 					<div class="store_picture_element">
-						<i class="bi bi-trash fs-4"></i>
+						<i class="bi bi-trash fs-4 sp-remove-bt"></i>
 						<label><b>Picture Names - UUID 12345678 - 1번 사진</b></label>
 					</div>
 					
-					<div class="store_picture_element">
-						<i class="bi bi-trash fs-4"></i>
-						<label><b>Picture Names - UUID 12345678 - 2번 사진</b></label>
-					</div>
-					
-					<div class="store_picture_element">
-						<i class="bi bi-trash fs-4"></i>
-						<label><b>Picture Names - UUID 12345678 - 3번 사진</b></label>
-					</div>
-					
-					<!-- Just Info Text -->
-					<label class="info-picture-label">* 사진은 최대 8개까지 등록할 수 있습니다.</label>
-					
 				</div>
+				
+				<!-- Just Info Text -->
+				<label class="info-picture-label" style="margin-left: 100px;">* 사진은 최대 8개까지 등록할 수 있습니다.</label>
 				
 				<div class="horizontal-line"></div>
 
@@ -390,15 +386,16 @@
 				</div>
 
 				<div class="component-layout-row">
-					<div><img src="icons/store_facility/icon_power.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_kid_allow.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_pet.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_nokid.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_wifi.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_parking.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_wheel_chair.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_group.png" class="facility-button"></div>
-					<div><img src="icons/store_facility/icon_room.png" class="facility-button"></div>
+					<input type="hidden" name="store_facilities" id="store_facilities">
+					<button class="facility-button" value="cnvfc_01"><img src="icons/store_facility/icon_power.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_02"><img src="icons/store_facility/icon_kid_allow.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_03"><img src="icons/store_facility/icon_pet.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_04"><img src="icons/store_facility/icon_nokid.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_05"><img src="icons/store_facility/icon_wifi.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_06"><img src="icons/store_facility/icon_parking.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_07"><img src="icons/store_facility/icon_wheel_chair.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_08"><img src="icons/store_facility/icon_group.png" class="facility-icon-size"></button>
+					<button class="facility-button" value="cnvfc_09"><img src="icons/store_facility/icon_room.png" class="facility-icon-size"></button>
 				</div>
 				
 				<div class="horizontal-line"></div>

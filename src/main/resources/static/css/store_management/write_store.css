@@ -123,12 +123,14 @@ textarea.component-write{
 	height: 80px;
 }
 
-.holiday-button:hover{
+.holiday-button:hover,
+.holiday-button.active{
 	border-radius: 20px;
 	border: 1px solid var(--color-main);
 	background-color: var(--color-sub);
 	color: white;
 }
+
 
 /* ================================================= */
 /* Store Picture Upload Session Components */
@@ -162,15 +164,25 @@ textarea.component-write{
 /* ================================================= */
 /* Facility Choice Button -> 마찬가지로 토글 형식 생각 필요 */
 .facility-button{
+	border: 1px solid var(--color-main);
+	border-radius: 10px;
 	background-color: white;
-	width: 50px;
-	height: 50px;
+	width: 60px;
+	height: 60px;
 }
 
-.facility-button:hover{
+.facility-icon-size{
+	width: 100%;
+	height: 100%;
+}
+
+
+.facility-button:hover,
+.facility-button.active{
 	background-color: var(--color-sub);
 	color: white;
 }
+
 
 /* ================================================= */
 /* Ingredient Upload Session Components */
