@@ -158,6 +158,9 @@ textarea::-webkit-resizer {
 .page-selector-layout{
 	margin-top: 50px;
 	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }
 
 .d-flex {
@@ -173,19 +176,27 @@ textarea::-webkit-resizer {
 }
 
 .page-selector{
+	text-align: center;
 	border: none;
-	background-color: #FFFFFF;
-	color: #FABFBF;
+	background-color: white;
+	color: var(--color-main);
 	font-weight: bold;
 	width: 30px;
 	margin: 0px 5px;	
+	text-decoration: none;
 }
 
+.page-selector:not(:disabled):hover{
+	background-color: var(--color-main);
+	color: white;
+	cursor: pointer;
+}
 
 .page-selector:disabled{
-	border: 2px solid var(--color-main);
+	color: gray;
 	border-radius: 10px;
 	text-decoration: none;
+	cursor: auto;
 }
 
 
