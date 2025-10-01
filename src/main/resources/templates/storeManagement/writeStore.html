@@ -12,7 +12,7 @@
 		<div layout:fragment="Content">
 			
 			
-			<div class="write-store-layout">
+			<form action="/write_store" method="post" class="write-store-layout" enctype="multipart/form-data">
 				
 				<div class="d-flex flex-row justify-content-center">
 					<h1>매장 정보 등록</h1>	
@@ -39,7 +39,7 @@
 				
 				<div class="component-layout-row">
 					<label for="store_account_number" inputmode="numeric" class="input-label"><b>*매장 계좌번호</b></label>
-					<input type="text" class="component-write" placeholder="매장 계좌번호 - 숫자만 입력하세요." id="store_account_number" name="store_account_number">
+					<input type="text" class="component-write" placeholder="매장 계좌번호 - 숫자만 입력하세요." id="account_number" name="account_number">
 						
 					<select name="store_account_bank" class="select-box">
 						<option>국민은행</option>
@@ -55,7 +55,7 @@
 				<div class="component-layout-row">
 					<label for="post_code" class="input-label"><b>*우편 번호</b></label>
 					<input type="text" class="component-write" placeholder="우편 번호" id="post_code" name="post_code" readonly>	
-					<button class="positive-button" id="address_button">주소 선택</button>
+					<button type="button" class="positive-button" id="address_button">주소 선택</button>
 				</div>
 				
 				<div class="component-layout-row">
@@ -72,12 +72,12 @@
 				
 				<div class="component-layout-row">
 					<label for="total_seat" class="input-label"><b>*총 좌석 수</b></label>
-					<input type="text" class="component-write" placeholder="매장 내 총 좌석수 입력" id="total_seat" name="total_seat">	
+					<input type="text" class="component-write" placeholder="매장 내 총 좌석수 입력" id="store_seat" name="store_seat">	
 				</div>
 								
 				<div class="component-layout-row">
 					<label for="reservation_deposit" class="input-label"><b>예약금 설정</b></label>
-					<input type="text" class="component-write" placeholder="예약금 입력" id="reservation_deposit" name="reservation_deposit">	
+					<input type="text" class="component-write" placeholder="예약금 입력" id="deposite" name="deposite">	
 					<b>원</b>
 				</div>
 				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 예약금을 받지 않을 예정이면, 0을 입력하세요.</label>
@@ -88,7 +88,7 @@
 				</div>
 				
 				<div class="component-layout-row">
-					<textarea type="text" class="component-write" placeholder="" id="store_description" name="store_description"></textarea>
+					<textarea type="text" class="component-write" placeholder="" id="store_content" name="store_content"></textarea>
 				</div>
 				
 				<div class="horizontal-line"></div>
@@ -137,13 +137,13 @@
 				
 				<div class="component-layout-row">
 					<input type="hidden" name="holidays" id="holidays">
-					<button class="holiday-button" value="srhd_01">월</button>
-					<button class="holiday-button" value="srhd_02">화</button>
-					<button class="holiday-button" value="srhd_03">수</button>
-					<button class="holiday-button" value="srhd_04">목</button>
-					<button class="holiday-button" value="srhd_05">금</button>
-					<button class="holiday-button" value="srhd_06">토</button>
-					<button class="holiday-button" value="srhd_07">일</button>	
+					<button type="button" class="holiday-button" value="srhd_01">월</button>
+					<button type="button" class="holiday-button" value="srhd_02">화</button>
+					<button type="button" class="holiday-button" value="srhd_03">수</button>
+					<button type="button" class="holiday-button" value="srhd_04">목</button>
+					<button type="button" class="holiday-button" value="srhd_05">금</button>
+					<button type="button" class="holiday-button" value="srhd_06">토</button>
+					<button type="button" class="holiday-button" value="srhd_07">일</button>	
 				</div>
 				
 				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 필수 선택 사항이 아닙니다.</label>
@@ -153,7 +153,7 @@
 				<!-- 매장 사진 업로드 영역 -->
 				<div class="component-layout-row">
 					<label class="title-label"><h4>매장 사진 업로드</h4></label>
-					<button class="positive-button" id="sp_upload">사진 업로드</button>
+					<button class="positive-button" type="button" id="sp_upload">추가</button>
 					
 					<!-- 상점 사진 임시로 담는 곳 -->
 					<div id="store_picture_input" style="display:none;"></div>
@@ -163,7 +163,7 @@
 					
 					<div class="store_picture_element">
 						<i class="bi bi-trash fs-4 sp-remove-bt"></i>
-						<label><b>Picture Names - UUID 12345678 - 1번 사진</b></label>
+						<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
 					</div>
 					
 				</div>
@@ -390,15 +390,15 @@
 
 				<div class="component-layout-row">
 					<input type="hidden" name="store_facilities" id="store_facilities">
-					<button class="facility-button" value="cnvfc_01"><img src="icons/store_facility/icon_power.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_02"><img src="icons/store_facility/icon_kid_allow.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_03"><img src="icons/store_facility/icon_pet.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_04"><img src="icons/store_facility/icon_nokid.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_05"><img src="icons/store_facility/icon_wifi.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_06"><img src="icons/store_facility/icon_parking.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_07"><img src="icons/store_facility/icon_wheel_chair.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_08"><img src="icons/store_facility/icon_group.png" class="facility-icon-size"></button>
-					<button class="facility-button" value="cnvfc_09"><img src="icons/store_facility/icon_room.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_01"><img src="icons/store_facility/icon_power.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_02"><img src="icons/store_facility/icon_kid_allow.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_03"><img src="icons/store_facility/icon_pet.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_04"><img src="icons/store_facility/icon_nokid.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_05"><img src="icons/store_facility/icon_wifi.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_06"><img src="icons/store_facility/icon_parking.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_07"><img src="icons/store_facility/icon_wheel_chair.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_08"><img src="icons/store_facility/icon_group.png" class="facility-icon-size"></button>
+					<button type="button" class="facility-button" value="cnvfc_09"><img src="icons/store_facility/icon_room.png" class="facility-icon-size"></button>
 				</div>
 				
 				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 필수 선택 사항이 아닙니다.</label>
@@ -408,7 +408,7 @@
 				<!-- 식자제 정보 작성 영역 -->
 				<div class="component-layout-row">
 					<label class="title-label"><h4>*식자재 정보</h4></label>
-					<button class="positive-button" id="ing_upload">정보 추가</button>
+					<button type="button" class="positive-button" id="ing_upload">정보 추가</button>
 				</div>
 
 				<div class="ingredient-layout">	
@@ -423,17 +423,17 @@
 						<div class="ingredient-element">
 							<div class="ingredient-element-row">
 								<label class="ingredient-label"><b>재료명</b></label>
-								<input type="text" class="component-write" placeholder="재료 명을 입력하세요.">	
+								<input type="text" data-field="ingredients_name" class="component-write" placeholder="재료 명을 입력하세요.">	
 							</div>
 							
 							<div class="ingredient-element-row">
 								<label class="ingredient-label"><b>원산지</b></label>
-								<input type="text" class="component-write" placeholder="재료의 원산지를 입력하세요.">	
+								<input type="text" data-field="ingredients_origin" class="component-write" placeholder="재료의 원산지를 입력하세요.">	
 							</div>
 							
 							<div class="ingredient-element-row">
 								<label class="ingredient-label"><b>알레르기 정보</b></label>
-								<input type="text" class="component-write" placeholder="해당 재료의 알레르기 정보를 입력하세요.">	
+								<input type="text" data-field="allergy" class="component-write" placeholder="해당 재료의 알레르기 정보를 입력하세요.">	
 							</div>
 						</div>
 					</div>
@@ -529,10 +529,9 @@
 				<!-- 매장 메뉴 등록 영역 -->
 				<div class="component-layout-row">
 					<label class="title-label"><h4>*메뉴 등록</h4></label>
-					<button class="positive-button" id="menu_upload">메뉴 추가</button>
+					<button type="button" class="positive-button" id="menu_upload">메뉴 추가</button>
 				</div>
 				
-				<!-- 메뉴 입력 요소들 들어갈 DIV, TODO: Layout CSS 정의 필요함. -->
 				<div class="menu-layout">	
 															
 					<!-- Example Menu (1) -->
@@ -546,28 +545,28 @@
 							
 							<div class="d-flex flex-column align-items-center gap-3">
 								<img src="icons/icon_store_profile.png" class="menu-image-size">
-								<button class="positive-button">사진 업로드</button>
+								<label class="positive-button">메뉴 사진 추가<input type="file" data-field="menu_picture" accept=".jpg, .jpeg, .png" hidden></label>
 							</div>
 							
 							<div class="menu-element">
 								<div class="menu-element-row">
 									<label class="menu-label"><b>음식명</b></label>
-									<input type="text" class="component-write" placeholder="재료 명을 입력하세요.">	
+									<input type="text" data-field="menu_name" class="component-write" placeholder="메뉴 명을 입력하세요.">	
 								</div>
 								
 								<div class="menu-element-row">
 									<label class="menu-label"><b>가격</b></label>
-									<input type="text" class="component-write" placeholder="재료의 원산지를 입력하세요.">	
+									<input type="text" data-field="price" class="component-write" placeholder="메뉴 가격을 작성하세요..">	
 								</div>
 								
 								<div class="menu-element-row">
 									<label class="menu-label"><b>설명</b></label>
-									<textarea type="text" class="component-write menu-description-size"></textarea>
+									<textarea type="text" data-field="menu_content" class="component-write menu-description-size"></textarea>
 								</div>
 								
 								<div class="menu-element-row">
 									<label class="menu-label"><b>중량</b></label>
-									<input type="text" class="component-write menu-weight-size" placeholder="단위: (g)">
+									<input type="text" data-field="menu_gram" class="component-write menu-weight-size" placeholder="단위: (g)">
 									<b>(g)</b>
 								</div>
 
@@ -577,7 +576,6 @@
 
 					</div>
 
-					
 				<!-- End -->
 				</div>
 				
@@ -585,19 +583,20 @@
 				
 				<div class="component-layout-row">
 					<label class="title-label"><h5>메뉴판 사진 업로드</h5></label>
-					<button class="positive-button">사진 업로드</button>
+					<button type="button" class="positive-button">사진 업로드</button>
 				</div>
 				
 				<br>
 				
 				<!-- 취소, 전송 버튼 -->
 				<div class="d-flex flex-row justify-content-center gap-5">
-					<button class="negative-button" id="test_bt">Test</button>
-					<button class="negative-button" onclick="history.back()">취소</button>
-					<button class="positive-button" onclick="location.href='store_reservation_list'">등록</button>
+					<button type="button" class="negative-button" id="test_bt">Test</button>
+					<button type="button" class="negative-button" onclick="history.back()">취소</button>
+<!--					<button class="positive-button" onclick="location.href='store_reservation_list'">등록</button>-->
+					<button class="positive-button" id="submit_bt">등록</button>
 				</div>
 				
-			</div>
+			</form>
 			
 			
 		</div>

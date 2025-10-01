@@ -1,7 +1,14 @@
 package com.itwillbs.qtable.controller.storeManagement;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.itwillbs.qtable.vo.storeManagement.StoreVO;
 
 @Controller
 public class StoreManagementController {
@@ -16,9 +23,24 @@ public class StoreManagementController {
 	/* ================================================= */
 	/* 매장 등록/수정 페이지 */
 	@GetMapping("/write_store")
-	public String wirteStore() {
+	public String wrtieStore() {
 		return "storeManagement/writeStore";
 	}
+	
+	/* 매장 등록 Post */
+	@PostMapping("/write_store")
+	public String inserNewStore(@ModelAttribute  StoreVO storeVO) {
+		
+		System.out.println("Check Write Store Submit -> Done");
+		System.out.println(storeVO.toString());
+
+		
+		return "redirect:store_reservation_list";
+	}
+	
+	
+	
+	
 
 	/* ================================================= */
 	/* 예약 목록 페이지 */

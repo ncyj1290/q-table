@@ -26,7 +26,7 @@ $(function() {
 		$el.val(inputVal.replace(/[^-0-9]/g, ""));
 	}
 	
-
+	
 	/* ==================================== */
 	/* 주소 입력 */
 	/* ==================================== */
@@ -53,7 +53,7 @@ $(function() {
 	/* 매장 계좌번호 */
 	/* ==================================== */
 	/* 숫자 제외 입력 거부 */
-	$("#store_account_number").on("keyup", function(){
+	$("#account_number").on("keyup", function(){
 		onlyNumHandler($(this));
 	});
 	
@@ -61,7 +61,7 @@ $(function() {
 	/* 총 좌석 수 */
 	/* ==================================== */
 	/* 숫자 제외 입력 거부 */
-	$("#total_seat")	.on("keyup", function(){
+	$("#store_seat").on("keyup", function(){
 		onlyNumHandler($(this));
 	});
 
@@ -69,12 +69,10 @@ $(function() {
 	/* 예약금 */
 	/* ==================================== */
 	/* 숫자 제외 입력 거부 */
-	$("#reservation_deposit").on("keyup", function(){
+	$("#deposite").on("keyup", function(){
 		onlyNumHandler($(this));
 	});
 	
-	
-
 	/* ==================================== */
 	/* 매장 운영 시간 */
 	/* ==================================== */
@@ -87,7 +85,6 @@ $(function() {
 		$("#open_time").prop("disabled", isChecked);
 		$("#close_time").prop("disabled", isChecked);
 	});
-	
 	
 	/* ==================================== */
 	/* 휴일 선택 */
@@ -105,7 +102,6 @@ $(function() {
 		
 		$("#holidays").val(selected.join(",")); 
 	});
-	
 	
 	/* ==================================== */
 	/* 매장 이미지 */
@@ -125,7 +121,7 @@ $(function() {
 		const htmlCode = $(`
 			<div class="store_picture_element">
 				<i class="bi bi-trash fs-4 sp-remove-bt"></i>
-				<label><b>Picture Names - UUID 12345678 - ${totalPictures + 1}번 사진</b></label>
+				<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
 			</div>
       	`);
 		
@@ -138,7 +134,6 @@ $(function() {
 		const $element = $(this).closest(".store_picture_element");
 		$element.remove();
 	});
-	
 	
 	/* ==================================== */
 	/* 편의 시설 */
@@ -157,7 +152,6 @@ $(function() {
 		$("#store_facilities").val(selected.join(",")); 
 	});
 	
-	
 	/* ==================================== */
 	/* 식자재 정보 */
 	/* ==================================== */
@@ -175,32 +169,43 @@ $(function() {
 				<div class="ingredient-element">
 					<div class="ingredient-element-row">
 						<label class="ingredient-label"><b>재료명</b></label>
-						<input type="text" class="component-write" placeholder="재료 명을 입력하세요.">	
+						<input type="text" data-field="ingredients_name" class="component-write" placeholder="재료 명을 입력하세요.">	
 					</div>
 					
 					<div class="ingredient-element-row">
 						<label class="ingredient-label"><b>원산지</b></label>
-						<input type="text" class="component-write" placeholder="재료의 원산지를 입력하세요.">	
+						<input type="text" data-field="ingredients_origin" class="component-write" placeholder="재료의 원산지를 입력하세요.">	
 					</div>
 					
 					<div class="ingredient-element-row">
 						<label class="ingredient-label"><b>알레르기 정보</b></label>
-						<input type="text" class="component-write" placeholder="해당 재료의 알레르기 정보를 입력하세요.">	
+						<input type="text" data-field="allergy" class="component-write" placeholder="해당 재료의 알레르기 정보를 입력하세요.">	
 					</div>
 				</div>
 			</div>
 		`)
 
 		$ingList.append(htmlCode);
-				
+		reindexIng();				
 	});
 	
 	/* 식자재 삭제 */
 	$ingList.on("click", ".ing-remove-bt", function(){
 		const $element = $(this).closest(".ingredient-layout-row");
 		$element.remove();
+		reindexIng();
 	});
 	
+	/* 매장 메뉴 목록 리인덱싱 */
+	function reindexIng(){
+		
+		$ingList.find(".ingredient-layout-row").each(function(i){
+			$(this).find("[data-field]").each(function(){
+				const field = $(this).data("field");
+				$(this).attr("name", `ingredientList[${i}].${field}`);
+			});
+		});
+	}
 	
 	/* ==================================== */
 	/* 매장 메뉴 */
@@ -221,31 +226,30 @@ $(function() {
 					
 					<div class="d-flex flex-column align-items-center gap-3">
 						<img src="icons/icon_store_profile.png" class="menu-image-size">
-						<button class="positive-button">사진 업로드</button>
+						<label class="positive-button">메뉴 사진 추가<input type="file" data-field="menu_picture" accept=".jpg, .jpeg, .png" hidden></label>
 					</div>
 					
 					<div class="menu-element">
 						<div class="menu-element-row">
 							<label class="menu-label"><b>음식명</b></label>
-							<input type="text" class="component-write" placeholder="재료 명을 입력하세요.">	
+							<input type="text" data-field="menu_name" class="component-write" placeholder="메뉴 명을 입력하세요.">	
 						</div>
 						
 						<div class="menu-element-row">
 							<label class="menu-label"><b>가격</b></label>
-							<input type="text" class="component-write" placeholder="재료의 원산지를 입력하세요.">	
+							<input type="text" data-field="price" class="component-write" placeholder="메뉴 가격을 작성하세요..">	
 						</div>
 						
 						<div class="menu-element-row">
 							<label class="menu-label"><b>설명</b></label>
-							<textarea type="text" class="component-write menu-description-size"></textarea>
+							<textarea type="text" data-field="menu_content" class="component-write menu-description-size"></textarea>
 						</div>
 						
 						<div class="menu-element-row">
 							<label class="menu-label"><b>중량</b></label>
-							<input type="text" class="component-write menu-weight-size" placeholder="단위: (g)">
+							<input type="text" data-field="menu_gram" class="component-write menu-weight-size" placeholder="단위: (g)">
 							<b>(g)</b>
 						</div>
-	
 					</div>
 	
 				</div>
@@ -254,14 +258,40 @@ $(function() {
 		`)
 	
 		$menuList.append(htmlCode);	
+		reindexMenu()
 	});
 	
 	/* 메뉴 정보 삭제 */
 	$menuList.on("click", ".menu-remove-bt", function(){
 		const $element = $(this).closest(".menu-layout-row");
 		$element.remove();
+		reindexMenu()
 	});
 	
+	/* 매장 메뉴 목록 리인덱싱 */
+	function reindexMenu(){
+		
+		$menuList.find(".menu-layout-row").each(function(i){
+			$(this).find("[data-field]").each(function(){
+				const field = $(this).data("field");
+				$(this).attr("name", `menuList[${i}].${field}`);
+			});
+		});
+	}
+	
+	
+	/* ==================================== */
+	/* Submit */
+	/* ==================================== */
+	/* Submit */
+	$("#submit_bt").on("click", function(){
+		
+		reindexMenu();
+		reindexIng();
+		
+		const form = $(".write-store-layout");
+		form.submit();
+	});
 	
 	/* ==================================== */
 	/* 검사 로직 모음 */
@@ -292,8 +322,8 @@ $(function() {
 				return;
 			}
 		}
-
 	}
 	
+	/* ==================================== */
 
 });
