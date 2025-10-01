@@ -4,22 +4,29 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>공통 코드 추가</title>
+	<title>공통 코드 추가 페이지</title>
 
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 	<link rel="stylesheet" href="plugins/fontawesome-free/css/all.css">
 	<link rel="stylesheet" href="css/admin/adminlte.css">
-	<link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
 </head>
 
 <body class="hold-transition sidebar-mini">
 
 	<th:block layout:fragment="content">
 
-		<div class="table-header">
-			<div class="table-title">공통 코드 추가</div>
-		</div>	
+		<div class="page-container">
+			<div class="table-header">
+				<div class="table-title">공통 코드 추가</div>
+			</div>
+		</div>
+
+		<script>
+			$(function () {
+				$('body').addClass('detail-page-layout');
+			});
+		</script>
 
 	</th:block>
 </body>

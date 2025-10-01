@@ -320,6 +320,14 @@ body.detail-page-layout .page-container {
     width: 100%;
 }
 
+.component-write {
+    border: 2px solid var(--color-main);
+    border-radius: 20px;
+    width: 25rem;
+    height: 2.5rem;
+    padding-left: 10px;
+}
+
 /* 오른쪽 프로필 박스 스타일 */
 .content .profile-card {
     display: flex;

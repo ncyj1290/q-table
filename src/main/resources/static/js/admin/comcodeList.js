@@ -10,8 +10,8 @@ $(function() {
             name: '관리', width: '25%',
             width: '150px',
             formatter: (cell, row) => {
-                const detailButton = `<button class="management-button">상세보기</button>`;
-                const deleteButton = `<button class="management-button">삭제</button>`;
+                const detailButton = `<button class="management-button status-change-btn">상세보기</button>`;
+                const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
                 return gridjs.html(detailButton + deleteButton);
             }
         }
