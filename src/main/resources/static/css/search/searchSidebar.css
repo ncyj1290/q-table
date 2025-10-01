@@ -125,11 +125,11 @@ section.part:last-child .selectedKeywords > div {
 	font-size: 20px;
 }
 
-#price {
+#price-range {
 	display: flex;
 	justify-content: space-between;
 }
-#price > span:first-child {
+#price-range > span:first-child {
 	width: 49.98px;
 }
 
