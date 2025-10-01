@@ -15,7 +15,7 @@
 <body class="hold-transition sidebar-mini">
 
 	<th:block layout:fragment="content">
-	
+
 		<div class="page-container">
 			<div class="table-header">
 				<div class="table-title">회원 / 매장 상세보기</div>
@@ -62,6 +62,26 @@
 									</div>
 								</div>
 							</div>
+							<div class="detail-grid">
+								<div class="detail-item2">
+									<label>매장 사진 파일</label>
+									<input type="text" class="component-write" readonly value="store_image.jpg">
+								</div>
+								<div class="detail-item2">
+									<label>매장 사진 파일</label>
+									<input type="text" class="component-write" readonly value="store_image.jpg">
+								</div>
+							</div>
+							<div class="detail-grid">
+								<div class="detail-item2">
+									<label>매장 사진 파일</label>
+									<input type="text" class="component-write" readonly value="store_image.jpg">
+								</div>
+								<div class="detail-item2">
+									<label>매장 사진 파일</label>
+									<input type="text" class="component-write" readonly value="store_image.jpg">
+								</div>
+							</div>
 						</div>
 
 						<div class="col-md-5">
@@ -84,8 +104,8 @@
 										<input type="text" class="component-write" readonly value="15개">
 									</div>
 									<div class="detail-item">
-										<label>매장 사진 파일</label>
-										<input type="text" class="component-write" readonly value="store_image.jpg">
+										<label>예약금</label>
+										<input type="text" class="component-write" readonly value="10,000원">
 									</div>
 									<div class="detail-item">
 										<label>매장 메뉴</label>
@@ -94,10 +114,6 @@
 									<div class="detail-item">
 										<label>매장 운영시간</label>
 										<input type="text" class="component-write" readonly value="11:00 ~ 22:00">
-									</div>
-									<div class="detail-item full-width">
-										<label>예약금</label>
-										<input type="text" class="component-write" readonly value="10,000원">
 									</div>
 								</div>
 							</div>
@@ -111,11 +127,11 @@
 				</div>
 			</section>
 		</div>
-		
+
 		<script>
-		  $(function() {
-		    $('body').addClass('detail-page-layout');
-		  });
+			$(function () {
+				$('body').addClass('detail-page-layout');
+			});
 		</script>
 
 	</th:block>

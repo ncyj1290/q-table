@@ -7,6 +7,7 @@
 body.detail-page-layout .wrapper .content-wrapper {
 	max-width: 1400px;
 	margin: 20px auto !important;
+	margin-right: 100px !important;
 	float: none !important;
 	border-radius: 8px;
 }
@@ -14,7 +15,7 @@ body.detail-page-layout .wrapper .content-wrapper {
 body.detail-page-layout .page-container {
 	max-width: 100%;
 	margin: 0;
-	padding: 60px;
+	padding: 20px;
 }
 
 
@@ -298,6 +299,12 @@ body.detail-page-layout .page-container {
     flex-direction: column;
 }
 
+.content .detail-item2 {
+    display: flex;
+    flex-direction: column;
+	margin-left: 30px;
+}
+
 .content .detail-item label {
     font-weight: bold;
     margin-bottom: 5px;
@@ -323,6 +330,7 @@ body.detail-page-layout .page-container {
     padding: 30px;
     border-radius: 20px;
     border: 1px solid #ccc;
+	margin-top: -40px;
 }
 
 .content .profile-img-large {

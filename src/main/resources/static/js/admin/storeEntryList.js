@@ -32,8 +32,8 @@ $(function() {
             width: '300px',
             formatter: (cell, row) => {
                 const detailButton = `<a href="/admin_detail" class="management-button">상세보기</a>`;
-                const statusButton = `<button class="management-button">입점 신청 관리</button>`;
-                const deleteButton = `<button class="management-button">삭제</button>`;
+                const statusButton = `<button class="management-button status-change-btn">입점 신청 관리</button>`;
+                const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
                 return gridjs.html(detailButton + statusButton + deleteButton);
             }
         }

@@ -16,9 +16,9 @@ $(function() {
             name: '관리', width: '45%',
             width: '250px',
             formatter: (cell, row) => {
-                const detailButton = `<button class="management-button">상세보기</button>`;
-                const statusButton = `<button class="management-button">회원 상태변경</button>`;
-                const deleteButton = `<button class="management-button">삭제</button>`;
+                const detailButton = `<a href="/admin_detail" class="management-button">상세보기</a>`;
+                const statusButton = `<button class="management-button status-change-btn">회원 상태변경</button>`;
+                const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
                 return gridjs.html(detailButton + statusButton + deleteButton);
             }
         }
