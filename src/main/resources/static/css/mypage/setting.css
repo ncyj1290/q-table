@@ -16,6 +16,10 @@
 	cursor: pointer;
 }
 
+a {
+  text-decoration: none;
+}
+
 .setting-title {
     color: var(--color-main);
 }
@@ -39,6 +43,7 @@
     font-size: 20px;
     border-bottom: 1px solid #f5f5f5;
     cursor: pointer;
+	color: var(--color-font);
 }
 
 /* 화살표 */

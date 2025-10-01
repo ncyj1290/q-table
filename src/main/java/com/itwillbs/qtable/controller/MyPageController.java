@@ -54,4 +54,10 @@ public class MyPageController {
 		
 		return "mypage/setting";
 	}
+	
+	@GetMapping("/card_edit")
+	public String cardEdit() {
+		
+		return "mypage/cardEdit";
+	}
 }

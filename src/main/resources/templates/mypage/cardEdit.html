@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/mypage/cardEdit.css}">
+	<script th:src="@{/js/mypage/card_edit.js}" defer></script>
+	<meta charset="UTF-8">
+	<title>카드 등록</title>
+</head>
+
+<body>
+	<div layout:fragment="Content">
+
+		<div class="card-title">카드 등록</div>
+		<div class="container">
+			<div class="card-row">
+				<div class="card-img">
+					<img src="/img/card.png" alt="카드이미지" />
+					<div class="card-info">
+						<h2>KB 국민 은행</h2>
+						<p>국민 은행 (7777)</p>
+					</div>
+				</div>
+				<div class="card-actions">
+					<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" onclick="togglePopup()" />
+				</div>
+			</div>
+
+			<!-- 팝업창 -->
+			<div id="popup" class="popup">
+				<p>결제 수단 삭제</p>
+				<div class="horizontal-line"></div>
+				<p>별명 설정</p>
+				<button class="positive-button" onclick="togglePopup()">닫기</buttonclas>
+			</div>
+			<div class="horizontal-line"></div>
+			<button class="positive-button" style="width: 170px; height: 30px; margin-top: 10px;">+ 카드 등록 하기</button>
+		</div>
+
+
+	</div>
+
+
+</body>
+
+</html>

@@ -5,6 +5,7 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageHistory.css}">
 	<meta charset="UTF-8">
 	<title>history</title>
@@ -63,7 +64,7 @@
 
 			<!-- 반복 -->
 		</div>
-
+		<div th:replace="mypage/pick :: mainnav"></div>
 	</div>
 
 </body>

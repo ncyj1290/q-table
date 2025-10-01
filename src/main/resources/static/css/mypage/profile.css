@@ -47,16 +47,19 @@
 .mypage_month{
 	width: 30px;
 	height: 30px;
+	cursor: pointer;
 }
 
 .mypage_messenger{
 	width: 30px;
 	height: 30px;
+	cursor: pointer;
 }
 
 .profile_settings{
 	width: 30px;
 	height: 30px;
+	cursor: pointer;
 }
 
 .nickname-box {
