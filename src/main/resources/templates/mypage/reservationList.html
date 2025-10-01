@@ -4,84 +4,53 @@
 <head>
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
-	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/reservationList.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
+	<script th:src="@{/js/mypage_main.js}" defer></script>
 	<meta charset="UTF-8">
-	<title>my_page</title>
+	<title>예약 현황</title>
 </head>
 
 <body>
 	<div layout:fragment="Content">
 		<div th:replace="mypage/profile :: mainnav"></div>
 		<div th:replace="mypage/mypageNav :: mainnav"></div>
-		
-		<div class="reservation-empty-container">
-		  <div class="reservation-header">
-		    <span class="reserve-label" onclick="reserveTab(this, 'visit')">방문예정</span>
-		    <span class="reserve-label">|</span>
-		    <span class="reserve-label" onclick="reserveTab(this, 'cancel')">취소</span>
-		  </div>
-		  
-		  <div class="reservation-list">
-		    <div class="reservation-card">
-		      <div class="reservation-img">
-		        <img src="/img/reservation_food.jpg" alt="음식사진1" />
-		      </div>
-		      <div class="reservation-info">
-		        <div class="reservation-header">
-		          <span class="reservation-title">bhc 서면점</span>
-		          <span class="reservation-star">
-		            <span class="star-icon">⭐</span>
-		            <span class="star-score">4.8</span>
-		          </span>
-		          <span class="reservation-listicon">
-		            <img src="/img/listicon.png" alt="리스트 아이콘" />
-		          </span>
-		        </div>
-		        <div class="reservation-desc">일본식 야끼니꾸 집</div>
-		        <div class="reservation-date">2025. 09. 21</div>
-		        <div class="reservation-buttons">
-		          <button type="button" class="positive-button">예약 취소</button>
-		          <button type="button" class="positive-button">예약 변경</button>
-		        </div>
-		      </div>
-		    </div>
-		    <div class="reservation-card">
-		      <div class="reservation-img">
-		        <img src="/img/review_photo2.jpg" alt="음식사진2" />
-		      </div>
-		      <div class="reservation-info">
-		        <div class="reservation-header">
-		          <span class="reservation-title">아웃백 서면점</span>
-		          <span class="reservation-star">
-		            <span class="star-icon">⭐</span>
-		            <span class="star-score">4.8</span>
-		          </span>
-		          <span class="reservation-listicon">
-		            <img src="/img/listicon.png" alt="리스트 아이콘" />
-		          </span>
-		        </div>
-		        <div class="reservation-desc">스테이크 전문 패밀리 레스토랑</div>
-		        <div class="reservation-date">2025. 05. 21</div>
-		        <div class="reservation-buttons">
-		          <button type="button" class="positive-button">예약 취소</button>
-		          <button type="button" class="positive-button">예약 변경</button>
-		        </div>
-		      </div>
-		    </div>
-		    <div class="pagination">
-		      <span class="page-btn">1</span>
-		      <span class="page-btn">2</span>
-		      <span class="page-btn">3</span>
-		    </div>
-		  </div>
 
-		  
-		  
+		<div style="display: flex; align-items: center;">
+			<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
+			<div class="reservation-header">
+				<span class="reserve-label" onclick="reserveTab(this, 'visit')">방문예정</span>
+				<span class="reserve-label">|</span>
+				<span class="reserve-label" onclick="reserveTab(this, 'cancel')">취소</span>
+			</div>
 		</div>
-		<div th:replace="mypage/pick :: mainnav"></div>
-	</div>
+		
+		<div class="reservation-list">
 
+			<div class="reservation-item">
+				<img src="/img/food1.jpg" class="store-img" />
+				<div class="reservation-info">
+					<div class="store-title">
+						<div class="name-star-group">
+							<span class="store-name">야끼니꾸 서면점</span>
+							<span class="star">★ 4.8(647)</span>
+						</div>
+						<img src="/img/scrap_full.png" class="scrap-full" />
+					</div>
+					<span class="desc"> 신선한 고기와 다양한 일본식 소스를 즐길 수 있는 정통 야끼니꾸 전문점입니다.<br>
+						합리적인 가격과 아늑한 분위기로 가족, 친구, 연인 모두 만족할 수 있는 인기 맛집이에요.</span>
+					<span class="date">2025.09.21</span>
+					<div class="reservation-buttons">
+						<button class="negative-button" style="margin-right: 10px;">예약 취소</button>
+						<button class="positive-button">예약 변경</button>
+					</div>
+				</div>
+			</div>
+
+
+			<div th:replace="mypage/pick :: mainnav"></div>
+		</div>
+	</div>
 </body>
 
 </html>

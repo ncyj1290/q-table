@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypagePaymentHistory.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
+	<meta charset="UTF-8">
+	<title>scrap</title>
+</head>
+
+<body>
+	<div layout:fragment="Content">
+		<div th:replace="mypage/profile :: mainnav"></div>
+		<div th:replace="mypage/mypageNav :: mainnav"></div>
+		<div style="display: flex; align-items: center;">
+			<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
+			<span class="payment-label">결제 내역</span>
+		</div>
+
+		<div class="payment-list">
+
+			<div class="payment-item">
+				<img src="/img/food1.jpg" class="store-img" />
+				<div class="payment-info">
+					<div class="store-title">
+						<div class="name-star-group">
+							<span class="store-name">야끼니꾸 서면점</span>
+							<span class="star">★ 4.8(647)</span>
+						</div>
+					</div>
+					<span class="content">예약금 | 1000원</span>
+					<span class="content">우설 2개</span>
+					<span class="content">모듬 구이 1개</span>
+				</div>
+				<div class="payment-price">
+					<span class="price-label">결제 금액</span>
+					<div class="price-row">
+						<span class="price-old">20,000원</span>
+						<span class="price-new">18,000원</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div th:replace="mypage/pick :: mainnav"></div>
+	</div>
+
+</body>
+
+</html>

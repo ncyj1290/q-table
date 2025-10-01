@@ -7,38 +7,46 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageReview.css}">
 	<meta charset="UTF-8">
-	<title>my_page</title>
+	<title>review</title>
 </head>
 
 <body>
 	<div layout:fragment="Content">
 		<div th:replace="mypage/profile :: mainnav"></div>
 		<div th:replace="mypage/mypageNav :: mainnav"></div>
+		<div style="display: flex; align-items: center;">
+		  <img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
+		  <span class="review-label">리뷰</span>
+		</div>
 
-			<div class="review-header">
-				<div>
-					<span class="review-title">야끼니꾸 서면점</span>
-					<span class="stars">★ 4.6</span>
-					<span class="review-date">2025. 09. 21</span>
+
+		<div class="review-list">
+
+			<div class="review-item">
+				<div class="review-info">
+					<div class="store-title">
+						<div class="name-star-group">
+							<span class="store-name">야끼니꾸 서면점</span>
+							<span class="star">★ 4.8(647)</span>
+						</div>
+					</div>
+					<div class="review-image-row">
+						<img src="/img/review_photo.jpg" class="review-img" />
+						<img src="/img/review_photo2.jpg" class="review-img" />
+					</div>
+					<span class="content"> 너무 맛있어요!</span>
+					<span class="content"> 천상의 맛. 다음에 또 방문할게요</span>
+					<div class="date-row">
+						<span class="date">2025.09.21</span>
+						<div class="review-buttons">
+							<button class="negative-button">삭제</button>
+							<button class="positive-button">수정</button>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="review-media">
-				<img src="/img/review_photo.jpg" alt="음식사진1" />
-				<img src="/img/review_photo2.jpg" alt="음식사진2" />
-			</div>
-			<div class="review-content">
-				<span class="review-content-text">
-				   너무 맛있어요!<br />
-				   재방문 하고 싶은 맛집<br/>
-				   우설이 가장 맛있어요 추천!!!!
-				 </span>
-				<div class="card-buttons">
-					<button type="button" class="positive-button" 
-					<!--style="width: 135px; height: 40px; font-size: 22px; border-radius: 35px;"-->수정</button>
-					<button type="button" class="positive-button"
-					<!--style="width: 135px; height: 40px; font-size: 22px; border-radius: 35px;"-->삭제</button>
-				</div>
-			</div>
+
+		</div>
 	</div>
 
 </body>

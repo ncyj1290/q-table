@@ -14,6 +14,12 @@
 	<div layout:fragment="Content">
 		<div th:replace="mypage/profile :: mainnav"></div>
 		<div th:replace="mypage/mypageNav :: mainnav"></div>
+
+		<div style="display: flex; align-items: center;">
+			<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
+			<span class="scrap-label">스크랩</span>
+		</div>
+
 		<div class="search-box"
 			style="align-items: center; justify-content: center; display: flex;	 margin: 0 auto; margin-bottom: 10px; ">
 			<input type="text" placeholder="스크랩한 가게를 검색해보세요">

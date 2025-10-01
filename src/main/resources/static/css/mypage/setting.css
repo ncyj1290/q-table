@@ -1,0 +1,49 @@
+/* 전체 메인 */
+.setting-main {
+    max-width: 500px;
+    margin: 0 auto;
+    color: var(--color-font);
+}
+
+/* 뒤로가기 + 제목 */
+.back-and-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 20px 0;
+	cursor: pointer;
+}
+
+.setting-title {
+    color: var(--color-main);
+}
+
+/* 섹션 */
+.setting-section {
+    padding: 0 0 10px 0;
+}
+
+.setting-category {
+    font-size: 14px;
+    color: var(--color-placeholder);
+    margin: 10px 0 5px 10px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    font-size: 20px;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+}
+
+/* 화살표 */
+.setting-arrow {
+    color: var(--color-placeholder);
+	margin-left: 250px;
+}
+
