@@ -18,8 +18,21 @@ $(function() {
 		reset(this);
 		//쿼리스트링에서삭제 하느것도 해야함
 	});
+	
+	//모달 열기
+	$('.selectedKeywords').on('click', '.dashed-box', showModal);
+	//모달닫기 
+	$('.modal-overlay, .close-btn').on('click', function(e){
+		if ($(e.target).closest('.modal-content').length) return; 
+		$('#myCustomModal').removeClass('is-active');
+		$('#myCustomModal').addClass('is-hidden');
+	})
 });
 
+function showModal() {
+	$('#myCustomModal').removeClass('is-hidden');
+	$('#myCustomModal').addClass('is-active');
+}
 function priceUpdate(el) {
 	let isPrice = $(el).hasClass('priceKeyword');
 	let isActive = $(el).hasClass('active');

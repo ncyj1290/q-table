@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+/* 1. 모달 전체 (배경 오버레이) 스타일: 중앙 정렬 담당 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    
+    /* 중앙 정렬 스타일은 여기에 유지 */
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center;    /* 수직 중앙 정렬 */
+}
+
+/* 2. 모달을 숨기는 클래스 정의 */
+.is-hidden {
+    display: none !important; /* 🚨 Flexbox 스타일을 덮어쓰기 위해 !important 사용 */
+}
+
+.modal-header {
+	display:flex;
+	justify-content: flex-end;
+}
+
+.close-btn {
+	color:var(--color-main);
+	font-size:40px;
+}
+
+/* 3. 모달 내용 상자 스타일 */
+.modal-content {
+    background-color: #ffffff;
+    padding: 10px 60px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    max-width: 500px; /* 모달의 최대 너비 설정 */
+    width: 90%; /* 반응형을 위해 퍼센트와 max-width 사용 */
+}
+
+
+/* 🚨 JavaScript로 이 클래스를 추가/제거하여 모달을 보이게 합니다. */
+.modal-overlay.is-active {
+    display: flex; /* 숨김 처리된 display: none을 덮어쓰고 다시 보이게 함 */
+}

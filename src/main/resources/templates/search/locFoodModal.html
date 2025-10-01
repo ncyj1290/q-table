@@ -1,21 +1,13 @@
-<div th:fragment="locFoodModal" layout:fragment="content" class="modal fade" id="locFoodModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">모달 제목</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-        여기에 모달에 표시할 내용을 넣으세요.
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary">저장하기</button>
-      </div>
-
-    </div>
-  </div>
+<div th:fragment="locFoodModal" layout:fragment="content">
+	<div id="myCustomModal" class="modal-overlay is-hidden close-btn">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<span class="close-btn">x</span>
+			</div>
+	        <h3>커스텀 모달 창</h3>
+	        <p>제가 직접 만든 모달입니다!</p>
+	        
+	        <button id="closeModalBtn">닫기</button>
+	    </div>
+	</div>
 </div>
