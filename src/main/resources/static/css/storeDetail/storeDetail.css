@@ -5,10 +5,8 @@
 	display: flex;
 	gap: 20px;
 	justify-content: center;
-	margin: 0 auto;
 	max-width: 1400px;
 	padding: 0 50px;
-	margin-bottom: 10px
 }
 
 /* 왼쪽 콘텐츠 */
@@ -25,23 +23,6 @@
     align-self: flex-start;
 }
 
-.title-box {
-    background-color: var(--color-main);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 15px;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.form-box {
-    background-color: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 40px;
-}
 
 /* 통합 콘텐츠 박스 */
 .unified-content {
@@ -79,31 +60,20 @@
 /* ================================== */
 
 /* 식당 헤더 (이미지 + 정보) */
-.restaurant-header {
+.store-header {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
-/* 식당 정보 텍스트 영역 */
-.restaurant-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    margin-left: 50px;
-}
-
 /* 식당 대표 이미지 */
-.restaurant-image {
+.store-image {
     position: relative;
     width: 400px;
     height: 400px;
 }
 
-.restaurant-image img {
+.store-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -138,11 +108,17 @@
     font-size: 12px;
 }
 
-.restaurant-info {
+.store-info {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    margin-left: 50px;
 }
 
-.restaurant-name {
+.store-name {
     font-size: 28px;
     font-weight: bold;
     margin: 0;
@@ -228,7 +204,6 @@
 }
 
 .tag {
-/*     background-color: #eee; */
 	border: 1px solid var(--color-main);
     padding: 5px 10px;
     border-radius: 15px;
@@ -262,10 +237,6 @@
 /* ================================== */
 /* 메뉴 섹션 */
 /* ================================== */
-.menu-section .form-box {
-    padding-top: 20px;
-}
-
 /* 메뉴판 이미지들 */
 .menu-images {
     display: flex;
@@ -348,10 +319,6 @@
 /* ================================== */
 /* 리뷰 섹션 */
 /* ================================== */
-.review-section .form-box {
-    padding-top: 20px;
-}
-
 /* 리뷰 컨트롤 (정렬 + 작성버튼) */
 .review-controls {
     display: flex;
@@ -487,10 +454,8 @@
 /* 예약 달력 */
 /* ================================== */
 .calendar-container {
-    background-color: white;
     padding: 20px;
     border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border: 2px solid var(--color-main);
     margin-bottom: 40px;
 }
@@ -630,7 +595,6 @@
 }
 
 .modal-content {
-    background-color: white;
     margin: 10% auto;
     padding: 30px;
     border-radius: 15px;
@@ -676,10 +640,8 @@
     padding: 10px;
     border: 2px solid var(--color-main);
     border-radius: 8px;
-    resize: vertical;
     font-family: inherit;
     box-sizing: border-box;
-    color: var(--color-font);
 }
 
 .modal-content textarea:focus {
@@ -692,12 +654,6 @@
     padding: 8px;
     border: 2px solid var(--color-main);
     border-radius: 8px;
-    color: var(--color-font);
-}
-
-.modal-content input[type="file"]:focus {
-    border-color: var(--color-focus);
-    outline: none;
 }
 
 .modal-content .stars {
@@ -713,10 +669,6 @@
 .modal-content .star:hover,
 .modal-content .star.filled {
     color: var(--color-star);
-}
-
-.modal-content .star.filled {
-    content: '★';
 }
 
 /* 예약 폼 */
