@@ -15,10 +15,58 @@
 <body class="hold-transition sidebar-mini">
 
 	<th:block layout:fragment="content">
+		<div class="wide-input-page-wrapper">
+			<div class="page-container">
+				<div class="table-header">
+					<div class="table-title">공통 코드 추가</div>
+				</div>
+			</div>
 
-		<div class="page-container">
-			<div class="table-header">
-				<div class="table-title">공통 코드 추가</div>
+			<div class="form-section">
+				<h2>공통코드 그룹 추가</h2>
+				<div class="form-group">
+					<label>그룹 ID</label>
+					<input type="text" class="component-write">
+				</div>
+				<div class="form-group">
+					<label>그룹명</label>
+					<input type="text" class="component-write">
+				</div>
+				<div class="form-group">
+					<label>설명</label>
+					<input type="text" class="component-write">
+				</div>
+				<div class="button-group-left">
+					<a href="#" class="positive-button">그룹 저장</a>
+				</div>
+			</div>
+
+			<div class="form-section">
+				<h2>공통 코드 추가</h2>
+				<table class="editable-table">
+					<thead>
+						<tr>
+							<th>그룹 ID</th>
+							<th>코드 ID</th>
+							<th>코드명</th>
+							<th>부모코드 ID</th>
+							<th>관리</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="text" value="그룹 ID"></td>
+							<td><input type="text" value="코드 ID"></td>
+							<td><input type="text" value="코드명"></td>
+							<td><input type="text" value="부모코드 ID"></td>
+							<td><button class="negative-button">삭제</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="button-group-left">
+					<a href="#" class="positive-button" id="add-row-btn">행 추가</a>
+					<a href="#" class="positive-button">코드 저장</a>
+				</div>
 			</div>
 		</div>
 

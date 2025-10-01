@@ -328,6 +328,11 @@ body.detail-page-layout .page-container {
     padding-left: 10px;
 }
 
+.wide-input-page-wrapper .component-write {
+	width: 60rem;
+	height: 3rem;
+}
+
 /* 오른쪽 프로필 박스 스타일 */
 .content .profile-card {
     display: flex;
@@ -360,4 +365,86 @@ body.detail-page-layout .page-container {
     justify-content: center;
     gap: 10px;
     margin-top: 30px;
+}
+
+/* --- 공통코드 추가 페이지 스타일 --- */
+
+/* 섹션 구분 */
+.form-section {
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 10px;
+	margin-left: 170px;
+	margin-right: 170px;
+}
+
+.form-section h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 폼 그룹 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* 버튼 그룹 정렬 */
+.button-group-right {
+    text-align: right;
+    margin-top: 20px;
+}
+.button-group-left {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* --- 편집 가능한 테이블 스타일 --- */
+.editable-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* 테이블 헤더  */
+.editable-table th {
+    background-color: var(--color-font-negative) !important;
+    color: var(--color-font-positive) !important;
+    text-align: center;
+    padding: 15px !important;
+    border: none !important;
+}
+
+/* 테이블 셀 */
+.editable-table td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.editable-table input[type="text"] {
+    width: 100%;
+    border: 1px solid transparent;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    transition: border 0.2s;
+}
+
+/* 테이블 안의 입력창에 포커스될 때 */
+.editable-table input[type="text"]:focus {
+    outline: none;
+    border: 1px solid var(--color-main);
+}
+
+/* 테이블 안의 삭제 버튼 크기 조절 */
+.editable-table .negative-button.small {
+    padding: 4px 10px;
+    font-size: 0.8rem;
 }
