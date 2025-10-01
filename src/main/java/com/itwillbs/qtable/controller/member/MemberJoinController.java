@@ -10,6 +10,6 @@ import lombok.RequiredArgsConstructor;
 public class MemberJoinController {
 	@GetMapping("/member_join")
 	public String member_join(){
-		return "memberJoin";
+		return "member/memberJoin";
 	}
 }
