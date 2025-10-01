@@ -37,3 +37,31 @@
 	height: 40px;
 	margin-right: 8px;
 }
+
+.profile-icons {
+	display: flex;
+	gap: 20px;
+	margin-bottom: 5px;	
+}
+
+.mypage_month{
+	width: 30px;
+	height: 30px;
+}
+
+.mypage_messenger{
+	width: 30px;
+	height: 30px;
+}
+
+.profile_settings{
+	width: 30px;
+	height: 30px;
+}
+
+.nickname-box {
+  display: flex;
+  justify-content: space-between;  
+  align-items: center; 
+  width: 100%;
+}
