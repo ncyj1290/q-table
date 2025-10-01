@@ -3,6 +3,7 @@ h2{
 	font-weight: bold;
 	text-align: center;
 	margin-bottom: 30px;
+	
 }
 .charge-amount-group{
   display: flex;
@@ -15,13 +16,13 @@ h2{
   display: flex;
   flex-direction: row; 
   align-items: center;
-  text-align: center;
   justify-content: center;
   gap: 6px;
   width: 15em;
   height: 30%;
   font-size: 20px;
   font-weight: bold;
+  color: var(--color-font);
 }
 
 .qmoney-icon {
@@ -48,32 +49,47 @@ h2{
     justify-content: center;
     align-items: center;
     height: 10vh; /* 부모 높이 */
+	padding-bottom: 30px;
+	padding-top: 10px;
 }
 
 .payment-method-row .form-noshadow {
-	height: 85%;
+	height: 70%;
     width: 95%;
     align-self: center;
+	border-radius: 10px;
 }
 
 .pay-icon-row {
     display: flex;
 	justify-content: space-around;
-    align-items: center;          /* 수직 중앙 정렬 */
-    gap: 10px;                   /* 아이콘 사이 간격 */
+    align-items: center;         
+    gap: 10px;       
+	margin-top: -10px;  
+	margin-bottom: 20px;          
 }
 
 .pay-icon-items {
     display: flex;
     flex-direction: column; /* 세로 방향 */
     align-items: center;    /* 가로 중앙 정렬 */
+	color: var(--color-placeholder);
+	font-family: 'Roboto', sans-serif;
 }
 
 
-.form-noshadow.img-button img{
-	width: 30px;
-	height: 30px;
-	
+.form-noshadow.img-button img.kakao_pay{
+	width: 45%;
+	 height: 50%;
+}
+.form-noshadow.img-button img.naver_pay {
+  width: 50%;
+  height: 50%;
+}
+
+.form-noshadow.img-button img.toss_pay {
+	width: 70%;
+	height: 70%;
 }
 
 .form-noshadow.img-button {
@@ -82,4 +98,23 @@ h2{
 	padding: 4px;
   	padding-left: 2px;
   	padding-right: 2px;
+}
+
+#big-select {
+  width: 95%;
+  height: 7%;
+  margin-left: 25px;
+  border-radius: 10px;
+  margin-bottom: 20px; 
+  font-size: 25px;
+  text-align: center ;
+  align-items: center;
+}
+
+#refund-policy{
+	background-color: var(--color-sub);	
+	font-size: 25px;
+	padding-left: 15px;
+	font-weight: bold;
+	
 }
