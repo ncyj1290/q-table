@@ -60,4 +60,10 @@ public class MyPageController {
 		
 		return "mypage/cardEdit";
 	}
+	
+	@GetMapping("/member_delete")
+	public String memberDelete() {
+		
+		return "mypage/memberDelete";
+	}
 }

@@ -1,0 +1,34 @@
+.memberdelete-container {
+    position: relative; /* 자식 요소 위치 기준 */
+    width: 100%;
+	height: 120%;
+    max-width: 1000px;
+    margin: -70px auto 0 auto;
+}
+
+.memberdelete-container img {
+    width: 100%;
+    display: block; /* 이미지 아래 여백 제거 */
+}
+
+.memberdelete-text {
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    font-size: 45px;
+    font-weight: bold;
+}
+.delete-text {
+    position: absolute;
+    max-width: 75%;
+    top: 17%;
+    left: 16%;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.memberdelete-check{
+	margin-top: 20px;
+}
