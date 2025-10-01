@@ -36,9 +36,22 @@ public class MyPageController {
 		return "mypage/reservationList";
 	}	
 	
+	@GetMapping("/reservation_cancel")
+	public String reservationCancel() {
+		
+		return "mypage/reservationCancel";
+	}	
+	
+	
 	@GetMapping("/qmoney_charge")
 	public String qmoneycharge() {
 		
 		return "mypage/qmoneyCharge";
+	}
+	
+	@GetMapping("/setting")
+	public String setting() {
+		
+		return "mypage/setting";
 	}
 }
