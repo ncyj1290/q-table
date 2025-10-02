@@ -1,21 +1,175 @@
 .profilesettings-container {
-    position: relative; /* 자식 요소 위치 기준 */
-    width: 100%;
-	height: 120%;
-    max-width: 1000px;
-    margin: -70px auto 0 auto;
+	position: relative; /* 자식 요소 위치 기준 */
+	 width: 100%;
+	 max-width: 1000px;
+	 margin: -70px auto 0 auto;
 }
 
 .profilesettings-container img {
-    width: 100%;
-    display: block; /* 이미지 아래 여백 제거 */
+	width: 90%; /* 100% 에서 80%로 줄임 */
+		display: block;
+		margin-top: 85px;
+		margin-left: auto;  /* 가로 중앙정렬 추가 */
+		margin-right: auto;
 }
 
 .profilesettings-text {
-    position: absolute;
-    top: 13%;
+	position: absolute;
+    top: 8%;
     left: 50%;
     transform: translate(-50%, -10%);
-    font-size: 45px;
+    font-size: 40px;
     font-weight: bold;
 }
+
+.dotted-line {
+  border-bottom: 3px dotted #222; /* 하단 점선 */
+  width: 100%;
+  height: 0;
+  margin: 24px 0;
+}
+
+
+
+
+.profile-row {
+  display: flex;
+  gap: 36px;
+  align-items: flex-start;
+  margin: 24px 0 24px 0;
+}
+
+.profile-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.profile-image img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #F68686;
+  margin-bottom: 8px;
+}
+
+.profile-nickname {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.profile-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-field label {
+  min-width: 70px;
+  font-size: 13px;
+  color: #555;
+}
+
+.profile-field input {
+  flex: 1;
+  padding: 6px 14px;
+  border: 1.5px solid #F68686;
+  border-radius: 15px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.change-btn {
+  background: #F68686;
+  color: white;
+  border: none;
+  padding: 5px 17px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dotted-line {
+  border: none;
+  border-top: 2px dotted #F68686;
+  width: 100%;
+  margin: 18px 0;
+}
+
+.food-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #222;
+  margin: 16px 0 8px 0;
+}
+
+.food-prefs-wrapper {
+  padding: 8px 22px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1.5px solid #eee;
+  width: 90%;
+  margin: 0 auto 18px auto;
+}
+
+.food-prefs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.tag {
+  background: #F68686;
+  color: #fff;
+  border-radius: 14px;
+  padding: 7px 22px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.barcode-area {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 18px 0;
+}
+.barcode-img {
+  height: 56px;
+}
+
+.save-btn-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.save-btn {
+  background: #F68686;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  padding: 12px 0;
+  width: 300px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+

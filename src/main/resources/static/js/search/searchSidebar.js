@@ -7,7 +7,7 @@ $(function() {
 	initializePriceSlider();
 	
 	//키워드들 클릭했을때
-	$('.selectedKeywords:not(.no-toggle)').on('click', '.keyword', function() {
+	$('.keywords:not(.no-toggle)').on('click', '.keyword', function() {
 		toggleActive(this);//active 토글
 		priceUpdate(this);//가격 키워드 반영
 		//쿼리스트링 반영하는것도 짜야함 
@@ -19,20 +19,10 @@ $(function() {
 		//쿼리스트링에서삭제 하느것도 해야함
 	});
 	
-	//모달 열기
-	$('.selectedKeywords').on('click', '.dashed-box', showModal);
-	//모달닫기 
-	$('.modal-overlay, .close-btn').on('click', function(e){
-		if ($(e.target).closest('.modal-content').length) return; 
-		$('#myCustomModal').removeClass('is-active');
-		$('#myCustomModal').addClass('is-hidden');
-	})
+
 });
 
-function showModal() {
-	$('#myCustomModal').removeClass('is-hidden');
-	$('#myCustomModal').addClass('is-active');
-}
+
 function priceUpdate(el) {
 	let isPrice = $(el).hasClass('priceKeyword');
 	let isActive = $(el).hasClass('active');
@@ -49,7 +39,7 @@ function reset(el) {
 	const isNoReset = $(el).closest('.top').hasClass('no-reset');
 	const isPrice = $(el).closest('.top').hasClass('price');
 	if(isNoReset) {
-		const parentEl = $(el).closest('section.part').find('.selectedKeywords');
+		const parentEl = $(el).closest('section.part').find('.keywords');
 		parentEl.empty();
 		parentEl.append(`<span class="dashed-box">+ 키워드를 선택해주세요</span>`);
 		$(el).closest('section.part').find('.select').hide();
@@ -60,7 +50,7 @@ function reset(el) {
 }
 
 function toggleActive (el) {
-	const parentEl = $(el).closest('.selectedKeywords');
+	const parentEl = $(el).closest('.keywords');
 	if(parentEl.hasClass('single-choice')) $(el).siblings('.keyword').removeClass('active');
 	$(el).toggleClass('active');
 }
