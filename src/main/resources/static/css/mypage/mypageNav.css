@@ -15,6 +15,7 @@
 	text-decoration: none; 
 	color:inherit;
 	text-align: center;
+	width: auto;
 }
 
 .history-icon{
@@ -63,4 +64,5 @@
 	margin-top: 4px;
 	font-size: 12px;
 	font-weight: bold;
+	white-space: nowrap;
 }

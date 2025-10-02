@@ -12,9 +12,12 @@
 
 .recommend-cards {
   display: flex;
-  overflow-x: auto;
   gap: 10px;
   padding-bottom: 10px;
+  overflow-x: hidden;
+  overflow-y: visible;
+  width: calc(140px * 5 + 10px * 4);
+  scroll-behavior: smooth;
 }
 
 .card {
@@ -50,4 +53,10 @@
 .card .price {
   font-size: 13px;
   color: var(--color-placeholder);
+}
+
+/*스크롤 움직임 조절*/
+@keyframes scrollLoop {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
