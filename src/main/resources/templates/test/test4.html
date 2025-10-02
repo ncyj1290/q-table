@@ -9,28 +9,17 @@
 
 <body>
 	<div layout:fragment="Content">
+		<h2>업로드된 이미지 목록</h2>
 
-		<input type="checkbox" class="component-checkbox"> 체크박스 <br>
-		<input type="text" class="component-write"> 입력란<br>
-		<h2 class="title-box"> 타이틀 </h2><br> 
-	    <h2 class="form-box"> 박스</h2><br> 
-		
-		<h2 class="form-noshadow"> 박스2</h2><br> 
-	    <h2 class="search-box"> 검색</h2>
-		<img src="/img/background.png" alt="이미지설명" width="1300px" height="600px">
+		<div th:if="${uploadedFiles != null and uploadedFiles.length > 0}">
+			<div th:each="fileName : ${uploadedFiles}">
+				<img th:src="@{/upload/{filename}(filename=${fileName})}" style="width: 200px; height: 200px; object-fit: cover;">
+				<p th:text="${fileName}" style="font-size: 12px; word-break: break-all;"></p>
+			</div>
+		</div>
 
-
-		<div class="horizontal-line"></div>
-
-		<div class="select-box">
-			<select>
-				<option>옵션1</option>
-				<option>옵션2</option>
-				<option>옵션3</option>
-				<option>옵션4</option>
-				<option>옵션5</option>
-				<option>옵션6</option>
-			</select>
+		<div th:if="${uploadedFiles == null or uploadedFiles.length == 0}">
+			<p>업로드된 이미지가 없습니다.</p>
 		</div>
 	</div>
 
