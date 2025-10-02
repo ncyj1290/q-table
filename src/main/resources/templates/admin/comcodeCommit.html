@@ -37,7 +37,7 @@
 					<input type="text" class="component-write">
 				</div>
 				<div class="button-group-left">
-					<a href="#" class="positive-button">그룹 저장</a>
+					<input type="button" class="positive-button" value="그룹 저장">
 				</div>
 			</div>
 
@@ -55,17 +55,17 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" value="그룹 ID"></td>
-							<td><input type="text" value="코드 ID"></td>
-							<td><input type="text" value="코드명"></td>
-							<td><input type="text" value="부모코드 ID"></td>
+							<td><input type="text" placeholder="그룹 ID"></td>
+							<td><input type="text" placeholder="코드 ID"></td>
+							<td><input type="text" placeholder="코드명"></td>
+							<td><input type="text" placeholder="부모코드 ID"></td>
 							<td><button class="negative-button">삭제</button></td>
 						</tr>
 					</tbody>
 				</table>
 				<div class="button-group-left">
-					<a href="#" class="positive-button" id="add-row-btn">행 추가</a>
-					<a href="#" class="positive-button">코드 저장</a>
+					<button class="positive-button" id="add-row-btn">행 추가</button>
+					<button class="positive-button">코드 저장</button>
 				</div>
 			</div>
 		</div>
@@ -75,6 +75,7 @@
 				$('body').addClass('detail-page-layout');
 			});
 		</script>
+		<script th:src="@{/js/admin/comcodeCommit.js}"></script>
 
 	</th:block>
 </body>
