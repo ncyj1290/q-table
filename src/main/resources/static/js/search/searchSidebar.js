@@ -12,12 +12,15 @@ $(function() {
 		toggleActive(this);//active 토글
 		priceUpdate(this);//가격 키워드 반영
 		keywordUpdate(this);
+		
 		//쿼리스트링 반영하는것도 짜야함 
 	});
 	
 	//초기화 눌렀을때
 	$('.top').on('click','.reset', function() {
 		reset(this);
+		//다 삭제 했을때 키워드 목록창 가리기 
+		hideSelectedDiv();
 		//쿼리스트링에서삭제 하느것도 해야함
 	});
 	
@@ -38,12 +41,15 @@ $(function() {
 	//개별 키워드 삭제버튼 
 	$('.selectedKeywords').on('click', '.delete', function(){
 		deleteKeyword(this);
+		//다 삭제 했을때 키워드 목록창 가리기 
+		hideSelectedDiv();
 	})
 	
 	//휴지통 버튼 눌렀을때
 	$('.selectedKeywords').on('click', '#delete-all-btn', function(){
 		deleteAll()
-		$('.footer-modal').hide();
+		//다 삭제 했을때 키워드 목록창 가리기 
+		hideSelectedDiv();
 	})
 	
 });
@@ -52,6 +58,8 @@ $(function() {
 function reset(el) {
 	const isNoReset = $(el).closest('.top').hasClass('no-reset');
 	const isPrice = $(el).closest('.top').hasClass('price');
+	const isLocation = $(el).closest('.parent').is('#location');
+	const isFood = $(el).closest('.parent').is('#food');
 	if(isNoReset) {
 		const parentEl = $(el).closest('section.part').find('.keywords');
 		parentEl.empty();
@@ -60,18 +68,22 @@ function reset(el) {
 		return;	
 	}
 	if(isPrice) $('#price-slider')[0].noUiSlider.reset();
-	const activeTextsArray = $(el).closest('.parent').find('.active:not(.no-outline)')         
-	    						  .map(function() {return $(this).text().trim();})
-	    						  .get();                                  
 	$(el).closest('.parent').find('.keyword:not(.no-outline)').removeClass('active');
+	if(isLocation) $('.selectedKeywords').find('.location').detach();
+	if(isFood) $('.selectedKeywords').find('.food').detach();
+	
 }
 
-function deleteKeyword2() {
-	
+function hideSelectedDiv() {
+	//개별로 다 삭제 했을때 키워드 목록창 가리기 
+	let childCnt = $('.selectedKeywords').find('.selectedKeyword').length;
+	if(!childCnt) $('.footer-modal').hide();
 }
 
 function deleteKeyword(el) {
 	const parentEl = $(el).closest('.selectedKeyword');
+	
+	//배열을 돌면서 직접 매치되는것의 요소의 클래스 삭제 -> 백엔드 들어가면, vaule값으로 판별하는걸로 바꾸기
 	const keywordText = $(el).closest('.selectedKeyword').clone().find('.delete').remove()      
 							 .end().text().trim();                       
 	$('.keywords').find('.keyword').each(function() {
@@ -81,25 +93,31 @@ function deleteKeyword(el) {
 	});
 	parentEl.detach();
 	//개별로 다 삭제 했을때 키워드 목록창 가리기 
-	let childCnt = $('.selectedKeywords').find('.selectedKeyword').length;
-	if(!childCnt) $('.selectedKeywords').hide();
+	hideSelectedDiv();
 }
 
-//선택한 키워드에 반영하기 
+//(모달)선택한 키워드에 반영하기 
 function keywordUpdate(el) {
+	//모달에서 선택된것만 반영되게함
+	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
+	if(!isModalEvent) return;
+	//지역 대분류선택은 키워드 반영 막음
 	const isMainLocation = $(el).closest('.keywords').attr('id') == 'main-location' ;
 	if(isMainLocation) return;
-	$('.selectedKeywords').show(); 
+//	$('.selectedKeywords').show(); 
 	const keyword = $(el).text();
-	const selectedKeyword = `<span class="selectedKeyword active">${keyword}
+	//초기화 기능을 위해 food/location 클래스를 줘서 구분
+	const keywordClass = $(el).attr('class').split(' ')[1]; //keyword food or location 클래스
+	const selectedKeyword = `<span class="selectedKeyword active ${keywordClass}">${keyword}
 							 <span class="delete active">&times;</span></span>`
 	$('.selectedKeywords').append(selectedKeyword);
 }
 
 
-// 선택된 키워드 전부 삭제
+// 휴지통 버튼 눌렀을때: 선택된 키워드 전부 삭제, active 효과 다 지우기 
 function deleteAll() {
-	$('.selectedKeywords').empty()
+	$('.selectedKeywords').find('.selectedKeyword').detach();
+	$('.active:not(.no-outline)').removeClass('active');
 }
 
 // 모달 열기
