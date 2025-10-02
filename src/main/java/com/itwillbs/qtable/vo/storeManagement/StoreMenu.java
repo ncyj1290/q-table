@@ -19,5 +19,5 @@ public class StoreMenu {
 	/* 메뉴 사진 */
 	private MultipartFile menu_picture;
 	/* 사진 경로 */
-	private String menu_picture_path;
+	private String image_url;
 }
