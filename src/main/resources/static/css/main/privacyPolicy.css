@@ -14,18 +14,18 @@
 	
 .overlay-texth1 {
     position: absolute;
-    top: 16%;
+    top: 10%;
     left: 50%;
     transform: translate(-50%, -10%);
     font-size: 45px;
     font-weight: bold;
 }
 .overlay-text {
-    position: absolute;
-    max-width: 65%;
-    top: 26%;
-    left: 16%;
-    font-size: 19px;
-    font-weight: bold;
-    color: #333;
-}
+	    position: absolute;
+	    max-width: 65%;
+	    top: 20%;
+	    left: 16%;
+	    font-size: 19px;
+	    font-weight: bold;
+	    color: #333;
+	}
