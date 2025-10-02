@@ -7,9 +7,6 @@ $(function() {
 	/* 프로필 이미지(?) 기본 경로 */
 	const DEFAULT_PROFILE = 'icons/icon_store_profile.png';
 	
-	
-
-	
 	/* ===================================== */
 	/* 매장 이미지 관련 변수들 */
 	const MAX_PICTURE = 8;
@@ -53,7 +50,7 @@ $(function() {
 		
 		if ($name.length) $name.text(file.name);
 	});
-
+	
 	
 	/* ==================================== */
 	/* 주소 입력 */
@@ -354,6 +351,29 @@ $(function() {
 			});
 		});
 	}
+	
+	
+	/* 매장 메뉴판 이미지 이름 표시 */
+	$(document).on('change', '.menu-board-layout input[type="file"]', function () {
+		
+		const file = this.files && this.files[0];
+		const $row = $(this).closest('.menu-board-layout');
+//		const $img = $row.find('img.store-profile');
+		const $name = $row.find('.menu-board-name');
+		
+//		if (!file) { 
+//			$img.attr('src', DEFAULT_IMG);
+//			return;
+//		}
+//		
+//		 const url = URL.createObjectURL(file);
+//			$img.attr('src', url).one('load', function () {
+//			URL.revokeObjectURL(url);
+//		});
+		
+		if ($name.length) $name.text(file.name);
+	});
+	
 	
 	
 	/* ==================================== */
