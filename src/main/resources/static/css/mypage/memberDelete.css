@@ -29,6 +29,41 @@
     color: #333;
 }
 
+.password-check{
+	margin-top: -10%;
+	margin-left: 11%;
+	font-weight: bold;
+	font-size: 20px;
+}
+
 .memberdelete-check{
 	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	margin-left: 11%;
+}
+
+label{
+	display: inline-block;
+	margin-left: 12px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.last{
+	display: flex;
+	align-items: center;
+	margin-left: 40%;
+	margin-top: 30px;
+}	
+.button {
+  width: 200px;
+  height: 40px;
+  padding: 0; /* 패딩 제거 또는 최소화 */
+  font-size: 25px;
+  border-radius: 30px;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }

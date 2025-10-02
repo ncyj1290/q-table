@@ -57,7 +57,6 @@ public class MyPageController {
 	
 	@GetMapping("/card_edit")
 	public String cardEdit() {
-		
 		return "mypage/cardEdit";
 	}
 	
@@ -65,5 +64,11 @@ public class MyPageController {
 	public String memberDelete() {
 		
 		return "mypage/memberDelete";
+	}
+	
+	@GetMapping("/profile_settings")
+	public String profileSettings() {
+		
+		return "mypage/profileSettings";
 	}
 }
