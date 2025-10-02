@@ -22,6 +22,7 @@
 					<img src="icons/icon_store_profile.png" class="store-profile">
 					<label class="positive-button" for="store_profile_file">프로필 업로드</label>
 					<input type="file" name="store_profile_file" id="store_profile_file" style="display: none;" accept=".jpg, .jpeg, .png">
+					<span class="store-profile-name">선택된 파일 없음</span>
 				</div>
 				
 				<div class="horizontal-line"></div>
@@ -156,7 +157,7 @@
 					<button class="positive-button" type="button" id="sp_upload">추가</button>
 					
 					<!-- 상점 사진 임시로 담는 곳 -->
-					<div id="store_picture_input" style="display:none;"></div>
+<!--					<div id="store_picture_input" style="display:none;"></div>-->
 				</div>
 				
 				<div class="store_picture_layout">
@@ -164,6 +165,7 @@
 					<div class="store_picture_element">
 						<i class="bi bi-trash fs-4 sp-remove-bt"></i>
 						<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
+						<span class="sp-name">선택된 파일 없음</span>
 					</div>
 					
 				</div>
@@ -186,32 +188,32 @@
 					<!-- Country - 1 -->
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_01" name="store_category" class="component-checkbox">
 							<label>한식</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_02" name="store_category" class="component-checkbox">
 							<label>중식</label>	
 						</div>
 
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_03" name="store_category" class="component-checkbox">
 							<label>일식</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_04" name="store_category" class="component-checkbox">
 							<label>양식</label>	
 						</div>		
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_05" name="store_category" class="component-checkbox">
 							<label>분식</label>	
 						</div>	
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_06" name="store_category" class="component-checkbox">
 							<label>기타</label>	
 						</div>		
 					</div>
@@ -219,32 +221,32 @@
 					<!-- Country - 2 -->
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_07" name="store_category" class="component-checkbox">
 							<label>프랑스</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_08" name="store_category" class="component-checkbox">
 							<label>스페인</label>	
 						</div>
 
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_09" name="store_category" class="component-checkbox">
 							<label>아메리칸</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_10" name="store_category" class="component-checkbox">
 							<label>유러피안</label>	
 						</div>		
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_11" name="store_category" class="component-checkbox">
 							<label>아시아</label>	
 						</div>	
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_12" name="store_category" class="component-checkbox">
 							<label>퓨전</label>	
 						</div>		
 					</div>		
@@ -252,22 +254,22 @@
 					<!-- Country - 3 -->
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_13" name="store_category" class="component-checkbox">
 							<label>베트남</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_14" name="store_category" class="component-checkbox">
 							<label>태국</label>	
 						</div>
 
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_15" name="store_category" class="component-checkbox">
 							<label>인도</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_16" name="store_category" class="component-checkbox">
 							<label>멕시코</label>	
 						</div>			
 					</div>	
@@ -279,32 +281,32 @@
 										
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_17" name="store_category" class="component-checkbox">
 							<label>소고기</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_18" name="store_category" class="component-checkbox">
 							<label>돼지고기</label>	
 						</div>
 
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_19" name="store_category" class="component-checkbox">
 							<label>양고기</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_20" name="store_category" class="component-checkbox">
 							<label>닭/오리</label>	
 						</div>		
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_21" name="store_category" class="component-checkbox">
 							<label>곱창/막창</label>	
 						</div>	
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_22" name="store_category" class="component-checkbox">
 							<label>족발/보쌈</label>	
 						</div>		
 					</div>
@@ -316,27 +318,27 @@
 										
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_23" name="store_category" class="component-checkbox">
 							<label>스시</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_24" name="store_category" class="component-checkbox">
 							<label>회</label>	
 						</div>
 
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_25" name="store_category" class="component-checkbox">
 							<label>갑각류</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_26" name="store_category" class="component-checkbox">
 							<label>해물탕/찜</label>	
 						</div>		
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_27" name="store_category" class="component-checkbox">
 							<label>어패류</label>	
 						</div>		
 					</div>
@@ -348,22 +350,22 @@
 										
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_28" name="store_category" class="component-checkbox">
 							<label>이자카야</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_29" name="store_category" class="component-checkbox">
 							<label>바</label>	
 						</div>
 
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_30" name="store_category" class="component-checkbox">
 							<label>호프</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_31" name="store_category" class="component-checkbox">
 							<label>요리주점</label>	
 						</div>			
 					</div>
@@ -374,7 +376,7 @@
 										
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="srct_32" name="store_category" class="component-checkbox">
 							<label>카페</label>	
 						</div>
 					</div>
@@ -453,32 +455,32 @@
 						
 						<!-- atmosphere line (1) -->
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_01" name="store_atmosphere" class="component-checkbox">
 							<label>데이트</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_02" name="store_atmosphere" class="component-checkbox">
 							<label>비즈니스 미팅</label>	
 						</div>
 
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_03" name="store_atmosphere" class="component-checkbox">
 							<label>기념일</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_04" name="store_atmosphere" class="component-checkbox">
 							<label>단체회식</label>	
 						</div>		
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_05" name="store_atmosphere" class="component-checkbox">
 							<label>가족모임</label>	
 						</div>	
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_06" name="store_atmosphere" class="component-checkbox">
 							<label>뷰</label>	
 						</div>		
 					</div>
@@ -486,27 +488,27 @@
 					<!-- atmosphere line (2) -->
 					<div class="check-box-line-layout">
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_07" name="store_atmosphere" class="component-checkbox">
 							<label>상견례</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_08" name="store_atmosphere" class="component-checkbox">
 							<label>조용한</label>	
 						</div>
 	
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_09" name="store_atmosphere" class="component-checkbox">
 							<label>모던한</label>	
 						</div>
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_10" name="store_atmosphere" class="component-checkbox">
 							<label>전통적인</label>	
 						</div>		
 						
 						<div class="checkbox-layout-row">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" value="atmo_11" name="store_atmosphere" class="component-checkbox">
 							<label>트렌디한</label>	
 						</div>		
 					</div>
@@ -583,7 +585,7 @@
 				
 				<div class="component-layout-row">
 					<label class="title-label"><h5>메뉴판 사진 업로드</h5></label>
-					<button type="button" class="positive-button">사진 업로드</button>
+					<label class="positive-button">매뉴 사진 추가<input type="file" name="menu_board_picture" accept=".jpg, .jpeg, .png" hidden></label>
 				</div>
 				
 				<br>

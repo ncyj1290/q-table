@@ -32,16 +32,15 @@ public class StoreManagementController {
 	public String inserNewStore(@ModelAttribute  StoreVO storeVO) {
 		
 		System.out.println("Check Write Store Submit -> Done");
-		System.out.println(storeVO.toString());
-
+		System.out.println("Store Write - VO CHECK: " + storeVO.toString());
 		
+		/* 매장 주소 가공 */
+		storeVO.setFull_address(storeVO.getPost_code() + " " + storeVO.getAddress() + " " + storeVO.getAddress_detail());
+
 		return "redirect:store_reservation_list";
 	}
-	
-	
-	
-	
 
+	
 	/* ================================================= */
 	/* 예약 목록 페이지 */
 	@GetMapping("/store_reservation_list")

@@ -4,6 +4,12 @@
 
 $(function() {
 	
+	/* 프로필 이미지(?) 기본 경로 */
+	const DEFAULT_PROFILE = 'icons/icon_store_profile.png';
+	
+	
+
+	
 	/* ===================================== */
 	/* 매장 이미지 관련 변수들 */
 	const MAX_PICTURE = 8;
@@ -13,6 +19,7 @@ $(function() {
 	
 	/* 재료 정보 담는 레이아웃 */
 	const $ingList = $(".ingredient-layout");
+	
 	
 	/* 재료 정보 담는 레이아웃 */
 	const $menuList = $(".menu-layout");
@@ -26,6 +33,27 @@ $(function() {
 		$el.val(inputVal.replace(/[^-0-9]/g, ""));
 	}
 	
+	
+	/* 매장 프로필 이미지 표시 */
+	$(document).on('change', '.store-profile-layout input[type="file"]', function () {
+		
+		const file = this.files && this.files[0];
+		const $row = $(this).closest('.store-profile-layout');
+		const $img = $row.find('img.store-profile');
+		const $name = $row.find('.store-profile-name');
+		
+		if (!file) { 
+			$img.attr('src', DEFAULT_IMG);
+			return;
+		}
+		 const url = URL.createObjectURL(file);
+			$img.attr('src', url).one('load', function () {
+			URL.revokeObjectURL(url);
+		});
+		
+		if ($name.length) $name.text(file.name);
+	});
+
 	
 	/* ==================================== */
 	/* 주소 입력 */
@@ -98,8 +126,6 @@ $(function() {
 			return $(this).val();
 	    }).get();
 		
-		console.log(selected);
-		
 		$("#holidays").val(selected.join(",")); 
 	});
 	
@@ -122,10 +148,32 @@ $(function() {
 			<div class="store_picture_element">
 				<i class="bi bi-trash fs-4 sp-remove-bt"></i>
 				<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
+				<span class="sp-name">선택된 파일 없음</span>
 			</div>
       	`);
-		
   		$spList.append(htmlCode);
+		reindexSP();
+	});
+	
+	
+	/* 매장 사진 이름 표시 */
+	$(document).on('change', '.store_picture_element input[type="file"]', function () {
+		
+		const file = this.files && this.files[0];
+		const $row = $(this).closest('.store_picture_element');
+//		const $img = $row.find('img.store-profile');
+		const $name = $row.find('.sp-name');
+		
+//		if (!file) { 
+//			$img.attr('src', DEFAULT_IMG);
+//			return;
+//		}
+//		 const url = URL.createObjectURL(file);
+//			$img.attr('src', url).one('load', function () {
+//			URL.revokeObjectURL(url);
+//		});
+		
+		if ($name.length) $name.text(file.name);
 	});
 	
 	
@@ -133,8 +181,20 @@ $(function() {
 	$spList.on("click", ".sp-remove-bt", function(){
 		const $element = $(this).closest(".store_picture_element");
 		$element.remove();
+		reindexSP();
 	});
 	
+	
+	/* 매장 사진 리인덱싱 */
+	function reindexSP(){
+		$spList.find(".store_picture_element").each(function(i){
+			$(this).find("[data-field]").each(function(){
+				const field = $(this).data("field");
+				$(this).attr("name", `storePictureList[${i}].${field}`);
+			});
+		});
+	}
+		
 	/* ==================================== */
 	/* 편의 시설 */
 	/* ==================================== */
@@ -146,8 +206,6 @@ $(function() {
 		let selected = $(".facility-button.active").map(function() {
 			return $(this).val();
 	    }).get();
-		
-		console.log(selected);
 		
 		$("#store_facilities").val(selected.join(",")); 
 	});
@@ -261,6 +319,24 @@ $(function() {
 		reindexMenu()
 	});
 	
+	/* 메뉴 이미지 업로드 시 => 표시 */
+	$(document).on('change', '.menu-layout-row input[type="file"][data-field="menu_picture"]', function () {
+		
+		const file = this.files && this.files[0];
+		const $row = $(this).closest('.menu-layout-row');
+		const $img = $row.find('img.menu-image-size');
+		
+		if (!file) { 
+			$img.attr('src', DEFAULT_IMG);
+			return;
+		}
+		 const url = URL.createObjectURL(file);
+			$img.attr('src', url).one('load', function () {
+			URL.revokeObjectURL(url);
+		});
+	});
+		
+
 	/* 메뉴 정보 삭제 */
 	$menuList.on("click", ".menu-remove-bt", function(){
 		const $element = $(this).closest(".menu-layout-row");
@@ -286,6 +362,7 @@ $(function() {
 	/* Submit */
 	$("#submit_bt").on("click", function(){
 		
+		reindexSP();
 		reindexMenu();
 		reindexIng();
 		
@@ -296,12 +373,10 @@ $(function() {
 	/* ==================================== */
 	/* 검사 로직 모음 */
 	/* ==================================== */
-	
 	/* 임시 검사 버튼 */
 	$("#test_bt").on("click", function(){
 		checkBasicData();
 	});
-	
 	
 	/* 입력란 공백 검사 */
 	function checkBasicData(){
