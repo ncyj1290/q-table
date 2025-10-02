@@ -60,25 +60,34 @@
   box-sizing: border-box;
   height: 1.8rem;
 }
-.form-group input:focus {
+.component-write input:focus {
   border-color: var(--color-focus);
   outline: none;
   box-shadow: none;
 }
 
-/* input width 커스터마이징 */
-.form-group input[id="userName"],
-.form-group input[id="gender"] {
-  width: 100px;
+#addressPostcode{
+	width: 90px;
 }
-.form-group input[id="email"],
-.form-group input[id="emailVerification"],
-.form-group input[id="addressDetail"] {
-  width: 300px;
+
+#userName,
+#gender {
+    width: 100px;
 }
-.form-group input[id="birthDate"] {
-  width: 200px;
+#userId,
+#password,
+#confirmPassword{
+	width: 200px;
 }
+#birthDate{
+	width: 200px;
+}
+#email,
+#emailVerification,
+#addressDetail{
+	width: 300px;
+}
+
 
 /* ---------- Input + Icon ---------- */
 .input-with-icon {
@@ -136,8 +145,7 @@
 }
 
 /* ---------- Buttons ---------- */
-.verify-button,
-.check-button {
+.positive-button.custombtn {
   width: 100px;
   height: 30px;
   margin-left: 10px;
@@ -151,7 +159,7 @@
   text-align: center;
 }
 
-.submit-button {
+.positive-button.custombtn1 {
   display: block;
   width: 300px;
   height: 50px;

@@ -3,102 +3,104 @@
 
 <head>
 	<link rel="stylesheet" th:href="@{/css/member/memberJoin.css}">
+	<script th:src="@{/js/member/memberJoin.js}"></script>
 </head>
 
 <body>
 	<div layout:fragment="Content">
-		<main class="main-content">
+		<form action="" id="signupForm" method="get">
+			<main class="main-content">
 				<div class="signup-tabs">
 					<button>개인 회원가입</button>
 					<button>매장 회원가입</button>
 				</div>
-			<div class="signup-container">
+				<div class="signup-container">
+					<div class="signup-form-section">
+						<div class="form-group">
+							<label for="userId">아이디</label>
+							<input type="text" id="userId" class="component-write" placeholder="아이디">
 
-				<div class="signup-form-section">
-					<div class="form-group">
-						<label for="userId">아이디</label>
-						<input type="text" id="userId" placeholder="아이디">
-
-					</div>
-
-					<div class="form-group">
-						<label for="password">비밀번호</label>
-						<input type="password" id="password" placeholder="비밀번호">
-					</div>
-
-					<div class="form-group">
-						<label for="confirmPassword">비밀번호 확인</label>
-						<input type="password" id="confirmPassword" placeholder="비밀번호 확인">
-
-					</div>
-
-					<div class="form-group name">
-						<label for="userName">이름</label>
-						<input type="text" id="userName">
-
-						<label for="gender">성별</label>
-						<div class="gender-dropdown">
-							<select class="select-box" id="gender">
-								<option value="" >선택</option>
-								<option value="male">남</option>
-								<option value="female">여</option>
-								<option value="other">기타</option>
-							</select>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="birthDate">생년월일</label>
-						<input type="" id="birthDate"  placeholder="생년월일">
-						<i class="far fa-calendar-alt birth-calendar-icon"></i>
-					</div>
 
-					<div class="form-group">
-						<label for="addressPostcode">주소</label>
-						<input type="text" id="addressPostcode" placeholder="우편번호">
-						<button class="verify-button">인증</button>
-					</div>
-					<div class="form-group full-width">
-						<label for="addressDetail"></label>
-						<input type="text" id="addressDetail" placeholder="상세주소">
-					</div>
+						<div class="form-group">
+							<label for="password">비밀번호</label>
+							<input type="password" id="password" class="component-write" placeholder="비밀번호">
+						</div>
 
-					<div class="form-group">
-						<label for="email">이메일</label>
-						<input type="email" id="email">
-						<button class="verify-button">인증번호</button>
-					</div>
-					<div class="form-group">
-						<label for="emailVerification">이메일 인증번호</label>
-						<input type="text" id="emailVerification">
-						<button class="check-button">확인</button>
-					</div>
+						<div class="form-group">
+							<label for="confirmPassword">비밀번호 확인</label>
+							<input type="password" id="confirmPassword" class="component-write" placeholder="비밀번호 확인">
 
-					<div class="terms-section">
-						<div class="term-item">
-							<input type="checkbox" id="selectAll" class="component-checkbox">
-							<label for="selectAll">전체동의</label>
 						</div>
-						<div class="term-item">
-							<input type="checkbox" id="termsOfService" class="component-checkbox">
-							<label for="termsOfService">이용약관 동의</label>
-							<a href="#" class="view-details">자세히 보기</a>
-						</div>
-						<div class="term-item">
-							<input type="checkbox" id="privacyPolicy" class="component-checkbox">
-							<label for="privacyPolicy">개인정보 처리 방침</label>
-							<a href="#" class="view-details">자세히 보기</a>
-						</div>
-						<div class="term-item">
-							<input type="checkbox" id="marketingConsent" class="component-checkbox">
-							<label for="marketingConsent">마케팅 동의</label>
-							<a href="#" class="view-details">자세히 보기</a>
-						</div>
-					</div>
 
+						<div class="form-group name">
+							<label for="userName">이름</label>
+							<input type="text" id="userName" class="component-write"> 
+
+							<label for="gender">성별</label>
+							<div class="gender-dropdown">
+								<select class="select-box" id="gender">
+									<option value="">선택</option>
+									<option value="male">남</option>
+									<option value="female">여</option>
+									<option value="other">기타</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="birthDate">생년월일</label>
+							<input type="" id="birthDate"  class="component-write" placeholder="생년월일">
+							<i class="far fa-calendar-alt birth-calendar-icon"></i>
+						</div>
+
+						<div class="form-group">
+							<label for="addressPostcode">주소</label>
+							<input type="text" id="addressPostcode" class="component-write" placeholder="우편번호">
+							<button class="positive-button custombtn">우편 번호</button>
+						</div>
+						<div class="form-group full-width">
+							<label for="addressDetail"></label>
+							<input type="text" id="addressDetail" class="component-write" placeholder="상세주소">
+						</div>
+
+						<div class="form-group">
+							<label for="email">이메일</label>
+							<input type="email" id="email"  class="component-write">
+							<button class="positive-button custombtn">인증번호</button>
+						</div>
+						<div class="form-group">
+							<label for="emailVerification">이메일 인증번호</label>
+							<input type="text" id="emailVerification"  class="component-write">
+							<button class="positive-button custombtn">확인</button>
+						</div>
+
+						<div class="terms-section">
+							<div class="term-item">
+								<input type="checkbox" id="selectAll" class="component-checkbox">
+								<label for="selectAll">전체동의</label>
+							</div>
+							<div class="term-item">
+								<input type="checkbox" id="termsOfService" class="component-checkbox">
+								<label for="termsOfService">이용약관 동의</label>
+								<a href="#" class="view-details">자세히 보기</a>
+							</div>
+							<div class="term-item">
+								<input type="checkbox" id="privacyPolicy" class="component-checkbox">
+								<label for="privacyPolicy">개인정보 처리 방침</label>
+								<a href="#" class="view-details">자세히 보기</a>
+							</div>
+							<div class="term-item">
+								<input type="checkbox" id="marketingConsent" class="component-checkbox">
+								<label for="marketingConsent">마케팅 동의</label>
+								<a href="#" class="view-details">자세히 보기</a>
+							</div>
+						</div>
+
+					</div>
 				</div>
-			</div>
-					<button class="submit-button">회원가입</button>
-		</main>
+				<button type="submit" class="positive-button custombtn1">회원가입</button>
+			</main>
+		</form>
 	</div>
 </body>
 
