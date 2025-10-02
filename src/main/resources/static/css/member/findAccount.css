@@ -1,18 +1,5 @@
 @charset "UTF-8";
 
-.logo-area {
-  width: 100%;          /* 부모 기준 100%로 확장 */
-  display: flex;
-  justify-content: center; /* 가로중앙 */
-  align-items: center;     /* 세로중앙(필요시) */
-}
-
-.logo-area img {
-  height: 70px;         /* 적절한 높이 지정 가능 */
-  width: auto;          /* 이미지 비율 유지 */
-  display: block;
-  margin-top: -90px;
-}
 .find-main-container {
 	width: 1200px;
 	height: 636px;
@@ -22,8 +9,21 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-top: 155px;
-	gap: 20px;
+	padding-top: 90px;
+	gap: 10px;
+}
+
+.logo-area {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logo-area img {
+	height: 70px;
+	width: auto;
+	display: block;
 }
 
 .find-tabs {
@@ -39,7 +39,7 @@
 	font-weight: bold;
 	color: var(--color-placeholder);
 	cursor: pointer;
-	border-bottom: 2px solid transparent;
+	border-bottom: 3px solid transparent;
 }
 
 .find-tabs .tab.active {
@@ -52,6 +52,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
+}
+
+.input-area{
+	margin-top: 10px;
 }
 
 .find-form .input-area .component-write {
