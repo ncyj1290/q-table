@@ -48,17 +48,23 @@
   	align-items: center;
 }
 
-.selectedKeywords {
+.keywords {
 	display: flex;
 	flex-wrap: wrap;  
 	gap:5px;
 	margin-top: 10px;
 }
 
-.selectedKeywords > .keyword {
+.keyword {
+	flex-basis: 31.33%;
+	box-sizing: border-box; /* 패딩과 테두리를 너비에 포함시켜 계산을 쉽게 함 */
+	text-align: center;
+	flex-grow: 0;
+	height:25px;
 	font-size: 12px;
 }
-.selectedKeywords > .active {
+
+.keywords > .active {
 	font-size: 12px;
 	width: 10rem;
 	font-weight: bold;
@@ -73,11 +79,11 @@
 	transition: background-color 0.2s ease;
 }
 
-.selectedKeywords > .active:hover{
+.keywords > .active:hover{
 	background-color: #F05F5F;
 }
 
-section.part:last-child .selectedKeywords > div {
+section.part:last-child .keywords > div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,13 +93,7 @@ section.part:last-child .selectedKeywords > div {
 	padding: 7px;
 }
 
-.keyword {
-	flex-basis: 31.33%;
-	box-sizing: border-box; /* 패딩과 테두리를 너비에 포함시켜 계산을 쉽게 함 */
-	text-align: center;
-	flex-grow: 0;
-	height:25px;
-}
+
 
 .keyword:hover {
 	background-color: #FFF8F8;

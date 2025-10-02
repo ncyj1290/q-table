@@ -62,7 +62,7 @@
 	width: 100%;
 }
 
-.keywords{
+.recommend-keywords{
 	display: flex;
 	flex-direction: row;
 	gap: 10px;

@@ -1,48 +1,197 @@
-@charset "UTF-8";
-
-/* 1. 모달 전체 (배경 오버레이) 스타일: 중앙 정렬 담당 */
+/* 1. 모달 전체 배경 (처음에는 숨김) */
 .modal-overlay {
+    display: none; 
     position: fixed;
-    top: 0;
+    z-index: 1000; 
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000;
+    background-color: rgba(0,0,0,0.6);
+   	user-select: none; /* 표준 속성 */
+	-webkit-user-select: none; /* Safari, Chrome 등 */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE/Edge */
+}
+
+/* 2. 모달 내부 콘텐츠 박스 */
+.inner-modal {
+	background-color: #fefefe;
+    margin: 5vh auto; /* 브라우저 상단에서 5% 여백 */
+    padding: 0px 17px 0px 17px; /* 푸터가 따로 패딩을 가질 수 있도록 하단 패딩 제거 */
+    border: none;
+    width: 90%; 
+    max-width: 700px; 
+    height: 90vh; /* 브라우저 화면 높이의 90%로 고정하여 스크롤 영역을 확보 */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    position: relative;
+    display: flex;
+	flex-direction:column;
+    overflow: hidden; /* inner-modal 전체의 스크롤은 막습니다. */
     
-    /* 중앙 정렬 스타일은 여기에 유지 */
-    display: flex; /* Flexbox 활성화 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center;    /* 수직 중앙 정렬 */
 }
 
-/* 2. 모달을 숨기는 클래스 정의 */
-.is-hidden {
-    display: none !important; /* 🚨 Flexbox 스타일을 덮어쓰기 위해 !important 사용 */
-}
-
-.modal-header {
-	display:flex;
-	justify-content: flex-end;
-}
-
+/* 3. 닫기 버튼 (x) 스타일 */
 .close-btn {
-	color:var(--color-main);
-	font-size:40px;
+    color: var(--color-main);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-/* 3. 모달 내용 상자 스타일 */
-.modal-content {
-    background-color: #ffffff;
-    padding: 10px 60px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    max-width: 500px; /* 모달의 최대 너비 설정 */
-    width: 90%; /* 반응형을 위해 퍼센트와 max-width 사용 */
+.close-btn:hover,
+.close-btn:focus {
+    color: #F05F5F;
+}
+
+/* 푸터 영역 */
+.footer-modal {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 20px;
+    position: sticky;
+    bottom: 0;
+    background-color: #fefefe; /* 모달 배경색과 동일하게 설정 */
+    z-index: 10;
+  	gap: 20px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); 
+	border-radius: 15px;
+    border: 1px solid #ffffff;
+}
+
+/* 적용하기 버튼 */
+.footer-modal > .active {
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
+	font-weight: bold;
+	color: var(--color-font-positive);
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+	background-color:var(--color-main);
+	align-content: center;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.content-modal {
+	display:flex;
+	flex-direction: column;
+	gap: 25px;
+    flex-grow: 1; /* 남은 수직 공간을 모두 차지 */
+    overflow-y: auto; /* 여기에 수직 스크롤 적용! */
+    padding-bottom: 20px; /* 푸터와 겹치지 않도록 여백 추가 */
+}
+
+.loc-food-background {
+	width:100%;
+    border-radius: 20px;
+    border: 0.5px solid #9797973d;
+    padding: 15px;
+    gap: 10px;
+    flex-direction: column;
+    display: flex;
+}
+
+/* 제목영역(제목, 초기화) */
+.locfood-title{
+	display:flex;
+	justify-content: space-between;
+	padding: 0px 5px;
+}
+
+.locfood-title > span {
+	color: var(--color-placeholder);
+    font-size: small;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* 키워드 영역 */
+.locfood-content {
+	display:flex;
+	flex-direction:column;
+    border-radius: 20px;
+    border: 0.5px solid #9797973d;
+    padding: 15px;
+    gap: 10px;
+}
+
+.locfood-content > .keywords{
+	margin-top: 0px;
+	
+}
+.locfood-content > .keywords > .keyword {
+	flex-basis: 11%;
+	font-size: 14px;
+}
+
+.no-outline {
+	border: none;
 }
 
 
-/* 🚨 JavaScript로 이 클래스를 추가/제거하여 모달을 보이게 합니다. */
-.modal-overlay.is-active {
-    display: flex; /* 숨김 처리된 display: none을 덮어쓰고 다시 보이게 함 */
+/* 음식종류 하위 카테고리 */
+.sub-category {
+	text-align: left;
 }
+
+
+/* 선택된 키워드 영역 */
+.selectedKeywords {
+	display:flex;
+	    flex-wrap: wrap;
+	gap:10px;
+    padding: 10px 10px 0 10px;
+}
+
+    
+.delete-keyword {
+	padding: 5px;
+    border: 1px solid var(--color-main);
+    border-radius: 10px;
+    display:inline-flex;
+    align-items: center;
+     cursor: pointer;
+}
+
+.delete-keyword > i { /* 휴지통모양 */
+	font-size:25px;
+	 cursor: pointer;
+}
+
+/* .selectedKeyword { */
+/*     display: inline-flex; */
+/*     align-items: center; */
+/*     border: 1px solid var(--color-main); */
+/*     border-radius:15px; */
+/*    	padding: 5px 10px;; */
+/*    	gap: 8px; */
+/* } */
+
+.selectedKeywords .active{
+	color: var(--color-main);
+    border: 1px dashed var(--color-main);
+    background-color: #ffe9e9;
+    transition: background-color 0.2s ease;
+    align-items: center;
+    display: inline-flex;
+    border-radius:15px;
+	padding: 0px 5px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.delete {/* 단일 키워드 삭제  */
+	color: var(--color-main);
+    cursor: pointer;
+    font-size: 1.4rem;
+    transform: translateY(-2px);
+    border:none !important;
+}
+
