@@ -17,5 +17,9 @@ public class PolicyDocumentController {
 		public String privacy_policy(){
 			return "privacyPolicy";
 		}
+		@GetMapping("/error")
+		public String error() {
+			return "error";
+		}
 
 }
