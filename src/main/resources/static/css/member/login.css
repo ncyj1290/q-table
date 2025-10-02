@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
-
 /* 배경 이미지와 콘텐츠를 모두 감싸는 컨테이너 (기준점) */
 #backgroundLogin {
     position: relative;
-    width: 1300px;
-    height: 759px;
+    width: 1200px;
+    height: 636px;
+	margin-top: 25px;
 }
 
 /* 배경 이미지 스타일 */
