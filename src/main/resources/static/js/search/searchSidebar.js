@@ -8,8 +8,10 @@ $(function() {
 	
 	//키워드들 클릭했을때
 	$('.keywords:not(.no-toggle)').on('click', '.keyword', function() {
+		$('.footer-modal').show(); 
 		toggleActive(this);//active 토글
 		priceUpdate(this);//가격 키워드 반영
+		keywordUpdate(this);
 		//쿼리스트링 반영하는것도 짜야함 
 	});
 	
@@ -19,8 +21,98 @@ $(function() {
 		//쿼리스트링에서삭제 하느것도 해야함
 	});
 	
-
+	//모달 열기
+	$('.keywords').on('click', '.dashed-box', showModal);
+	
+	// 모달닫기
+	$(".close-btn").on("click",hideModal);
+	$(window).on("click", function(e) {
+	    if (e.target == $("#myModal")[0]) hideModal();
+	});	
+	
+	// 모달 적용하기 버튼 
+	$("#apply-btn").on("click", function() {
+	    hideModal();
+	});
+	
+	//개별 키워드 삭제버튼 
+	$('.selectedKeywords').on('click', '.delete', function(){
+		deleteKeyword(this);
+	})
+	
+	//휴지통 버튼 눌렀을때
+	$('.selectedKeywords').on('click', '#delete-all-btn', function(){
+		deleteAll()
+		$('.footer-modal').hide();
+	})
+	
 });
+
+// 초기화 버튼 실행 함수 
+function reset(el) {
+	const isNoReset = $(el).closest('.top').hasClass('no-reset');
+	const isPrice = $(el).closest('.top').hasClass('price');
+	if(isNoReset) {
+		const parentEl = $(el).closest('section.part').find('.keywords');
+		parentEl.empty();
+		parentEl.append(`<span class="dashed-box">+ 키워드를 선택해주세요</span>`);
+		$(el).closest('section.part').find('.select').hide();
+		return;	
+	}
+	if(isPrice) $('#price-slider')[0].noUiSlider.reset();
+	const activeTextsArray = $(el).closest('.parent').find('.active:not(.no-outline)')         
+	    						  .map(function() {return $(this).text().trim();})
+	    						  .get();                                  
+	$(el).closest('.parent').find('.keyword:not(.no-outline)').removeClass('active');
+}
+
+function deleteKeyword2() {
+	
+}
+
+function deleteKeyword(el) {
+	const parentEl = $(el).closest('.selectedKeyword');
+	const keywordText = $(el).closest('.selectedKeyword').clone().find('.delete').remove()      
+							 .end().text().trim();                       
+	$('.keywords').find('.keyword').each(function() {
+		if($(this).text().trim() == keywordText) {
+			$(this).removeClass('active');
+		}
+	});
+	parentEl.detach();
+	//개별로 다 삭제 했을때 키워드 목록창 가리기 
+	let childCnt = $('.selectedKeywords').find('.selectedKeyword').length;
+	if(!childCnt) $('.selectedKeywords').hide();
+}
+
+//선택한 키워드에 반영하기 
+function keywordUpdate(el) {
+	const isMainLocation = $(el).closest('.keywords').attr('id') == 'main-location' ;
+	if(isMainLocation) return;
+	$('.selectedKeywords').show(); 
+	const keyword = $(el).text();
+	const selectedKeyword = `<span class="selectedKeyword active">${keyword}
+							 <span class="delete active">&times;</span></span>`
+	$('.selectedKeywords').append(selectedKeyword);
+}
+
+
+// 선택된 키워드 전부 삭제
+function deleteAll() {
+	$('.selectedKeywords').empty()
+}
+
+// 모달 열기
+function showModal() {
+	$("#myModal").fadeIn(200); 
+	// 만약에 선택한 값이 있으면 hide 하면 안됨
+	$('.footer-modal').hide(); 
+}
+
+// 모달 닫기
+function hideModal () {
+	$("#myModal").fadeOut(200);
+}
 
 
 function priceUpdate(el) {
@@ -35,22 +127,16 @@ function priceUpdate(el) {
 	if(!isActive) $('#price-slider')[0].noUiSlider.set([0,40]);
 }
 
-function reset(el) {
-	const isNoReset = $(el).closest('.top').hasClass('no-reset');
-	const isPrice = $(el).closest('.top').hasClass('price');
-	if(isNoReset) {
-		const parentEl = $(el).closest('section.part').find('.keywords');
-		parentEl.empty();
-		parentEl.append(`<span class="dashed-box">+ 키워드를 선택해주세요</span>`);
-		$(el).closest('section.part').find('.select').hide();
-		return;	
-	}
-	if(isPrice) $('#price-slider')[0].noUiSlider.reset();
-	$(el).closest('section.part').find('.keyword').removeClass('active');
-}
+
 
 function toggleActive (el) {
 	const parentEl = $(el).closest('.keywords');
+	const isMainLocation = parentEl.attr('id') == 'main-location' ;
+	if(isMainLocation) { //지역대분류는 선택 아예 해제하는거 없게
+		$(el).siblings('.keyword').removeClass('active');
+		$(el).addClass('active');
+		return;
+	}
 	if(parentEl.hasClass('single-choice')) $(el).siblings('.keyword').removeClass('active');
 	$(el).toggleClass('active');
 }
