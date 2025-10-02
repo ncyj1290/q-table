@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class PolicyDocumentController {
-	
+	    @GetMapping("/")
+	    public String home() {
+	        return "index"; // templates/index.html과 일치해야 함
+	    }
 		@GetMapping("/terms_of_use")
 		public String terms_of_use(){
 			return "termsOfUse";
