@@ -20,8 +20,15 @@
                     <textarea id="reviewText" name="reviewText" rows="5" class="input-field"></textarea>
                 </div>
                 <div>
-                    <label for="reviewImages">사진 첨부</label>
-                    <input type="file" id="reviewImages" name="reviewImages" multiple class="input-field">
+                    <label>사진 첨부</label>
+                    <div class="image-upload-box">
+                        <input type="file" id="reviewImages" name="reviewImages" multiple accept="image/*" style="display: none;">
+                        <button type="button" class="upload-button" onclick="document.getElementById('reviewImages').click()">
+                            <i class="fas fa-image"></i>
+                            <span>사진 추가하기</span>
+                        </button>
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
                 </div>
                 <button type="submit" class="positive-button">작성 완료</button>
             </form>
