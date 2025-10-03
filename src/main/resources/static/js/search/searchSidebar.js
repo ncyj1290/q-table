@@ -12,7 +12,7 @@ $(function() {
 		toggleActive(this);//active 토글
 		priceUpdate(this);//가격 키워드 반영
 		keywordUpdate(this);
-		
+		hideSelectedDiv();
 		//쿼리스트링 반영하는것도 짜야함 
 	});
 	
@@ -25,7 +25,7 @@ $(function() {
 	});
 	
 	//모달 열기
-	$('.keywords').on('click', '.dashed-box', showModal);
+	$('.keywords').on('click', '.show-modal', showModal);
 	
 	// 모달닫기
 	$(".close-btn").on("click",hideModal);
@@ -98,6 +98,18 @@ function deleteKeyword(el) {
 
 //(모달)선택한 키워드에 반영하기 
 function keywordUpdate(el) {
+	
+	const keyword = $(el).text();
+	let isDetach = false;
+	$('.selectedKeywords').children('.selectedKeyword').each(function() {
+	let keywordText = $(this).clone().find('.delete').remove().end().text().trim(); 
+		if(keywordText == keyword) {
+			$(this).detach();
+			isDetach = true;
+		}
+	});
+	if(isDetach) return;
+	
 	//모달에서 선택된것만 반영되게함
 	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
 	if(!isModalEvent) return;
@@ -105,7 +117,7 @@ function keywordUpdate(el) {
 	const isMainLocation = $(el).closest('.keywords').attr('id') == 'main-location' ;
 	if(isMainLocation) return;
 //	$('.selectedKeywords').show(); 
-	const keyword = $(el).text();
+	
 	//초기화 기능을 위해 food/location 클래스를 줘서 구분
 	const keywordClass = $(el).attr('class').split(' ')[1]; //keyword food or location 클래스
 	const selectedKeyword = `<span class="selectedKeyword active ${keywordClass}">${keyword}
@@ -117,14 +129,13 @@ function keywordUpdate(el) {
 // 휴지통 버튼 눌렀을때: 선택된 키워드 전부 삭제, active 효과 다 지우기 
 function deleteAll() {
 	$('.selectedKeywords').find('.selectedKeyword').detach();
-	$('.active:not(.no-outline)').removeClass('active');
+	$('.locfood-content').find('.active:not(.no-outline)').removeClass('active');
 }
 
 // 모달 열기
 function showModal() {
 	$("#myModal").fadeIn(200); 
-	// 만약에 선택한 값이 있으면 hide 하면 안됨
-	$('.footer-modal').hide(); 
+	hideSelectedDiv();
 }
 
 // 모달 닫기
