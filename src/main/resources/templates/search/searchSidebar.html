@@ -1,13 +1,13 @@
 <aside th:fragment="searchSidebar" layout:fragment="content" id="sidebar"
  class="form-box">
 	
-	<section class="part parent">
+	<section class="part parent locReset">
 		<div class="top no-reset">
 			<h5>지역</h5>
-			<span class="reset">초기화</span>
+			<span class="reset" id="locReset">초기화</span>
 		</div>
 		<div class="horizontal-line"></div>
-		<div class="keywords no-toggle">
+		<div class="keywords no-toggle" id="locationArea">
 			<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>
 <!--			<span class="keyword active">부산진구</span>-->
 <!--			<span class="keyword active">사상구</span>-->
@@ -16,13 +16,13 @@
 <!--			<span class="select">지역 선택</span>-->
 		</div>
 	</section>
-	<section class="part parent">
+	<section class="part parent foodReset">
 		<div class="top no-reset">
 			<h5>음식종류</h5>
-			<span class="reset">초기화</span>
+			<span class="reset" id="foodReset">초기화</span>
 		</div>
 		<div class="horizontal-line"></div>
-		<div class="keywords no-toggle">
+		<div class="keywords no-toggle" id="foodArea">
 			<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>
 <!--			<span class="keyword active">중식</span>-->
 <!--			<span class="keyword active">한식</span>-->

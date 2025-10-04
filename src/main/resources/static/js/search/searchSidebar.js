@@ -28,14 +28,22 @@ $(function() {
 	$('.keywords').on('click', '.show-modal', showModal);
 	
 	// 모달닫기
-	$(".close-btn").on("click",hideModal);
+	$(".close-btn").on("click", function() {
+		hideModal();
+		deleteAll();
+	});
+	//모달 외에 부분 눌렀을때
 	$(window).on("click", function(e) {
-	    if (e.target == $("#myModal")[0]) hideModal();
+	    if (e.target == $("#myModal")[0]) {
+			hideModal();
+			deleteAll();
+		}
 	});	
 	
 	// 모달 적용하기 버튼 
 	$("#apply-btn").on("click", function() {
 	    hideModal();
+		updateSidebar();
 	});
 	
 	//개별 키워드 삭제버튼 
@@ -53,25 +61,63 @@ $(function() {
 	})
 	
 });
+function updateSidebar() {
+	console.log('사이드바 업데이트');
+	const locKeywords = $('.selectedKeyword:not(.food)').map(function() {
+	  return $(this).clone().find('.delete').remove().end().text().trim();
+	}); 
+	const foodKeywords = $('.selectedKeyword:not(.location)').map(function() {
+	  return $(this).clone().find('.delete').remove().end().text().trim();
+	}); 
+	// 나중에 value 값도 추가 해야함
+	$('#locationArea').empty();
+	$('#foodArea').empty();
+	const selectBtn = `<span class="select show-modal">종류선택</span>`;
+	
+	renderKeyword(locKeywords, $('#locationArea'), $('#sidebar').find('#locReset'), selectBtn);
+	renderKeyword(foodKeywords, $('#foodArea'), $('#sidebar').find('#foodReset'), selectBtn);
+}
+
+function renderKeyword(keywords, area, resetBtn, selectBtn) {
+	if(!keywords.length) {
+		reset(resetBtn);
+	} else {
+		keywords.map(function(_,keyword) {
+			const el = `<span class="keyword active">${keyword}</span>`
+			area.append(el);		
+		});
+		area.append(selectBtn);
+	}
+}
+
 
 // 초기화 버튼 실행 함수 
 function reset(el) {
 	const isNoReset = $(el).closest('.top').hasClass('no-reset');
 	const isPrice = $(el).closest('.top').hasClass('price');
-	const isLocation = $(el).closest('.parent').is('#location');
-	const isFood = $(el).closest('.parent').is('#food');
+	const isLocation = $(el).closest('.parent').hasClass('locReset');
+	const isFood = $(el).closest('.parent').hasClass('foodReset');
 	if(isNoReset) {
 		const parentEl = $(el).closest('section.part').find('.keywords');
 		parentEl.empty();
-		parentEl.append(`<span class="dashed-box">+ 키워드를 선택해주세요</span>`);
+		parentEl.append(`<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>`);
 		$(el).closest('section.part').find('.select').hide();
+		
+		//사이드바에서 초기화 누르면 모달의 키워드, 선택된 목록에도 반영하기
+		if(isLocation) {
+			$('.location').removeClass('active');
+			$('.selectedKeywords').find('.location').detach();
+		} 
+		if(isFood) {
+			$('.food').removeClass('active');
+			$('.selectedKeywords').find('.food').detach();	
+		}
 		return;	
 	}
 	if(isPrice) $('#price-slider')[0].noUiSlider.reset();
 	$(el).closest('.parent').find('.keyword:not(.no-outline)').removeClass('active');
 	if(isLocation) $('.selectedKeywords').find('.location').detach();
 	if(isFood) $('.selectedKeywords').find('.food').detach();
-	
 }
 
 function hideSelectedDiv() {
@@ -86,7 +132,7 @@ function deleteKeyword(el) {
 	//배열을 돌면서 직접 매치되는것의 요소의 클래스 삭제 -> 백엔드 들어가면, vaule값으로 판별하는걸로 바꾸기
 	const keywordText = $(el).closest('.selectedKeyword').clone().find('.delete').remove()      
 							 .end().text().trim();                       
-	$('.keywords').find('.keyword').each(function() {
+	$('.keywords').find('.keyword').each(function() { 
 		if($(this).text().trim() == keywordText) {
 			$(this).removeClass('active');
 		}
@@ -125,7 +171,6 @@ function keywordUpdate(el) {
 	$('.selectedKeywords').append(selectedKeyword);
 }
 
-
 // 휴지통 버튼 눌렀을때: 선택된 키워드 전부 삭제, active 효과 다 지우기 
 function deleteAll() {
 	$('.selectedKeywords').find('.selectedKeyword').detach();
@@ -143,7 +188,6 @@ function hideModal () {
 	$("#myModal").fadeOut(200);
 }
 
-
 function priceUpdate(el) {
 	let isPrice = $(el).hasClass('priceKeyword');
 	let isActive = $(el).hasClass('active');
@@ -155,8 +199,6 @@ function priceUpdate(el) {
 	if($(el).hasClass(40) && isActive) $('#price-slider')[0].noUiSlider.set([40,40]);
 	if(!isActive) $('#price-slider')[0].noUiSlider.set([0,40]);
 }
-
-
 
 function toggleActive (el) {
 	const parentEl = $(el).closest('.keywords');
