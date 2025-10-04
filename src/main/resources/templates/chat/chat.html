@@ -2,6 +2,7 @@
 <head>
     <title>1대1 문의 페이지</title>
     <link rel="stylesheet" th:href="@{/css/chat/chat.css}">
+    <script th:src="@{/js/chat/chat.js}"></script>
 </head>
 <body>
 <div layout:fragment="Content">
@@ -22,7 +23,7 @@
 			
 			<!-- 채팅방 리스트 영역 -->
 			<div class="chat-room-list">
-				<div class="chat-room-item">
+				<div class="chat-room-item" data-room-id="1">
 					<div class="chat-room-profile">
 					</div>
 					<div class="chat-room-info">
@@ -33,10 +34,10 @@
 						<span class="unread-count">5</span>
 					</div>
 				</div>
-				
+
 				<div class="horizontal-line"></div>
-				
-				<div class="chat-room-item">
+
+				<div class="chat-room-item" data-room-id="2">
 					<div class="chat-room-profile">
 					</div>
 					<div class="chat-room-info">
@@ -46,10 +47,10 @@
 					<div class="chat-room-badge">
 					</div>
 				</div>
-				
+
 				<div class="horizontal-line"></div>
-				
-				<div class="chat-room-item">
+
+				<div class="chat-room-item" data-room-id="3">
 					<div class="chat-room-profile">
 					</div>
 					<div class="chat-room-info">
@@ -115,14 +116,29 @@
 				</div>
 
 			</div>
+
+			<!-- 이미지 미리보기 영역 -->
+			<div class="image-preview-area" style="display: none; padding: 10px; background: #f5f5f5; border-top: 1px solid #ddd;">
+				<div id="previewContainer" style="display: flex; gap: 10px; flex-wrap: wrap;">
+					<!-- 미리보기 이미지들이 여기에 추가됨 -->
+				</div>
+			</div>
+
 			<div class="chat-input-area">
 				<div class="message-input-container">
 					<input type="text" class="chat-message-input" placeholder="메시지 입력">
 					<i class="fas fa-image attachment-icon"></i>
+					<input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
 				</div>
 				<button class="positive-button">전송</button>
 			</div>
 		</div>
+	</div>
+
+	<!-- 이미지 확대 모달 -->
+	<div id="imageModal">
+		<span class="close-modal">&times;</span>
+		<img id="modalImage">
 	</div>
 
 </div>
