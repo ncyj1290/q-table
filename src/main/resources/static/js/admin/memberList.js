@@ -1,4 +1,5 @@
 $(function() {
+	// Grid.js에 표시할 컬럼
 	const memberColumns = [
 		{ name: 'No.', width: '5%' },
 		{ name: '회원 이름', width: '10%' },
@@ -13,39 +14,43 @@ $(function() {
 			}
 		},
 		{
-			name: '관리', width: '45%',
-			width: '250px',
+			name: '관리', width: '250px',
 			formatter: (cell, row) => {
-				const detailButton = `<a href="/admin_detail" class="management-button">상세보기</a>`;
-				const statusButton = `<button class="management-button status-change-btn">회원 상태변경</button>`;
-				const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
+				// 각 버튼에 해당 행의 고유 ID
+				const memberId = row.cells[2].data;
+
+				const detailButton = `<a href="/admin_detail/${memberId}" class="management-button">상세보기</a>`;
+				const statusButton = `<button class="management-button status-change-btn" data-id="${memberId}">상태변경</button>`;
+				const deleteButton = `<button class="management-button delete-btn" data-id="${memberId}">삭제</button>`;
+
 				return gridjs.html(detailButton + statusButton + deleteButton);
 			}
 		}
 	];
 
-	const memberData = [
-		["1", "김민준", "user_kim", "kim.minjun@example.com", "2025-09-28", "정상"],
-		["2", "이서연", "user_lee", "lee.seoyun@example.com", "2025-09-27", "정상"],
-		["3", "박도현", "user_park", "park.dohyun@example.com", "2025-09-25", "탈퇴"],
-		["4", "최지아", "user_choi", "choi.jia@example.com", "2025-09-22", "정상"],
-		["5", "정은우", "user_jung", "jung.eunwoo@example.com", "2025-09-21", "정상"],
-		["1", "김민준", "user_kim", "kim.minjun@example.com", "2025-09-28", "정상"],
-		["2", "이서연", "user_lee", "lee.seoyun@example.com", "2025-09-27", "정상"],
-		["3", "박도현", "user_park", "park.dohyun@example.com", "2025-09-25", "탈퇴"],
-		["4", "최지아", "user_choi", "choi.jia@example.com", "2025-09-22", "정상"],
-		["5", "정은우", "user_jung", "jung.eunwoo@example.com", "2025-09-21", "정상"],
-		["1", "김민준", "user_kim", "kim.minjun@example.com", "2025-09-28", "정상"],
-		["2", "이서연", "user_lee", "lee.seoyun@example.com", "2025-09-27", "정상"],
-		["3", "박도현", "user_park", "park.dohyun@example.com", "2025-09-25", "탈퇴"],
-		["4", "최지아", "user_choi", "choi.jia@example.com", "2025-09-22", "정상"],
-		["5", "정은우", "user_jung", "jung.eunwoo@example.com", "2025-09-21", "정상"]
-	];
+	// -------------- ajax 요청 -------------
+	$.ajax({
+		url: '/api/members',
+		type: 'GET',
+		success: function(response) {
+			// 서버에서 받은 데이터를 grid.js 형식으로
+			const formattedData = response.map(member => [
+				member.no,
+				member.memberName,
+				member.memberId,
+				member.email,
+				member.joinDate ? member.joinDate.substring(0, 10) : '-',
+				member.memberStatus,
+				null
+			]);
 
-	createGrid({
-		targetId: '#member-table',
-		columns: memberColumns,
-		data: memberData,
-		pagination: { limit: 10 }
+			// createGrid 함수를 호출
+			createGrid({
+				targetId: '#member-table',
+				columns: memberColumns,
+				data: formattedData,
+				pagination: { limit: 10 }
+			});
+		}
 	});
 });
