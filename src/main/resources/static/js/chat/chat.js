@@ -1,6 +1,13 @@
 // ===================================
 // 이벤트 리스너 & 실행 코드
 // ===================================
+// 상수
+const MAX_IMAGES = 3;
+
+// 일반 변수
+let currentRoomId = null;
+let selectedImages = [];
+
 $(function() {
 	// 페이지 로드 시 스크롤 맨 아래로
 	scrollToBottom();
