@@ -30,20 +30,18 @@ $(function() {
 	// 모달닫기
 	$(".close-btn").on("click", function() {
 		hideModal();
-//		deleteAll();
 	});
 	//모달 외에 부분 눌렀을때
 	$(window).on("click", function(e) {
 	    if (e.target == $("#myModal")[0]) {
 			hideModal();
-//			deleteAll();
 		}
 	});	
 	
 	// 모달 적용하기 버튼 
 	$("#apply-btn").on("click", function() {
-	    hideModal();
 		updateSidebar();
+	    hideModal();
 	});
 	
 	//개별 키워드 삭제버튼 
@@ -229,19 +227,44 @@ function deleteAll() {
 }
 
 function renderModal() {
-		
+	$('.selectedKeywords').find('.selectedKeyword').detach();
+	$('.locFoodModal').find('.keyword:not(.no-outline)').removeClass('active');
+//	console.log(filterState);
+//	console.log(tempFilterState.food);
+//	console.log(tempFilterState.location);
+	tempFilterState.location.forEach(key => {
+		const selectedKeyword = `<span class="selectedKeyword active location">${key}<span class="delete active">&times;</span></span>`
+		$('.selectedKeywords').append(selectedKeyword);
+	}); 
+	tempFilterState.food.forEach(key => {
+		const selectedKeyword = `<span class="selectedKeyword active food">${key}<span class="delete active">&times;</span></span>`
+		$('.selectedKeywords').append(selectedKeyword);
+	}); 
+	
+	$('.locFoodModal').find('.keyword:not(.no-outline)').each(function(_,key) {
+		console.log(tempFilterState.food.includes(key));
+		console.log(tempFilterState.location.includes(key));
+		if(tempFilterState.food.includes($(key).text())) $(this).addClass('active');
+		if(tempFilterState.location.includes($(key).text())) $(this).addClass('active');
+	});
 }
 
 // 모달 열기
 function showModal() {
 	$("#myModal").fadeIn(200); 
 	tempFilterState = JSON.parse(JSON.stringify(filterState));
+	
+		console.log('모달열기하고 원본 -> 임시 로 저장'+tempFilterState.food);
+		console.log('모달열기하고 원본 -> 임시 로 저장'+tempFilterState.location);
+	renderModal();
 	hideSelectedDiv();
 }
 
 // 모달 닫기
 function hideModal () {
 	$("#myModal").fadeOut(200);
+	tempFilterState.location = [];
+	tempFilterState.food = [];
 }
 
 function priceUpdate(el) {
