@@ -1,0 +1,90 @@
+/* 1. 모달 전체 배경 (처음에는 숨김) */
+.modal-overlay {
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+   	user-select: none; /* 표준 속성 */
+	-webkit-user-select: none; /* Safari, Chrome 등 */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE/Edge */
+}
+
+.content-modal::-webkit-scrollbar {
+	display: none;
+}
+
+/* 2. 모달 내부 콘텐츠 박스 */
+.inner-modal {
+	background-color: #fefefe;
+    margin: 5vh auto; /* 브라우저 상단에서 5% 여백 */
+    padding: 0px 17px 17px 17px; /* 푸터가 따로 패딩을 가질 수 있도록 하단 패딩 제거 */
+    border: none;
+    width: 90%; 
+    max-width: 700px; 
+    height: 90vh; /* 브라우저 화면 높이의 90%로 고정하여 스크롤 영역을 확보 */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    position: relative;
+    display: flex;
+	flex-direction:column;
+    overflow: hidden; /* inner-modal 전체의 스크롤은 막습니다. */
+}
+
+
+/* 3. 닫기 버튼 (x) 스타일 */
+.close-btn {
+    color: var(--color-main);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #F05F5F;
+}
+
+/* 푸터 영역 */
+.footer-modal {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 20px;
+    position: sticky;
+    bottom: 0;
+    background-color: #fefefe; /* 모달 배경색과 동일하게 설정 */
+    z-index: 10;
+  	gap: 20px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1); 
+	border-radius: 15px;
+    border: 1px solid #ffffff;
+    overflow: auto; /* 선택한 키워드 많아지면 스크롤되ㅔ게 */
+}
+
+.footer-modal::-webkit-scrollbar {
+	display: none;
+}
+
+
+/* 적용하기 버튼 */
+#apply-btn {
+    font-size: 20px;
+    height: 32px;
+    width: 100%;
+	font-weight: bold;
+	color: var(--color-font-positive);
+	border: 1px solid var(--color-main);
+	border-radius: 20px;
+	background-color:var(--color-main);
+	align-content: center;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+

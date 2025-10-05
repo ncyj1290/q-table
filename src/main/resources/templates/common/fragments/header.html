@@ -6,14 +6,29 @@
 		  <a th:href="@{/}">
 		    <img th:src="@{/img/logo.PNG}" alt="로고">
 		  </a>
-
 		  <!-- 검색창 -->
-		  <div class="search-box">
-		    <input type="text" placeholder="검색어를 입력하세요">
-		    <a href="/search" class="search-btn">
-		      <i class="fas fa-search"></i>
-		    </a>
-		  </div>
+		  <th:block th:if="${isSearch}">
+			<div class="search-box">
+			    <input type="text" placeholder="검색어를 입력하세요">
+				<div class="date-area">
+					<span class="seperator">|</span>
+					<span>12.21(일)</span>
+					<span>14:00</span>
+					<span>0명</span>
+				</div>
+			    <a href="/search" class="search-btn">
+			      <i class="fas fa-search"></i>
+			    </a>
+			</div>
+		  </th:block>
+		  <th:block th:unless="${isSearch}">
+			<div class="search-box">
+			    <input type="text" placeholder="검색어를 입력하세요">
+			    <a href="/search" class="search-btn">
+			      <i class="fas fa-search"></i>
+			    </a>
+			</div>
+		  </th:block>
 		  <div class="loginoff">
 			<a th:href="@{/login}">로그인/등록</a>
 		  </div>

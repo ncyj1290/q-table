@@ -146,6 +146,7 @@
 }
 .rating-num {
 	font-weight: bold;
+	color: black;
 }
 .rating-loc {
 	color: var(--color-placeholder);
@@ -188,4 +189,19 @@
 	align-items: center;
 	color: var(--color-placeholder);
 	font-weight: bold;
+	font-size: 20px;
+}
+.search-box {
+	gap: 5px;
+}
+.date-area {
+	font-size: 15px;
+	user-select: none; /* 표준 속성 */
+	-webkit-user-select: none; /* Safari, Chrome 등 */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE/Edge */
+	cursor: pointer;
+}
+.seperator {
+	color:var(--color-placeholder);
 }

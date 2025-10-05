@@ -25,23 +25,24 @@ $(function() {
 	});
 	
 	//모달 열기
-	$('.keywords').on('click', '.show-modal', showModal);
+	$('.keywords').on('click', '.show-modal', showLocFoodModal);
 	
 	// 모달닫기
 	$(".close-btn").on("click", function() {
-		hideModal();
+		hideLocFoodModal();
+		hideDateModal();
 	});
 	//모달 외에 부분 눌렀을때
 	$(window).on("click", function(e) {
 	    if (e.target == $("#myModal")[0]) {
-			hideModal();
+			hideLocFoodModal();
 		}
 	});	
 	
 	// 모달 적용하기 버튼 
 	$("#apply-btn").on("click", function() {
 		updateSidebar();
-	    hideModal();
+	    hideLocFoodModal();
 	});
 	
 	//개별 키워드 삭제버튼 
@@ -75,7 +76,6 @@ let filterState = {
 function updateSidebar() {
 	const selectBtn = `<span class="select show-modal">종류선택</span>`;
 	filterState = JSON.parse(JSON.stringify(tempFilterState));
-	console.log(filterState);
 	const locKeywords = $('.selectedKeyword:not(.food)').map(function() {
 	  return $(this).clone().find('.delete').remove().end().text().trim();
 	}); 
@@ -145,7 +145,6 @@ function reset(el) {
 		$('.selectedKeywords').find('.food').detach();
 		tempFilterState.food = [];	
 	}
-	console.log(tempFilterState);
 }
 
 function hideSelectedDiv() {
@@ -168,7 +167,6 @@ function deleteKeyword(el) {
 	const isLocation = $(el).closest('.selectedKeyword').hasClass('location');
 	isLocation ? tempFilterState.location = tempFilterState.location.filter(loc => loc != keywordText):
 				 tempFilterState.food = tempFilterState.food.filter(food => food != keywordText);
-	console.log(tempFilterState);  
 
 	//개별로 다 삭제 했을때 키워드 목록창 가리기 
 	hideSelectedDiv();
@@ -213,7 +211,6 @@ function keywordUpdate(el) {
 	//tempFilterState 에 저장하기 
 	if(keywordClass == 'location') tempFilterState.location.push(keyword);
 	if(keywordClass == 'food') tempFilterState.food.push(keyword);
-	console.log(tempFilterState);
 }
 
 // 휴지통 버튼 눌렀을때: 선택된 키워드 전부 삭제, active 효과 다 지우기 
@@ -223,15 +220,11 @@ function deleteAll() {
 	// 임시 보관소에 값들 지우기
 	tempFilterState.food = [];
 	tempFilterState.location = [];
-	console.log(tempFilterState);
 }
 
 function renderModal() {
 	$('.selectedKeywords').find('.selectedKeyword').detach();
 	$('.locFoodModal').find('.keyword:not(.no-outline)').removeClass('active');
-//	console.log(filterState);
-//	console.log(tempFilterState.food);
-//	console.log(tempFilterState.location);
 	tempFilterState.location.forEach(key => {
 		const selectedKeyword = `<span class="selectedKeyword active location">${key}<span class="delete active">&times;</span></span>`
 		$('.selectedKeywords').append(selectedKeyword);
@@ -242,26 +235,21 @@ function renderModal() {
 	}); 
 	
 	$('.locFoodModal').find('.keyword:not(.no-outline)').each(function(_,key) {
-		console.log(tempFilterState.food.includes(key));
-		console.log(tempFilterState.location.includes(key));
 		if(tempFilterState.food.includes($(key).text())) $(this).addClass('active');
 		if(tempFilterState.location.includes($(key).text())) $(this).addClass('active');
 	});
 }
 
 // 모달 열기
-function showModal() {
+function showLocFoodModal() {
 	$("#myModal").fadeIn(200); 
 	tempFilterState = JSON.parse(JSON.stringify(filterState));
-	
-		console.log('모달열기하고 원본 -> 임시 로 저장'+tempFilterState.food);
-		console.log('모달열기하고 원본 -> 임시 로 저장'+tempFilterState.location);
 	renderModal();
 	hideSelectedDiv();
 }
 
 // 모달 닫기
-function hideModal () {
+function hideLocFoodModal () {
 	$("#myModal").fadeOut(200);
 	tempFilterState.location = [];
 	tempFilterState.food = [];
