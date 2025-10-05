@@ -30,11 +30,11 @@ public class StoreVO {
 	/* 휴일 목록 -> split(",") */
 	private String holidays;
 	/* 편의 시설 목록  -> split(",") 필요 */
-	private String store_facilities;
+	private List<String> store_facilities;
 	/* 매장 카테고리 */
-	private String store_category;
+	private List<String> store_category;
 	/* 매장 분위기 */
-	private String store_atmosphere;
+	private List<String> store_atmosphere;
 	
 	/* 주소 */
 	private String post_code;

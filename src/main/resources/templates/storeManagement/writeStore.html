@@ -2,15 +2,14 @@
 	
 	<head>
 	    <title>매장 등록</title>
-	    <link rel="stylesheet" th:href="@{/css/store_management/write_store.css}">
-		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<script src="js/storeManagement/writeStore.js"></script>
+	    <link rel="stylesheet" th:href="@{/css/storeManagement/write_store.css}">
+		<script th:src="@{/js/storeManagement/writeStore.js}"></script>
+		<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
 	</head>
 	
 	<body>
 		
 		<div layout:fragment="Content">
-			
 			
 			<form action="/write_store" method="post" class="write-store-layout" enctype="multipart/form-data">
 				
@@ -42,11 +41,8 @@
 					<label for="store_account_number" inputmode="numeric" class="input-label"><b>*매장 계좌번호</b></label>
 					<input type="text" class="component-write" placeholder="매장 계좌번호 - 숫자만 입력하세요." id="account_number" name="account_number">
 						
-					<select name="store_account_bank" class="select-box">
-						<option>국민은행</option>
-						<option>부산은행</option>
-						<option>우리은행</option>					
-						<option>은행 계속 ...</option>
+					<select  name="store_account_bank" class="select-box">
+						<option th:each="bank, i : ${bankList}" th:value="${bank.code}" th:text="${bank.code_label}"></option>
 					</select>
 				</div>
 				
@@ -104,28 +100,21 @@
 					<input type="checkbox" class="component-checkbox" name="is_24hour" id="is_24hour">
 				</div>
 	
-				
+				<!-- Open -->
 				<div class="component-layout-row">
 					<label for="open_time" class="input-label"><b>Open Time</b></label>
 						
 					<select name="open_time" id="open_time" class="select-box">
-						<option>00:00</option>
-						<option>00:30</option>
-						<option>01:00</option>					
-						<option>01:30</option>
-						<option>...</option>
+						<option th:each="time, i : ${operationTimeList}" th:value="${time.code}" th:text="${time.code_label}"></option>
 					</select>
 				</div>
 				
+				<!-- Close -->
 				<div class="component-layout-row">
 					<label for="close_time" class="input-label"><b>Close Time</b></label>
 						
 					<select name="close_time" id="close_time" class="select-box">
-						<option>00:00</option>
-						<option>00:30</option>
-						<option>01:00</option>					
-						<option>01:30</option>
-						<option>...</option>
+						<option th:each="time, i : ${operationTimeList}" th:value="${time.code}" th:text="${time.code_label}"></option>
 					</select>
 				</div>
 				
@@ -138,13 +127,7 @@
 				
 				<div class="component-layout-row">
 					<input type="hidden" name="holidays" id="holidays">
-					<button type="button" class="holiday-button" value="srhd_01">월</button>
-					<button type="button" class="holiday-button" value="srhd_02">화</button>
-					<button type="button" class="holiday-button" value="srhd_03">수</button>
-					<button type="button" class="holiday-button" value="srhd_04">목</button>
-					<button type="button" class="holiday-button" value="srhd_05">금</button>
-					<button type="button" class="holiday-button" value="srhd_06">토</button>
-					<button type="button" class="holiday-button" value="srhd_07">일</button>	
+					<button th:each="holiday, i : ${holidayList}" type="button" class="holiday-button" th:value="${holiday.code}" th:text="${holiday.code_label}"></button>
 				</div>
 				
 				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 필수 선택 사항이 아닙니다.</label>
@@ -155,19 +138,14 @@
 				<div class="component-layout-row">
 					<label class="title-label"><h4>매장 사진 업로드</h4></label>
 					<button class="positive-button" type="button" id="sp_upload">추가</button>
-					
-					<!-- 상점 사진 임시로 담는 곳 -->
-<!--					<div id="store_picture_input" style="display:none;"></div>-->
 				</div>
 				
 				<div class="store_picture_layout">
-					
 					<div class="store_picture_element">
 						<i class="bi bi-trash fs-4 sp-remove-bt"></i>
 						<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
 						<span class="sp-name">선택된 파일 없음</span>
 					</div>
-					
 				</div>
 				
 				<!-- Just Info Text -->
@@ -392,15 +370,10 @@
 
 				<div class="component-layout-row">
 					<input type="hidden" name="store_facilities" id="store_facilities">
-					<button type="button" class="facility-button" value="cnvfc_01"><img src="icons/store_facility/icon_power.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_02"><img src="icons/store_facility/icon_kid_allow.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_03"><img src="icons/store_facility/icon_pet.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_04"><img src="icons/store_facility/icon_nokid.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_05"><img src="icons/store_facility/icon_wifi.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_06"><img src="icons/store_facility/icon_parking.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_07"><img src="icons/store_facility/icon_wheel_chair.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_08"><img src="icons/store_facility/icon_group.png" class="facility-icon-size"></button>
-					<button type="button" class="facility-button" value="cnvfc_09"><img src="icons/store_facility/icon_room.png" class="facility-icon-size"></button>
+
+					<button type="button" th:each="facility, i : ${facilityList}" class="facility-button" th:value="${facility.code}">
+						<img th:src="@{'/icons/store_facility/' + ${facility.code} + '.png'}" class="facility-icon-size">
+					</button>
 				</div>
 				
 				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 필수 선택 사항이 아닙니다.</label>
@@ -450,69 +423,13 @@
 				</div>
 				
 				<div class="component-layout-column">
-					
-					<div class="check-box-line-layout">
-						
-						<!-- atmosphere line (1) -->
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_01" name="store_atmosphere" class="component-checkbox">
-							<label>데이트</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_02" name="store_atmosphere" class="component-checkbox">
-							<label>비즈니스 미팅</label>	
-						</div>
-
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_03" name="store_atmosphere" class="component-checkbox">
-							<label>기념일</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_04" name="store_atmosphere" class="component-checkbox">
-							<label>단체회식</label>	
-						</div>		
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_05" name="store_atmosphere" class="component-checkbox">
-							<label>가족모임</label>	
-						</div>	
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_06" name="store_atmosphere" class="component-checkbox">
-							<label>뷰</label>	
-						</div>		
-					</div>
-					
-					<!-- atmosphere line (2) -->
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_07" name="store_atmosphere" class="component-checkbox">
-							<label>상견례</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_08" name="store_atmosphere" class="component-checkbox">
-							<label>조용한</label>	
-						</div>
-	
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_09" name="store_atmosphere" class="component-checkbox">
-							<label>모던한</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_10" name="store_atmosphere" class="component-checkbox">
-							<label>전통적인</label>	
-						</div>		
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="atmo_11" name="store_atmosphere" class="component-checkbox">
-							<label>트렌디한</label>	
-						</div>		
-					</div>
-				
+				    <!-- 한 줄 6개씩 -->
+				    <div th:each="lineIdx : ${#numbers.sequence(0, (atmosphereList.size() - 1) / 6)}" class="check-box-line-layout">
+				        <div th:each="atmo, iterStat : ${atmosphereList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+				            <input type="checkbox" name="store_atmosphere" class="component-checkbox" th:value="${atmo.code}">
+				            <label th:text="${atmo.code_label}">분위기</label>
+				        </div>
+				    </div>
 				</div>
 
 				<div class="horizontal-line"></div>

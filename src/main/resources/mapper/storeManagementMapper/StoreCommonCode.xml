@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreCommonCode">
+
+	<!-- 공통 코드 - 운영 시간 정보 -->
+	<select id="selectCommonCodeForStore">
+		select group_code
+			,code
+			,code_label
+		from common_code
+		where group_code = #{group_code}
+		order by code_index
+	</select>
+	
+
+
+	<!-- 공통 코드 - 은행 정보 -->
+	<select id="selectBankList">
+		select group_code
+			,code
+			,code_label
+		from common_code
+		where group_code = 'bank_code'
+		order by code_index
+	</select>
+	
+	<!-- 공통 코드 - 운영 시간 정보 -->
+	<select id="selectOperationTimeList">
+		select group_code
+			,code
+			,code_label
+		from common_code
+		where group_code = 'time'
+		order by code_index
+	</select>
+	
+	
+	
+
+</mapper>
