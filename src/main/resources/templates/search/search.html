@@ -6,6 +6,8 @@
 	<link rel="stylesheet" th:href="@{/css/search/searchSidebar.css}">
 	<link rel="stylesheet" th:href="@{/css/search/modal.css}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
 	<script th:src="@{/js/search/search.js}"></script>
 	<script th:src="@{/js/search/searchSidebar.js}"></script>
@@ -19,26 +21,578 @@
 	<!-- <div class="main-container"> -->
 		<th:block th:replace="~{search/searchSidebar :: searchSidebar}"></th:block>
 		<section class="content">
+			<div class="filter">
+				<span class="search-title">맛집을 소개합니다!</span>
+				<div class="select-box">
+					<select>
+						<option>별점순</option>
+						<option>리뷰 많은순</option>
+						<option>가격 높은순</option>
+						<option>가격 낮은순</option>
+					</select>
+				</div>
+			</div>
 			<div class="result">
-				<img th:src="@{/img/Q_money_norice.png}">
-				<h1>조건에 맞는 가게가 없어요</h1>
-				<ul>
-					<li>더 일반적인 단어로 검색해보세요</li>
-					<li>문장이 아닌 단어를 입력해보세요</li>
-					<li>설정된 필터를 변경해보세요</li>
-				</ul>
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
 			</div>
-			<div class="recommend">
-				<h4>이런 음식은 어때요</h4>
-				<div class="recommend-keywords">
-					<span class="keyword">타코</span>				
-					<span class="keyword">오마카세</span>				
-					<span class="keyword">새우</span>				
-					<span class="keyword">한우</span>			
-					<span class="keyword">한돈</span>			
-					<span class="keyword">이자카야</span>			
-				</div>	
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
 			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			<div class="result">
+				<div class="result-content">
+					<div class="result-text-area">
+						<div class="result-text-area-top">
+							<div class="store-name-scrap">
+								<span class="store-name">가게 이름</span>
+								<img src="/img/scrap.png">
+							</div>
+							<div class="rating-loc"> 
+								<span class="star">★</span> 
+								<span class="rating-num">4.8</span>
+								<span class="rating-cnt-loc">(647) · 서울 강남구</span>
+							</div>
+							<div class="date">
+								<i class="bi bi-clock-fill"></i> 평일 · 16:00 ~ 02:00
+							</div>
+							<div class="payment">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+									<path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m72 120h-18.58l-14 35a8 8 0 0 1-14.86 0L128 117.54L103.43 179a8 8 0 0 1-14.86 0l-14-35H56a8 8 0 0 1 0-16h12.18L56.57 99a8 8 0 1 1 14.86-6L96 154.46L120.57 93a8 8 0 0 1 14.86 0L160 154.46L184.57 93a8 8 0 1 1 14.86 6l-11.61 29H200a8 8 0 0 1 0 16" />
+								</svg> 1인 평균 : 1~2만원
+							</div>
+						</div>
+						<div class="store-intro">
+							<span class="store-intro-title">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+									<g fill="none">
+										<path fill="#000" d="m4.827 7.138l.445.227zm.441 11.594l.354.353zm12.594-2.559l-.227-.445zm1.311-1.311l-.445-.227zm0-7.724l-.445.227zm-1.311-1.311l.227-.446zm-11.724 0l.227.445zm1.07 
+										10.966l.353.353zM5 10.3c0-.848 0-1.455.04-1.93c.038-.469.11-.766.232-1.005l-.89-.454c-.206.403-.296.847-.34 1.378C4 8.814 4 9.469 4 10.3zm0 1.2v-1.2H4v1.2zm-1 0v5h1v-5zm0 5v1.914h1V16.5zm0 1.914c0 .846 1.023 1.27 1.622.671l-.707-.707a.1.1 0 0 1 
+										.028-.013l.026.002a.06.06 0 0 1 .03.046zm1.622.671l1.939-1.939l-.707-.707l-1.94 1.94zM14.7 16H7.914v1H14.7zm2.935-.273c-.239.122-.536.195-1.005.234c-.476.039-1.082.039-1.93.039v1c.832 0 1.486 0 2.011-.043c.531-.043.975-.133 1.378-.338zm1.092-1.092a2.5 2.5 0 0 
+										1-1.092 1.092l.454.892a3.5 3.5 0 0 0 1.53-1.53zM19 11.7c0 .848 0 1.455-.04 1.93c-.038.469-.11.766-.233 1.005l.892.454c.205-.403.295-.847.338-1.378c.043-.525.043-1.18.043-2.011zm0-1.4v1.4h1v-1.4zm-.273-2.935c.122.239.195.536.234 1.005C19 8.845 19 9.452 19 10.3h1c0-.832 
+										0-1.486-.043-2.011c-.043-.531-.133-.975-.338-1.378zm-1.092-1.093a2.5 2.5 0 
+										0 1 1.092 1.093l.892-.454a3.5 3.5 0 0 0-1.53-1.53zM14.7 6c.848 0 1.454 0 1.93.04c.469.038.766.11 1.005.232l.454-.89c-.403-.206-.847-.296-1.378-.34C16.186 5 15.531 5 14.7 5zM9.3 6h5.4V5H9.3zm-2.935.272c.239-.121.536-.194 1.005-.233C7.845 6 8.452 6 9.3 6V5c-.832 0-1.486 
+										0-2.011.043c-.531.043-.975.133-1.378.338zM5.272 7.365a2.5 2.5 0 0 1 1.093-1.093l-.454-.89a3.5 3.5 0 0 0-1.53 1.529zm2.289 9.781A.5.5 0 0 1 7.914 17v-1a1.5 1.5 0 0 0-1.06.44z" />
+										<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M8.5 9.5h7m-7 3h5" stroke-width="1" />
+									</g>
+								</svg>
+								가게 소개
+							</span>
+							<span class="store-intro-content">
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+								강남구 신사동에 위치한 분위기 좋은 이자까야 입니다. 
+								가끔씩 마약처럼 중독되는 맛이라고 하는데 사실 맞습니다.. 
+								소량을 첨가하고 있습니다.. 많이 이용해주세요
+							</span>
+						</div>
+					</div>
+					<div class="img-area">
+						<img src="/img/food1.jpg">
+					</div>
+				</div>
+				<button class="positive-button">예약하러 가기</button>
+			</div>
+			
+<!--			<div class="no-result">-->
+<!--				<img th:src="@{/img/Q_money_norice.png}">-->
+<!--				<h1>조건에 맞는 가게가 없어요</h1>-->
+<!--				<ul>-->
+<!--					<li>더 일반적인 단어로 검색해보세요</li>-->
+<!--					<li>문장이 아닌 단어를 입력해보세요</li>-->
+<!--					<li>설정된 필터를 변경해보세요</li>-->
+<!--				</ul>-->
+<!--			</div>-->
+<!--			<div class="recommend">-->
+<!--				<h4>이런 음식은 어때요</h4>-->
+<!--				<div class="recommend-keywords">-->
+<!--					<span class="keyword">타코</span>				-->
+<!--					<span class="keyword">오마카세</span>				-->
+<!--					<span class="keyword">새우</span>				-->
+<!--					<span class="keyword">한우</span>			-->
+<!--					<span class="keyword">한돈</span>			-->
+<!--					<span class="keyword">이자카야</span>			-->
+<!--				</div>	-->
+<!--			</div>-->
 		</section>
 		<th:block th:replace="~{search/locFoodModal :: locFoodModal}"></th:block>
 	</th:block>	
