@@ -5,39 +5,19 @@
 	
 <mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreCommonCode">
 
-	<!-- 공통 코드 - 운영 시간 정보 -->
 	<select id="selectCommonCodeForStore">
 		select group_code
 			,code
 			,code_label
+			,code_index
 		from common_code
-		where group_code = #{group_code}
+		<where>
+			group_code = #{group_code}
+			<if test="parent_code != null">
+				and parent_code = #{parent_code}
+			</if>
+		</where>
 		order by code_index
 	</select>
-	
-
-
-	<!-- 공통 코드 - 은행 정보 -->
-	<select id="selectBankList">
-		select group_code
-			,code
-			,code_label
-		from common_code
-		where group_code = 'bank_code'
-		order by code_index
-	</select>
-	
-	<!-- 공통 코드 - 운영 시간 정보 -->
-	<select id="selectOperationTimeList">
-		select group_code
-			,code
-			,code_label
-		from common_code
-		where group_code = 'time'
-		order by code_index
-	</select>
-	
-	
-	
 
 </mapper>

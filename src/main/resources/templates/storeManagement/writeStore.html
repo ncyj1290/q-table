@@ -163,130 +163,23 @@
 					<!-- Store Category -> Country -->
 					<label class="title-label" style="align-self: start;"><h5>국가별</h5></label>
 					
-					<!-- Country - 1 -->
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_01" name="store_category" class="component-checkbox">
-							<label>한식</label>	
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctCountryList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctCountry, iterStat : ${ctCountryList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctCountry.code}" name="store_category" class="component-checkbox">
+							<label th:text="${ctCountry.code_label}"></label>	
 						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_02" name="store_category" class="component-checkbox">
-							<label>중식</label>	
-						</div>
-
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_03" name="store_category" class="component-checkbox">
-							<label>일식</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_04" name="store_category" class="component-checkbox">
-							<label>양식</label>	
-						</div>		
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_05" name="store_category" class="component-checkbox">
-							<label>분식</label>	
-						</div>	
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_06" name="store_category" class="component-checkbox">
-							<label>기타</label>	
-						</div>		
 					</div>
 					
-					<!-- Country - 2 -->
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_07" name="store_category" class="component-checkbox">
-							<label>프랑스</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_08" name="store_category" class="component-checkbox">
-							<label>스페인</label>	
-						</div>
-
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_09" name="store_category" class="component-checkbox">
-							<label>아메리칸</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_10" name="store_category" class="component-checkbox">
-							<label>유러피안</label>	
-						</div>		
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_11" name="store_category" class="component-checkbox">
-							<label>아시아</label>	
-						</div>	
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_12" name="store_category" class="component-checkbox">
-							<label>퓨전</label>	
-						</div>		
-					</div>		
-					
-					<!-- Country - 3 -->
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_13" name="store_category" class="component-checkbox">
-							<label>베트남</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_14" name="store_category" class="component-checkbox">
-							<label>태국</label>	
-						</div>
-
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_15" name="store_category" class="component-checkbox">
-							<label>인도</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_16" name="store_category" class="component-checkbox">
-							<label>멕시코</label>	
-						</div>			
-					</div>	
-
 					<br>
 					
 					<!-- Store Category -> Meat(?) -->
 					<label class="title-label" style="align-self: start;"><h5>육류</h5></label>
 										
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_17" name="store_category" class="component-checkbox">
-							<label>소고기</label>	
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctMeatList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctMeat, iterStat : ${ctMeatList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctMeat.code}" name="store_category" class="component-checkbox">
+							<label th:text="${ctMeat.code_label}"></label>	
 						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_18" name="store_category" class="component-checkbox">
-							<label>돼지고기</label>	
-						</div>
-
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_19" name="store_category" class="component-checkbox">
-							<label>양고기</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_20" name="store_category" class="component-checkbox">
-							<label>닭/오리</label>	
-						</div>		
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_21" name="store_category" class="component-checkbox">
-							<label>곱창/막창</label>	
-						</div>	
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_22" name="store_category" class="component-checkbox">
-							<label>족발/보쌈</label>	
-						</div>		
 					</div>
 					
 					<br>
@@ -294,68 +187,34 @@
 					<!-- Store Category -> Seafood -->
 					<label class="title-label" style="align-self: start;"><h5>해산물</h5></label>
 										
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_23" name="store_category" class="component-checkbox">
-							<label>스시</label>	
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctSeafoodList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctSeafood, iterStat : ${ctSeafoodList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctSeafood.code}" name="store_category" class="component-checkbox">
+							<label th:text="${ctSeafood.code_label}"></label>	
 						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_24" name="store_category" class="component-checkbox">
-							<label>회</label>	
-						</div>
-
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_25" name="store_category" class="component-checkbox">
-							<label>갑각류</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_26" name="store_category" class="component-checkbox">
-							<label>해물탕/찜</label>	
-						</div>		
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_27" name="store_category" class="component-checkbox">
-							<label>어패류</label>	
-						</div>		
 					</div>
 					
 					<br>
 					
 					<!-- Store Category -> Drink(alcohol) -->
 					<label class="title-label" style="align-self: start;"><h5>술</h5></label>
-										
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_28" name="store_category" class="component-checkbox">
-							<label>이자카야</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_29" name="store_category" class="component-checkbox">
-							<label>바</label>	
-						</div>
-
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_30" name="store_category" class="component-checkbox">
-							<label>호프</label>	
-						</div>
-						
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_31" name="store_category" class="component-checkbox">
-							<label>요리주점</label>	
-						</div>			
-					</div>
 					
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctDrinkList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctDrink, iterStat : ${ctDrinkList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctDrink.code}" name="store_category" class="component-checkbox">
+							<label th:text="${ctDrink.code_label}"></label>	
+						</div>
+					</div>
+										
 					<br>
+					
 					<!-- Store Category -> Drink(alcohol) -->
 					<label class="title-label" style="align-self: start;"><h5>카페</h5></label>
 										
-					<div class="check-box-line-layout">
-						<div class="checkbox-layout-row">
-							<input type="checkbox" value="srct_32" name="store_category" class="component-checkbox">
-							<label>카페</label>	
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctCafeList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctCafe, iterStat : ${ctCafeList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctCafe.code}" name="store_category" class="component-checkbox">
+							<label th:text="${ctCafe.code_label}"></label>	
 						</div>
 					</div>
 										

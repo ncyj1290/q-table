@@ -10,6 +10,7 @@ import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 @Mapper
 public interface StoreCommonCode {
 	
-	List<CommonCodeVO> selectCommonCodeForStore(@Param("group_code") String group_code);
+	/* 만약 Parent Code 필요 없을 시 Null 전달 필요 */
+	List<CommonCodeVO> selectCommonCodeForStore(@Param("group_code") String group_code, @Param("parent_code") String parent_code);
 	
 }
