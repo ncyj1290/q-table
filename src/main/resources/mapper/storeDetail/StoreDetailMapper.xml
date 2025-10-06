@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper">
+
+	<!-- 매장 기본 정보 조회-->
+	<select id="getStoreDetail">
+		SELECT
+			   s.*   
+			 , open_code.code_label
+			 , close_code.code_label
+		  FROM store s
+     LEFT JOIN common_code open_code ON s.open_time = open_code.code
+	 LEFT JOIN common_code close_code ON s.close_time = close_code.code
+		 WHERE s.store_idx = #{storeIdx}
+	</select>
+
+	<!-- 매장 카테고리 조회 -->
+	<select id="getStoreCategories">
+		SELECT cat_code.code_label
+		  FROM store_category sc
+		  JOIN common_code cat_code ON sc.store_category = cat_code.code
+		 WHERE sc.store_idx = #{storeIdx}
+	</select>
+	
+	<!-- 매장 분위기 조회 -->
+	<select id="getStoreAtmosphere">
+		SELECT atm_code.code_label
+		  FROM store_atmosphere sa
+		  JOIN common_code atm_code ON sa.store_atmosphere = atm_code.code
+		 WHERE sa.store_idx = #{storeIdx}
+	</select>
+</mapper>

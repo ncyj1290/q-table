@@ -13,7 +13,7 @@
                 <div class="image-label">모든 사진 보기</div>
             </div>
             <div class="store-info">
-                <h1 class="store-name">참잘돼지국밥</h1>
+                <h1 class="store-name" th:text="${store_name}"></h1>
                 <div class="rating">
                     <span class="stars">★★★★☆</span>
                     <span class="rating-score">3.78</span>
@@ -32,12 +32,12 @@
             <li class="info-item">
                 <span class="info-icon"><i class="fa-regular fa-clock"></i></span>
                 <span class="info-label">영업 시간</span>
-                <span class="info-content">매주 월 ~ 금 09:00 ~ 20:00</span>
+				<span class="info-content" th:text="'매주 월~금 ' + ${openTimeLabel} + ' ~ ' + ${closeTimeLabel}"></span>
             </li>
             <li class="info-item">
                 <span class="info-icon"><i class="fa-solid fa-phone"></i></span>
                 <span class="info-label">식당 전화번호</span>
-                <span class="info-content">010-1234-1234</span>
+                <span class="info-content" th:text="${store_phone}"></span>
             </li>
             <li class="info-item">
                 <span class="info-icon"><i class="fa-solid fa-map-location-dot"></i></span>
@@ -48,7 +48,7 @@
         <div class="map-container">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.9876543210123!2d128.8765432109876!3d35.1567890123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDA5JzI0LjQiTiAxMjjCsDUyJzM1LjYiRQ!5e0!3m2!1sko!2skr!4v1234567890123"></iframe>
         </div>
-        <p class="map-address">부산 아이터월 1111</p>
+        <p class="map-address" th:text="${full_address}"></p>
 
         <div class="horizontal-line"></div>
 
@@ -56,7 +56,7 @@
             <span class="info-icon"><i class="fa-solid fa-tags"></i></span>
             <span class="info-label">카테고리</span>
             <div class="tags">
-                <span class="tag">중식</span>
+                <span class="tag" th:each="category : ${categories}" th:text="${category.categoryName}"></span>
             </div>
         </div>
 
@@ -65,7 +65,7 @@
             <span class="info-icon"><i class="fa-solid fa-chair"></i></span>
             <span class="info-label">매장 분위기</span>
             <div class="tags">
-                <span class="tag">룸</span>
+                <span class="tag" th:each="atmosphere : ${atmosphere}" th:text="${atmosphere.atmosphereName}">룸</span>
             </div>
         </div>
 	
