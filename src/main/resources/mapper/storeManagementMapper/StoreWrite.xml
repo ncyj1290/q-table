@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite">
+
+	<!-- 새 매장 등록 -->
+	<insert id="insertNewStore">
+		insert into store(
+			member_idx
+			,store_name
+			,store_phone
+			,post_code
+			,full_address
+			,sido
+			,sigungu
+			,store_seat
+			,account_number
+			,bank_code
+			,deposit
+			,store_content
+			,open_time
+			,close_time
+			,price_avg
+			,qr_code
+			,is_24hour
+		)values(
+			#{member_idx}
+			,#{store_name}
+			,#{store_phone}
+			,#{post_code}
+			,#{full_address}
+			,#{sido}
+			,#{sigungu}
+			,#{store_seat}
+			,#{account_number}
+			,#{bank_code}
+			,#{deposit}
+			,#{store_content}
+			,#{open_time}
+			,#{close_time}
+			,#{price_avg}
+<!--			,#{qr_code}-->
+			,null <!-- 일단 QR 널값 -->
+			,#{is_24hour}
+		)
+	</insert>
+
+</mapper>

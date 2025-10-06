@@ -94,9 +94,18 @@ $(function() {
 	/* 예약금 */
 	/* ==================================== */
 	/* 숫자 제외 입력 거부 */
-	$("#deposite").on("keyup", function(){
+	$("#deposit").on("keyup", function(){
 		onlyNumHandler($(this));
 	});
+	
+	/* ==================================== */
+	/* 예약금 */
+	/* ==================================== */
+	/* 숫자 제외 입력 거부 */
+	$("#price_avg").on("keyup", function(){
+		onlyNumHandler($(this));
+	});
+	
 	
 	/* ==================================== */
 	/* 매장 운영 시간 */
@@ -382,6 +391,12 @@ $(function() {
 	/* Submit */
 	$("#submit_bt").on("click", function(){
 		
+		/* 빈칸 검사 -> 필요시 그냥 주석해서 비활성화 */
+//		if(!checkInputNull()){
+//			return false;
+//		}
+
+		/* 빈 칸 없으면 저장 진행 */
 		reindexSP();
 		reindexMenu();
 		reindexIng();
@@ -394,12 +409,12 @@ $(function() {
 	/* 검사 로직 모음 */
 	/* ==================================== */
 	/* 임시 검사 버튼 */
-	$("#test_bt").on("click", function(){
-		checkBasicData();
-	});
+//	$("#test_bt").on("click", function(){
+//		checkBasicData();
+//	});
 	
 	/* 입력란 공백 검사 */
-	function checkBasicData(){
+	function checkInputNull(){
 		
 		const $basicComponent = $(".component-write");
 		console.log("Check Basic Components (Widget): " + $basicComponent);
@@ -414,9 +429,12 @@ $(function() {
 			if(isEmpty){
 				alert("빈칸 채워라");
 				$el.focus();
-				return;
+				return false;
 			}
 		}
+		
+		/* 검사 통과 시 true 반환 */
+		return true
 	}
 	
 	/* ==================================== */

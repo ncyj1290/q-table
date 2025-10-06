@@ -10,22 +10,30 @@ import lombok.Data;
 @Data
 public class StoreVO {
 
+	private int member_idx;
+	
 	private MultipartFile store_profile_file;
 	private String store_profile_path;
 	
 	private String store_name;
 	private String store_phone;
 	private String account_number;
-	private String accoutn_bank;
+	private String bank_code;
 	
 	private String store_seat;
-	private String deposite;
+	private String deposit;
 	private String store_content;
 	
-	/* 매장 테이블 -> 24시간인지 확인하는 Flag Column 추가 필요하다고 말해야함. */
+	/* 닫는시간, 여는시간, 24시간 플래그 */
 	private String open_time;
 	private String close_time;
-//	private String is_24hour;
+	private boolean is_24hour;
+	
+	/* 매장 등록 페이지에서 사용 */
+	private String flag_24hour;
+	
+	/* 평균 식사 비용 */
+	private String price_avg;
 	
 	/* 휴일 목록 -> split(",") */
 	private String holidays;
@@ -41,6 +49,10 @@ public class StoreVO {
 	private String address;
 	private String address_detail;
 	private String full_address;
+	
+	private String sido;
+	private String sigungu;
+	
 	
 	/* 매장 이미지 사진 리스트 */
 	 private List<StorePicture> storePictureList;

@@ -40,23 +40,14 @@ public class StoreWriteController {
 	@PostMapping("/write_store")
 	public String inserNewStore(@ModelAttribute  StoreVO storeVO) throws Exception {
 		
-		System.out.println("Check Write Store Submit -> Done");
 		System.out.println("Store Write - VO CHECK: " + storeVO.toString());
 		
+		/* 현재 회원 관련 x -> 임시로 회원 idx 부여했음 */
+		storeVO.setMember_idx(2);
+	
+		/* 새로운 매장 추가 */
+		storeWriteService.insertNewStore(storeVO);
 		
-		
-		String savePath = fileUploadService.saveFileAndGetPath(storeVO.getStore_profile_file());
-		
-		
-		
-		
-		/* 매장 주소 가공 */
-		storeVO.setFull_address(storeVO.getPost_code() + " " + storeVO.getAddress() + " " + storeVO.getAddress_detail());
-		
-		
-		
-		
-		System.out.println("File Save Path: " + savePath);
 
 		return "redirect:store_reservation_list";
 	}
