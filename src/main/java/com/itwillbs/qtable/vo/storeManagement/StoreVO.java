@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class StoreVO {
 
+	private int store_idx;
 	private int member_idx;
 	
 	private MultipartFile store_profile_file;
@@ -38,7 +39,10 @@ public class StoreVO {
 	/* 휴일 목록 -> split(",") */
 	private String holidays;
 	/* 편의 시설 목록  -> split(",") 필요 */
-	private List<String> store_facilities;
+	private String store_amenity;
+	
+	
+	
 	/* 매장 카테고리 */
 	private List<String> store_category;
 	/* 매장 분위기 */

@@ -228,7 +228,7 @@
 				</div>
 
 				<div class="component-layout-row">
-					<input type="hidden" name="store_facilities" id="store_facilities">
+					<input type="hidden" name="store_amenity" id="store_facilities">
 
 					<button type="button" th:each="facility, i : ${facilityList}" class="facility-button" th:value="${facility.code}">
 						<img th:src="@{'/icons/store_facility/' + ${facility.code} + '.png'}" class="facility-icon-size">

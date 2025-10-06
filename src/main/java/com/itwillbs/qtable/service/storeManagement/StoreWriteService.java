@@ -76,9 +76,8 @@ public class StoreWriteService {
 	@Transactional
 	public void insertNewStore(StoreVO storeVO) {
 		
-		/* 데이터 추가 가공 */
-		
-		/* 주소 */
+		/* ------------------------------------------------------------------------------------ */
+//		/* 주소 정보 가공 */
 		String postCode = storeVO.getPost_code();
 		String address = storeVO.getAddress();
 		String addDetail = storeVO.getAddress_detail();
@@ -91,16 +90,55 @@ public class StoreWriteService {
 		storeVO.setSigungu(addressDiv[1]);
 		
 		
-		
 		String fullAdd = postCode + ", " + address + ", " + addDetail;
 		storeVO.setFull_address(fullAdd);
 		
-
-		
-		
-		
-		
+		/* ------------------------------------------------------------------------------------ */
+		/* 1차 Insert -> Store 기본 정보 저장 */
 		int storeRes = storeWrite.insertNewStore(storeVO);
+		
+
+		/* ------------------------------------------------------------------------------------ */
+		/* 휴일 등록 */
+		String[] holidayList = storeVO.getHolidays().split(",");
+		
+		if(holidayList != null) {
+			for(String holiday:holidayList) {
+				storeWrite.insertNewHoliday(1, holiday);
+			}
+		}
+		
+		/* ------------------------------------------------------------------------------------ */
+		/* 편의 시설 */
+		String[] amenityList = storeVO.getStore_amenity().split(",");
+		
+		if(amenityList != null) {
+			for(String amenity:amenityList) {
+				storeWrite.insertNewAmenity(1, amenity);
+			}
+		}
+
+		/* ------------------------------------------------------------------------------------ */
+		/* 편의 시설 */
+		List<String> atmoList = storeVO.getStore_atmosphere();
+		
+		if(atmoList != null) {
+			for(String atmo:atmoList) {
+				storeWrite.insertNewAtmosphere(1, atmo);
+			}
+		}
+		
+		/* ------------------------------------------------------------------------------------ */
+		/* 편의 시설 */
+		List<String> categoryList = storeVO.getStore_category();
+		
+		if(categoryList != null) {
+			for(String cat:categoryList) {
+				storeWrite.insertNewCategory(1, cat);
+			}
+		}
+		
+		
 	}
 	
 	

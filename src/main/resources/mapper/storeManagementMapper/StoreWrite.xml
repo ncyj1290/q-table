@@ -6,7 +6,10 @@
 <mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite">
 
 	<!-- 새 매장 등록 -->
-	<insert id="insertNewStore">
+	<insert id="insertNewStore"
+		useGeneratedKeys="true"
+		keyProperty="store_idx"
+	>
 		insert into store(
 			member_idx
 			,store_name
@@ -46,5 +49,51 @@
 			,#{is_24hour}
 		)
 	</insert>
+	
+	<!-- 휴일 등록 -->
+	<insert id="insertNewHoliday">
+		insert into store_holiday(
+			store_idx
+			,store_holiday
+		)values(
+			#{store_idx}
+			,#{store_holiday}	
+		)
+	</insert>
+	
+	<!-- 편의 시설 -->
+	<insert id="insertNewAmenity">
+		insert into store_amenity(
+			store_idx
+			,store_amenity
+		)values(
+			#{store_idx}
+			,#{store_amenity}	
+		)
+	</insert>
+	
+	<!-- 분위기 -->
+	<insert id="insertNewAtmosphere">
+		insert into store_atmosphere(
+			store_idx
+			,store_atmosphere
+		)values(
+			#{store_idx}
+			,#{store_atmosphere}	
+		)
+	</insert>
+	
+	<!-- 카테고리 -->
+	<insert id="insertNewCategory">
+		insert into store_category(
+			store_idx
+			,store_category
+		)values(
+			#{store_idx}
+			,#{store_category}	
+		)
+	</insert>
+	
+	
 
 </mapper>

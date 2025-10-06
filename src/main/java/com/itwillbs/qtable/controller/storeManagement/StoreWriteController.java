@@ -45,7 +45,7 @@ public class StoreWriteController {
 		/* 현재 회원 관련 x -> 임시로 회원 idx 부여했음 */
 		storeVO.setMember_idx(2);
 	
-		/* 새로운 매장 추가 */
+		/* 새로운 매장 및 매장 부가 요소 DB에 추가 */
 		storeWriteService.insertNewStore(storeVO);
 		
 
