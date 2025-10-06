@@ -158,7 +158,7 @@ function deleteKeyword(el) {
 	//배열을 돌면서 직접 매치되는것의 요소의 클래스 삭제 -> 백엔드 들어가면, vaule값으로 판별하는걸로 바꾸기
 	const keywordText = $(el).closest('.selectedKeyword').clone().find('.delete').remove()      
 							 .end().text().trim();                       
-	$('.keywords').find('.keyword').each(function() { 
+	$('.locFoodModal').find('.keyword').each(function() { 
 		if($(this).text().trim() == keywordText) {
 			$(this).removeClass('active');
 		}

@@ -9,6 +9,16 @@
     padding: 20px 0px;
     gap: 20px;
     position:relative;
+	flex-direction: column;
+}
+.sidebar-content{
+	display: flex;
+	flex-direction: row;
+	gap: 30px;
+}
+.modal-area {
+	display: flex;
+	flex-direction: column;
 }
 
 .main-container * {
@@ -140,7 +150,7 @@
 	height: 30px;
 }
 .star {
-	color: #ffa500;
+	color: var(--color-star);
 	display: inline-flex;
 	align-items: center;
 }
