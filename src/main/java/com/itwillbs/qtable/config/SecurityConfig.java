@@ -62,6 +62,11 @@ public class SecurityConfig {
 //	                
 //	            ).hasAnyRole("mtype_01", "mtype_03")
 	            
+	            // 일반회원, 매장 회원만 접근 가능한 경로 
+//	            .requestMatchers(
+//	                
+//	            ).hasAnyRole("mtype_02", "mtype_03")
+	            
 	            // 3. 인가된 사용자(로그인한 모든 사용자)만 접근 가능한 경로는 여기에 추가
 	            .requestMatchers(
 	                "/chat", "/on_site_payment", "/reservation", "/mypage_main",
@@ -91,6 +96,7 @@ public class SecurityConfig {
 					.passwordParameter("passwd") //로그인 페이지에서 name값하고 일치시켜야함 
 					.defaultSuccessUrl("/") //성공시 이동하는 기본 경로 
 //					.successHandler(null) //  성공시 핸들러 
+//					.failureHandler(null) // 실패시 핸들러 
 					.failureUrl("/login?error=true") //로그인 실패시 이동하는 경로
 				)
 				//로그인 유지 설정 
@@ -111,7 +117,7 @@ public class SecurityConfig {
 			    )
 				.userDetailsService(qtableUserDetailsService) //커스텀한 객체로 사용하기
 				.build();
-		 
+		 		// 더 해야하는거: 아이디 기억, 로그인 성공및 실패 핸들러, 403에러 핸들러, 에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
 	}
 	
 }
