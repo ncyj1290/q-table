@@ -13,6 +13,7 @@ import com.itwillbs.qtable.service.AdminService;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
 import com.itwillbs.qtable.vo.admin.MemberUpdateVO;
+import com.itwillbs.qtable.vo.admin.StoreListVO;
 
 @RestController
 public class AdminApiController {
@@ -39,5 +40,18 @@ public class AdminApiController {
 	public void memberUpdate(@PathVariable("memberIdx") Integer memberIdx, @RequestBody MemberUpdateVO MemberUpdateVO) {
 
 		adminService.memberUpdate(memberIdx, MemberUpdateVO);
+	}
+	
+    // 회원 삭제 이벤트
+    @PostMapping("/api/members/{memberIdx}")
+    public void deleteMember(@PathVariable("memberIdx") Integer memberIdx) {
+    	adminService.deleteMember(memberIdx);
+    }
+    
+	// 매장 회원 목록 리스트 조회
+	@GetMapping("/api/stores")
+	public List<StoreListVO> findStoreMembers() {
+
+		return adminService.findStoreMembers();
 	}
 }

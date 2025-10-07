@@ -9,6 +9,19 @@ function openCommonModal(options) {
 	$('#common-modal').addClass('active');
 }
 
+function openCommonConfirmModal(options) {
+	// 1. 전달받은 옵션으로 모달의 내용물을 채웁니다.
+	$('#modal-title').text(options.title);
+	$('#modal-body-content').html(options.bodyHtml);
+	$('#modal-save-btn').text('삭제'); // 저장 버튼 텍스트를 '삭제'로 고정
+
+	// 2. '삭제' 버튼의 기존 이벤트를 제거하고, 새로 받은 onConfirm 함수를 등록합니다.
+	$('#modal-save-btn').off('click').on('click', options.onConfirm);
+
+	// 3. 모달을 화면에 보여줍니다.
+	$('#common-modal').addClass('active');
+}
+
 
 // --- 모달 공통 이벤트 핸들러 ---
 $(function() {

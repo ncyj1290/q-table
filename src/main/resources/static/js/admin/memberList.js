@@ -58,59 +58,97 @@ $(function() {
 	});
 
 
-	// 공통 모달을 호출하는 역할
-	$('#member-table').on('click', '.status-change-btn', function() {
+	$('.grid-wrapper').on('click', '.status-change-btn', function() {
 		const member_idx = $(this).data('idx');
 		const member_id = $(this).data('id');
 
-		// 모달에 들어갈 HTML 내용 정의
-		const body_html = `
-	        <div class="form-group">
-	            <label>변경 대상 아이디</label>
-	            <div class="readonly-input">${member_id}</div>
-	        </div>
-	        <div class="form-group">
-	            <label>회원 상태</label>
-	            <div class="select-box" style="width: 100%;">
-	                <select id="modal-status-select">
-	                    <option value="mstat_01">정상</option>
-	                    <option value="mstat_02">탈퇴</option>
-					</select>
-	            </div>
-	        </div>
-	        <div class="form-group">
-	            <label>탈퇴 사유</label>
-	            <textarea id="modal-reason-textarea" class="reason-textarea" placeholder="탈퇴 처리 시 사유를 입력하세요."></textarea>
-	        </div>
-	    `;
+		// AJAX 현재 회원 정보를 가져오기
+		$.ajax({
+			url: `/api/members/${member_idx}`,
+			type: 'GET',
+			success: function(memberVO) {
 
-		// 수정 버튼을 눌렀을 때 실행될 기능
-		const save_function = function() {
-			const update_data = {
-				member_status: $('#modal-status-select').val(),
-				leave_reason: $('#modal-reason-textarea').val()
-			};
+				const body_html = `
+	                <div class="form-group">
+	                    <label>변경 대상 아이디</label>
+	                    <div class="readonly-input">${member_id}</div>
+	                </div>
+	                <div class="form-group">
+	                    <label>회원 상태</label>
+	                    <div class="select-box" style="width: 100%;">
+	                        <select id="modal-status-select">
+	                            <option value="mstat_01">정상</option>
+	                            <option value="mstat_02">탈퇴</option>
+	                        </select>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label>탈퇴 사유</label>
+	                    <textarea id="modal-reason-textarea" class="reason-textarea" placeholder="탈퇴 처리 시 사유를 입력하세요."></textarea>
+	                </div>
+	            `;
 
-			$.ajax({
-				url: `/api/members/${member_idx}/status`,
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(update_data),
-				success: function(response) {
-					alert("상태 변경에 성공했습니다.");
-					$('#common-modal').removeClass('active');
-					location.reload();
-				},
-				error: function(error) { alert("상태 변경에 실패했습니다."); }
-			});
-		};
+				// 수정 버튼을 눌렀을 때 실행될 기능
+				const save_function = function() {
+					const update_data = {
+						member_status: $('#modal-status-select').val(),
+						leave_reason: $('#modal-reason-textarea').val()
+					};
 
-		// 공통 모달 함수 호출
-		openCommonModal({
-			title: '회원 상태 변경',
-			bodyHtml: body_html,
-			saveButtonText: '수정',
-			onSave: save_function
+					$.ajax({
+						url: `/api/members/${member_idx}/status`,
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(update_data),
+						success: function(response) {
+							alert("상태 변경에 성공했습니다.");
+							$('#common-modal').removeClass('active');
+							location.reload();
+						},
+						error: function(error) { alert("상태 변경에 실패했습니다."); }
+					});
+				};
+
+				// 공통 모달 함수
+				openCommonModal({
+					title: '회원 상태 변경',
+					bodyHtml: body_html,
+					saveButtonText: '수정',
+					onSave: save_function
+				});
+
+				$('#modal-status-select').val(memberVO.member_status);
+				$('#modal-reason-textarea').val(memberVO.leave_reason);
+			},
+			error: function() {
+				alert("회원 정보를 불러오는 데 실패했습니다.");
+			}
 		});
 	});
+
+});
+
+// 삭제 버튼 클릭 이벤트
+$('#member-table').on('click', '.delete-btn', function() {
+
+	const member_idx = $(this).data('idx');
+
+	if (confirm(`정말로 삭제하시겠습니까?`)) {
+
+		// 확인을 눌렀을 때 AJAX 코드 실행
+		$.ajax({
+			url: `/api/members/${member_idx}`,
+			type: 'POST',
+			success: function(response) {
+				alert("삭제에 성공했습니다.");
+				location.reload();
+			},
+			error: function(error) {
+				alert("삭제에 실패했습니다.");
+			}
+		});
+
+	} else {
+		console.log("삭제가 취소되었습니다.");
+	}
 });
