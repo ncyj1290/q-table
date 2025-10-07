@@ -79,4 +79,7 @@ public class Member {
     @Column(name = "no_show_count")
     private int noShowCount;
     
+    @Column(name = "leave_reason")
+    private String leaveReason;
+    
 }
