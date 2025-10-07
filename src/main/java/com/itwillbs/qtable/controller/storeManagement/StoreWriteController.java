@@ -8,17 +8,27 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite;
 import com.itwillbs.qtable.service.FileUploadService;
 import com.itwillbs.qtable.service.storeManagement.StoreWriteService;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.storeManagement.StoreIngredient;
+import com.itwillbs.qtable.vo.storeManagement.StoreMenu;
+import com.itwillbs.qtable.vo.storeManagement.StorePicture;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class StoreWriteController {
 	
 	@Autowired
 	StoreWriteService storeWriteService;
+	
+	@Autowired
+	StoreWrite storeWrite;
 	
 	@Autowired
 	FileUploadService fileUploadService;
@@ -38,7 +48,9 @@ public class StoreWriteController {
 	
 	/* 매장 등록 Post */
 	@PostMapping("/write_store")
-	public String inserNewStore(@ModelAttribute  StoreVO storeVO) throws Exception {
+	public String inserNewStore(@ModelAttribute  StoreVO storeVO, HttpSession session) throws Exception {
+		
+		int tempStoreIdx = 1;
 		
 		System.out.println("Store Write - VO CHECK: " + storeVO.toString());
 		
@@ -49,7 +61,9 @@ public class StoreWriteController {
 		storeWriteService.insertNewStore(storeVO);
 		
 
+
+		
+
 		return "redirect:store_reservation_list";
 	}
-
 }

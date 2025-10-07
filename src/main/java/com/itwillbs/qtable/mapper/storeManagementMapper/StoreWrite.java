@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.storeManagement.StoreIngredient;
+import com.itwillbs.qtable.vo.storeManagement.StoreMenu;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
 
 @Mapper
@@ -26,5 +28,14 @@ public interface StoreWrite {
 	/* 카테고리 등록 */
 	int insertNewCategory(@Param("store_idx") int store_idx, @Param("store_category") String store_category);
 	
+	/* 이미지 등록 */
+	int insertNewImage(@Param("target_type") String target_type, @Param("target_idx") int target_idx, @Param("image_url") String image_url);
 	
+	/* 식자재 등록 */
+	int insertNewIngredient(StoreIngredient storeIngredient);
+	
+	/* 메뉴 등록 */
+	int insertNewMenu(StoreMenu storeMenu);
+	
+
 }

@@ -94,6 +94,58 @@
 		)
 	</insert>
 	
+	<!-- 카테고리 -->
+	<insert id="insertNewIngredient">
+		insert into ingredients(
+			store_idx
+			,ingredients_name
+			,ingredients_origin
+			,allergy
+		)values(
+			#{store_idx}
+			,#{ingredients_name}	
+			,#{ingredients_origin}
+			,#{allergy}
+		)
+	</insert>
+	
+	<!-- 메뉴 -->
+	<insert id="insertNewMenu">
+		insert into menu(
+			store_idx
+			,menu_name
+			,price
+			,menu_content
+			,menu_gram
+		)values(
+			#{store_idx}
+			,#{menu_name}	
+			,#{price}
+			,#{menu_content}
+			,#{menu_gram}
+		)
+	</insert>
+	
+	<!-- 이미지 업로드 -->
+	<insert id="insertNewImage">
+		insert into image(
+			target_type
+			,target_idx
+			,image_url
+		)values(
+			#{target_type}
+			,#{target_idx}
+			,#{image_url}
+		);
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 </mapper>

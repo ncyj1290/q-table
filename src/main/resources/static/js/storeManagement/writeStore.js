@@ -289,7 +289,7 @@ $(function() {
 				<div class="d-flex flex-row align-items-center gap-3 menu-border">
 					
 					<div class="d-flex flex-column align-items-center gap-3">
-						<img src="icons/icon_store_profile.png" class="menu-image-size">
+						<img src="icons/icon_menu_profile.png" class="menu-image-size">
 						<label class="positive-button">메뉴 사진 추가<input type="file" data-field="menu_picture" accept=".jpg, .jpeg, .png" hidden></label>
 					</div>
 					

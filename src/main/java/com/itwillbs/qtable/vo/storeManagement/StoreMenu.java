@@ -7,6 +7,8 @@ import lombok.Data;
 /* 매장 -> 원재료 데이터 담는 Class */
 @Data
 public class StoreMenu {
+	/* 매장 idx */
+	private int store_idx;
 	/* 메뉴 이름 */
 	private String menu_name;
 	/* 메뉴 가격 */

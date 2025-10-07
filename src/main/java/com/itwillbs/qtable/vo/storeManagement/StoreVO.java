@@ -68,5 +68,5 @@ public class StoreVO {
 	/* 메뉴판 사진 */
 	private MultipartFile menu_board_picture;
 	/* 메뉴판 사진 경로 */
-	private String menu_board;
+	private String menu_board_url;
 }
