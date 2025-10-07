@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.qtable.entity.Member;
+import com.itwillbs.qtable.mapper.admin.AdminMapper;
 import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
 import com.itwillbs.qtable.vo.admin.MemberUpdateVO;
+import com.itwillbs.qtable.vo.admin.StoreListVO;
 
 import jakarta.transaction.Transactional;
 
@@ -19,6 +21,9 @@ public class AdminService {
 
 	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
+    private AdminMapper adminMapper;
 
 	// 전체 회원 목록 조회
 	public List<MemberListVO> memberFindAll() {
@@ -60,5 +65,17 @@ public class AdminService {
 		}
 
 	}
+	
+	// 회원 삭제 이벤트
+    @Transactional
+    public void deleteMember(Integer memberIdx) {
+        // jpa deleteById 활용 DB에서 데이터 삭제
+        memberRepository.deleteById(memberIdx);
+    }
+    
+    // 매장 회원 목록 리스트 조회
+    public List<StoreListVO> findStoreMembers() {
+        return adminMapper.findStoreMembers();
+    }
 
 }

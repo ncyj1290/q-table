@@ -1,4 +1,5 @@
 $(function() {
+	// Grid.js 컬럼
     const storeColumns = [
 		{ name: 'No.', width: '5%' },
 		{ name: '매장 이름', width: '13%' },
@@ -16,32 +17,139 @@ $(function() {
             name: '관리', width: '42%',
             width: '300px',
             formatter: (cell, row) => {
-                const detailButton = `<a href="/admin_detail" class="management-button">상세보기</a>`;
-                const statusButton = `<button class="management-button status-change-btn">회원상태변경</button>`;
-				const reviewButton = `<a href="/store_detail_main" class="management-button">리뷰보기</a>`;
-                const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
-                return gridjs.html(detailButton + statusButton + reviewButton + deleteButton);
+				
+				// row.cells 배열에서 필요한 데이터를 먼저 꺼내서 변수에 담아야 합니다.
+				const member_idx = row.cells[0].data; // 'No.' 컬럼
+				const member_id = row.cells[2].data;  // '매장 아이디' 컬럼
+				
+				const detail_button = `<a href="/admin_detail/${member_idx}" class="management-button">상세보기</a>`;
+				const status_button = `<button class="management-button status-change-btn" data-idx="${member_idx}" data-id="${member_id}">상태변경</button>`;
+				const review_button = `<a href="/store_detail_main" class="management-button">리뷰보기</a>`;
+				const delete_button = `<button class="management-button delete-btn" data-idx="${member_idx}" data-id="${member_id}">삭제</button>`;
+                return gridjs.html(detail_button + status_button + review_button + delete_button);
             }
         }
     ];
 
-    const storeData = [
-		["1", "Q-Table 레스토랑", "store_qtable", "contact@qtable.com", "2025-09-28", "정상"],
-		["2", "맛있는 파스타", "store_pasta", "pasta_love@example.com", "2025-09-27", "정상"],
-		["3", "행복한 베이커리", "store_bakery", "happy@bakery.com", "2025-09-26", "탈퇴"],
-		["4", "든든한 국밥집", "store_gukbap", "master@gukbap.co.kr", "2025-09-25", "정상"],
-		["5", "신선한 샐러드", "store_salad", "fresh_salad@example.com", "2025-09-24", "정상"],
-		["6", "달콤한 디저트 카페", "store_dessert", "sweet@dessert.com", "2025-09-23", "정상"],
-		["7", "오래된 노포식당", "store_old", "old@restaurant.com", "2025-09-22", "탈퇴"],
-		["8", "최고의 스테이크 하우스", "store_steak", "steakhouse@example.com", "2025-09-21", "정상"],
-		["9", "건강한 주스 전문점", "store_juice", "juice_bar@example.com", "2025-09-20", "정상"],
-		["10", "아늑한 심야식당", "store_night", "night_food@example.com", "2025-09-19", "정상"]
-    ];
+	// AJAX 회원 목록 데이터 요청
+	$.ajax({
+		url: '/api/stores',
+		type: 'GET',
+		success: function(response) {
+			// Grid.js 형식
+			const formatted_data = response.map(store => {
+				return [
+					store.member_idx,
+					store.store_name,
+					store.member_id,
+					store.email,
+					store.signup_date ? store.signup_date.substring(0, 10) : '-',
+					store.member_status,
+					null
+				];
+			});
 
-    createGrid({
-        targetId: '#store-table',
-        columns: storeColumns,
-        data: storeData,
-        pagination: { limit: 10 }
-    });
+			// 공통 함수 createGrid
+			createGrid({
+				targetId: '#store-table', // 테이블을 표시할 div ID
+				columns: storeColumns,
+				data: formatted_data,
+				pagination: { limit: 10 }
+			});
+		},
+	});
+	
+	$('.grid-wrapper').on('click', '.status-change-btn', function() {
+		const member_idx = $(this).data('idx');
+		const member_id = $(this).data('id');
+
+		// AJAX 현재 회원 정보를 가져오기
+		$.ajax({
+			url: `/api/members/${member_idx}`,
+			type: 'GET',
+			success: function(memberVO) {
+
+				const body_html = `
+	                <div class="form-group">
+	                    <label>변경 대상 아이디</label>
+	                    <div class="readonly-input">${member_id}</div>
+	                </div>
+	                <div class="form-group">
+	                    <label>회원 상태</label>
+	                    <div class="select-box" style="width: 100%;">
+	                        <select id="modal-status-select">
+	                            <option value="mstat_01">정상</option>
+	                            <option value="mstat_02">탈퇴</option>
+	                        </select>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label>탈퇴 사유</label>
+	                    <textarea id="modal-reason-textarea" class="reason-textarea" placeholder="탈퇴 처리 시 사유를 입력하세요."></textarea>
+	                </div>
+	            `;
+
+				// 수정 버튼을 눌렀을 때 실행될 기능
+				const save_function = function() {
+					const update_data = {
+						member_status: $('#modal-status-select').val(),
+						leave_reason: $('#modal-reason-textarea').val()
+					};
+
+					$.ajax({
+						url: `/api/members/${member_idx}/status`,
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(update_data),
+						success: function(response) {
+							alert("상태 변경에 성공했습니다.");
+							$('#common-modal').removeClass('active');
+							location.reload();
+						},
+						error: function(error) { alert("상태 변경에 실패했습니다."); }
+					});
+				};
+
+				// 공통 모달 함수
+				openCommonModal({
+					title: '매장 회원 상태 변경',
+					bodyHtml: body_html,
+					saveButtonText: '수정',
+					onSave: save_function
+				});
+
+				$('#modal-status-select').val(memberVO.member_status);
+				$('#modal-reason-textarea').val(memberVO.leave_reason);
+			},
+			error: function() {
+				alert("회원 정보를 불러오는 데 실패했습니다.");
+			}
+		});
+	});
 });
+
+// 삭제 버튼 클릭 이벤트
+$('#store-table').on('click', '.delete-btn', function() {
+
+	const member_idx = $(this).data('idx');
+
+	if (confirm(`정말로 삭제하시겠습니까?`)) {
+
+		// 확인을 눌렀을 때 AJAX 코드 실행
+		$.ajax({
+			url: `/api/members/${member_idx}`,
+			type: 'POST',
+			success: function(response) {
+				alert("삭제에 성공했습니다.");
+				location.reload();
+			},
+			error: function(error) {
+				alert("삭제에 실패했습니다.");
+			}
+		});
+
+	} else {
+		console.log("삭제가 취소되었습니다.");
+	}
+});
+
