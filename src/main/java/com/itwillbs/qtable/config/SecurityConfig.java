@@ -38,15 +38,30 @@ public class SecurityConfig {
 	                "/admin_subscribe", "/comcode_list", "/comcode_commit", "/admin_account", 
 	                "/admin_commit", "/api/members"
 	            ).hasRole("mtype_01")
-	  
-	            // 2. 매장, 관리자(mtype_03, mtype_01)만 접근 가능한 경로는 여기에 추가
+	            
+	            // 일반 회원만 접근 가능한 경로는 여기에 추가 
+//	            .requestMatchers(
+//		               
+//	            ).hasRole("mtype_02")
+	            
+	            // 2. 매장회원(mtype_03)만 접근 가능한 경로는 여기에 추가
 	            .requestMatchers(
 	                "/store_management_main", "/store_reservation_list",
 	                "/store_reservation_detail", "/purchase_subscribe",
 	                "/store_calculate_list", "/store_calculate_detail", 
 	                "/write_store"
-	            ).hasAnyRole("mtype_03", "mtype_01")
-	
+	            ).hasRole("mtype_03")
+	            
+	            // 사이트 관리자, 일반 회원만 접근 가능한 경로 
+//	            .requestMatchers(
+//	                
+//	            ).hasAnyRole("mtype_01", "mtype_02")
+	            
+	            // 사이트 관리자, 매장 회원만 접근 가능한 경로 
+//	            .requestMatchers(
+//	                
+//	            ).hasAnyRole("mtype_01", "mtype_03")
+	            
 	            // 3. 인가된 사용자(로그인한 모든 사용자)만 접근 가능한 경로는 여기에 추가
 	            .requestMatchers(
 	                "/chat", "/on_site_payment", "/reservation", "/mypage_main",
