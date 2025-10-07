@@ -4,8 +4,8 @@
         <div class="title-box">식당 정보</div>
     </div>
         <div class="store-header">
-            <div class="store-image">
-                <img th:src="@{/img/test.png}" alt="참잘돼지국밥">
+            <div class="store-image" th:each="img : ${#strings.arraySplit(store_image, ',')}">
+                <img th:src="@{${img}}" alt="매장 이미지">
                 <div class="image-nav">
                     <button class="nav-button">◀</button>
                     <button class="nav-button">▶</button>
@@ -15,9 +15,9 @@
             <div class="store-info">
                 <h1 class="store-name" th:text="${store_name}"></h1>
                 <div class="rating">
-                    <span class="stars">★★★★☆</span>
-                    <span class="rating-score">3.78</span>
-                    <span class="rating-count">(242건)</span>
+                    <span class="stars" >★★★★☆</span>
+                    <span class="rating-score" th:text="${score.avgScore}">3.78</span>
+                    <span class="rating-count" th:text="'(' + ${score.reviewCount} + '건)'"></span>
                 </div>
                 <div class="action-buttons">
                     <button class="positive-button action-btn">스크랩</button>
@@ -32,7 +32,7 @@
             <li class="info-item">
                 <span class="info-icon"><i class="fa-regular fa-clock"></i></span>
                 <span class="info-label">영업 시간</span>
-				<span class="info-content" th:text="'매주 월~금 ' + ${openTimeLabel} + ' ~ ' + ${closeTimeLabel}"></span>
+				<span class="info-content" th:text="'매주 월~금 ' + ${open_time_label} + ' ~ ' + ${close_time_label}"></span>
             </li>
             <li class="info-item">
                 <span class="info-icon"><i class="fa-solid fa-phone"></i></span>
@@ -68,44 +68,19 @@
                 <span class="tag" th:each="atmosphere : ${atmosphere}" th:text="${atmosphere.atmosphereName}">룸</span>
             </div>
         </div>
-	
-		
 		
 		<div class="info-item">
             <span class="info-icon"><i class="fa-solid fa-bell-concierge"></i></span>
             <span class="info-label">편의시설</span>
+            <div class="tags">
+                <label class="tag tag-icon" th:each="amenity : ${amenities}">
+                    <img th:src="@{'/icons/store_facility/' + ${amenity.amenityCode} + '.png'}"
+                         th:alt="${amenity.amenityName}"
+                         class="facility-icon">
+                    <span th:text="${amenity.amenityName}"></span>
+                </label>
+            </div>
         </div>
-        <div class="table-types">
-			<div class="table-grid">
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_wifi.png}" alt="Wi-Fi" class="facility-icon"> Wi-Fi</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_parking.png}" alt="주차가능" class="facility-icon"> 주차가능</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_power.png}" alt="콘센트" class="facility-icon"> 콘센트</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_nokid.png}" alt="노키즈존" class="facility-icon"> 노키즈존</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_kid_allow.png}" alt="아이동반" class="facility-icon"> 아이동반</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_pet.png}" alt="반려동물" class="facility-icon"> 반려동물</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_wheel_chair.png}" alt="장애인편의" class="facility-icon"> 장애인편의</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_group.png}" alt="단체석" class="facility-icon"> 단체석</label>
-			    </div>
-			    <div class="table-item">
-			        <label><img th:src="@{/icons/store_facility/icon_room.png}" alt="룸" class="facility-icon"> 룸</label>
-			    </div>
-			</div>
-		</div>
 
 
         <div class="info-item">

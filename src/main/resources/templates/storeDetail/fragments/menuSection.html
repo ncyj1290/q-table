@@ -12,12 +12,6 @@
                 <div class="menu-image">
                     <img th:src="@{/img/test.png}" alt="메뉴">
                 </div>
-                <div class="menu-image">
-                    <img th:src="@{/img/test.png}" alt="메뉴">
-                </div>
-                <div class="menu-image">
-                    <img th:src="@{/img/test.png}" alt="메뉴">
-                </div>
             </div>
 
             <div class="horizontal-line"></div>
@@ -27,91 +21,23 @@
                 <span class="info-label">MENU</span>
             </div>
             <div class="menu-list">
-                <div class="menu-item">
+                <div class="menu-item" th:each="menu : ${menu}">
                     <div class="menu-left">
-                        <span class="menu-name">메뉴 1</span>
-                        <span class="menu-price">10,000원</span>
+                        <div class="menu-name">
+                            <span th:text="${menu.menu_name}"></span>
+                            <span class="menu-gram" th:if="${menu.menu_gram}" th:text="'(' + ${menu.menu_gram} + 'g)'"></span>
+                        </div>
+                        <span class="menu-price" th:text="${menu.price} + '원'"></span>
                     </div>
                     <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
+                        <span class="menu-description" th:text="${menu.menu_content}"></span>
                     </div>
                     <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴1">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 2</span>
-                        <span class="menu-price">12,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴2">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 3</span>
-                        <span class="menu-price">15,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴3">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 4</span>
-                        <span class="menu-price">8,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴4">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 5</span>
-                        <span class="menu-price">11,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴5">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 6</span>
-                        <span class="menu-price">13,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴6">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 7</span>
-                        <span class="menu-price">9,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴7">
+                        <img th:src="@{${menu.menu_image}}" alt="메뉴1">
                     </div>
                 </div>
             </div>
+            
 
             <!-- 페이징 -->
             <div class="page-selector-layout">
