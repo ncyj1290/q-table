@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+	<head>
+		<link rel="stylesheet" th:href="@{/css/main/error.css}">
+	</head>
+	<body>
+			<div layout:fragment="Content">
+				<div class="error-container">
+				<img src="img/logo.PNG">
+				<h1>ERROR</h1>
+				<p>"예상치 못한 오류가 발생하였습니다"</p>
+				<button type="button" onclick="location.href='/'">메인 화면으로 이동</button>
+				</div>
+	</div>
+	</body>
+</html>

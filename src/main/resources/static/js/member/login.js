@@ -17,7 +17,7 @@ $(function() {
 
 //로그인 이벤트 처리 
 function login(event) {
-	event.preventDefault(); 
+//	event.preventDefault(); 
 	console.log(this);
 	const id = $(this).find('#id').val();
 	const passwd = $(this).find('#passwd').val();

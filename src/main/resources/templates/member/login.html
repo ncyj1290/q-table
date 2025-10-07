@@ -19,13 +19,13 @@
 					<div class="tab">매장 회원</div>
 					<div class="underline"></div>
 				</div>
-				<form class="login-form">
-					<input type="text" placeholder="아이디" class="component-write" id="id">
-					<input type="password" placeholder="비밀번호" class="component-write" id="passwd"> 
+				<form class="login-form" th:action="@{/loginPro}" method="post">
+					<input type="text" placeholder="아이디" name="id" class="component-write" id="id">
+					<input type="password" placeholder="비밀번호" name="passwd" class="component-write" id="passwd"> 
 					<input type="hidden" name="memType" id="memType">
 					<div class="login-options">
 						<div>
-							<input type="checkbox" class="component-checkbox" id="remember-me">
+							<input type="checkbox" name="remember-me" class="component-checkbox" id="remember-me">
 							<label for="remember-me" style="transform: translateY(2px);">로그인 유지</label>
 						</div>
 						<div>
@@ -33,9 +33,9 @@
 							<label for="save-id" style="transform: translateY(2px);">아이디 저장</label>
 						</div>
 					</div>
-					<button class="positive-button login-btn">로그인</button>
+					<button type="submit" class="positive-button login-btn">로그인</button>
 					<div class="find-links">
-						<a href="#">아이디 비밀번호 찾기</a>
+						<a href="find_account">아이디 비밀번호 찾기</a>
 						<span>|</span>
 						<a href="member_join">회원가입</a>
 					</div>
