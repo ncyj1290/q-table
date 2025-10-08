@@ -4,19 +4,33 @@
         <div class="title-box">식당 정보</div>
     </div>
         <div class="store-header">
-            <div class="store-image" th:each="img : ${#strings.arraySplit(store_image, ',')}">
-                <img th:src="@{${img}}" alt="매장 이미지">
-                <div class="image-nav">
-                    <button class="nav-button">◀</button>
-                    <button class="nav-button">▶</button>
+            <div class="store-image-container">
+                <!-- 이미지 슬라이더 -->
+                <div class="store-image-slider">
+                    <img th:each="img, iterStat : ${store_images}"
+                         th:src="@{${img}}"
+                         th:class="${iterStat.index == 0} ? 'slider-image active' : 'slider-image'"
+                         th:data-index="${iterStat.index}"
+                         alt="매장 이미지">
                 </div>
-                <div class="image-label">모든 사진 보기</div>
+
+                <!-- 좌우 버튼 -->
+                <div class="image-nav">
+                    <button class="nav-button prev-button">◀</button>
+                    <button class="nav-button next-button">▶</button>
+                </div>
+
+                <!-- 모든 사진 보기 버튼 -->
+                <div class="image-label view-all-images">모든 사진 보기</div>
             </div>
             <div class="store-info">
                 <h1 class="store-name" th:text="${store_name}"></h1>
                 <div class="rating">
-                    <span class="stars" >★★★★☆</span>
-                    <span class="rating-score" th:text="${score.avgScore}">3.78</span>
+                    <div class="star-rating">
+                        <div class="stars-background">★★★★★</div>
+                        <div class="stars-filled" th:style="'width: ' + ${score.avgScore / 5 * 100} + '%;'">★★★★★</div>
+                    </div>
+                    <span class="rating-score" th:text="${score.avgScore}"></span>
                     <span class="rating-count" th:text="'(' + ${score.reviewCount} + '건)'"></span>
                 </div>
                 <div class="action-buttons">
@@ -56,7 +70,7 @@
             <span class="info-icon"><i class="fa-solid fa-tags"></i></span>
             <span class="info-label">카테고리</span>
             <div class="tags">
-                <span class="tag" th:each="category : ${categories}" th:text="${category.categoryName}"></span>
+                <span class="tag" th:each="category : ${categories}" th:text="${category}"></span>
             </div>
         </div>
 
@@ -65,7 +79,7 @@
             <span class="info-icon"><i class="fa-solid fa-chair"></i></span>
             <span class="info-label">매장 분위기</span>
             <div class="tags">
-                <span class="tag" th:each="atmosphere : ${atmosphere}" th:text="${atmosphere.atmosphereName}">룸</span>
+                <span class="tag" th:each="atm : ${atmosphere}" th:text="${atm}"></span>
             </div>
         </div>
 		
@@ -73,12 +87,7 @@
             <span class="info-icon"><i class="fa-solid fa-bell-concierge"></i></span>
             <span class="info-label">편의시설</span>
             <div class="tags">
-                <label class="tag tag-icon" th:each="amenity : ${amenities}">
-                    <img th:src="@{'/icons/store_facility/' + ${amenity.amenityCode} + '.png'}"
-                         th:alt="${amenity.amenityName}"
-                         class="facility-icon">
-                    <span th:text="${amenity.amenityName}"></span>
-                </label>
+                <span class="tag" th:each="amenity : ${amenities}" th:text="${amenity}"></span>
             </div>
         </div>
 
@@ -90,4 +99,17 @@
         <div class="store-intro">
             매장소개영역
         </div>
+
+    <!-- 모든 이미지 보기 모달 -->
+    <div id="allImagesModal" class="all-images-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">매장 사진</h2>
+            <div class="images-grid">
+                <div class="grid-image" th:each="img : ${store_images}">
+                    <img th:src="@{${img}}" alt="매장 이미지">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper">
 
 	<!-- 매장 기본 정보 조회 -->
@@ -22,37 +23,42 @@
 		     , s.is_accept
 		     , s.is_24hour
 		     , s.bank_code
-		     , MAX(open_code.code_label) AS open_time_label
-		     , MAX(close_code.code_label) AS close_time_label
-		     , GROUP_CONCAT(i.image_url) AS store_image
+		     , open_code.code_label AS open_time_label
+		     , close_code.code_label AS close_time_label
 		  FROM store s
      LEFT JOIN common_code open_code ON s.open_time = open_code.code
      LEFT JOIN common_code close_code ON s.close_time = close_code.code
-	 LEFT JOIN image i ON i.target_idx = s.store_idx
-		                   AND i.target_type = 'imguse_02'
 		 WHERE s.store_idx = #{storeIdx}
-	  GROUP BY s.store_idx
+	</select>
+	
+	<!-- 매장 이미지 조회  -->
+	<select id="getStoreImage" resultType="string">
+		SELECT image_url
+		  FROM image
+		 WHERE target_idx = #{storeIdx}
+		   AND target_type = 'imguse_02'
+		 ORDER BY is_main_image DESC, image_idx ASC
 	</select>
 
 	<!-- 매장 카테고리 조회 -->
-	<select id="getStoreCategories" resultType="map">
-		SELECT cat_code.code_label AS categoryName
+	<select id="getStoreCategories" resultType="string">
+		SELECT cat_code.code_label
 		  FROM store_category sc
 		  JOIN common_code cat_code ON sc.store_category = cat_code.code
 		 WHERE sc.store_idx = #{storeIdx}
 	</select>
 
 	<!-- 매장 분위기 조회 -->
-	<select id="getStoreAtmosphere" resultType="map">
-		SELECT atm_code.code_label AS atmosphereName
+	<select id="getStoreAtmosphere" resultType="string">
+		SELECT atm_code.code_label
 		  FROM store_atmosphere sa
 		  JOIN common_code atm_code ON sa.store_atmosphere = atm_code.code
 		 WHERE sa.store_idx = #{storeIdx}
 	</select>
 
 	<!-- 매장 편의시설 조회 -->
-	<select id="getStoreAmenities" resultType="map">
-		SELECT amenity_code.code_label AS amenityName, amenity_code.code As amenityCode
+	<select id="getStoreAmenities" resultType="string">
+		SELECT amenity_code.code_label
 		  FROM store_amenity sa
 		  JOIN common_code amenity_code ON sa.store_amenity = amenity_code.code
 		 WHERE sa.store_idx = #{storeIdx}
@@ -61,35 +67,43 @@
 	
 	<!-- 메뉴 조회 -->
 	<select id="getMenu" resultType="map">
-	    SELECT 
-	    	   menu_idx
-	    	 , store_idx  
-	    	 , menu_name  
-	    	 , price  
-	    	 , menu_content  
-	    	 , menu_gram
-	     , i.image_url AS menu_image
-	      FROM menu m
-	 LEFT JOIN image i ON i.target_idx = m.menu_idx
-	                       AND i.target_type = 'imguse_03'
-	     WHERE m.store_idx = #{storeIdx}
+		SELECT
+		       m.menu_idx
+		     , m.store_idx
+		     , m.menu_name
+		     , m.price
+		     , m.menu_content
+		     , m.menu_gram
+		     , i.image_url AS menu_image
+		  FROM menu m
+		  LEFT JOIN image i ON i.target_idx = m.menu_idx
+		                   AND i.target_type = 'imguse_03'
+		 WHERE m.store_idx = #{storeIdx}
+	</select>
+	
+	<!-- 메뉴판 이미지 조회 -->
+	<select id="getMenuBoardImages" resultType="string">
+		SELECT image_url
+		  FROM image
+		 WHERE target_idx = #{storeIdx}
+		   AND target_type = 'imguse_04'
+	  ORDER BY is_main_image DESC, image_idx ASC 
 	</select>
 	
 	<!-- 리뷰 조회 -->
 	<select id="getReview" resultType="map">
 		SELECT
 		       r.review_idx
-		     , m.member_idx
+		     , r.member_idx
 		     , m.member_name
 		     , m.profile_img_url
 		     , r.store_idx
-		     , r.create_at
+		     , DATE(r.create_at) AS create_at
 		     , r.content
 		     , r.score
 		     , r.like_count
 		     , GROUP_CONCAT(i.image_url) AS images
 		  FROM review r
-		  JOIN store s ON s.store_idx = r.store_idx
 		  JOIN member m ON m.member_idx = r.member_idx
      LEFT JOIN image i ON i.target_idx = r.review_idx
 		                  AND i.target_type = 'imguse_05'
@@ -97,11 +111,32 @@
 		 GROUP BY r.review_idx
 	</select>
 	
-	<select id="getReviewScoreInfo">
+	<!-- 리뷰 별점 정보 조회 -->
+	<select id="getReviewScoreInfo" resultType="map">
 		SELECT
 		       ROUND(AVG(score), 2) AS avgScore
 		     , COUNT(*) AS reviewCount
 		  FROM review
 		 WHERE store_idx = #{storeIdx}
+	</select>
+	
+	<!-- 리뷰 별점 분포 조회 -->
+	<select id="getScoreDistribution" resultType="map">
+		SELECT
+		       scores.score
+		     , COALESCE(COUNT(r.score), 0) AS count
+		     , ROUND(COALESCE(COUNT(r.score), 0) * 100.0 /
+		             GREATEST((SELECT COUNT(*) FROM review WHERE store_idx = #{storeIdx}), 1), 1) AS percent
+		  FROM (
+		       SELECT 5 AS score
+		       UNION SELECT 4
+		       UNION SELECT 3
+		       UNION SELECT 2
+		       UNION SELECT 1
+		       ) scores
+		  LEFT JOIN review r ON scores.score = r.score
+		                    AND r.store_idx = #{storeIdx}
+		 GROUP BY scores.score
+		 ORDER BY scores.score DESC
 	</select>
 </mapper>

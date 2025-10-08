@@ -78,7 +78,8 @@ public class SecurityConfig {
 	            // 4.그 외 모든 비로그인까지 모두 허용되는 경로는 여기에 추가 
 	            .requestMatchers(
 	                "/", "/login", "/find_account", "/member_join", "/terms_of_use",
-	                "/privacy_policy", "/error", "/search", "/store_detail_main"
+	                "/privacy_policy", "/error", "/search", "/store_detail_main", 
+	                "/upload/**"
 	            ).permitAll()
 	            
 	            //5.static 파일 경로 

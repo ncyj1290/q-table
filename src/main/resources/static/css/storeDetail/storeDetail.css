@@ -66,20 +66,37 @@
     align-items: center;
 }
 
-/* 식당 대표 이미지 */
-.store-image {
+/* 식당 대표 이미지 컨테이너 */
+.store-image-container {
     position: relative;
     width: 400px;
     height: 400px;
 }
 
-.store-image img {
+/* 이미지 슬라이더 */
+.store-image-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slider-image {
+    position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
 }
 
+.slider-image.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 좌우 버튼 */
 .image-nav {
     position: absolute;
     top: 50%;
@@ -87,25 +104,41 @@
     display: flex;
     justify-content: space-between;
     transform: translateY(-50%);
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .nav-button {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 15px;
     cursor: pointer;
+    border-radius: 50%;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
+.nav-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 모든 사진 보기 버튼 */
 .image-label {
     position: absolute;
     bottom: 10px;
     right: 10px;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    padding: 5px;
+    padding: 8px 12px;
     border-radius: 5px;
     font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.image-label:hover {
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .store-info {
@@ -129,6 +162,27 @@
     align-items: center;
     gap: 8px;
     margin: 15px 0;
+}
+
+/* 별점 정밀 표시 */
+.star-rating {
+    position: relative;
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.stars-background {
+    color: #ddd;
+}
+
+.stars-filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--color-star);
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .stars {
@@ -273,7 +327,7 @@
 }
 
 .menu-left {
-    flex: 0 0 20%;
+    flex: 0 0 30%;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -281,9 +335,16 @@
 
 .menu-center {
     flex: 1;
-    padding: 0 20px;
+    padding: 0 15px;
     display: flex;
     align-items: center;
+}
+
+.menu-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .menu-name {
@@ -291,16 +352,23 @@
     font-size: 16px;
 }
 
-.menu-description {
-    color: #666;
-    font-size: 14px;
-    line-height: 1.4;
+.menu-gram {
+    color: var(--color-placeholder);
+    font-weight: bold;
+    font-size: 12px;
+    white-space: nowrap;
 }
 
 .menu-price {
     color: var(--color-main);
     font-weight: bold;
-    font-size: 15px;
+    font-size: 17px;
+}
+
+.menu-description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .menu-thumbnail {
@@ -368,16 +436,28 @@
 }
 
 .rating-bar-bg {
-    flex-grow: 1;
+    width: 300px;
     height: 10px;
     background-color: #eee;
     border-radius: 5px;
+    position: relative;
 }
 
 .rating-bar-fill {
     height: 100%;
     background-color: var(--color-sub);
     border-radius: 5px;
+}
+
+.rating-bar-bg span {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #666;
+    min-width: 30px;
+    text-align: left;
 }
 
 /* 리뷰 목록 */
@@ -416,7 +496,8 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: #f5f5f5;
 }
 
 .reviewer-name {
@@ -832,4 +913,86 @@
     font-size: 14px;
     color: #666;
     white-space: nowrap;
+}
+
+/* ================================== */
+/* 모든 이미지 보기 모달 */
+/* ================================== */
+.all-images-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: auto;
+}
+
+.all-images-modal .modal-content {
+    position: relative;
+    background-color: white;
+    margin: 5% auto;
+    padding: 30px;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 10px;
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.all-images-modal .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.all-images-modal .close-modal:hover {
+    color: #000;
+}
+
+.all-images-modal .modal-title {
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.grid-image {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.grid-image:hover {
+    transform: scale(1.05);
+}
+
+.grid-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

@@ -9,8 +9,8 @@
                 <span class="info-label">메뉴판</span>
             </div>
             <div class="menu-images">
-                <div class="menu-image">
-                    <img th:src="@{/img/test.png}" alt="메뉴">
+                <div class="menu-image" th:each="menuBoard : ${menuBoardImages}">
+                    <img th:src="@{${menuBoard}}" alt="메뉴">
                 </div>
             </div>
 
@@ -21,10 +21,10 @@
                 <span class="info-label">MENU</span>
             </div>
             <div class="menu-list">
-                <div class="menu-item" th:each="menu : ${menu}">
+                <div class="menu-item" th:each="menu : ${menuList}">
                     <div class="menu-left">
-                        <div class="menu-name">
-                            <span th:text="${menu.menu_name}"></span>
+                        <div class="menu-name-row">
+                            <span class="menu-name" th:text="${menu.menu_name}"></span>
                             <span class="menu-gram" th:if="${menu.menu_gram}" th:text="'(' + ${menu.menu_gram} + 'g)'"></span>
                         </div>
                         <span class="menu-price" th:text="${menu.price} + '원'"></span>

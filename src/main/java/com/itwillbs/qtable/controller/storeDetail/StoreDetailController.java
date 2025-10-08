@@ -21,25 +21,28 @@ public class StoreDetailController {
 	
 	// 식당 상세 페이지 이동
 	@GetMapping("store_detail_main")
-	public String storeDeatilMain(Model model) {
+	public String storeDetailMain(Model model) {
 		
 		Map<String, Object> storeData = storeService.getStoreInfo(1);
-		List<Map<String, Object>> menuData = storeService.getStoreMenu(1);
+		Map<String, Object> menuData = storeService.getMenuInfo(1);
 		List<Map<String, Object>> reviewData = storeService.getStoreReview(1);
 		Map<String, String> scoreData = storeService.getReviewScoreInfo(1);
-		
+		Map<String, Object> scoreDistribution = storeService.getScoreDistribution(1);
+
 		model.addAllAttributes(storeData);
-		model.addAttribute("menu", menuData);
+		model.addAllAttributes(menuData);
 		model.addAttribute("review", reviewData);
 		model.addAttribute("score", scoreData);
+		model.addAllAttributes(scoreDistribution);
 		
-		// 로그모음
-//		log.info("storeData: " + storeData.toString()); // 식당 정보 섹션 
+
+//		log.info("storeData: " + storeData.toString()); // 식당 정보 섹션
 //		log.info("categories: " + storeData.get("categories")); // 음식카테고리
-//		log.info("atmosphere: " + storeData.get("atmosphere")); // 분위기 
+//		log.info("atmosphere: " + storeData.get("atmosphere")); // 분위기
 //		log.info("amenities: " + storeData.get("amenities")); // 편의시설
-//		log.info("menu: " + menuData.toString()); // 메뉴 섹션
-//		log.info("review: " + reviewData.toString()); // 리뷰 섹션
+//		log.info("menuData: " + menuData.toString()); // 메뉴 섹션
+		log.info("review: " + reviewData.toString()); // 리뷰 섹션
+//		log.info("scoreDistribution: " + scoreDistribution.toString()); // 리뷰 별점 분포
 
 		return "storeDetail/storeDetailMain";
 	}
