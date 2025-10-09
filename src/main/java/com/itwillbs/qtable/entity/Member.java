@@ -82,4 +82,7 @@ public class Member {
     @Column(name = "leave_reason")
     private String leaveReason;
     
+    @Column(name = "leave_at")
+    private LocalDateTime leaveAt;
+    
 }

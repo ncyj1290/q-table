@@ -3,6 +3,7 @@ package com.itwillbs.qtable.controller.storeManagement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite;
 import com.itwillbs.qtable.service.FileUploadService;
 import com.itwillbs.qtable.service.storeManagement.StoreWriteService;
@@ -48,22 +50,16 @@ public class StoreWriteController {
 	
 	/* 매장 등록 Post */
 	@PostMapping("/write_store")
-	public String inserNewStore(@ModelAttribute  StoreVO storeVO, HttpSession session) throws Exception {
+	public String inserNewStore(@ModelAttribute  StoreVO storeVO, @AuthenticationPrincipal QtableUserDetails user) throws Exception {
 		
-		int tempStoreIdx = 1;
+		storeVO.setMember_idx(user.getMember().getMemberIdx());
 		
 		System.out.println("Store Write - VO CHECK: " + storeVO.toString());
+		System.out.println("Check Member IDX: " + storeVO.getMember_idx());
 		
-		/* 현재 회원 관련 x -> 임시로 회원 idx 부여했음 */
-		storeVO.setMember_idx(2);
-	
 		/* 새로운 매장 및 매장 부가 요소 DB에 추가 */
 		storeWriteService.insertNewStore(storeVO);
 		
-
-
-		
-
 		return "redirect:store_reservation_list";
 	}
 }

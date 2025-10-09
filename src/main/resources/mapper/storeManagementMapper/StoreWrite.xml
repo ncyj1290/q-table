@@ -23,8 +23,10 @@
 			,bank_code
 			,deposit
 			,store_content
-			,open_time
-			,close_time
+			<if test="flag_24hour != 'true'">
+				,open_time
+				,close_time
+			</if>
 			,price_avg
 			,qr_code
 			,is_24hour
@@ -41,8 +43,10 @@
 			,#{bank_code}
 			,#{deposit}
 			,#{store_content}
-			,#{open_time}
-			,#{close_time}
+			<if test="flag_24hour != 'true'">
+				,#{open_time}
+				,#{close_time}
+			</if>
 			,#{price_avg}
 <!--			,#{qr_code}-->
 			,null <!-- 일단 QR 널값 -->
@@ -110,7 +114,10 @@
 	</insert>
 	
 	<!-- 메뉴 -->
-	<insert id="insertNewMenu">
+	<insert id="insertNewMenu"
+	useGeneratedKeys="true"
+	keyProperty="menu_idx"
+	>
 		insert into menu(
 			store_idx
 			,menu_name

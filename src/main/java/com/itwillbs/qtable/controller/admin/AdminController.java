@@ -1,11 +1,21 @@
 package com.itwillbs.qtable.controller.admin;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.itwillbs.qtable.service.AdminService;
+import com.itwillbs.qtable.vo.admin.MemberDetailVO;
+import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	AdminService adminService;
 	
 //	어드민 메인페이지
 	@GetMapping("/admin_main")
@@ -26,8 +36,15 @@ public class AdminController {
 	}
 	
 //	매장 회원관리 페이지
-	@GetMapping("/admin_detail")
-	public String adminDetail() {
+    @GetMapping("/admin_detail/{member_idx}")
+    public String adminDetail(@PathVariable("member_idx") Integer member_idx, Model model) {
+    	
+    	MemberDetailVO memberDetailVO = adminService.findMemberDetailById(member_idx);
+    	StoreDetailVO storeDetailVO = adminService.findByMemberIdx(member_idx);
+    	
+    	model.addAttribute("member", memberDetailVO);
+    	model.addAttribute("store", storeDetailVO);
+    	
 		return "admin/adminDetail";
 	}
 	
