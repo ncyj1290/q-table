@@ -75,5 +75,6 @@
 }
 
 .menu-icons img{
+	max-width: 25px;
 	max-height: 35px;
 }

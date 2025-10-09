@@ -1,44 +1,54 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      th:fragment="HeaderFragment">
-	  <link rel="stylesheet" th:href="@{/css/header.css}">
-		<header class="header">
-		  <!-- 로고 -->
-		  <a th:href="@{/}">
-		    <img th:src="@{/img/logo.PNG}" alt="로고">
-		  </a>
-		  <!-- 검색창 -->
-		  <th:block th:if="${isSearch}">
-			<div class="search-box">
-			    <input type="text" placeholder="검색어를 입력하세요">
-				<div class="date-area">
-					<span class="seperator">|</span>
-					<span class="date">12.21(일)</span>
-					<span class="time">14:00</span>
-					<span class="person-count">0</span>명
-				</div>
-			    <a href="/search" class="search-btn">
-			      <i class="fas fa-search"></i>
-			    </a>
-			</div>
-		  </th:block>
-		  <th:block th:unless="${isSearch}">
-			<div class="search-box">
-			    <input type="text" placeholder="검색어를 입력하세요">
-			    <a href="/search" class="search-btn">
-			      <i class="fas fa-search"></i>
-			    </a>
-			</div>
-		  </th:block>
-		  <div class="loginoff">
-			<a th:href="@{/login}">로그인/등록</a>
-		  </div>
-<!--		   아이콘 메뉴 -->
-<!--		  <div class="menu-icons">-->
-<!--		    <a th:href="@{/}"><img src="img/header_month.png"></a>-->
-<!--		    <a th:href="@{/}"><img src="img/header_messenger.png"></i></a>-->
-<!--		    <a th:href="@{/}"><img src="img/header_profile.png"></i></a>-->
-<!--		  </div>-->
-		</header>
-		<div class="horizontal-line" style="max-width: 1400px; margin: 10 auto 10 auto;">
-		</div>
+<html xmlns:th="http://www.thymeleaf.org">
+<body> 
+      <link rel="stylesheet" th:href="@{/css/header.css}">
+      <header class="header">
+         <!-- 로고 -->
+         <a th:href="@{/}">
+            <img th:src="@{/img/logo.PNG}" alt="로고">
+         </a>
+         <!-- 검색창 -->
+         <th:block th:if="${isSearch}">
+            <div class="search-box">
+               <input type="text" placeholder="검색어를 입력하세요">
+               <div class="date-area">
+                  <span class="seperator">|</span>
+                  <span class="date">12.21(일)</span>
+                  <span class="time">14:00</span>
+                  <span class="person-count">0</span>명
+               </div>
+               <a href="/search" class="search-btn">
+                  <i class="fas fa-search"></i>
+               </a>
+            </div>
+         </th:block>
+         <th:block th:unless="${isSearch}">
+            <div class="search-box">
+               <input type="text" placeholder="검색어를 입력하세요">
+               <a href="/search" class="search-btn">
+                  <i class="fas fa-search"></i>
+               </a>
+            </div>
+         </th:block>
+         <div th:fragment="HeaderFragment">
+             <!-- 로그인 상태: 아이콘만 표시 -->
+             <div sec:authorize="isAuthenticated()">
+                 <div class="menu-icons">
+                     <a th:href="@{/month}"><img th:src="@{/img/header_month.png}" alt="월간"></a>
+                     <a th:href="@{/messenger}"><img th:src="@{/img/header_messenger.png}" alt="메신저"></a>
+                     <a th:href="@{/profile}"><img th:src="@{/img/header_profile.png}" alt="프로필"></a>
+                 </div>
+             </div>
+
+             <!-- 비로그인 상태 -->
+             <div sec:authorize="isAnonymous()">
+               <div class="loginoff">
+                 <a th:href="@{/login}">로그인/등록</a>
+               </div>
+             </div>
+         </div>
+      </header>
+      <div class="horizontal-line" style="max-width: 1400px; margin: 10 auto 10 auto;">
+      </div>
+</body>
+
 </html>
