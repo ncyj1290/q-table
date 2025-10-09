@@ -110,7 +110,10 @@
 	</insert>
 	
 	<!-- 메뉴 -->
-	<insert id="insertNewMenu">
+	<insert id="insertNewMenu"
+	useGeneratedKeys="true"
+	keyProperty="menu_idx"
+	>
 		insert into menu(
 			store_idx
 			,menu_name

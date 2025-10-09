@@ -83,24 +83,21 @@ public class StoreWriteService {
 	@Transactional
 	public void insertNewStore(StoreVO storeVO) throws Exception {
 		
-		/* 임시 매장 idx */
-		int tempStoreIdx = 1;
-		
 		/* ------------------------------------------------------------------------------------ */
-		/* 프로필 이미지 등록 */
-		/* 기본 프로필 이미지 경로 */
-		storeVO.setStore_profile_path("/icons/icon_store_profile.png");
-		
-		/* 프로필 이미지 존재하면 업로드 하고 경로 추출 */
-		MultipartFile storeProfileFile = storeVO.getStore_profile_file();
-		if(storeProfileFile != null && !storeProfileFile.isEmpty()) storeVO.setStore_profile_path(fileUploadService.saveFileAndGetPath(storeProfileFile));
-		
-		storeWrite.insertNewImage("imguse_01", tempStoreIdx, storeVO.getStore_profile_path());
+		/* 기본 매장 정보 insert */
 
-		//TODO: 이제 그 뭐시기냐 그... 아 이미지 DB에 분류해서 처박는거 해야함
+		/* 운영 시간  -> 만약 24시간이면 Open, Close 시간 null, 다른 값 필요하면 그걸로 넣어주겠음. */
+//		boolean timeFlag = false;
+//		
+//		if(storeVO.getFlag_24hour() == "true") {
+//			timeFlag = true;
+//			storeVO.setOpen_time("time_01");
+//			storeVO.setClose_time("time_01");
+//		}
+//		
+//		storeVO.set_24hour(timeFlag);
 		
-		/* ------------------------------------------------------------------------------------ */
-//		/* 주소 정보 가공 */
+		/* 주소 정보 가공 */
 		String postCode = storeVO.getPost_code();
 		String address = storeVO.getAddress();
 		String addDetail = storeVO.getAddress_detail();
@@ -116,18 +113,30 @@ public class StoreWriteService {
 		String fullAdd = postCode + ", " + address + ", " + addDetail;
 		storeVO.setFull_address(fullAdd);
 		
-		/* ------------------------------------------------------------------------------------ */
 		/* 1차 Insert -> Store 기본 정보 저장 */
 		int storeRes = storeWrite.insertNewStore(storeVO);
 		
-
+		/* 저장 후 매장 idx get */
+		int storeIdx = storeVO.getStore_idx();
+		
+		/* ------------------------------------------------------------------------------------ */
+		/* 프로필 이미지 등록 */
+		/* 기본 프로필 이미지 경로 */
+		storeVO.setStore_profile_path("/icons/icon_store_profile.png");
+		
+		/* 프로필 이미지 존재하면 업로드 하고 경로 추출 */
+		MultipartFile storeProfileFile = storeVO.getStore_profile_file();
+		if(storeProfileFile != null && !storeProfileFile.isEmpty()) storeVO.setStore_profile_path(fileUploadService.saveFileAndGetPath(storeProfileFile));
+		
+		storeWrite.insertNewImage("imguse_01", storeIdx, storeVO.getStore_profile_path());
+		
 		/* ------------------------------------------------------------------------------------ */
 		/* 휴일 등록 */
 		String[] holidayList = storeVO.getHolidays().split(",");
 		
 		if(holidayList != null) {
 			for(String holiday:holidayList) {
-				storeWrite.insertNewHoliday(1, holiday);
+				storeWrite.insertNewHoliday(storeIdx, holiday);
 			}
 		}
 		
@@ -144,7 +153,7 @@ public class StoreWriteService {
 				if(pictureFile != null && !pictureFile.isEmpty()) {
 					pic.setImage_url(fileUploadService.saveFileAndGetPath(pictureFile));
 					/* imguse_02 -> 메장 사진 */
-					storeWrite.insertNewImage("imguse_02", tempStoreIdx, pic.getImage_url());
+					storeWrite.insertNewImage("imguse_02", storeIdx, pic.getImage_url());
 				}
 			}
 		}
@@ -155,7 +164,7 @@ public class StoreWriteService {
 		
 		if(amenityList != null) {
 			for(String amenity:amenityList) {
-				storeWrite.insertNewAmenity(1, amenity);
+				storeWrite.insertNewAmenity(storeIdx, amenity);
 			}
 		}
 
@@ -165,7 +174,7 @@ public class StoreWriteService {
 		
 		if(!atmoList.isEmpty()) {
 			for(String atmo:atmoList) {
-				storeWrite.insertNewAtmosphere(1, atmo);
+				storeWrite.insertNewAtmosphere(storeIdx, atmo);
 			}
 		}
 		
@@ -175,7 +184,7 @@ public class StoreWriteService {
 		
 		if(!categoryList.isEmpty()) {
 			for(String cat:categoryList) {
-				storeWrite.insertNewCategory(1, cat);
+				storeWrite.insertNewCategory(storeIdx, cat);
 			}
 		}
 		
@@ -185,7 +194,7 @@ public class StoreWriteService {
 		
 		if(!ingList.isEmpty()) {
 			for(StoreIngredient ing:ingList) {
-				ing.setStore_idx(tempStoreIdx);
+				ing.setStore_idx(storeIdx);
 				storeWrite.insertNewIngredient(ing);
 			}
 		}
@@ -197,7 +206,6 @@ public class StoreWriteService {
 		if(!menuList.isEmpty()) {
 			for(StoreMenu menu : menuList) {
 				
-				/* 메뉴 이미지 처리 */
 				
 				/* 기본 메뉴 프로필 */
 				menu.setImage_url("/icons/icon_menu_profile.png");
@@ -206,12 +214,12 @@ public class StoreWriteService {
 				MultipartFile menuImg = menu.getMenu_picture();
 				if(menuImg != null && !menuImg.isEmpty()) menu.setImage_url(fileUploadService.saveFileAndGetPath(menuImg));
 				
-				/* imguse_03 -> 메뉴 사진 */
-				storeWrite.insertNewImage("imguse_03", tempStoreIdx, menu.getImage_url());
-				
-				/* 나머지 메뉴 정보 저장 */
-				menu.setStore_idx(tempStoreIdx);
+				/* 메뉴 먼저 저장하고 idx 가져와서 메뉴 이미지 저장 */
+				menu.setStore_idx(storeIdx);
 				storeWrite.insertNewMenu(menu);
+				
+				/* imguse_03 -> 메뉴 사진 */
+				storeWrite.insertNewImage("imguse_03", menu.getMenu_idx(), menu.getImage_url());
 				
 			}
 		}
@@ -222,7 +230,7 @@ public class StoreWriteService {
 		if(menuBoardFile != null && !menuBoardFile.isEmpty()) storeVO.setMenu_board_url(fileUploadService.saveFileAndGetPath(menuBoardFile));
 		
 		/* imguse_04 -> 메뉴판 사진 */
-		storeWrite.insertNewImage("imguse_04", tempStoreIdx, storeVO.getMenu_board_url());
+		storeWrite.insertNewImage("imguse_04", storeIdx, storeVO.getMenu_board_url());
 
 	}
 }
