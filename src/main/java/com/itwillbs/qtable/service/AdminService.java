@@ -52,6 +52,14 @@ public class AdminService {
 		// MemberDetailVO로 변환하여 반환
 		return new MemberDetailVO(memberEntity);
 	}
+	
+    // member_idx로 매장 상세 정보를 조회
+    public StoreDetailVO findByMemberIdx(Integer member_idx) {
+
+        return storeRepository.findByMemberIdx(member_idx)
+                .map(StoreDetailVO::new)
+                .orElse(null);
+    }
 
 	// 회원 상태 변경
 	@Transactional
@@ -62,11 +70,13 @@ public class AdminService {
 		String newStatus = MemberUpdateVO.getMember_status();
 
 		member.setMemberStatus(newStatus);
+		member.setLeaveAt(LocalDateTime.now()); // 처리 시각 기록
 
 		// member_status가 정상인지 확인
 		if ("mstat_01".equals(newStatus)) {
 			// 정상일 경우, 탈퇴 사유를 null
 			member.setLeaveReason(null);
+			member.setLeaveAt(null);
 		} else {
 			// 탈퇴일 경우 탈퇴 사유를 저장
 			member.setLeaveReason(MemberUpdateVO.getLeave_reason());

@@ -21,8 +21,10 @@ public class MemberDetailVO {
     private LocalDate birth;
     private String email;
     private LocalDateTime signup_date;
+    private String business_reg_no;
     private String member_status;
     private String leave_reason;
+    private LocalDateTime leave_at;
     private boolean mail_auth_status;
     private boolean marketing_agreed;
     private int q_money;
@@ -40,8 +42,10 @@ public class MemberDetailVO {
         this.birth = entity.getBirth();
         this.email = entity.getEmail();
         this.signup_date = entity.getSignupDate();
+        this.business_reg_no = entity.getBusinessRegNo();
         this.member_status = entity.getMemberStatus();
         this.leave_reason = entity.getLeaveReason();
+        this.leave_at = entity.getLeaveAt();
         this.mail_auth_status = entity.isMailAuthStatus();
         this.marketing_agreed = entity.isMarketingAgreed();
         this.q_money = entity.getQMoney();
