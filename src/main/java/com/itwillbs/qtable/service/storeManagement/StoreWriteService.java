@@ -87,15 +87,9 @@ public class StoreWriteService {
 		/* 기본 매장 정보 insert */
 
 		/* 운영 시간  -> 만약 24시간이면 Open, Close 시간 null, 다른 값 필요하면 그걸로 넣어주겠음. */
-//		boolean timeFlag = false;
-//		
-//		if(storeVO.getFlag_24hour() == "true") {
-//			timeFlag = true;
-//			storeVO.setOpen_time("time_01");
-//			storeVO.setClose_time("time_01");
-//		}
-//		
-//		storeVO.set_24hour(timeFlag);
+		boolean timeFlag = false;
+		if("true".equals(storeVO.getFlag_24hour())) timeFlag = true;
+		storeVO.set_24hour(timeFlag);
 		
 		/* 주소 정보 가공 */
 		String postCode = storeVO.getPost_code();
