@@ -13,4 +13,7 @@ public interface AdminMapper {
 	// 매장 회원 목록 리스트 조회
 	List<StoreListVO> findStoreMembers();
 	
+	// 매장 입점 신청 목록 리스트 조회
+	List<StoreListVO> findEntryStores();
+	
 }

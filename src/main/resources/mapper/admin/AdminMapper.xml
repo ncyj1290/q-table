@@ -5,20 +5,33 @@
 	<!-- 매장 회원 목록 리스트 조회 -->
     <select id="findStoreMembers">
         SELECT
-            m.member_idx,
-            s.store_name,
-            m.member_id,
-            m.email,
-            m.signup_date,
-            c.code_label AS member_status
-        FROM
-            member m
-        JOIN
-            store s ON m.member_idx = s.member_idx
-        JOIN
-            common_code c ON m.member_status = c.code
-        WHERE
-            m.member_type = 'mtype_03'
-            AND c.group_code = 'member_status'
+               m.member_idx,
+               s.store_name,
+               m.member_id,
+               m.email,
+               m.signup_date,
+               c.code_label AS member_status
+          FROM member m
+          JOIN store s ON m.member_idx = s.member_idx
+          JOIN common_code c ON m.member_status = c.code
+         WHERE m.member_type = 'mtype_03'
+           AND c.group_code = 'member_status'
     </select>
+    
+    <!-- 매장 입점 신청 목록 리스트 조회-->
+    <select id="findEntryStores">
+      SELECT
+             s.store_idx,
+             s.store_name,
+             m.member_id,
+             c.code_label AS store_status,
+             s.processed_at,
+             s.applied_at
+        FROM store s 
+        JOIN member m ON s.member_idx = m.member_idx
+        JOIN common_code c ON s.store_status = c.code
+       WHERE c.group_code = 'store_status'
+    ORDER BY s.store_idx DESC
+    </select>
+    
 </mapper>
