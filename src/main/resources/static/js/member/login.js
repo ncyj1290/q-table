@@ -8,6 +8,15 @@ $(function() {
 	// 로그인 버튼 클릭시 
 	$('form').on('submit', login);
 	
+	//아이디 기억하기 
+	// 최초 로그인 : 사용자가 기억하기 체크박스 클릭시, 쿠키를 셋팅 해주는 로직 
+	// 재 로그인 : 사용자가 쿠기를 들고 있는 지 확인 한후 쿠키에서 아이디 들고오기 
+	// 체크박스 해제 : 체크 박스 해제 된것을 보고 쿠기 지우기 
+	const savedIdInCookie = Cookies.get('savedId');
+	if(savedIdInCookie) {
+		$(this).find('#id').val(savedIdInCookie);
+		$('#save-id').prop('checked', true);
+	}
 });
 	
 
@@ -15,13 +24,32 @@ $(function() {
 // ========  함수  선언 ================
 // ==================================
 
+
+//쿠키 지우기 
+function deleteCookie() {
+	Cookies.remove('savedId');
+}
+
+
+//쿠키 셋팅 
+function setCookie(id) {
+	Cookies.set('savedId', id, { expires: 365 });
+}
+
+
 //로그인 이벤트 처리 
 function login(event) {
 //	event.preventDefault(); 
-	console.log(this);
 	const id = $(this).find('#id').val();
 	const passwd = $(this).find('#passwd').val();
 	const memType = $(this).find('#memType').val();
+	const isSavedId = $('#save-id').is(":checked");
+	
+	//아이디 기억하기 체크 유무에 따라 쿠키 생성및 삭제 
+	if(isSavedId) setCookie(id);
+	if(!isSavedId) deleteCookie();
+		
+	
 	if (id == '' || passwd == '') alert('아이디와 비밀번호를 입력해주세요');
 	// 아래에는 ajax 호출 로직 로그인 처리 해야함 	
 }
