@@ -3,6 +3,7 @@
 <body>
    <div th:fragment="HeaderFragment">
 	  <link rel="stylesheet" th:href="@{/css/header.css}">
+	  <script th:src="@{/js/common/header.js}"></script>	  
       <header class="header">
          <!-- 로고 -->
          <a th:href="@{/}">
@@ -35,8 +36,34 @@
              <div sec:authorize="isAuthenticated()">
                  <div class="menu-icons">
                      <a th:href="@{/month}"><img th:src="@{/img/header_month.png}" alt="월간"></a>
-                     <a th:href="@{/messenger}"><img th:src="@{/img/header_messenger.png}" alt="메신저"></a>
-                     <a th:href="@{/profile}"><img th:src="@{/img/header_profile.png}" alt="프로필"></a>
+                     <a th:href="@{/chat}"><img th:src="@{/img/header_messenger.png}" alt="메신저"></a>
+					 <!-- 프로필 드롭다운 -->
+					 <div class="profile-dropdown">
+					     <img th:src="@{/img/header_profile.png}" alt="프로필" class="profile-icon">
+					     <div class="dropdown-menu">
+					         <!-- 프로필 정보 -->
+					         <div class="header-profile-info" onclick="location.href='/mypage_main'">
+								<img src="/img/profile.png" alt="프로필 사진" class="header-profile-img">
+					             <div class="user-details">
+					                 <div class="user-name">홍길동</div>
+					                 <div class="user-email">tmdyd5456@naver.com</div>
+					             </div>
+					         </div>
+
+					         <!-- 메뉴 항목 -->
+					         <a th:href="@{/profile_settings}">프로필 편집</a>
+					         <a th:href="@{/reservation_list}">예약현황</a>
+					         <a th:href="@{/mypage_history}">방문내역</a>
+					         <a th:href="@{/mypage_scrap}">스크랩가게</a>
+					         
+
+					         <!-- 로그아웃 강조 -->
+							 <form action="/logout" method="post">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+							     <button type="submit" class="logout">로그아웃</button>
+							 </form>
+					     </div>
+					 </div>
                  </div>
              </div>
 
@@ -50,5 +77,6 @@
       <div class="horizontal-line" style="max-width: 1400px; margin: 10 auto 10 auto;">
       </div>
    </div>
+
 </body>
 </html>
