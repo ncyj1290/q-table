@@ -30,12 +30,10 @@ function deleteCookie() {
 	Cookies.remove('savedId');
 }
 
-
 //쿠키 셋팅 
 function setCookie(id) {
 	Cookies.set('savedId', id, { expires: 365 });
 }
-
 
 //로그인 이벤트 처리 
 function login(event) {

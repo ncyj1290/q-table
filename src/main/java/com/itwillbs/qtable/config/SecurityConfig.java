@@ -99,7 +99,7 @@ public class SecurityConfig {
 //					.successHandler(null) //  성공시 핸들러 
 //					.failureHandler(null) // 실패시 핸들러 
 					.failureUrl("/login?error=true") //로그인 실패시 이동하는 경로
-				)
+			 	)
 				//로그인 유지 설정 
 				.rememberMe(rememberMe -> rememberMe
 				    .tokenValiditySeconds(86400 * 30) //30일
@@ -118,7 +118,7 @@ public class SecurityConfig {
 			    )
 				.userDetailsService(qtableUserDetailsService) //커스텀한 객체로 사용하기
 				.build();
-		 		// 더 해야하는거: 아이디 기억, 로그인 성공및 실패 핸들러, 403에러 핸들러, 에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
+		 		// 더 해야하는거:  로그인 성공및 실패 핸들러, 403에러 핸들러, 에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
 	}
 	
 }
