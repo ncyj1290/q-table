@@ -323,7 +323,7 @@
     align-items: flex-start;
     justify-content: space-between;
     padding: 15px 0;
-    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
 }
 
 .menu-left {
@@ -375,13 +375,50 @@
     width: 200px;
     height: 200px;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
     border-radius: 5px;
+}
+
+/* 식자재 정보 테이블 */
+.ingredients-container {
+    margin: 15px 0;
+}
+
+.ingredients-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ingredients-table th {
+    background-color: var(--color-main);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.ingredients-table td {
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #333;
+}
+
+.ingredients-table td.allergy-warning {
+    color: #e74c3c;
+    font-weight: 500;
 }
 
 /* ================================== */
@@ -600,6 +637,19 @@
 .calendar-day.next-month {
     color: #ccc;
     cursor: not-allowed;
+}
+
+.calendar-day.past-date,
+.calendar-day.out-of-range {
+    color: #ccc;
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.calendar-day.past-date:hover,
+.calendar-day.out-of-range:hover {
+    background-color: #f9f9f9;
 }
 
 .calendar-day.selected {

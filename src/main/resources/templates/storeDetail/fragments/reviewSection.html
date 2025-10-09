@@ -85,10 +85,11 @@
                         <div class="review-date" th:text="${review.create_at}"></div>
                     </div>
                     <div class="review-content" th:text="${review.content}"></div>
-                    <div class="review-images" th:if="${review.images != null}">
-                        <div class="review-image" th:each="img : ${#strings.arraySplit(review.images, ',')}">
+                    <div class="review-images" th:if="${!#strings.isEmpty(review['images'])}">
+                        <div class="review-image" th:each="img : ${#strings.arraySplit(review['images'], ',')}">
                             <img th:src="@{${img}}" alt="리뷰 이미지">
                         </div>
+                        
                     </div>
                 </div>
             </div>

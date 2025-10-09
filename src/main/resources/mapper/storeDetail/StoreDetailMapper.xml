@@ -23,6 +23,8 @@
 		     , s.is_accept
 		     , s.is_24hour
 		     , s.bank_code
+		     , s.open_time
+		     , s.close_time
 		     , open_code.code_label AS open_time_label
 		     , close_code.code_label AS close_time_label
 		  FROM store s
@@ -47,6 +49,14 @@
 		  JOIN common_code cat_code ON sc.store_category = cat_code.code
 		 WHERE sc.store_idx = #{storeIdx}
 	</select>
+	
+	<!-- 매장 휴일-->
+	<select id="getStoreHoliday" resultType="string">
+		SELECT cat_code.code_label
+		  FROM store_holiday sc
+		  JOIN common_code cat_code ON sc.store_holiday = cat_code.code
+		 WHERE sc.store_idx = #{storeIdx}
+	</select>
 
 	<!-- 매장 분위기 조회 -->
 	<select id="getStoreAtmosphere" resultType="string">
@@ -57,8 +67,9 @@
 	</select>
 
 	<!-- 매장 편의시설 조회 -->
-	<select id="getStoreAmenities" resultType="string">
-		SELECT amenity_code.code_label
+	<select id="getStoreAmenities" resultType="map">
+		SELECT amenity_code.code AS amenityCode,
+		       amenity_code.code_label AS amenityName
 		  FROM store_amenity sa
 		  JOIN common_code amenity_code ON sa.store_amenity = amenity_code.code
 		 WHERE sa.store_idx = #{storeIdx}
@@ -88,6 +99,16 @@
 		 WHERE target_idx = #{storeIdx}
 		   AND target_type = 'imguse_04'
 	  ORDER BY is_main_image DESC, image_idx ASC 
+	</select>
+	
+	<!-- 식자재 조회 -->
+	<select id="getIngredients">
+		SELECT 
+			   ingredients_name
+			 , ingredients_origin
+			 , allergy	 
+		  FROM ingredients
+		 WHERE store_idx = #{storeIdx} 
 	</select>
 	
 	<!-- 리뷰 조회 -->
@@ -138,5 +159,26 @@
 		                    AND r.store_idx = #{storeIdx}
 		 GROUP BY scores.score
 		 ORDER BY scores.score DESC
+	</select>
+	
+	<!-- 모든 시간 조회-->
+	<select id="getAllTimeCodes" resultType="string">
+		SELECT
+			   code_label
+		  FROM common_code
+		 WHERE group_code = 'time'
+		   AND code LIKE 'time%'
+	  ORDER BY code
+	</select>
+	
+	<!-- 예약가능 시간 조회 -->
+	<select id="getTimeCodesBetween" resultType="string">
+		SELECT
+			   code_label
+	      FROM common_code
+	     WHERE group_code = 'time'
+	       AND code LIKE 'time%'
+	       AND code BETWEEN #{openTime} AND #{closeTime}
+	  ORDER BY code
 	</select>
 </mapper>

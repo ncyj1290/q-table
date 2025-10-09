@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.qtable.service.storeDetail.StoreDetailService;
 
@@ -21,19 +22,31 @@ public class StoreDetailController {
 	
 	// 식당 상세 페이지 이동
 	@GetMapping("store_detail_main")
-	public String storeDetailMain(Model model) {
+	public String storeDetailMain(@RequestParam("store_idx") Integer storeIdx, Model model) {
 		
-		Map<String, Object> storeData = storeService.getStoreInfo(1);
-		Map<String, Object> menuData = storeService.getMenuInfo(1);
-		List<Map<String, Object>> reviewData = storeService.getStoreReview(1);
-		Map<String, String> scoreData = storeService.getReviewScoreInfo(1);
-		Map<String, Object> scoreDistribution = storeService.getScoreDistribution(1);
-
+		// 매장 기본 정보 조회
+		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
 		model.addAllAttributes(storeData);
+		
+		// 매장 메뉴 섹션 조회
+		Map<String, Object> menuData = storeService.getMenuInfo(storeIdx);
 		model.addAllAttributes(menuData);
+		
+		// 매장 리뷰 섹션 조회
+		List<Map<String, Object>> reviewData = storeService.getStoreReview(storeIdx);
 		model.addAttribute("review", reviewData);
+		
+		// 매장 별점 정보 조회
+		Map<String, String> scoreData = storeService.getReviewScoreInfo(storeIdx);
 		model.addAttribute("score", scoreData);
+		
+		// 리뷰 별점 분포 조회
+		Map<String, Object> scoreDistribution = storeService.getScoreDistribution(storeIdx);
 		model.addAllAttributes(scoreDistribution);
+		
+		// 예약 가능 시간 조회
+		List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);
+		model.addAttribute("availableTimes", reservationTimeData);
 		
 
 //		log.info("storeData: " + storeData.toString()); // 식당 정보 섹션
@@ -41,8 +54,9 @@ public class StoreDetailController {
 //		log.info("atmosphere: " + storeData.get("atmosphere")); // 분위기
 //		log.info("amenities: " + storeData.get("amenities")); // 편의시설
 //		log.info("menuData: " + menuData.toString()); // 메뉴 섹션
-		log.info("review: " + reviewData.toString()); // 리뷰 섹션
+//		log.info("review: " + reviewData.toString()); // 리뷰 섹션
 //		log.info("scoreDistribution: " + scoreDistribution.toString()); // 리뷰 별점 분포
+//		log.info("availableTimes: " + reservationTimeData.toString()); // 예약 가능 시간
 
 		return "storeDetail/storeDetailMain";
 	}
