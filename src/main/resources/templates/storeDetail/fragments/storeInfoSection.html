@@ -1,4 +1,13 @@
 <div th:fragment="storeInfoSection" xmlns:th="http://www.thymeleaf.org">
+	  <!-- 1. 로그인 여부 체크 -->
+  <div th:if="${#authorization.expression('isAuthenticated()')}">
+      로그인 상태입니다
+  </div>
+
+  <div th:if="${#authorization.expression('isAnonymous()')}">
+      로그인이 필요합니다
+  </div>
+
     <!-- 식당 정보 섹션 -->
     <div class="section-title">
         <div class="title-box">식당 정보</div>
@@ -46,7 +55,13 @@
             <li class="info-item">
                 <span class="info-icon"><i class="fa-regular fa-clock"></i></span>
                 <span class="info-label">영업 시간</span>
-				<span class="info-content" th:text="'매주 월~금 ' + ${open_time_label} + ' ~ ' + ${close_time_label}"></span>
+				<span class="info-content">
+					<span th:if="${is_24hour}">24시간 영업</span>
+					<span th:unless="${is_24hour}" th:text="${open_time_label} + ' ~ ' + ${close_time_label}"></span>
+					<span th:if="${!holiday.isEmpty()}"
+					      th:text="' (' + ${#strings.listJoin(holiday, ', ')} + ' 휴무)'"
+					      style="color: #e74c3c;"></span>
+				</span>
             </li>
             <li class="info-item">
                 <span class="info-icon"><i class="fa-solid fa-phone"></i></span>
@@ -87,18 +102,20 @@
             <span class="info-icon"><i class="fa-solid fa-bell-concierge"></i></span>
             <span class="info-label">편의시설</span>
             <div class="tags">
-                <span class="tag" th:each="amenity : ${amenities}" th:text="${amenity}"></span>
+                <label class="tag tag-icon" th:each="amenity : ${amenities}">
+                    <img th:src="@{'/icons/store_facility/' + ${amenity['amenityCode']} + '.png'}"
+                         th:alt="${amenity['amenityName']}"
+                         class="facility-icon">
+                    <span th:text="${amenity['amenityName']}"></span>
+                </label>
             </div>
         </div>
-
 
         <div class="info-item">
             <span class="info-icon"><i class="fa-solid fa-store"></i></span>
             <span class="info-label">매장 소개</span>
         </div>
-        <div class="store-intro">
-            매장소개영역
-        </div>
+        <div class="store-intro" th:text="${store_content}"></div>
 
     <!-- 모든 이미지 보기 모달 -->
     <div id="allImagesModal" class="all-images-modal">

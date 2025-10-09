@@ -51,9 +51,9 @@
                     <label class="form-label">시간</label>
                     <div class="select-box">
                         <select>
-                            <option>20:45</option>
-                            <option>21:00</option>
-                            <option>21:15</option>
+                            <option th:each="time : ${availableTimes}"
+                                    th:value="${time}"
+                                    th:text="${time}"></option>
                         </select>
                     </div>
                 </div>

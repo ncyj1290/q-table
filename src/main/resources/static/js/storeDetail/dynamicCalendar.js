@@ -16,6 +16,13 @@ let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
 let selectedDate = null;  // 선택된 날짜 (YYYY-MM-DD 형식)
 
+// 예약 가능 기간 계산
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const maxReservationDate = new Date();
+maxReservationDate.setDate(maxReservationDate.getDate() + 60); // 오늘부터 60일 후
+maxReservationDate.setHours(23, 59, 59, 999);
+
 $(function() {
 	const $calendarTitle = $('.calendar-title');
 	const $calendarDays = $('.calendar-days');
@@ -57,6 +64,11 @@ $(function() {
 
 		// 이전/다음 달 날짜는 클릭 불가
 		if ($(this).hasClass('prev-month') || $(this).hasClass('next-month')) {
+			return;
+		}
+
+		// 지난 날짜 및 60일 이후 날짜는 클릭 불가
+		if ($(this).hasClass('past-date') || $(this).hasClass('out-of-range')) {
 			return;
 		}
 
@@ -124,16 +136,29 @@ $(function() {
 								   month === currentDate.getMonth() &&
 								   dayCount === currentDate.getDate();
 
+					// 해당 날짜 객체 생성
+					const thisDate = new Date(year, month, dayCount);
+					thisDate.setHours(0, 0, 0, 0);
+
+					// 지난 날짜 체크
+					const isPastDate = thisDate < today;
+
+					// 60일 이후 날짜 체크
+					const isOutOfRange = thisDate > maxReservationDate;
+
 					// 선택된 날짜 확인
 					const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayCount).padStart(2, '0')}`;
 					const isSelected = selectedDate === dateString;
 
-					let dayClasses = 'calendar-day available';
+					let dayClasses = 'calendar-day';
+					if (!isPastDate && !isOutOfRange) dayClasses += ' available';
 					if (isSunday) dayClasses += ' sunday';
 					if (isSaturday) dayClasses += ' saturday';
 					if (isSelected) dayClasses += ' selected';
+					if (isPastDate) dayClasses += ' past-date';
+					if (isOutOfRange) dayClasses += ' out-of-range';
 
-					const availabilityMark = isClosedDay ?
+					const availabilityMark = (isClosedDay || isPastDate || isOutOfRange) ?
 						'<span class="availability-mark unavailable">X</span>' :
 						'<span class="availability-mark">O</span>';
 
