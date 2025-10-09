@@ -35,7 +35,7 @@
              <!-- 로그인 상태: 아이콘만 표시 -->
              <div sec:authorize="isAuthenticated()">
                  <div class="menu-icons">
-                     <a th:href="@{/month}"><img th:src="@{/img/header_month.png}" alt="월간"></a>
+                     <a th:href="@{/#}"><img th:src="@{/img/header_month.png}" alt="달력"></a>
                      <a th:href="@{/chat}"><img th:src="@{/img/header_messenger.png}" alt="메신저"></a>
 					 <!-- 프로필 드롭다운 -->
 					 <div class="profile-dropdown">
@@ -45,8 +45,8 @@
 					         <div class="header-profile-info" onclick="location.href='/mypage_main'">
 								<img src="/img/profile.png" alt="프로필 사진" class="header-profile-img">
 					             <div class="user-details">
-					                 <div class="user-name">홍길동</div>
-					                 <div class="user-email">tmdyd5456@naver.com</div>
+					                 <div class="user-name">000님</div>
+					                 <div class="user-email">123456@naver.com</div>
 					             </div>
 					         </div>
 

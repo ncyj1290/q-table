@@ -40,8 +40,13 @@ $(document).ready(function() {
             restaurantList.scrollBy({ left: 400, behavior: 'smooth' });
             setTimeout(updateButtons, 300); // 스크롤 끝난 후 버튼 상태 업데이트
         });
-
+		
         // 스크롤할 때 버튼 상태 실시간 업데이트 (사용자 드래그 대비)
         $(restaurantList).on('scroll', updateButtons);
+		
+		
     });
+		$('.search-box').on('click', function() {
+		    window.location.href = '/search';
+		});
 });
