@@ -6,6 +6,7 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageReview.css}">
+	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>review</title>
 </head>
@@ -39,8 +40,8 @@
 					<div class="date-row">
 						<span class="date">2025.09.21</span>
 						<div class="review-buttons">
-							<button class="negative-button">삭제</button>
-							<button class="positive-button">수정</button>
+							<button class="negative-button" id="deleteBtn">삭제</button>
+							<button class="positive-button" id="editBtn">수정</button>
 						</div>
 					</div>
 				</div>

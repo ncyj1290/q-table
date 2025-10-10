@@ -2,68 +2,90 @@
 	layout:decorate="~{common/layouts/defaultLayout}">
 <head>
 	<link rel="stylesheet" th:href="@{/css/mypage/profileSettings.css}">
+	<script th:src="@{/js/mypage/profile.js}" defer></script>
 </head>
 <body>
-		<div layout:fragment="Content">
-			<div class="profilesettings-container">
-			    <img th:src="@{/img/background.png}" alt="배경 이미지">
-					<h1 class="profilesettings-text">회원정보 수정</h1>
-<!--					<div class="dotted-line"></div>-->
-<!-- 프로필 영역 -->
-<div class="profile-row">
-  <div class="profile-image">
-    <img src="/img/profile_default.png" alt="프로필 사진" />
-    <span class="profile-nickname">닉네임</span>
-  </div>
-  <div class="profile-fields">
-    <div class="profile-field"><label>아이디</label><input type="text" value="abcd12" readonly></div>
-    <div class="profile-field"><label>비밀번호</label><input type="password" value="******" readonly><button class="change-btn">변경</button></div>
-    <div class="profile-field"><label>이름</label><input type="text" value="홍길동" readonly><button class="change-btn">변경</button></div>
-    <div class="profile-field"><label>이메일</label><input type="text" value="mail@domain.com" readonly><button class="change-btn">변경</button></div>
-    <div class="profile-field"><label>주소</label><input type="text" value="서울시 ..." readonly><button class="change-btn">변경</button></div>
-    <div class="profile-field"><label>전화번호</label><input type="text" value="010-1234-5678" readonly><button class="change-btn">변경</button></div>
-  </div>
-</div>
-
-<div class="dotted-line"></div>
-
-<!-- 취향 영역 -->
-<h3 class="food-title">나의 음식 취향</h3>
-<div class="food-prefs-wrapper">
-  <div class="food-prefs">
-    <span class="tag">한식</span>
-    <span class="tag">중식</span>
-    <span class="tag">양식</span>
-    <span class="tag">분식</span>
-    <span class="tag">일식</span>
-    <span class="tag">카페/디저트</span>
-    <span class="tag">패스트푸드</span>
-    <span class="tag">야식</span>
-    <span class="tag">주점</span>
-  </div>
-</div>
-
-<div class="dotted-line"></div>
-
-<!-- 바코드, 저장 버튼 -->
-<div class="barcode-area">
-  <img src="/img/barcode_sample.png" alt="바코드" class="barcode-img">
-</div>
-<div class="save-btn-area">
-  <button class="save-btn">저장</button>
-</div>
-
-					
-					
-					
-					
-					
-					
-					
-					
-					
-			    	
-			</div>
+	<div layout:fragment="Content">
+		<div class="background-wrapper">
+		    <img th:src="@{/img/background.png}" alt="배경 이미지" class="background-img">
+		<div class="profilesettings-container">
+			<div class="profilesettings-header">	
+				<h1 class="profilesettings-text">회원정보 수정</h1>
+				<div class="dotted-line"></div>
+			</div>	
+	<!-- 프로필 영역 -->
+	  <div class="profile-image">
+		<!-- 기본 프로필 -->
+	    <img src="/img/profile.png" id="profileImage" alt="프로필 사진"/>
+		<!-- 숨겨진 파일 입력 -->
+		<input type="file" id="fileInput" accept="image/*" style="display:none">
+		<div class="profile-right">
+		    <span class="profile-nickname">닉네임</span>
+			<input type="text" class="component-write write" style="width: 200px;">
 		</div>
+	  </div>
+	  
+	<div class="profile-row">
+	  <div class="profile-fields">
+	      <div class="profile-field">
+			<label>아이디</label>
+			<input type="text" class="component-write write" readonly>
+		  </div>
+	      <div class="profile-field">
+			<label>비밀번호</label>
+			<input type="password" class="component-write write">
+			<button class="positive-button">변경</button>
+		  </div>
+	      <div class="profile-field">
+			<label>이름</label>
+			<input type="text" class="component-write write">
+		 </div>
+	      <div class="profile-field">
+			<label>이메일</label><input type="text" class="component-write write">
+			<button class="positive-button">변경</button>
+		</div>
+	      <div class="profile-field">
+			<label>주소</label><input type="text" class="component-write write">
+			<button class="positive-button">변경</button>
+		</div>
+	      <div class="profile-field">
+			<label>전화번호</label>
+			<input type="text" class="component-write write">
+			<button class="positive-button">변경</button>
+		</div>
+	    </div>
+	  </div>
+
+
+	<div class="dotted-line"></div>
+	
+		<!-- 취향 영역 -->
+		<h3 class="food-title">나의 음식 취향</h3>
+		<div class="food-prefs-wrapper">
+		  <div class="food-prefs">
+		    <span class="negative-button">한식</span>
+		    <span class="negative-button">중식</span>
+		    <span class="negative-button">양식</span>
+		    <span class="negative-button">분식</span>
+		    <span class="negative-button">일식</span>
+		    <span class="negative-button">카페/디저트</span>
+		    <span class="negative-button">패스트푸드</span>
+		    <span class="negative-button">야식</span>
+		    <span class="negative-button">주점</span>
+		  </div>
+		</div>
+
+		<div class="dotted-line"></div>
+		
+		<!-- 바코드, 저장 버튼 -->
+		<div class="barcode-area">
+			<img src="/img/barcode.png" alt="바코드" class="barcode-img">
+		</div>
+		<div class="save-btn-area">
+			<button class="positive-button">저장</button>
+		</div>
+		</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -64,6 +64,7 @@
 .scrap-icon {
 	width: 35px;
 	height: 40px;
+	cursor: pointer;
 }
 
 .desc {

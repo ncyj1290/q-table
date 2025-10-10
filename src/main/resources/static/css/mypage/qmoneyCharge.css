@@ -6,20 +6,23 @@ h2{
 	
 }
 .charge-amount-group{
-  display: flex;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(3, 1fr); /* 한 행 3개 */
+   grid-template-rows: repeat(2, auto); 
   align-items: center;
-  gap: 60px;
-  justify-content: center; 
+  gap: 20px 20px;
+  margin-bottom: 25px;
 }
 
-.form-noshadow {
+.form-noshadow.box {
   display: flex;
   flex-direction: row; 
   align-items: center;
   justify-content: center;
   gap: 6px;
-  width: 15em;
-  height: 30%;
+  width: 10em;
+  height: 4em;
   font-size: 20px;
   font-weight: bold;
   color: var(--color-font);
@@ -34,7 +37,7 @@ h2{
 .payment-card{
 	font-weight: bold;
 	font-size: 30px;
-	margin-left: -10px;
+	margin: 0 0 13px -10px;
 }
 
 .charge-spoon{
@@ -54,18 +57,22 @@ h2{
 }
 
 .payment-method-row .form-noshadow {
-	height: 70%;
     width: 95%;
-    align-self: center;
 	border-radius: 10px;
+	display: flex;
+	align-items: center;      /* 세로 중앙 정렬 */
+	justify-content: center;  /* 가로 중앙 정렬 */
+	height: 50px;             /* 필요에 따라 지정 */
+	font-size: 20px;
+	font-weight: bold;
+	color: var(--color-font);
 }
 
 .pay-icon-row {
     display: flex;
 	justify-content: space-around;
     align-items: center;         
-    gap: 10px;       
-	margin-top: -10px;  
+    gap: 0 20px;      
 	margin-bottom: 20px;          
 }
 
@@ -80,11 +87,11 @@ h2{
 
 .form-noshadow.img-button img.kakao_pay{
 	width: 45%;
-	 height: 50%;
+	height: 50%;
 }
 .form-noshadow.img-button img.naver_pay {
-  width: 50%;
-  height: 50%;
+  	width: 50%;
+ 	 height: 50%;
 }
 
 .form-noshadow.img-button img.toss_pay {
@@ -101,15 +108,32 @@ h2{
 }
 
 #big-select {
-  width: 95%;
-  height: 7%;
-  margin-left: 25px;
-  border-radius: 10px;
-  border: 2px solid var(--color-main);
-  margin-bottom: 20px; 
-  font-size: 25px;
-  text-align: center ;
-  align-items: center;
+	display: flex;            /* 반드시 추가 */
+	justify-content: center;  /* 가로 중앙 */
+	align-items: center;      /* 세로 중앙 */
+	width: 95%;
+	height: 45px;             /* 고정값 추천! (ex: 48~60px) */
+	margin-left: 16px;
+	border-radius: 10px;
+	border: 2px solid var(--color-main);
+	margin-bottom: 20px; 
+	font-size: 25px;
+}
+
+.select-box select {
+    width: 100%;
+    height: 30px;
+    padding: 0 18px 0px 14px;
+    border: none;
+    border-radius: 18px;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--color-font-negative);
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    box-sizing: border-box;
 }
 
 #refund-policy{
@@ -117,7 +141,40 @@ h2{
 	font-size: 25px;
 	padding-left: 15px;
 	font-weight: bold;
-	
+	margin: 0 0 20px 12px;
 }
 
+.refund-policy-row {
+  display: flex;
+  justify-content: space-between; /* 공간 자동 분배 */
+  gap: 40px;  /* 항목 사이 간격 */
+  font-size: 15px;
+}
 
+.refund-policy-row > div {
+  flex: 1;            /* 각 항목 동일 비율 */
+  text-align: center; /* 중앙 정렬 */
+}
+
+.agree-row{
+	display: flex;
+	margin-top: 20px;
+	align-items: center;
+}
+.agree-row label{
+	margin-left: 10px;
+	font-size: 20px;
+}
+
+.positive-button.paylast{
+	margin: 20px 0  0 35%;
+	width: 30%;
+	height: 50px;
+	font-size: 20px;
+}
+
+.selected {
+  border: 2px solid var(--color-main);
+  background-color: var(--color-sub);
+  color: var(--color-main);
+}

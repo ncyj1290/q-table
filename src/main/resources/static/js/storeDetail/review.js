@@ -68,6 +68,34 @@ $(function() {
 		removeImagePreview(filename);
 	});
 
+	// 리뷰 정렬 변경
+	$('#reviewSort').on('change', function() {
+		const sortType = $(this).val();
+		const urlParams = new URLSearchParams(window.location.search);
+		const storeIdx = urlParams.get('store_idx');
+
+		// AJAX로 정렬된 리뷰 가져오기
+		$.ajax({
+			url: '/api/storeDetail/reviews/sorted',
+			type: 'GET',
+			data: {
+				store_idx: storeIdx,
+				sort_type: sortType
+			},
+			success: function(res) {
+				// 배열인지 확인
+				if (Array.isArray(res)) {
+					renderReviews(res);
+				} else {
+					console.error('응답이 배열이 아닙니다:', res);
+				}
+			},
+			error: function() {
+				alert('리뷰를 불러오는데 실패했습니다.');
+			}
+		});
+	});
+
 	// ===================================
 	// 함수 정의
 	// ===================================
@@ -106,5 +134,52 @@ $(function() {
 		selectedFiles = selectedFiles.filter(file => file.name !== filename);
 		// DOM에서 미리보기 요소 제거
 		$(`.preview-item[data-filename="${filename}"]`).remove();
+	}
+
+	// 리뷰 목록 렌더링
+	function renderReviews(reviews) {
+		let html = '';
+
+		reviews.forEach(function(review) {
+			const starWidth = review.score * 20;
+
+			html += `
+				<div class="review-item">
+					<div class="review-header">
+						<div class="reviewer-info">
+							<div class="reviewer-avatar">
+								<img src="${review.profile_img_url}" alt="프로필">
+							</div>
+							<div>
+								<div class="reviewer-name">${review.member_name}</div>
+								<div class="star-rating">
+									<div class="stars-background">★★★★★</div>
+									<div class="stars-filled" style="width: ${starWidth}%;">★★★★★</div>
+								</div>
+							</div>
+						</div>
+						<div class="review-date">${review.create_at}</div>
+					</div>
+					<div class="review-content">${review.content}</div>
+			`;
+
+			// 리뷰 이미지가 있으면 추가
+			if (review.images) {
+				const images = review.images.split(',');
+				html += '<div class="review-images">';
+				images.forEach(function(img) {
+					html += `
+						<div class="review-image">
+							<img src="${img}" alt="리뷰 이미지">
+						</div>
+					`;
+				});
+				html += '</div>';
+			}
+
+			html += '</div>'; // review-item 종료
+		});
+
+		$('#reviews-list').html(html);
 	}
 });

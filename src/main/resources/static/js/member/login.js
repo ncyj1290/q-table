@@ -37,7 +37,7 @@ function setCookie(id) {
 
 //로그인 이벤트 처리 
 function login(event) {
-//	event.preventDefault(); 
+	event.preventDefault(); 
 	const id = $(this).find('#id').val();
 	const passwd = $(this).find('#passwd').val();
 	const memType = $(this).find('#memType').val();
@@ -46,10 +46,33 @@ function login(event) {
 	//아이디 기억하기 체크 유무에 따라 쿠키 생성및 삭제 
 	if(isSavedId) setCookie(id);
 	if(!isSavedId) deleteCookie();
-		
 	
-	if (id == '' || passwd == '') alert('아이디와 비밀번호를 입력해주세요');
-	// 아래에는 ajax 호출 로직 로그인 처리 해야함 	
+	if (id == '' || passwd == '') {
+		alert('아이디와 비밀번호를 입력해주세요');
+		return;	
+	}
+	// 아래에는 ajax 호출 로직 로그인 처리 해야함 
+	
+	$.ajax({
+		url:"/loginPro",
+		type: 'POST',
+		data: { 
+            id: id,
+            passwd: passwd
+        },
+		dataType: "json",
+		success : function(res) {
+			window.location.href = res.redirectUrl;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+               alert(jqXHR.responseJSON.message);
+           	} else {
+				alert('로그인 요청중 오류가 발생했습니다. 사이트 관리자에게 문의하세요');
+           	}
+		}
+		
+	})	
 }
 
 // 회원 유형 탭 전환 함수 
