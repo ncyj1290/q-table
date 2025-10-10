@@ -12,8 +12,8 @@
 			<div class="image">
 				<img src="/img/profile.png" alt="프로필 사진" class="profile-img">
 			</div>
-			<div class="info">
-				<div class="user-info">OOO님</div>
+			<div class="info user-info" sec:authorize="isAuthenticated()">
+				<span sec:authentication="principal.username"></span>님
 			</div>
 		</div>
 

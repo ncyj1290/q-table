@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite">
+
+	<!-- 새 매장 등록 -->
+	<insert id="insertNewStore"
+		useGeneratedKeys="true"
+		keyProperty="store_idx"
+	>
+		insert into store(
+			member_idx
+			,store_name
+			,store_phone
+			,post_code
+			,full_address
+			,sido
+			,sigungu
+			,store_seat
+			,account_number
+			,bank_code
+			,deposit
+			,store_content
+			<if test="flag_24hour != 'true'">
+				,open_time
+				,close_time
+			</if>
+			,price_avg
+			,qr_code
+			,is_24hour
+		)values(
+			#{member_idx}
+			,#{store_name}
+			,#{store_phone}
+			,#{post_code}
+			,#{full_address}
+			,#{sido}
+			,#{sigungu}
+			,#{store_seat}
+			,#{account_number}
+			,#{bank_code}
+			,#{deposit}
+			,#{store_content}
+			<if test="flag_24hour != 'true'">
+				,#{open_time}
+				,#{close_time}
+			</if>
+			,#{price_avg}
+<!--			,#{qr_code}-->
+			,null <!-- 일단 QR 널값 -->
+			,#{is_24hour}
+		)
+	</insert>
+	
+	<!-- 휴일 등록 -->
+	<insert id="insertNewHoliday">
+		insert into store_holiday(
+			store_idx
+			,store_holiday
+		)values(
+			#{store_idx}
+			,#{store_holiday}	
+		)
+	</insert>
+	
+	<!-- 편의 시설 -->
+	<insert id="insertNewAmenity">
+		insert into store_amenity(
+			store_idx
+			,store_amenity
+		)values(
+			#{store_idx}
+			,#{store_amenity}	
+		)
+	</insert>
+	
+	<!-- 분위기 -->
+	<insert id="insertNewAtmosphere">
+		insert into store_atmosphere(
+			store_idx
+			,store_atmosphere
+		)values(
+			#{store_idx}
+			,#{store_atmosphere}	
+		)
+	</insert>
+	
+	<!-- 카테고리 -->
+	<insert id="insertNewCategory">
+		insert into store_category(
+			store_idx
+			,store_category
+		)values(
+			#{store_idx}
+			,#{store_category}	
+		)
+	</insert>
+	
+	<!-- 카테고리 -->
+	<insert id="insertNewIngredient">
+		insert into ingredients(
+			store_idx
+			,ingredients_name
+			,ingredients_origin
+			,allergy
+		)values(
+			#{store_idx}
+			,#{ingredients_name}	
+			,#{ingredients_origin}
+			,#{allergy}
+		)
+	</insert>
+	
+	<!-- 메뉴 -->
+	<insert id="insertNewMenu"
+	useGeneratedKeys="true"
+	keyProperty="menu_idx"
+	>
+		insert into menu(
+			store_idx
+			,menu_name
+			,price
+			,menu_content
+			,menu_gram
+		)values(
+			#{store_idx}
+			,#{menu_name}	
+			,#{price}
+			,#{menu_content}
+			,#{menu_gram}
+		)
+	</insert>
+	
+	<!-- 이미지 업로드 -->
+	<insert id="insertNewImage">
+		insert into image(
+			target_type
+			,target_idx
+			,image_url
+		)values(
+			#{target_type}
+			,#{target_idx}
+			,#{image_url}
+		);
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

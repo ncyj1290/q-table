@@ -1,3 +1,88 @@
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-icon {
+    cursor: pointer;
+    max-width: 25px;
+    max-height: 35px;
+}
+
+
+
+/* 드롭다운 메뉴 */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+	top: calc(100% + 5px);
+    right: 0;
+    width: 200px;
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 100;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+
+/* 프로필 정보 */
+.header-profile-info {
+    display: flex;
+    align-items: center;
+    padding: 7px;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-profile-img {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: bold;
+	color: #555;
+}
+
+.user-email {
+    font-size: 10px;
+    color: #999;
+}
+
+/* 메뉴 항목 */
+.dropdown-menu a {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: #333 !important; /* 최우선 적용 */
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+/* 로그아웃 강조 */
+.dropdown-menu .logout {
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+/* 추가 링크 스타일 */
+.dropdown-menu a.add-later {
+    color: #007bff;
+    font-size: 12px;
+}
+
 .header {
     display: flex;
     justify-content: space-between; /* 로고 - 검색창 - 로그인 버튼 균등 배치 */
@@ -74,6 +159,8 @@
   margin-top: 5px;
 }
 
-.menu-icons img{
-	max-height: 35px;
+.menu-icons > a > img {
+    max-width: 25px;
+    max-height: 35px;
 }
+

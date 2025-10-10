@@ -1,5 +1,6 @@
 $(function() {
-	const memberColumns = [
+	// Grid.js 컬럼
+	const member_columns = [
 		{ name: 'No.', width: '5%' },
 		{ name: '회원 이름', width: '10%' },
 		{ name: '회원 아이디', width: '10%' },
@@ -13,39 +14,141 @@ $(function() {
 			}
 		},
 		{
-			name: '관리', width: '45%',
+			name: '관리',
 			width: '250px',
 			formatter: (cell, row) => {
-				const detailButton = `<a href="/admin_detail" class="management-button">상세보기</a>`;
-				const statusButton = `<button class="management-button status-change-btn">회원 상태변경</button>`;
-				const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
-				return gridjs.html(detailButton + statusButton + deleteButton);
+				const member_idx = row.cells[0].data;
+				const member_id = row.cells[2].data;
+
+				const detail_button = `<a href="/admin_detail/${member_idx}" class="management-button">상세보기</a>`;
+				const status_button = `<button class="management-button status-change-btn" data-idx="${member_idx}" data-id="${member_id}">상태변경</button>`;
+				const delete_button = `<button class="management-button delete-btn" data-idx="${member_idx}" data-id="${member_id}">삭제</button>`;
+
+				return gridjs.html(detail_button + status_button + delete_button);
 			}
 		}
 	];
 
-	const memberData = [
-		["1", "김민준", "user_kim", "kim.minjun@example.com", "2025-09-28", "정상"],
-		["2", "이서연", "user_lee", "lee.seoyun@example.com", "2025-09-27", "정상"],
-		["3", "박도현", "user_park", "park.dohyun@example.com", "2025-09-25", "탈퇴"],
-		["4", "최지아", "user_choi", "choi.jia@example.com", "2025-09-22", "정상"],
-		["5", "정은우", "user_jung", "jung.eunwoo@example.com", "2025-09-21", "정상"],
-		["1", "김민준", "user_kim", "kim.minjun@example.com", "2025-09-28", "정상"],
-		["2", "이서연", "user_lee", "lee.seoyun@example.com", "2025-09-27", "정상"],
-		["3", "박도현", "user_park", "park.dohyun@example.com", "2025-09-25", "탈퇴"],
-		["4", "최지아", "user_choi", "choi.jia@example.com", "2025-09-22", "정상"],
-		["5", "정은우", "user_jung", "jung.eunwoo@example.com", "2025-09-21", "정상"],
-		["1", "김민준", "user_kim", "kim.minjun@example.com", "2025-09-28", "정상"],
-		["2", "이서연", "user_lee", "lee.seoyun@example.com", "2025-09-27", "정상"],
-		["3", "박도현", "user_park", "park.dohyun@example.com", "2025-09-25", "탈퇴"],
-		["4", "최지아", "user_choi", "choi.jia@example.com", "2025-09-22", "정상"],
-		["5", "정은우", "user_jung", "jung.eunwoo@example.com", "2025-09-21", "정상"]
-	];
+	// AJAX 회원 목록 데이터 요청
+	$.ajax({
+		url: '/api/members',
+		type: 'GET',
+		success: function(response) {
+			// Grid.js 형식
+			const formatted_data = response.map(member => {
+				return [
+					member.member_idx,
+					member.member_name,
+					member.member_id,
+					member.email,
+					member.signup_date ? member.signup_date.substring(0, 10) : '-',
+					member.member_status,
+					null
+				];
+			});
 
-	createGrid({
-		targetId: '#member-table',
-		columns: memberColumns,
-		data: memberData,
-		pagination: { limit: 10 }
+			// 공통 함수 createGrid
+			createGrid({
+				targetId: '#member-table', // 테이블을 표시할 div ID
+				columns: member_columns,
+				data: formatted_data,
+				pagination: { limit: 10 }
+			});
+		},
 	});
+
+
+	$('.grid-wrapper').on('click', '.status-change-btn', function() {
+		const member_idx = $(this).data('idx');
+		const member_id = $(this).data('id');
+
+		// AJAX 현재 회원 정보를 가져오기
+		$.ajax({
+			url: `/api/members/${member_idx}`,
+			type: 'GET',
+			success: function(memberVO) {
+
+				const body_html = `
+	                <div class="form-group">
+	                    <label>변경 대상 아이디</label>
+	                    <div class="readonly-input">${member_id}</div>
+	                </div>
+	                <div class="form-group">
+	                    <label>회원 상태</label>
+	                    <div class="select-box" style="width: 100%;">
+	                        <select id="modal-status-select">
+	                            <option value="mstat_01">정상</option>
+	                            <option value="mstat_02">탈퇴</option>
+	                        </select>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label>탈퇴 사유</label>
+	                    <textarea id="modal-reason-textarea" class="reason-textarea" placeholder="탈퇴 처리 시 사유를 입력하세요."></textarea>
+	                </div>
+	            `;
+
+				// 수정 버튼을 눌렀을 때 실행될 기능
+				const save_function = function() {
+					const update_data = {
+						member_status: $('#modal-status-select').val(),
+						leave_reason: $('#modal-reason-textarea').val()
+					};
+
+					$.ajax({
+						url: `/api/members/${member_idx}/status`,
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(update_data),
+						success: function(response) {
+							alert("상태 변경에 성공했습니다.");
+							$('#common-modal').removeClass('active');
+							location.reload();
+						},
+						error: function(error) { alert("상태 변경에 실패했습니다."); }
+					});
+				};
+
+				// 공통 모달 함수
+				openCommonModal({
+					title: '회원 상태 변경',
+					bodyHtml: body_html,
+					saveButtonText: '수정',
+					onSave: save_function
+				});
+
+				$('#modal-status-select').val(memberVO.member_status);
+				$('#modal-reason-textarea').val(memberVO.leave_reason);
+			},
+			error: function() {
+				alert("회원 정보를 불러오는 데 실패했습니다.");
+			}
+		});
+	});
+
+});
+
+// 삭제 버튼 클릭 이벤트
+$('#member-table').on('click', '.delete-btn', function() {
+
+	const member_idx = $(this).data('idx');
+
+	if (confirm(`정말로 삭제하시겠습니까?`)) {
+
+		// 확인을 눌렀을 때 AJAX 코드 실행
+		$.ajax({
+			url: `/api/members/${member_idx}`,
+			type: 'POST',
+			success: function(response) {
+				alert("삭제에 성공했습니다.");
+				location.reload();
+			},
+			error: function(error) {
+				alert("삭제에 실패했습니다.");
+			}
+		});
+
+	} else {
+		console.log("삭제가 취소되었습니다.");
+	}
 });

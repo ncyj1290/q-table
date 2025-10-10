@@ -2,6 +2,7 @@
 <head>
     <title>현장 결제 페이지</title>
     <link rel="stylesheet" th:href="@{/css/payment/onSitePayment.css}">
+    <script th:src="@{/js/payment/onSitePayment.js}"></script>
 </head>
 <body>
 <div layout:fragment="Content">
@@ -48,20 +49,20 @@
 				<div class="info-row">
 					<div class="top-row">
 						<span class="label">입력금액</span>
-						<span class="value">100,000 원</span>
+						<span class="value" id="inputAmountDisplay">0 원</span>
 					</div>
 				</div>
 				<div class="info-row">
 					<div class="top-row">
 						<span class="label">Q-money 결제할인</span>
-						<span class="value">- 2,000 원</span>
+						<span class="value" id="discountDisplay">- 0 원</span>
 					</div>
 					<span class="sale-info">주문금액의 5% 할인적용</span>
 				</div>
 				<div class="info-row">
 					<div class="top-row">
 						<span class="label">선납 예약금</span>
-						<span class="value">- 3,000 원</span>
+						<span class="value" id="depositDisplay">- 3,000 원</span>
 					</div>
 				</div>
 			</div>
@@ -73,18 +74,18 @@
 		<div class="final-amount-section">
 			<div class="final-amount-row">
 				<span class="final-label">최종 결제 금액</span>
-				<span class="final-value">95,000 원</span>
+				<span class="final-value" id="finalAmountDisplay">0 원</span>
 			</div>
 		</div>
 
 		<div class="qmoney-info-section">
 			<div class="qmoney-row">
 				<span class="qmoney-label">현재 회원님의 Q-money</span>
-				<span class="qmoney-value">195,000 원</span>
+				<span class="qmoney-value" id="currentQMoneyDisplay">195,000 원</span>
 			</div>
 			<div class="qmoney-row">
 				<span class="qmoney-label">결제 후 회원 님의 Q-money</span>
-				<span class="qmoney-value">100,000 원</span>
+				<span class="qmoney-value" id="afterQMoneyDisplay">195,000 원</span>
 			</div>
 		</div>
 

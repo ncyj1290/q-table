@@ -270,7 +270,6 @@ textarea::-webkit-resizer {
 	position: relative;
 	overflow: hidden;
 	color: var(--color-font-positive);
-	font-size: 28px;
 }
 
 /* ================================== */

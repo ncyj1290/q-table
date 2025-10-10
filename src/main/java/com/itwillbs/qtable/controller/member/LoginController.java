@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
+	
 	@GetMapping("/login")
 	public String login(){
 		return "member/login";

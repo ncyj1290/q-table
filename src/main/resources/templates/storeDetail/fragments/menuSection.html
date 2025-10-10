@@ -8,15 +8,14 @@
                 <span class="info-icon"><i class="fa-solid fa-utensils"></i>   </span>
                 <span class="info-label">메뉴판</span>
             </div>
-            <div class="menu-images">
-                <div class="menu-image">
-                    <img th:src="@{/img/test.png}" alt="메뉴">
+            <div class="menu-images" th:if="${!menuBoardImages.isEmpty()}">
+                <div class="menu-image" th:each="menuBoard : ${menuBoardImages}">
+                    <img th:src="@{${menuBoard}}" alt="메뉴판">
                 </div>
+            </div>
+            <div class="menu-images" th:if="${menuBoardImages.isEmpty()}">
                 <div class="menu-image">
-                    <img th:src="@{/img/test.png}" alt="메뉴">
-                </div>
-                <div class="menu-image">
-                    <img th:src="@{/img/test.png}" alt="메뉴">
+                    <img th:src="@{/img/default_menu_board.png}" alt="메뉴판 없음">
                 </div>
             </div>
 
@@ -27,90 +26,49 @@
                 <span class="info-label">MENU</span>
             </div>
             <div class="menu-list">
-                <div class="menu-item">
+                <div class="menu-item" th:each="menu : ${menuList}">
                     <div class="menu-left">
-                        <span class="menu-name">메뉴 1</span>
-                        <span class="menu-price">10,000원</span>
+                        <div class="menu-name-row">
+                            <span class="menu-name" th:text="${menu.menu_name}"></span>
+                            <span class="menu-gram" th:if="${menu.menu_gram}" th:text="'(' + ${menu.menu_gram} + 'g)'"></span>
+                        </div>
+                        <span class="menu-price" th:text="${menu.price} + '원'"></span>
                     </div>
                     <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
+                        <span class="menu-description" th:text="${menu.menu_content}"></span>
                     </div>
                     <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴1">
+                        <img th:src="@{${menu['menu_image'] != null ? menu['menu_image'] : '/img/logo.png'}}" alt="메뉴 이미지">
                     </div>
                 </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 2</span>
-                        <span class="menu-price">12,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴2">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 3</span>
-                        <span class="menu-price">15,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴3">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 4</span>
-                        <span class="menu-price">8,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴4">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 5</span>
-                        <span class="menu-price">11,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴5">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 6</span>
-                        <span class="menu-price">13,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴6">
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-left">
-                        <span class="menu-name">메뉴 7</span>
-                        <span class="menu-price">9,000원</span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description">메뉴 설명 영역</span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{/img/test.png}" alt="메뉴7">
-                    </div>
-                </div>
+            </div>
+
+            <!-- 원산지 및 알레르기 정보 -->
+            <div class="horizontal-line"></div>
+
+            <div class="info-item">
+                <span class="info-icon"><i class="fa-solid fa-leaf"></i></span>
+                <span class="info-label">원산지 및 알레르기 정보</span>
+            </div>
+
+            <div class="ingredients-container" th:if="${!ingredientList.isEmpty()}">
+                <table class="ingredients-table">
+                    <thead>
+                        <tr>
+                            <th>식자재</th>
+                            <th>원산지</th>
+                            <th>알레르기</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ingredient : ${ingredientList}">
+                            <td th:text="${ingredient['ingredients_name']}"></td>
+                            <td th:text="${ingredient['ingredients_origin']}"></td>
+                            <td th:text="${ingredient['allergy'] != null and !ingredient['allergy'].isEmpty() ? ingredient['allergy'] : '-'}"
+                                th:class="${ingredient['allergy'] != null and !ingredient['allergy'].isEmpty() ? 'allergy-warning' : ''}"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <!-- 페이징 -->

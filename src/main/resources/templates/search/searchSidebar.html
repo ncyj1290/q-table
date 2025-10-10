@@ -1,14 +1,14 @@
 <aside th:fragment="searchSidebar" layout:fragment="content" id="sidebar"
  class="form-box">
 	
-	<section class="part">
+	<section class="part parent locReset">
 		<div class="top no-reset">
 			<h5>지역</h5>
-			<span class="reset">초기화</span>
+			<span class="reset" id="locReset">초기화</span>
 		</div>
 		<div class="horizontal-line"></div>
-		<div class="keywords no-toggle">
-			<span class="dashed-box">+ 키워드를 선택해주세요</span>
+		<div class="keywords no-toggle" id="locationArea">
+			<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>
 <!--			<span class="keyword active">부산진구</span>-->
 <!--			<span class="keyword active">사상구</span>-->
 <!--			<span class="keyword active">사하구</span>-->
@@ -16,14 +16,14 @@
 <!--			<span class="select">지역 선택</span>-->
 		</div>
 	</section>
-	<section class="part">
+	<section class="part parent foodReset">
 		<div class="top no-reset">
 			<h5>음식종류</h5>
-			<span class="reset">초기화</span>
+			<span class="reset" id="foodReset">초기화</span>
 		</div>
 		<div class="horizontal-line"></div>
-		<div class="keywords no-toggle">
-			<span class="dashed-box">+ 키워드를 선택해주세요</span>
+		<div class="keywords no-toggle" id="foodArea">
+			<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>
 <!--			<span class="keyword active">중식</span>-->
 <!--			<span class="keyword active">한식</span>-->
 <!--			<span class="keyword active">양식</span>-->
@@ -33,7 +33,7 @@
 <!--			<span class="select">종류 선택</span>-->
 		</div>
 	</section>
-	<section class="part">
+	<section class="part parent">
 		<div class="top price">
 			<h5>가격</h5>
 			<span class="reset">초기화</span>
@@ -54,7 +54,7 @@
 			<span class="keyword priceKeyword 40">40만원대이상</span>
 		</div>
 	</section>
-	<section class="part">
+	<section class="part parent">
 		<div class="top">
 			<h5>좌석수</h5>
 			<span class="reset">초기화</span>
@@ -68,7 +68,7 @@
 			<span class="keyword">40석이상</span>
 		</div>
 	</section>
-	<section class="part">
+	<section class="part parent">
 		<div class="top">
 			<h5>분위기</h5>
 			<span class="reset">초기화</span>
@@ -88,7 +88,7 @@
 			<span class="keyword">트렌디한</span>
 		</div>
 	</section>
-	<section class="part">
+	<section class="part parent">
 		<div class="top">
 			<h5>편의 시설</h5>
 			<span class="reset">초기화</span>

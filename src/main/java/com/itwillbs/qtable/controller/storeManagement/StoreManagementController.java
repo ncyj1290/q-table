@@ -2,16 +2,19 @@ package com.itwillbs.qtable.controller.storeManagement;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwillbs.qtable.service.storeManagement.StoreWriteService;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
 
 @Controller
 public class StoreManagementController {
+	
 
 	/* ================================================= */
 	/* 매장 관리자가 이용하는 매장 관리 메인 페이지 */
@@ -19,28 +22,7 @@ public class StoreManagementController {
 	public String storeManagement() {
 		return "storeManagement/store_management_main";
 	}
-	
-	/* ================================================= */
-	/* 매장 등록/수정 페이지 */
-	@GetMapping("/write_store")
-	public String wrtieStore() {
-		return "storeManagement/writeStore";
-	}
-	
-	/* 매장 등록 Post */
-	@PostMapping("/write_store")
-	public String inserNewStore(@ModelAttribute  StoreVO storeVO) {
-		
-		System.out.println("Check Write Store Submit -> Done");
-		System.out.println("Store Write - VO CHECK: " + storeVO.toString());
-		
-		/* 매장 주소 가공 */
-		storeVO.setFull_address(storeVO.getPost_code() + " " + storeVO.getAddress() + " " + storeVO.getAddress_detail());
 
-		return "redirect:store_reservation_list";
-	}
-
-	
 	/* ================================================= */
 	/* 예약 목록 페이지 */
 	@GetMapping("/store_reservation_list")

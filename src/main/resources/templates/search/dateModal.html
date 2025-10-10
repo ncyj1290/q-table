@@ -1,0 +1,56 @@
+<div th:fragment="dateModal" layout:fragment="content">
+	<div id="dateModal" class="modal-overlay">
+		<div class="inner-modal" id="inner-modal-date">
+			<div class="header-modal">
+				<span class="close-btn">&times;</span>
+			</div>
+			<div class="content-modal" id="content-modal-date">
+  				<div class="calendar-header">
+       				<button class="calendar-nav-btn">◀</button>
+      				<div class="calendar-title">2024년 9월</div>
+     				<button class="calendar-nav-btn">▶</button>
+  				</div>
+			     <div class="calendar-weekdays">
+		      		 <div class="weekday sunday">일</div>
+		      		 <div class="weekday">월</div>
+		      		 <div class="weekday">화</div>
+		      		 <div class="weekday">수</div>
+		      		 <div class="weekday">목</div>
+		      		 <div class="weekday">금</div>
+		      		 <div class="weekday saturday">토</div>
+			     </div>
+			     <div class="calendar-days">
+			       <!-- 동적으로 생성될 달력 -->
+			     </div>
+				 <div class="horizontal-line"></div>
+			 	<div class="reservation-form">
+				<div class="form-row">
+		           <div class="form-group-vertical">
+		               <label class="form-label">인원수</label>
+		               <div class="select-box">
+		                   <select id="person-count">
+		                       <option>2</option>
+		                       <option>3</option>
+		                       <option>4</option>
+		                       <option>5</option>
+		                   </select>
+		               </div>
+		           </div>
+		           <div class="form-group-vertical">
+		               <label class="form-label">시간</label>
+		               <div class="select-box">
+		                   <select id="time">
+		                       <option>20:45</option>
+		                       <option>21:00</option>
+		                       <option>21:15</option>
+		                   </select>
+		               </div>
+		           </div>
+		        </div>
+				<div style="display: flex; justify-content: center; margin-top: 35px;">
+			        <button id="apply-btn-date" class="active">적용하기</button>
+			    </div>
+			</div>
+		</div><!--innerModal-->
+	</div><!--dateModal-->
+</div> <!--프레그먼트-->

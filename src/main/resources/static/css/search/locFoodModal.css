@@ -14,11 +14,15 @@
 	-ms-user-select: none; /* IE/Edge */
 }
 
+.content-modal::-webkit-scrollbar {
+	display: none;
+}
+
 /* 2. 모달 내부 콘텐츠 박스 */
 .inner-modal {
 	background-color: #fefefe;
     margin: 5vh auto; /* 브라우저 상단에서 5% 여백 */
-    padding: 0px 17px 0px 17px; /* 푸터가 따로 패딩을 가질 수 있도록 하단 패딩 제거 */
+    padding: 0px 17px 17px 17px; /* 푸터가 따로 패딩을 가질 수 있도록 하단 패딩 제거 */
     border: none;
     width: 90%; 
     max-width: 700px; 
@@ -29,8 +33,8 @@
     display: flex;
 	flex-direction:column;
     overflow: hidden; /* inner-modal 전체의 스크롤은 막습니다. */
-    
 }
+
 
 /* 3. 닫기 버튼 (x) 스타일 */
 .close-btn {
@@ -59,12 +63,18 @@
     box-shadow: 0 -2px 5px rgba(0,0,0,0.1); 
 	border-radius: 15px;
     border: 1px solid #ffffff;
+    overflow: auto; /* 선택한 키워드 많아지면 스크롤되ㅔ게 */
 }
 
+.footer-modal::-webkit-scrollbar {
+	display: none;
+}
+
+
 /* 적용하기 버튼 */
-.footer-modal > .active {
+#apply-btn {
     font-size: 20px;
-    height: 100%;
+    height: 32px;
     width: 100%;
 	font-weight: bold;
 	color: var(--color-font-positive);
@@ -145,7 +155,7 @@
 /* 선택된 키워드 영역 */
 .selectedKeywords {
 	display:flex;
-	    flex-wrap: wrap;
+	flex-wrap: wrap;
 	gap:10px;
     padding: 10px 10px 0 10px;
 }
@@ -191,7 +201,6 @@
 	color: var(--color-main);
     cursor: pointer;
     font-size: 1.4rem;
-    transform: translateY(-2px);
     border:none !important;
 }
 
