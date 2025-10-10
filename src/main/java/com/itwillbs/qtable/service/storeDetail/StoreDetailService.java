@@ -27,7 +27,6 @@ public class StoreDetailService {
 
 		// 매장 존재 여부 체크
 		if (result == null) {
-			log.warning("Store not found: " + storeIdx);
 			return new HashMap<>();
 		}
 
@@ -80,18 +79,33 @@ public class StoreDetailService {
 		return reviews != null ? reviews : List.of();
 	}
 	
+	// 리뷰 정렬 옵션 공통코드 조회
+	public List<Map<String, Object>> getReviewSortOptions() {
+		List<Map<String, Object>> sortOptions = storeMapper.getReviewSortOptions();
+		return sortOptions != null ? sortOptions : List.of();
+	}
+
+	// 매장 정렬 필터링 조회
+	public List<Map<String, Object>> getReviewsSorted(Integer storeIdx, String sortType) {
+		List<Map<String, Object>> reviews = storeMapper.getReviewSorted(storeIdx, sortType);
+		return reviews != null ? reviews : List.of();
+	}
+	
 	// 매장 별점 정보 조회
-	public Map<String, String> getReviewScoreInfo(Integer storeIdx) {
-		Map<String, String> scoreInfo = storeMapper.getReviewScoreInfo(storeIdx);
+	public Map<String, Object> getReviewScoreInfo(Integer storeIdx) {
+		Map<String, Object> scoreInfo = storeMapper.getReviewScoreInfo(storeIdx);
 
 		// null 방어 + 기본값 설정
 		if (scoreInfo == null) {
-			return Map.of("avgScore", "0.0", "reviewCount", "0");
+			Map<String, Object> result = new HashMap<>();
+			result.put("avgScore", 0.0);
+			result.put("reviewCount", 0);
+			return result;
 		}
 
 		// avgScore가 null이면 0.0으로 대체
 		if (scoreInfo.get("avgScore") == null) {
-			scoreInfo.put("avgScore", "0.0");
+			scoreInfo.put("avgScore", 0.0);
 		}
 
 		return scoreInfo;

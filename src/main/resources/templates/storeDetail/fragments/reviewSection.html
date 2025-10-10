@@ -58,16 +58,17 @@
                 <div class="review-sort">
                     <div class="select-box">
                         <select id="reviewSort">
-                            <option value="latest">최신순</option>
-                            <option value="highest">별점 높은순</option>
-                            <option value="lowest">별점 낮은순</option>
+                            <option th:each="option : ${sortOptions}"
+                                    th:value="${option.code}"
+                                    th:text="${option.code_label}">
+                            </option>
                         </select>
                     </div>
                 </div>
                 <button class="positive-button">리뷰 작성</button>
             </div>
 
-            <div class="reviews-list">
+            <div class="reviews-list" id="reviews-list">
                 <div class="review-item" th:each="review : ${review}">
                     <div class="review-header">
                         <div class="reviewer-info">
