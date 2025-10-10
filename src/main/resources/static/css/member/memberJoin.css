@@ -23,8 +23,9 @@
   background-color: #fff;
   border-bottom: 2px solid #eee;
 }
-.signup-tabs button:hover {
-  color: var(--color-main);
+.signup-tabs button.active {
+	border-bottom: 2px solid var(--color-main);
+    color:var(--color-main);
 }
 
 .signup-container {
@@ -48,11 +49,15 @@
 }
 
 .form-group label {
-  width: 95px;
+  width: 110px;
   text-align: center;
   margin-right: 10px;
 }
-
+.form-group.name label.gender-label {
+    width: 40px;
+    display: inline-block;
+    margin-right: 10px;
+}
 .form-group input {
   border: 2px solid var(--color-main);
   border-radius: 20px;
@@ -76,7 +81,8 @@
 }
 #userId,
 #password,
-#confirmPassword{
+#confirmPassword,
+#businessRegNo{
 	width: 200px;
 }
 #birthDate{
@@ -84,6 +90,7 @@
 }
 #email,
 #emailVerification,
+#address,
 #addressDetail{
 	width: 300px;
 }
@@ -173,4 +180,23 @@
   cursor: pointer;
   text-align: center;
 }
+.input-with-icon {
+  position: relative;      /* 아이콘 위치 기준 */
+  display: inline-block;
+  width: 200px;            /* input width와 동일하게 */
+}
 
+.input-with-icon input {
+  width: 100%;
+  padding-right: 30px;     /* 아이콘 공간 확보 */
+  box-sizing: border-box;
+}
+
+.input-with-icon .birth-calendar-icon {
+  position: absolute;
+  right: 10px;             /* input 오른쪽 끝에 배치 */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;    /* 아이콘 클릭해도 input 동작 */
+  color: #888;
+}

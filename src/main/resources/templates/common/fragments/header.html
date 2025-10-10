@@ -44,8 +44,8 @@
 					         <div class="header-profile-info" onclick="location.href='/mypage_main'">
 								<img src="/img/profile.png" alt="프로필 사진" class="header-profile-img">
 					             <div class="user-details">
-					                 <div class="user-name">000님</div>
-					                 <div class="user-email">123456@naver.com</div>
+					                 <div class="user-name"><span sec:authentication="principal.member.memberName"></span>님</div>
+					                 <div class="user-email"><span sec:authentication="principal.member.email"></span></div>
 					             </div>
 					         </div>
 
