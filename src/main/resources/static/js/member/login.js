@@ -47,7 +47,10 @@ function login(event) {
 	if(isSavedId) setCookie(id);
 	if(!isSavedId) deleteCookie();
 	
-	if (id == '' || passwd == '') alert('아이디와 비밀번호를 입력해주세요');
+	if (id == '' || passwd == '') {
+		alert('아이디와 비밀번호를 입력해주세요');
+		return;	
+	}
 	// 아래에는 ajax 호출 로직 로그인 처리 해야함 
 	
 	$.ajax({

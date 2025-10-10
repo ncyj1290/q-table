@@ -55,6 +55,6 @@ public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler{
 //		msg = URLEncoder.encode(msg, "UTF-8");
 //		//실패시 이동할 경로 지정 
 //		setDefaultFailureUrl("/login?error=true&msg=" + msg);
-		super.onAuthenticationFailure(request, response, exception);
+//		super.onAuthenticationFailure(request, response, exception);
 	}
 }
