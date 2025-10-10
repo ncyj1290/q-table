@@ -45,10 +45,10 @@ public class SecurityConfig {
 				// 매장회원 : mtype_03
 				// 1. 사이트 관리자(mtype_01)만 접근 가능한 경로는 여기에 추가 
 	            .requestMatchers(
-	                "/admin_main", "/admin_member", "/admin_store", "/admin_detail",
+	            	"/admin**/**",
 	                "/store_entry", "/member_payment", "/store_payment", "/store_refund",
-	                "/admin_subscribe", "/comcode_list", "/comcode_commit", "/admin_account", 
-	                "/admin_commit", "/api/members"
+	                "/comcode_list", "/comcode_commit", 
+	                "/api/members"
 	            ).hasRole("mtype_01")
 	            
 	            // 일반 회원만 접근 가능한 경로는 여기에 추가 
@@ -91,7 +91,7 @@ public class SecurityConfig {
 	            .requestMatchers(
 	                "/", "/login**", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
-	                "/upload/**"
+	                "/upload/**", "/api/storeDetail/**"
 	            ).permitAll()
 	            
 	            //5.static 파일 경로 

@@ -10,4 +10,8 @@ public class ErrorController {
 	public String accessDenied() {
 		return "common/error/denied";
 	}
+	
+	
+	
+	
 }
