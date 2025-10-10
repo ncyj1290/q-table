@@ -17,7 +17,7 @@
 
 			<div class="setting-section">
 				<div class="setting-category">계정</div>
-				<a href="/">
+				<a th:href="@{/profile_settings}">
 					<div class="setting-item">프로필 설정 <span class="setting-arrow">&gt;</span></div>
 				</a>
 			</div>
@@ -26,13 +26,13 @@
 
 			<div class="setting-section">
 				<div class="setting-category">카드</div>
-				<a href="/card_edit">
+				<a th:href="@{/card_edit}">
 					<div class="setting-item">카드 관리 <span class="setting-arrow">&gt;</span></div>
 				</a>
 				<a href="/">
 					<div class="setting-item">카드 비밀번호 변경 <span class="setting-arrow">&gt;</span></div>
 				</a>
-				<a href="/qmoney_charge">
+				<a th:href="@{/qmoney_charge}">
 					<div class="setting-item">Q_money 충전 <span class="setting-arrow">&gt;</span></div>
 				</a>
 			</div>

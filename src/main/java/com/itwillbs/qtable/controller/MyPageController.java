@@ -42,7 +42,6 @@ public class MyPageController {
 		return "mypage/reservationCancel";
 	}	
 	
-	
 	@GetMapping("/qmoney_charge")
 	public String qmoneycharge() {
 		
@@ -51,7 +50,6 @@ public class MyPageController {
 	
 	@GetMapping("/setting")
 	public String setting() {
-		
 		return "mypage/setting";
 	}
 	
@@ -71,4 +69,6 @@ public class MyPageController {
 		
 		return "mypage/profileSettings";
 	}
+	
+
 }
