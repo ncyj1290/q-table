@@ -41,14 +41,14 @@ $(function() {
 	    // 4. 원하는 형식으로 텍스트 조합 (예: 10.09 (수))
 	    const displayText = `${selectedDate.substring(5).replace('-', '.')} (${dayName})`;
 	    // 5. 화면에 표시
-	    $('.date').text(displayText);
+	    $('.rsv-date').text(displayText);
 		
 		//인원수 
 		const personCnt = $('#person-count').val();
-		$('.person-count').text(personCnt);
+		$('.rsv-person-count').text(personCnt + '명');
 		//시간 
 		const time = $('#time').val();
-		$('.time').text(time);    
+		$('.rsv-time').text(time);    
 		hideDateModal();
 	});
 	

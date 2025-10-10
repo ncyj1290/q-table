@@ -126,16 +126,18 @@
   align-items: center;
   border: 2px solid var(--color-focus);
   border-radius: 25px;
-  padding: 5px 10px;
+  padding: 5px 16px;
   margin: 0 20px;         /* 좌우 살짝만 여백 */
+  justify-content: space-between;
 }
-
+.search-box > span {
+	color: var(--color-placeholder);
+}
 .search-box input {
   flex: 1;
   border: none;
   outline: none;
   font-size: 14px;
-  padding: 5px 10px;
 }
 
 .search-box a {
