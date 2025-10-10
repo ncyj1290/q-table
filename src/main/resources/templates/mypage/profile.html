@@ -2,12 +2,15 @@
 	<div class="form-box"
 		style="background-color: #FABFBF; width: 800px; height: 200px; display: flex; align-items: center;">
 		<div>
-			<img src="/img/profile.png" alt="프로필 사진" class="profile-img">
+			<!--기본 프로필 사진-->
+			<img src="/img/profile.png" alt="프로필 사진" class="profile-img" id="profileImage">
+			<!-- 숨겨진 파일 입력 -->
+			<input type="file" id="fileInput" accept="image/*" class="profile-img" style="display:none">
 		</div>
 
 		<div class="profile-info">
-			<div class="nickname-box">
-				<div class="nickname">000님</div>
+			<div class="nickname-box" sec:authorize="isAuthenticated()">
+				<div sec:authentication="principal.username" class="nickname"></div>
 				<div class="profile-icons">
 					<a href="/">
 						<img src="/img/mypage_month.png" alt="달력" class="mypage_month" />
@@ -28,8 +31,9 @@
 			</div>
 
 			<!-- 프로필 설정 버튼 -->
-			<button type="button" class="positive-button" style="width: 150px; height: 40px; font-size: 20px;">프로필
-				설정</button>
+			<a href="profile_settings">
+				<button type="button" class="positive-button" style="width: 150px; height: 40px; font-size: 20px;">프로필 설정</button>
+			</a>	
 
 		</div>
 	</div>

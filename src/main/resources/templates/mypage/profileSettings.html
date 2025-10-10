@@ -2,6 +2,7 @@
 	layout:decorate="~{common/layouts/defaultLayout}">
 <head>
 	<link rel="stylesheet" th:href="@{/css/mypage/profileSettings.css}">
+	<script th:src="@{/js/mypage/profile.js}" defer></script>
 </head>
 <body>
 	<div layout:fragment="Content">
@@ -14,7 +15,10 @@
 			</div>	
 	<!-- 프로필 영역 -->
 	  <div class="profile-image">
-	    <img src="/img/profile.png" alt="프로필 사진"/>
+		<!-- 기본 프로필 -->
+	    <img src="/img/profile.png" id="profileImage" alt="프로필 사진"/>
+		<!-- 숨겨진 파일 입력 -->
+		<input type="file" id="fileInput" accept="image/*" style="display:none">
 		<div class="profile-right">
 		    <span class="profile-nickname">닉네임</span>
 			<input type="text" class="component-write write" style="width: 200px;">

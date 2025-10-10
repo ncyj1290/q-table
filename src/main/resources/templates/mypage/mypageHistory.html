@@ -8,6 +8,7 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageHistory.css}">
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
+	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>history</title>
 </head>
@@ -37,8 +38,8 @@
 						합리적인 가격과 아늑한 분위기로 가족, 친구, 연인 모두 만족할 수 있는 인기 맛집이에요.</span>
 					<span class="date">2025.09.21</span>
 					<div class="visit-buttons">
-						<button class="positive-button" style="margin-right: 10px;">리뷰 작성</button>
-						<button class="positive-button">재방문 하기</button>
+						<button class="positive-button" style="margin-right: 10px;" id="reviewBtn">리뷰 작성</button>
+						<button class="positive-button" id="revisitBtn">재방문 하기</button>
 					</div>
 				</div>
 			</div>

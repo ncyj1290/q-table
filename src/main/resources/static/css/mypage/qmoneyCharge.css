@@ -172,3 +172,9 @@ h2{
 	height: 50px;
 	font-size: 20px;
 }
+
+.selected {
+  border: 2px solid var(--color-main);
+  background-color: var(--color-sub);
+  color: var(--color-main);
+}

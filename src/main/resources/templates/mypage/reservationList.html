@@ -8,6 +8,8 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
+	<script th:src="@{/js/mypage/profile.js}" defer></script>
+	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>예약 현황</title>
 </head>
@@ -45,8 +47,8 @@
 							합리적인 가격과 아늑한 분위기로 가족, 친구, 연인 모두 만족할 수 있는 인기 맛집이에요.</span>
 						<span class="date">2025.09.21</span>
 						<div class="reservation-buttons">
-							<button class="negative-button" style="margin-right: 10px;">예약 취소</button>
-							<button class="positive-button">예약 변경</button>
+							<button class="negative-button" style="margin-right: 10px;" id="cancelBtn">예약 취소</button>
+							<button class="positive-button" id="changeBtn">예약 변경</button>
 						</div>
 					</div>
 				</div>
@@ -68,7 +70,7 @@
 							합리적인 가격과 아늑한 분위기로 가족, 친구, 연인 모두 만족할 수 있는 인기 맛집이에요.</span>
 						<span class="date">2025.09.21</span>
 						<div class="reservation-buttons">
-							<button class="positive-button" style="width: 130px;">재예약 하기</button>
+							<button class="positive-button" style="width: 130px;" id="rebookBtn"재예약 하기</button>
 						</div>
 					</div>
 				</div>
