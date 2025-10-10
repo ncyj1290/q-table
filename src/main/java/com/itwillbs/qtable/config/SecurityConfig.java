@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,16 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	
 	private final QtableUserDetailsService qtableUserDetailsService;
+	//로그인 실패 핸들러 주입 
+	private final LoginFailHandler failHandler;
+	//로그인 성공 핸들러 
+	private final LoginSuccessHandler successHandler;
+    
+	@Bean //크롬 개발자 도구 url 요청 무시하기
+	public WebSecurityCustomizer webSecurityCustomizer() {
+	    // .well-known 경로 하위의 모든 요청은 시큐리티 필터를 아예 통과하지 않도록 무시
+	    return (web) -> web.ignoring().requestMatchers("/.well-known/**");
+	}
 	
 	@Bean
     public PasswordEncoder passwordEncoder() { // 암호화 메서드 
@@ -77,8 +88,8 @@ public class SecurityConfig {
 	
 	            // 4.그 외 모든 비로그인까지 모두 허용되는 경로는 여기에 추가 
 	            .requestMatchers(
-	                "/", "/login", "/find_account", "/member_join", "/terms_of_use",
-	                "/privacy_policy", "/error", "/search", "/store_detail_main", 
+	                "/", "/login**", "/find_account**", "/member_join**", "/terms_of_use",
+	                "/privacy_policy", "/error", "/search**", "/store_detail_main**", 
 	                "/upload/**"
 	            ).permitAll()
 	            
@@ -95,10 +106,11 @@ public class SecurityConfig {
 					.loginProcessingUrl("/loginPro") //로그인처리하는 경로 
 					.usernameParameter("id") //로그인 페이지에서 name값하고 일치시켜야함 
 					.passwordParameter("passwd") //로그인 페이지에서 name값하고 일치시켜야함 
-					.defaultSuccessUrl("/") //성공시 이동하는 기본 경로 
-//					.successHandler(null) //  성공시 핸들러 
-//					.failureHandler(null) // 실패시 핸들러 
-					.failureUrl("/login?error=true") //로그인 실패시 이동하는 경로
+//					.defaultSuccessUrl("/") //성공시 이동하는 기본 경로 
+					.successHandler(successHandler) //  성공시 핸들러 
+					.failureHandler(failHandler) // 실패시 핸들러 
+//					.failureUrl("/login?error=true") //로그인 실패시 이동하는 경로
+					.permitAll() //로그인 처리는 누구나 할 수 있어야함 
 			 	)
 				//로그인 유지 설정 
 				.rememberMe(rememberMe -> rememberMe
@@ -118,7 +130,7 @@ public class SecurityConfig {
 			    )
 				.userDetailsService(qtableUserDetailsService) //커스텀한 객체로 사용하기
 				.build();
-		 		// 더 해야하는거:  로그인 성공및 실패 핸들러, 403에러 핸들러, 에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
+		 		// 더 해야하는거: 403에러 핸들러, 에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
 	}
 	
 }
