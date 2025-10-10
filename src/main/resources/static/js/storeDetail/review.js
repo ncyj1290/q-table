@@ -139,6 +139,12 @@ $(function() {
 	// 리뷰 목록 렌더링
 	function renderReviews(reviews) {
 		let html = '';
+		
+		// 사진 필터 선택시 리뷰 없을 경우 대비
+		if (!reviews || reviews.length === 0) {
+			$('#reviews-list').html('<div class="no-reviews">아직 리뷰가 없습니다.</div>');
+			return;
+		}
 
 		reviews.forEach(function(review) {
 			const starWidth = review.score * 20;

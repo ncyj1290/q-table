@@ -506,6 +506,15 @@
     gap: 20px;
 }
 
+/* 리뷰 없음 메시지 */
+.no-reviews {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 16px;
+    border-top: 1px solid #eee;
+}
+
 /* 개별 리뷰 아이템 */
 .review-item {
     border-top: 1px solid #eee;
