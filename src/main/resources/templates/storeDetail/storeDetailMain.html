@@ -5,10 +5,12 @@
     <!-- css -->
     <link rel="stylesheet" th:href="@{/css/storeDetail/storeDetail.css}">
     <!-- js -->
+    <!-- kakao api 키 등록  -->
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b1185d31d2c07b3503006b4f37d4c81b&libraries=services"></script>
     <script th:src="@{/js/storeDetail/storeImage.js}"></script>
     <script th:src="@{/js/storeDetail/review.js}"></script>
-    <script th:src="@{/js/storeDetail/smoothSticky.js}"></script>
     <script th:src="@{/js/storeDetail/dynamicCalendar.js}"></script>
+    <script th:src="@{/js/storeDetail/storeDetailMap.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="Content">

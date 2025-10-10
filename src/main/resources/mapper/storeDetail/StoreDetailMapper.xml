@@ -181,4 +181,54 @@
 	       AND code BETWEEN #{openTime} AND #{closeTime}
 	  ORDER BY code
 	</select>
+	
+	<!-- 리뷰 정렬 옵션 공통코드 조회 -->
+	<select id="getReviewSortOptions" resultType="map">
+		SELECT code
+		     , code_label
+		  FROM common_code
+		 WHERE group_code = 'review_sort'
+	  ORDER BY code_index
+	</select>
+
+	<!-- 리뷰 정렬 필터링 조회 -->
+	<select id="getReviewSorted" resultType="map">
+		SELECT
+		       r.review_idx
+		     , r.member_idx
+		     , m.member_name
+		     , m.profile_img_url
+		     , r.store_idx
+		     , DATE(r.create_at) AS create_at
+		     , r.content
+		     , r.score
+		     , r.like_count
+		     , GROUP_CONCAT(i.image_url) AS images
+		  FROM review r
+		  JOIN member m ON m.member_idx = r.member_idx
+     LEFT JOIN image i ON i.target_idx = r.review_idx
+		                  AND i.target_type = 'imguse_05'
+		 WHERE r.store_idx = #{storeIdx}
+		 GROUP BY r.review_idx
+		<if test="sortType == 'rvs_04'">
+		HAVING images IS NOT NULL
+		</if>
+		 <choose>
+		 	<when test="sortType == 'rvs_01'">
+		 		ORDER BY r.create_at DESC
+		 	</when>
+		 	<when test="sortType == 'rvs_02'">
+		 		ORDER BY r.score DESC, r.create_at DESC
+		 	</when>
+		 	<when test="sortType == 'rvs_03'">
+		 		ORDER BY r.score ASC, r.create_at DESC
+		 	</when>
+		 	<when test="sortType == 'rvs_04'">
+		 		ORDER BY r.create_at DESC
+		 	</when>
+		 	<otherwise>
+		 		ORDER BY r.create_at DESC
+		 	</otherwise>
+		 </choose>
+	</select>
 </mapper>

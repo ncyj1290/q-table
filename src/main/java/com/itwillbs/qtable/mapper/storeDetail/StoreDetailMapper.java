@@ -40,7 +40,7 @@ public interface StoreDetailMapper {
 	List<Map<String, Object>> getReview(Integer storeIdx);
 	
 	// 리뷰 개수 조회
-	Map<String, String> getReviewScoreInfo(Integer storeIdx);
+	Map<String, Object> getReviewScoreInfo(Integer storeIdx);
 	
 	// 리뷰 별점 분포 조회
 	List<Map<String, Object>> getScoreDistribution(Integer storeIdx);
@@ -50,6 +50,10 @@ public interface StoreDetailMapper {
 
 	// 영업 가능 시간 조회
 	List<String> getTimeCodesBetween(@Param("openTime") String openTime, @Param("closeTime") String closeTime);
-
 	
+	// 매장 정렬 필터링 조회
+	List<Map<String, Object>> getReviewSorted(@Param("storeIdx") Integer storeIdx, @Param("sortType") String sortType);
+
+	// 리뷰 정렬 옵션 공통코드 조회
+	List<Map<String, Object>> getReviewSortOptions();
 }
