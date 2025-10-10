@@ -14,9 +14,9 @@
                <input type="text" placeholder="검색어를 입력하세요">
                <div class="date-area">
                   <span class="seperator">|</span>
-                  <span class="date">12.21(일)</span>
-                  <span class="time">14:00</span>
-                  <span class="person-count">0</span>명
+                  <span class="rsv-date">날짜</span>
+                  <span class="rsv-time">시간</span>
+                  <span class="rsv-person-count">인원선택</span>
                </div>
                <a href="/search" class="search-btn">
                   <i class="fas fa-search"></i>
@@ -25,7 +25,7 @@
          </th:block>
          <th:block th:unless="${isSearch}">
             <div class="search-box">
-               <input type="text" placeholder="검색어를 입력하세요">
+               <span>내가 원하는 맛집을 찾아보세요!</span>
                <a href="/search" class="search-btn">
                   <i class="fas fa-search"></i>
                </a>
@@ -57,8 +57,7 @@
 					         
 
 					         <!-- 로그아웃 강조 -->
-							 <form action="/logout" method="post">
-								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+							 <form th:action="@{/logout}" method="post">
 							     <button type="submit" class="logout">로그아웃</button>
 							 </form>
 					     </div>
