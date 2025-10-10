@@ -16,16 +16,26 @@
 		<div class="qmoney-charge-container">
 		        <h2>Q-money 충전</h2>
 		        <div class="charge-amount-group">
-		            <button type="button" class="form-noshadow">10,000원
+		            <button type="button" class="form-noshadow box">10,000원
 						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
 					</button>
-		            <button type="button" class="form-noshadow">30,000원
+		            <button type="button" class="form-noshadow box">30,000원
 						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
 					</button>
-		            <button type="button" class="form-noshadow">50,000원
+		            <button type="button" class="form-noshadow box">50,000원
+						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
+					</button>
+					<button type="button" class="form-noshadow box">100,000원
+						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
+					</button>
+		            <button type="button" class="form-noshadow box">300,000원
+						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
+					</button>
+		            <button type="button" class="form-noshadow box">1,000,000원
 						<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
 					</button>
 		        </div>
+				
 				
 			<div class="horizontal-line"></div>
 			
@@ -34,11 +44,11 @@
 		            <label class="payment-card">결제수단 선택</label>
 					
 		            <div class="payment-method-row">
-		                <button type="button" class="form-noshadow">신용카드</button>
+		                <button type="button" class="form-noshadow card">신용카드</button>
 		            </div>
 		            <div class="pay-icon-row">
 		                    <button type="button" class="form-noshadow img-button"
-								style="width: 230px; height: 90px;">
+								style="width: 175px; height: 90px;">
 						<div class="pay-icon-items">
 								<img src="/img/kakao_pay.png" alt="kakao_pay" class="kakao_pay" />
 								<span>카카오페이</span>
@@ -46,7 +56,7 @@
 							</button>
 		                   
 		                    <button type="button" class="form-noshadow img-button"
-								style="width: 230px; height: 90px;">
+								style="width: 170px; height: 90px;">
 						<div class="pay-icon-items">
 								<img src="/img/naver_pay.png" alt="kakao_pay" class="naver_pay" />
 								<span>네이버페이</span>
@@ -54,7 +64,7 @@
 							</button>
 						
 		                    <button type="button" class="form-noshadow img-button"
-								style="width: 230px; height: 90px;">
+								style="width: 170px; height: 90px;">
 						<div class="pay-icon-items">
 								<img src="/img/toss_pay.png" alt="kakao_pay" class="toss_pay" />
 								<span>토스페이</span>
@@ -71,27 +81,27 @@
 		           	   </select>
 		        	</div>
 		        <div class="refund-policy-section">
-		            <label class="title-box" id="refund-policy">환불정책</label>
-		            <table class="refund-policy-table">
-		                <tr>
-		                    <td>결제일로부터 7일 이내</td>
-		                    <td>전액 환불</td>
-		                    <td>결제 금액 100% 환불 가능</td>
-							
-		                </tr>
-		                <tr>
-		                    <td>결제일로부터 7일 경과 후</td>
-							
-		                    <td>부분 환불</td>
-		                    <td>결제 금액 50% 환불 가능</td>
-		                </tr>
-		            </table>
+		            <label class="title-box" id="refund-policy"
+					style="width: 96%; height: 40px;">환불정책</label>
+					<div class="refund-policy-list">
+					  <div class="refund-policy-row">
+					    <div>결제일로부터 7일 이내</div>
+					    <div>전액 환불</div>
+					    <div>결제 금액 100% 환불 가능</div>
+					  </div>
+					  <div class="horizontal-line"></div>
+					  <div class="refund-policy-row">
+					    <div>결제일로부터 7일 경과 후</div>
+					    <div>부분 환불</div>
+					    <div>결제 금액 50% 환불 가능</div>
+					  </div>
+					</div>
 		        </div>
 		        <div class="agree-row">
 		            <input type="checkbox" class="component-checkbox">
 		            <label for="agree">결제 및 환불 정책에 동의합니다. (필수)</label>
 		        </div>
-		        <button type="submit" class="positive-button">결제하기</button>
+		        <button type="submit" class="positive-button paylast">결제하기</button>
 		    </div>
 			</div>
 	</div>
