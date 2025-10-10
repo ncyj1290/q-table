@@ -26,30 +26,34 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws IOException, ServletException {
+		
 		boolean isAdmin = authentication.getAuthorities().stream()
 			    .anyMatch(authority -> authority.getAuthority().equals("ROLE_mtype_01"));
+		boolean isStore = authentication.getAuthorities().stream()
+				.anyMatch(authority -> authority.getAuthority().equals("ROLE_mtype_03"));
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		String redirectUrl;
 		
-	        String redirectUrl;
-	        if (savedRequest != null) {
-	            redirectUrl = savedRequest.getRedirectUrl();
-	            requestCache.removeRequest(request, response);
-	        } else if (isAdmin) {
-	        	redirectUrl = "/admin_main";
-	        	requestCache.removeRequest(request, response);
-	        } else {
-	            redirectUrl = "/";
-	        }
-	        // 응답 데이터 생성
-	        Map<String, Object> responseData = new HashMap<>();
-	        responseData.put("status", "success");
-	        responseData.put("redirectUrl", redirectUrl); // 동적으로 결정된 URL을 담아줌
+        if (savedRequest != null) {
+            redirectUrl = savedRequest.getRedirectUrl();
+        } else if (isAdmin) {
+        	redirectUrl = "/admin_main";
+        } else if (isStore) {
+        	redirectUrl = "/store_management_main";
+        } else {
+            redirectUrl = "/";
+        }
+        requestCache.removeRequest(request, response);
+        // 응답 데이터 생성
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("status", "success");
+        responseData.put("redirectUrl", redirectUrl); // 동적으로 결정된 URL을 담아줌
 
-	        // JSON 응답 설정
-	        response.setStatus(HttpServletResponse.SC_OK);
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
+        // JSON 응답 설정
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
-	        response.getWriter().write(objectMapper.writeValueAsString(responseData));
+        response.getWriter().write(objectMapper.writeValueAsString(responseData));
 	}
 }

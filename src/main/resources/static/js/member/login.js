@@ -65,8 +65,7 @@ function login(event) {
 			if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
                alert(jqXHR.responseJSON.message);
            	} else {
-				alert('로그인 요청중 오류가 발생했습니다.');
-				console.log(jqXHR);
+				alert('로그인 요청중 오류가 발생했습니다. 사이트 관리자에게 문의하세요');
            	}
 		}
 		

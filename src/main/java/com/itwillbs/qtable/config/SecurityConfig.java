@@ -22,10 +22,11 @@ public class SecurityConfig {
 	private final LoginFailHandler failHandler;
 	//로그인 성공 핸들러 
 	private final LoginSuccessHandler successHandler;
+	// 403 에러 핸들러 
+	private final QtableAccessDeniedHandler accessDeniedHandler;
     
 	@Bean //크롬 개발자 도구 url 요청 무시하기
 	public WebSecurityCustomizer webSecurityCustomizer() {
-	    // .well-known 경로 하위의 모든 요청은 시큐리티 필터를 아예 통과하지 않도록 무시
 	    return (web) -> web.ignoring().requestMatchers("/.well-known/**");
 	}
 	
@@ -89,7 +90,7 @@ public class SecurityConfig {
 	            // 4.그 외 모든 비로그인까지 모두 허용되는 경로는 여기에 추가 
 	            .requestMatchers(
 	                "/", "/login**", "/find_account**", "/member_join**", "/terms_of_use",
-	                "/privacy_policy", "/error", "/search**", "/store_detail_main**", 
+	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
 	                "/upload/**"
 	            ).permitAll()
 	            
@@ -126,11 +127,12 @@ public class SecurityConfig {
 		        )
 				//403에러 페이지 처리, 추후 세부 구현 예정 
 				.exceptionHandling(exception -> exception
-		            .accessDeniedPage("/error") // 접근 거부 시 이동할 페이지 지정
+//		            .accessDeniedPage("/error") // 접근 거부 시 이동할 페이지 지정
+					.accessDeniedHandler(accessDeniedHandler)
 			    )
 				.userDetailsService(qtableUserDetailsService) //커스텀한 객체로 사용하기
 				.build();
-		 		// 더 해야하는거: 403에러 핸들러, 에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
+		 		// 더 해야하는거:  에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
 	}
 	
 }
