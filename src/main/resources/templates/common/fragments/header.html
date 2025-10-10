@@ -24,14 +24,14 @@
                </a>
             </div>
          </th:block>
-<!--          <th:block th:unless="${isSearch}"> -->
+         <th:block th:unless="${isSearch}">
             <div class="search-box">
                <input type="text" placeholder="검색어를 입력하세요">
                <a href="/search" class="search-btn">
                   <i class="fas fa-search"></i>
                </a>
             </div>
-<!--          </th:block> -->
+         </th:block>
              <!-- 로그인 상태: 아이콘만 표시 -->
              <div sec:authorize="isAuthenticated()">
                  <div class="menu-icons">
