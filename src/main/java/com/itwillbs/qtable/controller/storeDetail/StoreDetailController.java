@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.qtable.service.storeDetail.StoreDetailService;
+import com.itwillbs.qtable.vo.PageResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -29,13 +30,9 @@ public class StoreDetailController {
 		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
 		model.addAllAttributes(storeData);
 
-		// 매장 메뉴 섹션 조회
+		// 매장 메뉴 섹션 조회 
 		Map<String, Object> menuData = storeService.getMenuInfo(storeIdx);
 		model.addAllAttributes(menuData);
-
-		// 매장 리뷰 섹션 조회
-		List<Map<String, Object>> reviewData = storeService.getStoreReview(storeIdx);
-		model.addAttribute("review", reviewData);
 
 		// 리뷰 정렬 옵션 공통코드 조회
 		List<Map<String, Object>> sortOptions = storeService.getReviewSortOptions();
@@ -66,14 +63,29 @@ public class StoreDetailController {
 		return "storeDetail/storeDetailMain";
 	}
 
-	// 리뷰 정렬 AJAX API
-	@GetMapping("/api/storeDetail/reviews/sorted")
+	// 리뷰 페이지네이션, 정렬 AJAX API
+	@GetMapping("/api/storeDetail/reviews")
 	@ResponseBody
-	public List<Map<String, Object>> getReviewsSorted(
+	public PageResponse<Map<String, Object>> getReviewsPaged(
 			@RequestParam("store_idx") Integer storeIdx,
-			@RequestParam("sort_type") String sortType) {
+			@RequestParam(value = "sort_type", defaultValue = "rvs_01") String sortType,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "3") int size) {
 
-		return storeService.getReviewsSorted(storeIdx, sortType);
+		
+		return storeService.getReviewsPaged(storeIdx, sortType, page, size);
+	}
+	
+	
+	// 메뉴 페이지네이션 AJAX API
+	@GetMapping("/api/storeDetail/menu")
+	@ResponseBody
+	public PageResponse<Map<String, Object>> getMenuPaged(
+			@RequestParam("store_idx") Integer storeIdx,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "6") int size) {
+
+		
+		return storeService.getMenuPaged(storeIdx, page, size);
 	}
 }
- 

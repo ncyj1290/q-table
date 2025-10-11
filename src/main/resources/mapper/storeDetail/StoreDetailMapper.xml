@@ -90,6 +90,16 @@
 		  LEFT JOIN image i ON i.target_idx = m.menu_idx
 		                   AND i.target_type = 'imguse_03'
 		 WHERE m.store_idx = #{storeIdx}
+		 <if test="offset != null and size != null">
+		 LIMIT #{offset}, #{size}
+		 </if>
+	</select>
+	
+	<!-- 메뉴 개수 조회 -->
+	<select id="getMenuCount">
+		SELECT count(*)
+		  FROM menu
+		 WHERE store_idx = #{storeIdx}
 	</select>
 	
 	<!-- 메뉴판 이미지 조회 -->
@@ -109,27 +119,6 @@
 			 , allergy	 
 		  FROM ingredients
 		 WHERE store_idx = #{storeIdx} 
-	</select>
-	
-	<!-- 리뷰 조회 -->
-	<select id="getReview" resultType="map">
-		SELECT
-		       r.review_idx
-		     , r.member_idx
-		     , m.member_name
-		     , m.profile_img_url
-		     , r.store_idx
-		     , DATE(r.create_at) AS create_at
-		     , r.content
-		     , r.score
-		     , r.like_count
-		     , GROUP_CONCAT(i.image_url) AS images
-		  FROM review r
-		  JOIN member m ON m.member_idx = r.member_idx
-     LEFT JOIN image i ON i.target_idx = r.review_idx
-		                  AND i.target_type = 'imguse_05'
-		 WHERE r.store_idx = #{storeIdx}
-		 GROUP BY r.review_idx
 	</select>
 	
 	<!-- 리뷰 별점 정보 조회 -->
@@ -191,8 +180,8 @@
 	  ORDER BY code_index
 	</select>
 
-	<!-- 리뷰 정렬 필터링 조회 -->
-	<select id="getReviewSorted" resultType="map">
+	<!-- 리뷰 조회 (+ 정렬필터, 페이지네이션) -->
+	<select id="getReview" resultType="map">
 		SELECT
 		       r.review_idx
 		     , r.member_idx
@@ -230,5 +219,23 @@
 		 		ORDER BY r.create_at DESC
 		 	</otherwise>
 		 </choose>
+		 <if test="offset != null and size != null">
+		 LIMIT #{offset}, #{size}
+		 </if>
 	</select>
+
+
+	<!-- 리뷰 개수 조회 (정렬 타입별) -->
+	<select id="getReviewCount" resultType="int">
+		SELECT COUNT(DISTINCT r.review_idx)
+		  FROM review r
+		 WHERE r.store_idx = #{storeIdx}
+		<if test="sortType == 'rvs_04'">
+		   AND EXISTS (SELECT 1
+		                 FROM image i
+		                WHERE i.target_idx = r.review_idx
+		                  AND i.target_type = 'imguse_05')
+		</if>
+	</select>
+
 </mapper>

@@ -28,20 +28,20 @@ public interface StoreDetailMapper {
 	List<Map<String, Object>> getStoreAmenities(Integer storeIdx);
 	
 	// 매장 메뉴 조회
-	List<Map<String, Object>> getMenu(Integer storeIdx);
+	List<Map<String, Object>> getMenu(@Param("storeIdx") Integer storeIdx, @Param("offset") Integer offset, @Param("size") Integer size);
 	
 	// 메뉴판 이미지 조회
 	List<String> getMenuBoardImages (Integer storeIdx);
 	
+	// 메뉴 개수 조회
+	int getMenuCount(Integer storeIdx);
+	
 	// 식자재 조회
 	List<Map<String, Object>> getIngredients (Integer storeIdx);
  	
-	// 매장 리뷰 조회
-	List<Map<String, Object>> getReview(Integer storeIdx);
-	
 	// 리뷰 개수 조회
 	Map<String, Object> getReviewScoreInfo(Integer storeIdx);
-	
+
 	// 리뷰 별점 분포 조회
 	List<Map<String, Object>> getScoreDistribution(Integer storeIdx);
 
@@ -50,10 +50,15 @@ public interface StoreDetailMapper {
 
 	// 영업 가능 시간 조회
 	List<String> getTimeCodesBetween(@Param("openTime") String openTime, @Param("closeTime") String closeTime);
-	
-	// 매장 정렬 필터링 조회
-	List<Map<String, Object>> getReviewSorted(@Param("storeIdx") Integer storeIdx, @Param("sortType") String sortType);
+
+	// 매장 리뷰 조회
+	List<Map<String, Object>> getReview(@Param("storeIdx") Integer storeIdx, @Param("sortType") String sortType, @Param("offset") Integer offset, @Param("size") Integer size);
 
 	// 리뷰 정렬 옵션 공통코드 조회
 	List<Map<String, Object>> getReviewSortOptions();
+
+	// 리뷰 개수 조회
+	int getReviewCount(@Param("storeIdx") Integer storeIdx, @Param("sortType") String sortType);
+
+
 }

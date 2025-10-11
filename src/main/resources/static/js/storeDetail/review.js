@@ -4,6 +4,7 @@
 // 일반 변수
 let selectedRating = 0;  // 선택된 별점 (1-5)
 let selectedFiles = [];  // 선택된 이미지 파일 배열
+let reviewPagination = null;  // 페이지네이션 인스턴스
 
 $(function() {
 	const $reviewButton = $('.review-controls .positive-button');
@@ -11,6 +12,10 @@ $(function() {
 	const $starElements = $('.star');
 	const $reviewImages = $('#reviewImages');
 	const $imagePreview = $('#imagePreview');
+
+	// URL에서 store_idx 가져오기
+	const urlParams = new URLSearchParams(window.location.search);
+	const storeIdx = urlParams.get('store_idx');
 
 	// ===================================
 	// 이벤트 리스너
@@ -71,30 +76,76 @@ $(function() {
 	// 리뷰 정렬 변경
 	$('#reviewSort').on('change', function() {
 		const sortType = $(this).val();
-		const urlParams = new URLSearchParams(window.location.search);
-		const storeIdx = urlParams.get('store_idx');
 
-		// AJAX로 정렬된 리뷰 가져오기
-		$.ajax({
-			url: '/api/storeDetail/reviews/sorted',
-			type: 'GET',
-			data: {
-				store_idx: storeIdx,
-				sort_type: sortType
-			},
-			success: function(res) {
-				// 배열인지 확인
-				if (Array.isArray(res)) {
-					renderReviews(res);
-				} else {
-					console.error('응답이 배열이 아닙니다:', res);
-				}
-			},
-			error: function() {
-				alert('리뷰를 불러오는데 실패했습니다.');
-			}
-		});
+		// 페이지네이션 인스턴스가 있으면 정렬 타입 업데이트하고 첫 페이지 로드
+		if (reviewPagination) {
+			reviewPagination.params.sort_type = sortType;
+			reviewPagination.loadPage(1);
+		}
 	});
+
+	// ===================================
+	// 페이지네이션 초기화
+	// ===================================
+
+	// 리뷰 페이지네이션 초기화
+	reviewPagination = new Pagination({
+		dataContainer: '#reviews-list',
+		paginationContainer: '#review-pagination',
+		url: '/api/storeDetail/reviews',
+		params: {
+			store_idx: storeIdx,
+			sort_type: $('#reviewSort').val() || 'rvs_01'
+		},
+		pageSize: 3,  // 3개씩 렌더링
+		renderItem: function(review) {
+			const starWidth = review.score * 20;
+			let html = `
+				<div class="review-item">
+					<div class="review-header">
+						<div class="reviewer-info">
+							<div class="reviewer-avatar">
+								<img src="${review.profile_img_url}" alt="프로필">
+							</div>
+							<div>
+								<div class="reviewer-name">${review.member_name}</div>
+								<div class="star-rating">
+									<div class="stars-background">★★★★★</div>
+									<div class="stars-filled" style="width: ${starWidth}%;">★★★★★</div>
+								</div>
+							</div>
+						</div>
+						<div class="review-date">${review.create_at}</div>
+					</div>
+					<div class="review-content">${review.content}</div>
+			`;
+
+			// 리뷰 이미지가 있으면 추가
+			if (review.images) {
+				const images = review.images.split(',');
+				html += '<div class="review-images">';
+				images.forEach(function(img) {
+					html += `
+						<div class="review-image">
+							<img src="${img}" alt="리뷰 이미지">
+						</div>
+					`;
+				});
+				html += '</div>';
+			}
+
+			html += '</div>'; // review-item 종료
+			return html;
+		},
+		emptyMessage: `
+			<div class="empty-state">
+				<p>등록된 리뷰가 없습니다.</p>
+			</div>
+		`
+	});
+
+	// 첫 페이지 로드
+	reviewPagination.loadPage(1);
 
 	// ===================================
 	// 함수 정의
@@ -134,58 +185,5 @@ $(function() {
 		selectedFiles = selectedFiles.filter(file => file.name !== filename);
 		// DOM에서 미리보기 요소 제거
 		$(`.preview-item[data-filename="${filename}"]`).remove();
-	}
-
-	// 리뷰 목록 렌더링
-	function renderReviews(reviews) {
-		let html = '';
-		
-		// 사진 필터 선택시 리뷰 없을 경우 대비
-		if (!reviews || reviews.length === 0) {
-			$('#reviews-list').html('<div class="no-reviews">아직 리뷰가 없습니다.</div>');
-			return;
-		}
-
-		reviews.forEach(function(review) {
-			const starWidth = review.score * 20;
-
-			html += `
-				<div class="review-item">
-					<div class="review-header">
-						<div class="reviewer-info">
-							<div class="reviewer-avatar">
-								<img src="${review.profile_img_url}" alt="프로필">
-							</div>
-							<div>
-								<div class="reviewer-name">${review.member_name}</div>
-								<div class="star-rating">
-									<div class="stars-background">★★★★★</div>
-									<div class="stars-filled" style="width: ${starWidth}%;">★★★★★</div>
-								</div>
-							</div>
-						</div>
-						<div class="review-date">${review.create_at}</div>
-					</div>
-					<div class="review-content">${review.content}</div>
-			`;
-
-			// 리뷰 이미지가 있으면 추가
-			if (review.images) {
-				const images = review.images.split(',');
-				html += '<div class="review-images">';
-				images.forEach(function(img) {
-					html += `
-						<div class="review-image">
-							<img src="${img}" alt="리뷰 이미지">
-						</div>
-					`;
-				});
-				html += '</div>';
-			}
-
-			html += '</div>'; // review-item 종료
-		});
-
-		$('#reviews-list').html(html);
 	}
 });

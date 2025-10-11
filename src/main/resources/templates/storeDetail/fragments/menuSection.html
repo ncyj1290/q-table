@@ -4,82 +4,62 @@
         <div class="section-title">
 			<div class="title-box">MENU</div>
         </div>
-            <div class="info-item">
-                <span class="info-icon"><i class="fa-solid fa-utensils"></i>   </span>
-                <span class="info-label">메뉴판</span>
+        <div class="info-item">
+            <span class="info-icon"><i class="fa-solid fa-utensils"></i>   </span>
+            <span class="info-label">메뉴판</span>
+        </div>
+        <div class="menu-images" th:if="${!menuBoardImages.isEmpty()}">
+            <div class="menu-image" th:each="menuBoard : ${menuBoardImages}">
+                <img th:src="@{${menuBoard}}" alt="메뉴판">
             </div>
-            <div class="menu-images" th:if="${!menuBoardImages.isEmpty()}">
-                <div class="menu-image" th:each="menuBoard : ${menuBoardImages}">
-                    <img th:src="@{${menuBoard}}" alt="메뉴판">
-                </div>
+        </div>
+        <div class="menu-images" th:if="${menuBoardImages.isEmpty()}">
+            <div class="menu-image">
+                <img th:src="@{/img/default_menu_board.png}" alt="메뉴판 없음">
             </div>
-            <div class="menu-images" th:if="${menuBoardImages.isEmpty()}">
-                <div class="menu-image">
-                    <img th:src="@{/img/default_menu_board.png}" alt="메뉴판 없음">
-                </div>
-            </div>
+        </div>
 
-            <div class="horizontal-line"></div>
+        <div class="horizontal-line"></div>
 
-            <div class="info-item">
-                <span class="info-icon"><i class="fa-solid fa-bowl-food"></i></span>
-                <span class="info-label">MENU</span>
-            </div>
-            <div class="menu-list">
-                <div class="menu-item" th:each="menu : ${menuList}">
-                    <div class="menu-left">
-                        <div class="menu-name-row">
-                            <span class="menu-name" th:text="${menu.menu_name}"></span>
-                            <span class="menu-gram" th:if="${menu.menu_gram}" th:text="'(' + ${menu.menu_gram} + 'g)'"></span>
-                        </div>
-                        <span class="menu-price" th:text="${menu.price} + '원'"></span>
-                    </div>
-                    <div class="menu-center">
-                        <span class="menu-description" th:text="${menu.menu_content}"></span>
-                    </div>
-                    <div class="menu-thumbnail">
-                        <img th:src="@{${menu['menu_image'] != null ? menu['menu_image'] : '/img/logo.png'}}" alt="메뉴 이미지">
-                    </div>
-                </div>
-            </div>
+        <div class="info-item">
+            <span class="info-icon"><i class="fa-solid fa-bowl-food"></i></span>
+            <span class="info-label">MENU</span>
+        </div>
+        
+        <!-- AJAX 리뷰가 렌더링될 영역 -->
+        <div class="menu-list" id="menu-list"></div>
+        
+        <!-- AJAX 페이지네이션 컨테이너 랜더링 영역 -->
+        <div id="menu-pagination"></div>
 
-            <!-- 원산지 및 알레르기 정보 -->
-            <div class="horizontal-line"></div>
+        <!-- 원산지 및 알레르기 정보 -->
+        <div class="horizontal-line"></div>
 
-            <div class="info-item">
-                <span class="info-icon"><i class="fa-solid fa-leaf"></i></span>
-                <span class="info-label">원산지 및 알레르기 정보</span>
-            </div>
+        <div class="info-item">
+            <span class="info-icon"><i class="fa-solid fa-leaf"></i></span>
+            <span class="info-label">원산지 및 알레르기 정보</span>
+        </div>
 
-            <div class="ingredients-container" th:if="${!ingredientList.isEmpty()}">
-                <table class="ingredients-table">
-                    <thead>
-                        <tr>
-                            <th>식자재</th>
-                            <th>원산지</th>
-                            <th>알레르기</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="ingredient : ${ingredientList}">
-                            <td th:text="${ingredient['ingredients_name']}"></td>
-                            <td th:text="${ingredient['ingredients_origin']}"></td>
-                            <td th:text="${ingredient['allergy'] != null and !ingredient['allergy'].isEmpty() ? ingredient['allergy'] : '-'}"
-                                th:class="${ingredient['allergy'] != null and !ingredient['allergy'].isEmpty() ? 'allergy-warning' : ''}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="ingredients-container" th:if="${!ingredientList.isEmpty()}">
+            <table class="ingredients-table">
+                <thead>
+                    <tr>
+                        <th>식자재</th>
+                        <th>원산지</th>
+                        <th>알레르기</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ingredient : ${ingredientList}">
+                        <td th:text="${ingredient['ingredients_name']}"></td>
+                        <td th:text="${ingredient['ingredients_origin']}"></td>
+                        <td th:text="${ingredient['allergy'] != null and !ingredient['allergy'].isEmpty() ? ingredient['allergy'] : '-'}"
+                            th:class="${ingredient['allergy'] != null and !ingredient['allergy'].isEmpty() ? 'allergy-warning' : ''}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-            <!-- 페이징 -->
-            <div class="page-selector-layout">
-                <div class="d-flex flex-row justify-content-center">
-                    <button class="page-arrow">&lt;</button>
-                    <button class="page-selector" >1</button>
-                    <button class="page-selector">2</button>
-                    <button class="page-selector">3</button>
-                    <button class="page-arrow">&gt;</button>
-                </div>
-            </div>
+
     </div>
 </div>

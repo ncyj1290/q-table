@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper;
+import com.itwillbs.qtable.vo.PageResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -58,9 +59,9 @@ public class StoreDetailService {
 	public Map<String, Object> getMenuInfo(Integer storeIdx) {
 		Map<String, Object> result = new HashMap<>();
 
-		// 메뉴 리스트 조회 (null 방어)
-		List<Map<String, Object>> menuList = storeMapper.getMenu(storeIdx);
-		result.put("menuList", menuList != null ? menuList : List.of());
+		// 메뉴 리스트 조회 (현재 ajax에서 랜더링중이라 필요 x, 추후에 전체메뉴 조회 할 일 있을까봐 주석처리) 
+//		List<Map<String, Object>> menuList = storeMapper.getMenu(storeIdx, null, null);
+//		result.put("menuList", menuList != null ? menuList : List.of());
 
 		// 메뉴판 이미지 조회 (null 방어)
 		List<String> menuBoardImages = storeMapper.getMenuBoardImages(storeIdx);
@@ -73,22 +74,10 @@ public class StoreDetailService {
 		return result;
 	}
 	
-	// 매장 리뷰 섹션 조회
-	public List<Map<String, Object>> getStoreReview(Integer storeIdx) {
-		List<Map<String, Object>> reviews = storeMapper.getReview(storeIdx);
-		return reviews != null ? reviews : List.of();
-	}
-	
 	// 리뷰 정렬 옵션 공통코드 조회
 	public List<Map<String, Object>> getReviewSortOptions() {
 		List<Map<String, Object>> sortOptions = storeMapper.getReviewSortOptions();
 		return sortOptions != null ? sortOptions : List.of();
-	}
-
-	// 매장 정렬 필터링 조회
-	public List<Map<String, Object>> getReviewsSorted(Integer storeIdx, String sortType) {
-		List<Map<String, Object>> reviews = storeMapper.getReviewSorted(storeIdx, sortType);
-		return reviews != null ? reviews : List.of();
 	}
 	
 	// 매장 별점 정보 조회
@@ -169,4 +158,23 @@ public class StoreDetailService {
 		List<String> times = storeMapper.getTimeCodesBetween(openTime, closeTime);
 		return times != null ? times : List.of();
 	}
+
+	// 리뷰 페이지네이션 조회
+	public PageResponse<Map<String, Object>> getReviewsPaged(Integer storeIdx, String sortType, int page, int size) {
+		int offset = PageResponse.getOffset(page, size); // offset 계산
+		List<Map<String, Object>> reviews = storeMapper.getReview(storeIdx, sortType, offset, size); // 리뷰 데이터 조회
+		int totalCount = storeMapper.getReviewCount(storeIdx, sortType); // 전체 개수 조회
+
+		return new PageResponse<>(reviews, page, size, totalCount);
+	}
+	
+	// 메뉴 페이지네이션 조회
+	public PageResponse<Map<String, Object>> getMenuPaged(Integer storeIdx, Integer page, Integer size) {
+		int offset = PageResponse.getOffset(page, size); // offset 계산
+		List<Map<String, Object>> menu = storeMapper.getMenu(storeIdx, offset, size); // 메뉴 데이터 조회
+		int totalCount = storeMapper.getMenuCount(storeIdx); // 전체 개수 조회
+
+		return new PageResponse<>(menu, page, size, totalCount);
+	}
+
 }

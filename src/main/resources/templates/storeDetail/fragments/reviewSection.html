@@ -68,48 +68,10 @@
                 <button class="positive-button">리뷰 작성</button>
             </div>
 
-            <div class="reviews-list" id="reviews-list">
-                <!-- 리뷰가 없을 때 -->
-                <div class="no-reviews" th:if="${#lists.isEmpty(review)}">
-                    아직 리뷰가 없습니다.
-                </div>
+			<!-- AJAX로 리뷰가 렌더링될 영역 -->
+            <div class="reviews-list" id="reviews-list"></div>
 
-                <!-- 리뷰가 있을 때 -->
-                <div class="review-item" th:each="review : ${review}">
-                    <div class="review-header">
-                        <div class="reviewer-info">
-                            <div class="reviewer-avatar">
-                                <img th:src="@{${review.profile_img_url}}" alt="프로필">
-                            </div>
-                            <div>
-                                <div class="reviewer-name" th:text="${review.member_name}"></div>
-                                <div class="star-rating">
-                                    <div class="stars-background">★★★★★</div>
-                                    <div class="stars-filled" th:style="'width: ' + ${review.score * 20} + '%;'">★★★★★</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-date" th:text="${review.create_at}"></div>
-                    </div>
-                    <div class="review-content" th:text="${review.content}"></div>
-                    <div class="review-images" th:if="${!#strings.isEmpty(review['images'])}">
-                        <div class="review-image" th:each="img : ${#strings.arraySplit(review['images'], ',')}">
-                            <img th:src="@{${img}}" alt="리뷰 이미지">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- 페이징 -->
-            <div class="page-selector-layout">
-                <div class="d-flex flex-row justify-content-center">
-                    <button class="page-arrow">&lt;</button>
-                    <button class="page-selector" disabled>1</button>
-                    <button class="page-selector">2</button>
-                    <button class="page-selector">3</button>
-                    <button class="page-arrow">&gt;</button>
-                </div>
-            </div>
+            <!-- 페이지네이션 컨테이너 -->
+            <div id="review-pagination"></div>
     </div>
 </div>

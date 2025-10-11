@@ -214,6 +214,22 @@ textarea::-webkit-resizer {
 
 
 /* ================================== */
+/* 데이터 없음 상태 */
+/* ================================== */
+.empty-state {
+	text-align: center;
+	padding: 60px 20px;
+	color: var(--color-placeholder);
+}
+
+.empty-state p {
+	font-size: 18px;
+	margin: 8px 0 0 0;
+	font-weight: bold;
+}
+
+
+/* ================================== */
 /* 공통 체크박스 */
 /* ================================== */
 .component-checkbox {
