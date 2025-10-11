@@ -24,7 +24,8 @@ public class SecurityConfig {
 	private final LoginSuccessHandler successHandler;
 	// 403 에러 핸들러 
 	private final QtableAccessDeniedHandler accessDeniedHandler;
-    
+    // 소셜 로그인 유저디테일 서비스 
+	private final QtableOAuth2UserService oAuth2UserService;
 	@Bean //크롬 개발자 도구 url 요청 무시하기
 	public WebSecurityCustomizer webSecurityCustomizer() {
 	    return (web) -> web.ignoring().requestMatchers("/.well-known/**");
@@ -91,7 +92,7 @@ public class SecurityConfig {
 	            .requestMatchers(
 	                "/", "/login**", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
-	                "/upload/**", "/api/storeDetail/**"
+	                "/upload/**", "/api/storeDetail/**", "/oauth/**"
 	            ).permitAll()
 	            
 	            //5.static 파일 경로 
@@ -113,6 +114,13 @@ public class SecurityConfig {
 //					.failureUrl("/login?error=true") //로그인 실패시 이동하는 경로
 					.permitAll() //로그인 처리는 누구나 할 수 있어야함 
 			 	)
+				.oauth2Login(oauth2 -> oauth2
+	                .loginPage("/login")  // 직접 만든 로그인 페이지 경로
+	                .defaultSuccessUrl("/", true)  // 로그인 성공 시 이동할 곳
+	                .userInfoEndpoint(userInfo -> userInfo
+	                		.userService(oAuth2UserService) // 커스텀한 소셜유저서비스 적용시키기 
+                	)
+	            )
 				//로그인 유지 설정 
 				.rememberMe(rememberMe -> rememberMe
 				    .tokenValiditySeconds(86400 * 30) //30일

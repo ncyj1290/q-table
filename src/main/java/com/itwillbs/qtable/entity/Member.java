@@ -3,21 +3,29 @@ package com.itwillbs.qtable.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "member")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Member {
-
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer memberIdx;
@@ -52,6 +60,7 @@ public class Member {
     @Column(name = "email")
     private String email;
     
+    @CreationTimestamp
     @Column(name = "signup_date", updatable = false)
     private LocalDateTime signupDate;
     

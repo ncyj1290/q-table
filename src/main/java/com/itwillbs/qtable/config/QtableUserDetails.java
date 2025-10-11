@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.itwillbs.qtable.entity.Member;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 //디비에서 가져온 유저의 담을 정보 형식을 정하는 클래스 
