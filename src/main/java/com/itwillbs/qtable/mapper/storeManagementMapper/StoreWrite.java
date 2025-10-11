@@ -37,5 +37,4 @@ public interface StoreWrite {
 	/* 메뉴 등록 */
 	int insertNewMenu(StoreMenu storeMenu);
 	
-
 }

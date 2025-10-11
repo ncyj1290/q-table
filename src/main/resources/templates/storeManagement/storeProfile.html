@@ -1,10 +1,13 @@
 <div th:fragment="storeProfile" class="store-profile-layout">
-	<img src="icons/icon_store_profile.png" class="store-profile">
 	
-	<b>매장이름</b>
+	<!-- 매장 프로필 -->
+	<img th:src="${spData != null} ? ${spData.store_profile_path} : @{/icons/icon_store_profile.png}" class="store-profile">
 
-	<!-- 예약 허용 여부 선택 영역 -->
-	<div class="d-flex flex-row justify-content-start gap-3">
+	<!-- 매장 이름 -->
+	<b th:text="${spData != null} ? ${spData.store_name} : '매장 미등록'"></b>
+
+	<!-- 예약 허용 여부 선택 영역인데 매장 등록해야 보임 -->
+	<div class="d-flex flex-row justify-content-start gap-3" th:if="${spData != null}">
 		<b>예약 허용</b>
 		
 		<!-- Toggle Button -->
@@ -13,6 +16,10 @@
 		</div>
 	</div>
 	
+	<!-- 매장 등록 안됐을때 출력하는 안내문구 -->
+	<b th:if="${spData == null}" class="no-store-label">매장이 등록되지 않았습니다.</b>
+	
 	<!-- 매장 관리자 페이지 카테고리(사이드바) -->
 	<div th:replace="storeManagement/storeManagementSideBar :: storeManagementSideBar"></div>
+	
 </div>

@@ -10,6 +10,8 @@
 }
 
 
+
+
 /* Sub Layout */
 .sub-layout{
 	display: flex;
@@ -67,6 +69,12 @@
 	border: 1px solid var(--color-main);
 	border-radius: 20px;
 }
+
+.no-store-label{
+	font-size: 12px;
+	color: red;	
+}
+
 
 
 /* 사이드 바 배치용 레이아웃 */

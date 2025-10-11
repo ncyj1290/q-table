@@ -23,18 +23,7 @@ public class StoreManagementController {
 		return "storeManagement/store_management_main";
 	}
 
-	/* ================================================= */
-	/* 예약 목록 페이지 */
-	@GetMapping("/store_reservation_list")
-	public String storeReservationList() {
-		return "storeManagement/storeReservationList";
-	}
 	
-	/* 예약 상세 페이지 */
-	@GetMapping("/store_reservation_detail")
-	public String storeReservationDetail() {
-		return "storeManagement/storeReservationDetail";
-	}
 	
 	/* ================================================= */
 	/* 구독권 구매 페이지 */

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
+/* 공통 코드 가져오는 쿼리문들 */
 @Mapper
 public interface StoreCommonCode {
 	
