@@ -49,14 +49,14 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        Member member = saveOrUpdate(registrationId, attributes, userRequest.getAccessToken().getTokenValue());
+        Member member = saveOrUpdate(registrationId, attributes, userRequest.getAccessToken().getTokenValue(), userNameAttributeName);
 
         return new QtableOAuth2User(member, oAuth2User);
     }
 
-    private Member saveOrUpdate(String registrationId, Map<String, Object> attributes, String accessToken) {
+    private Member saveOrUpdate(String registrationId, Map<String, Object> attributes, String accessToken, String userNameAttributeName) {
     	 if ("kakao".equals(registrationId)) {
-    	        String userId = registrationId + "_" + attributes.get("id").toString();
+    	        String userId = registrationId + "_" + attributes.get(userNameAttributeName).toString();
     	        
     	        // Optional 활용
     	        Optional<Member> optionalMember = repo.findByMemberId(userId);
@@ -71,13 +71,13 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     	        }
 
     	        // 새 회원이면 기존 로직
-    	        return repo.save(getKakaoMember(registrationId, attributes,accessToken));
+    	        return repo.save(getKakaoMember(registrationId, attributes,accessToken,userNameAttributeName));
     	    }
 
     	    return null;
     }
 
-    private Member getKakaoMember(String registrationId, Map<String, Object> attributes, String accessToken) {
+    private Member getKakaoMember(String registrationId, Map<String, Object> attributes, String accessToken, String userNameAttributeName) {
         if (attributes == null) return null;
 
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
@@ -86,7 +86,7 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 
         // 1. 기본 정보
-        String userId = registrationId + "_" + attributes.get("id");
+        String userId = registrationId + "_" + attributes.get(userNameAttributeName);
         String email = (String) kakaoAccount.get("email");
         String name = kakaoAccount != null ? (String) kakaoAccount.get("name") : null;
         String gender = "male".equals(kakaoAccount.get("gender")) ? "gender_01" : "gender_02";
