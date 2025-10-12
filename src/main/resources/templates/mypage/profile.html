@@ -12,13 +12,13 @@
 			<div class="nickname-box" sec:authorize="isAuthenticated()">
 				<div sec:authentication="principal.username" class="nickname"></div>
 				<div class="profile-icons">
-					<a href="/">
+					<a th:href="@{/}">
 						<img src="/img/mypage_month.png" alt="달력" class="mypage_month" />
 					</a>
-					<a href="/">
+					<a th:href="@{/}">
 						<img src="/img/mypage_messenger.png" alt="메세지" class="mypage_messenger" />
 					</a>
-					<a href="/setting">
+					<a th:href="@{/setting}">
 						<img src="/img/profile_settings.png" alt="설정" class="profile_settings" />
 					</a>
 				</div>
@@ -31,7 +31,7 @@
 			</div>
 
 			<!-- 프로필 설정 버튼 -->
-			<a href="profile_settings">
+			<a th:href="@{/profile_settings}">
 				<button type="button" class="positive-button" style="width: 150px; height: 40px; font-size: 20px;">프로필 설정</button>
 			</a>	
 

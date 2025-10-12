@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.qtable.mapper.mypage.ReservationListMapper">
+	<select id="getMyReservationList" resultType="map">
+		SELECT s.store_idx,
+		s.store_name,
+		s.store_content,
+<!-- 		s.store_img, 가게 이미지 확인 -->
+		(SELECT ROUND(AVG(r.score), 2) FROM review r WHERE r.store_idx = s.store_idx)
+		AS avgScore,
+		CONCAT(rv.reserve_date, ' ', rv.reserve_time) as reserve_dt
+		FROM reservation rv
+		JOIN store s ON rv.store_idx = s.store_idx
+		WHERE
+		rv.member_idx = #{member_idx}
+		AND rv.reserve_result = #{reserve_result}
+		ORDER BY rv.created_at DESC
+	</select>
+</mapper>

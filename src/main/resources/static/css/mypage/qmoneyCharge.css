@@ -175,6 +175,6 @@ h2{
 
 .selected {
   border: 2px solid var(--color-main);
-  background-color: var(--color-sub);
-  color: var(--color-main);
+  background-color: var(--color-main);
+  color: var(--color-font-positive);
 }
