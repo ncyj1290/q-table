@@ -30,6 +30,8 @@ public class StoreVO {
 	private String close_time;
 	private boolean is_24hour;
 	
+	private boolean is_accept;
+	
 	/* 매장 등록 페이지에서 사용 */
 	private String flag_24hour;
 	

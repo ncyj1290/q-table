@@ -2,6 +2,7 @@ package com.itwillbs.qtable.service.storeManagement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
@@ -21,5 +22,13 @@ public class StoreDataService {
 		model.addAttribute("spData", spData);
 	}
 	
+	/* 예약 받기 상태 토글 후 결과 반환 서비스 */
+	@Transactional
+	public StoreVO toggleAndGetAcceptStatus(int store_idx) {
+		/* 일단 먼저 토글 */
+		storeData.toggleAcceptStatus(store_idx);
+		/* 그리고 토글 된 결과 리턴 */
+		return storeData.selectAcceptStatus(store_idx);
+	}
 
 }

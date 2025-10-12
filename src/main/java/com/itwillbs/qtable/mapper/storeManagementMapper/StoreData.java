@@ -9,7 +9,12 @@ import com.itwillbs.qtable.vo.storeManagement.StoreVO;
 @Mapper
 public interface StoreData {
 
+	/* 매장 프로필 정보들 들고오는 쿼리문 */
 	StoreVO selectStoreProfileByOwnerIdx(@Param("member_idx") int member_idx);
 	
-
+	/* 예약 받기 상태 셀렉트 쿼리문 */
+	StoreVO selectAcceptStatus(@Param("store_idx") int store_idx);
+	
+	/* 예약 받기 상태 토글 쿼리문 */
+	int toggleAcceptStatus(@Param("store_idx") int store_idx);
 }

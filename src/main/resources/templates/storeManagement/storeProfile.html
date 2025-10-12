@@ -1,4 +1,6 @@
 <div th:fragment="storeProfile" class="store-profile-layout">
+
+	<input type="hidden" id="store_idx" th:value="${spData.store_idx}" th:if="${spData != null}">
 	
 	<!-- 매장 프로필 -->
 	<img th:src="${spData != null} ? ${spData.store_profile_path} : @{/icons/icon_store_profile.png}" class="store-profile">
@@ -12,7 +14,7 @@
 		
 		<!-- Toggle Button -->
 		<div class="form-check form-switch">
-		  	<input class="form-check-input" type="checkbox" style="width: 50px;" checked onclick="confirm('예약 받기 변경 하겠습니까?')">
+		  	<input class="form-check-input" type="checkbox" style="width: 50px;" id="accept_bt" th:checked="${spData.is_accept}">
 		</div>
 	</div>
 	
@@ -21,5 +23,8 @@
 	
 	<!-- 매장 관리자 페이지 카테고리(사이드바) -->
 	<div th:replace="storeManagement/storeManagementSideBar :: storeManagementSideBar"></div>
+	
+	
+	<script th:src="@{/js/storeManagement/storeProfile.js}"></script>
 	
 </div>

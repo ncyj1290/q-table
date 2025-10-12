@@ -5,7 +5,6 @@
 	
 <mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreData">
 
-
 	<!-- 매장 관리자 페이지의 매장 프로필 정보를 사용자 idx로 가져오는거 -->
 	<select id="selectStoreProfileByOwnerIdx">
 		select sb.store_idx
@@ -22,7 +21,19 @@
 		where sb.member_idx = #{member_idx}
 		and img.target_type = 'imguse_01'
 	</select>
-
 	
-
+	<!-- 예약 받는지 안 받는지 상태값 받아오는 쿼리문 -->
+	<select id="selectAcceptStatus">
+		select is_accept 
+		from store
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 예약 유무 상태값 토글 쿼리문 -->
+	<update id="toggleAcceptStatus">
+		update store 
+		set is_accept = not is_accept 
+		where store_idx = #{store_idx}
+	</update>
+	
 </mapper>
