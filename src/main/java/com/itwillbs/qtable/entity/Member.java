@@ -94,4 +94,6 @@ public class Member {
     @Column(name = "leave_at")
     private LocalDateTime leaveAt;
     
+    @Column(name = "social_id")
+    private String socialId;
 }

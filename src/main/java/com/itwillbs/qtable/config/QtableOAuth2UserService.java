@@ -54,27 +54,32 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return new QtableOAuth2User(member, oAuth2User);
     }
 
-    private Member saveOrUpdate(String registrationId, Map<String, Object> attributes, String accessToken, String userNameAttributeName) {
-    	 if ("kakao".equals(registrationId)) {
-    	        String userId = registrationId + "_" + attributes.get(userNameAttributeName).toString();
-    	        
-    	        // Optional 활용
-    	        Optional<Member> optionalMember = repo.findByMemberId(userId);
-    	        if (optionalMember.isPresent()) {
-    	            // 기존 회원이면 필요한 정보만 업데이트
-    	            Member existingMember = optionalMember.get();
-    	            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-    	            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-    	            existingMember.setProfileImgUrl(profile != null ? (String) profile.get("profile_image_url") : null);
-    	            existingMember.setEmail((String) kakaoAccount.get("email"));
-    	            return repo.save(existingMember);
-    	        }
+    private Member saveOrUpdate(String registrationId, 
+    		Map<String, Object> attributes, 
+    		String accessToken, 
+    		String userNameAttributeName) {
 
-    	        // 새 회원이면 기존 로직
-    	        return repo.save(getKakaoMember(registrationId, attributes,accessToken,userNameAttributeName));
-    	    }
-
-    	    return null;
+    	if ("kakao".equals(registrationId)) {
+    		String userId = registrationId + "_" + attributes.get(userNameAttributeName).toString();
+        
+	        // Optional 활용
+	        Optional<Member> optionalMember = repo.findByMemberId(userId);
+	        Member existingMember = optionalMember.get();
+	        
+	        if (optionalMember.isPresent()) {
+	            // 기존 회원이면 필요한 정보만 업데이트
+	            // 탈퇴 회원이면 에러 발생 
+	            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+	            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+	            existingMember.setProfileImgUrl(profile != null ? (String) profile.get("profile_image_url") : null);
+	            existingMember.setEmail((String) kakaoAccount.get("email"));
+	            return repo.save(existingMember);
+	        }
+        
+	        // 새 회원이면 기존 로직
+	        return repo.save(getKakaoMember(registrationId, attributes,accessToken,userNameAttributeName));
+	    }
+	    return null;
     }
 
     private Member getKakaoMember(String registrationId, Map<String, Object> attributes, String accessToken, String userNameAttributeName) {
@@ -92,6 +97,7 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String gender = "male".equals(kakaoAccount.get("gender")) ? "gender_01" : "gender_02";
         String profileImage = profile != null ? (String) profile.get("profile_image_url") : null;
         String birthday = buildBirthday(kakaoAccount);
+        String socialId = attributes.get(userNameAttributeName).toString();
 
         // 2. 배송지 API 호출
         String baseAddress = null;
@@ -126,6 +132,7 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .detailAddress(detailAddress)
                 .zoneNo(zoneNo)
                 .birthday(birthday)
+                .socialId(socialId)
                 .build();
 
         return convertToMemberEntityNoEncrypt(vo);
@@ -155,7 +162,12 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .birth(birthDate)
                 .memberPw(UUID.randomUUID().toString())
                 .memberType("mtype_02")
+                .memberStatus("mstat_01")
+                .qMoney(500)
                 .mailAuthStatus(true)
+                .socialId(vo.getSocialId())
                 .build();
     }
 }
+
+	

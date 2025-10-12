@@ -19,4 +19,5 @@ public class KakaoMemberVO {
     private String detailAddress;   // 세부주소 (건물명 등)
     private String zoneNo;          // 우편번호
     private String birthday;        // 생년월일 (YYYY-MM-DD)
+    private String socialId;		// 소셜 아이디 : 회원 탈퇴시 사용
 }

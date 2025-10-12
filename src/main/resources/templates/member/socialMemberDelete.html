@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+<head>
+	<link rel="stylesheet" th:href="@{/css/mypage/memberDelete.css}">
+	<script th:src="@{/js/member/socialMemberDelete.js}"></script>
+</head>
+<body>
+	<div layout:fragment="Content">
+		<div class="memberdelete-container">
+		    <img th:src="@{/img/background.png}" alt="배경 이미지">
+			<h1 class="memberdelete-text">회원 탈퇴</h1>
+    		<p class="delete-text">	예약 사이트 이용 약관 <br>
+				제1조 (목적) 본 약관은 본 사이트(이하 ‘Q-TABLE’)를 이용하는 회원과 서비스 제공자 간의 권리, <br>의무 및 책임사항, 기타
+				필요한 사항을 규정함을 목적으로 합니다.<br>
+				<br>
+				제2조 (용어의 정의)<br>
+				1. "회원"이라 함은 서비스에 개인정보를 제공하여 회원등록을 한 자를 의미합니다.<br>
+				2. "예약"이라 함은 회원이 서비스를 통해 식당, 가게 등 방문 예약을 하는 행위를 의미합니다.	<br>
+				<br>
+				제3조 (약관의 효력 및 변경)<br>
+				1. 이 약관은 서비스에 게시하거나 회원에게 공지함으로써 효력을 발생합니다.<br>
+				2. 서비스는 필요에 따라 약관을 변경할 수 있으며, 변경된 약관은 공지함으로써 효력을 갖습니다.<br>
+				<br>
+				제4조 (회원가입 및 관리)	<br>
+				1. 회원은 정보 제공 후 회원가입 절차를 거쳐야 하며, 회원가입 시 제공한 정보는 정확하고 최신 상태를 
+				   유지해야 합니다.	<br>
+				2. 회원의 부정 사용 및 약관 위반 시 서비스는 회원자격을 정지하거나 탈퇴시킬 수 있습니다.	<br>
+				<br>
+				제5조 (예약 및 결제)<br>
+				1. 예약은 서비스 내 예약 시스템을 통해 이루어지며, 예약 확정 시 계약이 성립됩니다.<br>
+				2. 결제는 서비스가 지정한 방법으로 진행하며, 결제 후 예약 취소 및 환불 정책은 별도 안내에 따릅니다.<br>
+				<br>
+				제6조 (가상화폐 Q-money)<br>
+				서비스 내 가상화폐인 Q-money는 예약 및 결제 시 사용 가능합니다.<br>
+				Q-money의 취득, 사용, 환불 등에 관한 사항은 별도의 정책에 따릅니다.<br>
+				<br>
+				제7조 (개인정보보호)<br>
+				서비스는 회원의 개인정보를 관련 법령에 따라 안전하게 처리하며,
+				회원은 개인정보 취급 방침을 숙지하여야 합니다.<br>
+				개인정보 취급방침은 별도로 마련되어 있습니다.<br>
+				<br>
+				제8조 (서비스 제공의 중단 및 제한)<br>
+				서비스는 운영상, 기술상 이유로 일시 중단될 수 있습니다.<br>
+				긴급한 경우 사전 공지 없이 서비스가 중단될 수 있으며, 
+				이에 따른 손해에 대해 서비스는 책임을 지지 않습니다.<br>
+				<br>
+				제9조 (회원의 의무) 회원은 관계 법령, 본 약관, 서비스 이용안내 및 주의사항을 준수하여야 하며,
+				서비스 운영을 방해해서는 안 됩니다.<br>
+				<br>
+				제10조 (면책조항) 서비스는 천재지변, 불가항력적 사유로 인한 서비스 장애에 대해 책임을 지지 않습니다.<br>
+			</p>
+			<div class="memberdelete-check">
+				<input type="checkbox" class="component-checkbox" id="agree">
+			    <label for="agree" class="check">상기 탈퇴 정책을 모두 확인하였으며, 이에 동의합니다. (필수)</label>
+			</div>
+			<div class="last">
+				<button class="positive-button button" id="delete-btn">탈퇴</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
