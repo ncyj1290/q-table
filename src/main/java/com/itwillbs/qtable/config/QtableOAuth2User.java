@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class QtableOAuth2User implements OAuth2User{
 	private final Member member;
     private final OAuth2User oAuth2User;
-
+    
 
     public Member getMember() {
         return member;
@@ -34,4 +34,8 @@ public class QtableOAuth2User implements OAuth2User{
     public String getName() {
         return member.getMemberId();
     }
+    
+    public String getUsername() {
+		return member.getMemberId();
+	}
 }
