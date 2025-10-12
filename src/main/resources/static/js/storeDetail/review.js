@@ -83,6 +83,11 @@ $(function() {
 			reviewPagination.loadPage(1);
 		}
 	});
+	
+	// 리뷰 작성
+	$('#write-review-btn').on('click', function(){
+		writeReview();
+	});
 
 	// ===================================
 	// 페이지네이션 초기화
@@ -185,5 +190,22 @@ $(function() {
 		selectedFiles = selectedFiles.filter(file => file.name !== filename);
 		// DOM에서 미리보기 요소 제거
 		$(`.preview-item[data-filename="${filename}"]`).remove();
+	}
+	
+	// 리뷰 작성
+	function writeReview(){
+		
+		const formData = new FormData();
+		
+		$.ajax({
+			url: '/api/storeDetail/reviews',
+			type: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function(res){
+				console.log('성공');
+			}
+		})
 	}
 });

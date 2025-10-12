@@ -39,7 +39,7 @@ public interface StoreDetailMapper {
 	// 식자재 조회
 	List<Map<String, Object>> getIngredients (Integer storeIdx);
  	
-	// 리뷰 개수 조회
+	// 리뷰 별점 정보 조회
 	Map<String, Object> getReviewScoreInfo(Integer storeIdx);
 
 	// 리뷰 별점 분포 조회

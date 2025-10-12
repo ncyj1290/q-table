@@ -1,14 +1,18 @@
 package com.itwillbs.qtable.controller.storeDetail;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.service.storeDetail.StoreDetailService;
 import com.itwillbs.qtable.vo.PageResponse;
 
@@ -88,4 +92,15 @@ public class StoreDetailController {
 		
 		return storeService.getMenuPaged(storeIdx, page, size);
 	}
+	
+	// 리뷰 작성 api
+	// 리뷰 작성 api
+	  @PostMapping("/api/storeDetail/reviews")
+	  @ResponseBody
+	  public Map<String, Object> writeReview(@AuthenticationPrincipal QtableUserDetails userDetails) {
+	      Map<String, Object> result = new HashMap<>();
+	
+	
+	      return result;
+	  }
 }
