@@ -10,6 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+import com.itwillbs.qtable.exception.AccountRestoreRequiredException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +30,8 @@ public class SecurityConfig {
 	private final QtableAccessDeniedHandler accessDeniedHandler;
     // 소셜 로그인 유저디테일 서비스 
 	private final QtableOAuth2UserService oAuth2UserService;
+	// 소셜 로그인 예외 핸들러 
+//	private final AuthenticationFailureHandler authenticationFailureHandler;
 	//아이디 기억하기 위한 시크릿키 
 	@Value("${security.rememberme.key}")
 	private String rememberme;
@@ -98,7 +103,7 @@ public class SecurityConfig {
 	            .requestMatchers(
 	                "/", "/login**", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
-	                "/upload/**", "/api/storeDetail/**", "/oauth/**"
+	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore"
 	            ).permitAll()
 	            
 	            //5.static 파일 경로 
@@ -125,7 +130,7 @@ public class SecurityConfig {
 	                .defaultSuccessUrl("/", true)  // 로그인 성공 시 이동할 곳
 	                .userInfoEndpoint(userInfo -> userInfo
 	                		.userService(oAuth2UserService) // 커스텀한 소셜유저서비스 적용시키기 
-                	)
+                	).failureHandler(authenticationFailureHandler())
 	            )
 				//로그인 유지 설정 
 				.rememberMe(rememberMe -> rememberMe
@@ -151,4 +156,27 @@ public class SecurityConfig {
 		 		// 더 해야하는거:  에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
 	}
 	
+	@Bean
+	public AuthenticationFailureHandler authenticationFailureHandler() {
+	    return (request, response, exception) -> {
+	        String redirectUrl;
+	        System.err.println("인증 실패 예외: " + exception.getClass().getName());
+	        System.err.println("메시지: " + exception.getMessage());
+	        // 이제 이 조건문이 정상적으로 true가 될 수 있습니다! ✅
+	        if (exception instanceof AccountRestoreRequiredException) {
+	            // 탈퇴 회원일 경우, 복구 페이지나 특정 쿼리 파라미터와 함께 리다이렉트
+	            redirectUrl = "/login?error=DELETED_ACCOUNT";
+	        } else {
+	            // 그 외 다른 인증 예외 처리
+	            redirectUrl = "/login?error=true";
+	        }
+	        
+	        response.sendRedirect(redirectUrl);
+	    };
+	}
 }
+
+	
+
+
+

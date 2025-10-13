@@ -1,7 +1,6 @@
 package com.itwillbs.qtable.config;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +10,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itwillbs.qtable.exception.AccountRestoreRequiredException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,6 +33,8 @@ public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler{
 		// 에러 타입별 메시지 달리 설정하기 
 		if(exception instanceof BadCredentialsException) {
 			msg = "아이디 또는 비밀번호가 틀립니다";
+		} else if (exception instanceof AccountRestoreRequiredException) {
+			msg = "탈퇴한 이력이 있습니다. 다시 복구하시겠습니까?";
 		} else {
 			msg = "로그인에 실패하였습니다. 관리자에게 문의하세요";
 		}

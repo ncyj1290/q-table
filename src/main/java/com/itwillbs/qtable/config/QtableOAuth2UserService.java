@@ -21,9 +21,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.itwillbs.qtable.entity.Member;
+import com.itwillbs.qtable.exception.AccountRestoreRequiredException;
 import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.vo.member.KakaoMemberVO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
@@ -33,6 +35,7 @@ import lombok.extern.java.Log;
 public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final MemberRepository repo;
+    private final HttpSession httpSession;
     private final RestTemplate restTemplate = new RestTemplate(); // 배송지 API 호출용
     @Value("${kakao.shipping-address-uri}")
     private String kakaoShippingAddressUri;
@@ -61,14 +64,16 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     	if ("kakao".equals(registrationId)) {
     		String userId = registrationId + "_" + attributes.get(userNameAttributeName).toString();
-        
-	        // Optional 활용
 	        Optional<Member> optionalMember = repo.findByMemberId(userId);
 	        Member existingMember = optionalMember.get();
 	        
 	        if (optionalMember.isPresent()) {
-	            // 기존 회원이면 필요한 정보만 업데이트
-	            // 탈퇴 회원이면 에러 발생 
+	            
+	        	if("mstat_02".equals(existingMember.getMemberStatus())) {
+	        		httpSession.setAttribute("userIdForRestore", userId);
+	        		throw new AccountRestoreRequiredException("DELETED_ACCOUNT");
+	        	}
+	        	// 기존 회원이면 필요한 정보만 업데이트
 	            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 	            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 	            existingMember.setProfileImgUrl(profile != null ? (String) profile.get("profile_image_url") : null);
@@ -170,4 +175,4 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 }
 
-	
+

@@ -1,6 +1,28 @@
 $(function() {
 	console.log('로그인 js 연동');
 	
+	const urlParams = new URLSearchParams(window.location.search);
+	const error = urlParams.get('error'); // 'error' 파라미터 값
+	
+	if (error == 'DELETED_ACCOUNT') {
+    	const wantRestore = confirm('탈퇴한 계정입니다. 계정 복구를 하시겠습니까?');
+		if(wantRestore) {
+			$.ajax({
+				url:"/api/member_restore",
+				type:"post",
+				success: function(res) {
+					alert(res);
+				},
+				error:function(res) {
+					alert("서버와 통신중 오류가 발생하였습니다. 관리자에게 문의바랍니다.")
+				}				
+			});
+		} else {
+			alert('로그인을 취소합니다. 로그인 페이지로 이동합니다.')
+		}
+		history.replaceState({}, document.title, window.location.pathname);
+	}
+	
 	// 회원 유형 탭 전환
 	$('.login-tabs').on('click', '.tab', typeChange);
 	moveUnderline($('.active'));//기본 선택 
@@ -17,6 +39,9 @@ $(function() {
 		$(this).find('#id').val(savedIdInCookie);
 		$('#save-id').prop('checked', true);
 	}
+	
+		
+	
 });
 	
 

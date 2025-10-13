@@ -17,6 +17,7 @@ import com.itwillbs.qtable.service.member.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
@@ -59,4 +60,13 @@ public class LoginController {
 		
 		return ResponseEntity.ok("회원 탈퇴가 성공적으로 처리되었습니다. 메인페이지로 이동합니다.");
 	}
+	
+	@ResponseBody
+	@PostMapping("/api/member_restore")
+	public ResponseEntity<String> memberRestore(HttpSession session) {
+		String userId = (String)session.getAttribute("userIdForRestore");
+		service.restoreMemStat(userId);
+		return ResponseEntity.ok("복구가 완료되었습니다. 다시 로그인바랍니다.");
+	}
+	
 }

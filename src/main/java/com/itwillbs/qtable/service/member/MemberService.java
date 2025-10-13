@@ -50,5 +50,11 @@ public class MemberService {
 
 	}
 	
+	@Transactional 
+	public void restoreMemStat(String userId) {
+		Member member = repo.findByMemberId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 회원을 찾을 수 없습니다."));
+		member.setMemberStatus("mstat_01");
+	}
 	
 }
