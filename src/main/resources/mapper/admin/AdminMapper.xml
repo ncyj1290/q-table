@@ -42,9 +42,9 @@
         	   c2.code_label AS close_time
     	  FROM member m 
      LEFT JOIN store s ON m.member_idx = s.member_idx
-     LEFT JOIN common_code c ON m.member_status = c.code AND c.group_code = 'member_status'
-     LEFT JOIN common_code c1 ON s.open_time = c.code AND c.group_code = 'time'
-     LEFT JOIN common_code c2 ON s.close_time = c.code AND c.group_code = 'time'
+     LEFT JOIN common_code c ON m.member_status = c.code
+     LEFT JOIN common_code c1 ON s.open_time = c1.code
+     LEFT JOIN common_code c2 ON s.close_time = c2.code
          WHERE m.member_idx = #{member_idx}
     </select>
     
@@ -52,6 +52,7 @@
     <select id="findEntryStores">
       SELECT
              s.store_idx,
+             s.member_idx,
              s.store_name,
              m.member_id,
              c.code_label AS store_status,
@@ -63,5 +64,48 @@
        WHERE c.group_code = 'store_status'
     ORDER BY s.store_idx DESC
     </select>
+    
+    <select id="findPaymentListMembers">
+	    SELECT
+		   	   p.payment_idx,
+	           m.member_idx,
+	           m.member_id,
+	           m.member_name,
+	           p.payment_amount,
+	           p.payment_date,
+	           c.code_label AS pay_status,
+	           c1.code_label AS pay_way,
+	           c2.code_label AS pay_type
+	      FROM payment p 
+	 LEFT JOIN member m ON p.member_idx = m.member_idx
+	 LEFT JOIN common_code c ON p.pay_status = c.code
+	 LEFT JOIN common_code c1 ON p.pay_way = c1.code
+	 LEFT JOIN common_code c2 ON p.pay_type = c2.code;
+    </select>
+    
+    <select id="findPaymentListStores">
+	    SELECT
+		   	   p.payment_idx,
+		   	   s.store_idx,
+	           s.store_name,
+	           m.member_id,
+	           m.member_name,
+	           p.payment_amount,
+	           p.payment_date,
+	           c.code_label AS pay_status,
+	           c1.code_label AS pay_way,
+	           c2.code_label AS pay_type
+	      FROM payment p 
+	 LEFT JOIN member m ON p.member_idx = m.member_idx
+	 LEFT JOIN store s ON m.member_idx = s.member_idx
+	 LEFT JOIN common_code c ON p.pay_status = c.code
+	 LEFT JOIN common_code c1 ON p.pay_way = c1.code
+	 LEFT JOIN common_code c2 ON p.pay_type = c2.code
+	     WHERE p.pay_reference = 'pyref_01'
+           AND p.pay_type IN ('pyus_02', 'pyus_03');
+    </select>
+    
+
+    
     
 </mapper>

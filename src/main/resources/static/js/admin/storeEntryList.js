@@ -1,6 +1,8 @@
 $(function() {
 	// Grid.js 컬럼
 	const entryColumns = [
+		{ name: 'member_idx', hidden: true },
+		{ name: 'store_idx', hidden: true },
 		{ name: 'No.', width: '5%' },
 		{ name: '매장 이름', width: '13%' },
 		{ name: '매장 아이디', width: '10%' },
@@ -33,11 +35,10 @@ $(function() {
 			width: '300px',
 			formatter: (cell, row) => {
 
-				// row.cells 배열에서 필요한 데이터를 먼저 꺼내서 변수에 담아야 합니다.
-				const member_idx = row.cells[0].data; // 'No.' 컬럼
-				const store_idx = row.cells[0].data;
+				const member_idx = row.cells[0].data;
+				const store_idx = row.cells[1].data;
 				const member_id = row.cells[2].data;  // '매장 아이디' 컬럼
-
+				
 				const detail_button = `<a href="/admin_detail/${member_idx}" class="management-button">상세보기</a>`;
 				const status_button = `<button class="management-button approve-btn" data-idx="${store_idx}" data-id="${member_id}">입점 신청 관리</button>`;
 				const delete_button = `<button class="management-button delete-btn" data-idx="${member_idx}" data-id="${member_id}">삭제</button>`;
@@ -52,9 +53,11 @@ $(function() {
 		type: 'GET',
 		success: function(response) {
 			// Grid.js 형식
-			const formatted_data = response.map(store => {
+			const formatted_data = response.map((store, index) => {
 				return [
+					store.member_idx,
 					store.store_idx,
+					index + 1,
 					store.store_name,
 					store.member_id,
 					store.applied_at ? store.applied_at.substring(0, 10) : '-',

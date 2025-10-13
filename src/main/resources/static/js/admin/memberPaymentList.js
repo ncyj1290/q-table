@@ -1,45 +1,85 @@
 $(function() {
-    const paymentColumns = [
-		{ name: 'No.', width: '5%' },
-		{ name: '결제자 이름', width: '15%' },
-		{ name: '회원 아이디', width: '15%' },
-		{ name: '결제 금액', width: '15%' },
-		{ name: '충전/차감', width: '10%' },
-		{ name: '결제 일시', width: '15%' },
+	const paymentColumns = [
+		{ name: 'member_idx', hidden: true },
+		{ name: 'No.', width: '2%' },
+		{ name: '결제자 이름', width: '5%' },
+		{ name: '회원 아이디', width: '5%' },
+		{ name: '결제 금액', width: '3%' },
+		{ name: '결제 타입', width: '5%' },
+		{ name: '결제 일시', width: '5%' },
 		{
-		    name: '결제상태', width: '10%',
-		    formatter: (cell) => {
-		        let badgeClass = cell === '정상' ? 'status-badge-active' : 'status-badge-inactive';
-		        return gridjs.html(`<span class="status-badge ${badgeClass}">${cell}</span>`);
-		    }
+			name: '결제상태', width: '5%',
+			formatter: (cell) => {
+				let badgeClass = cell === '결제 성공' ? 'status-badge-active' : 'status-badge-inactive';
+				return gridjs.html(`<span class="status-badge ${badgeClass}">${cell}</span>`);
+			}
 		},
-        {
-            name: '관리', width: '10%',
-            width: '100px',
-            formatter: (cell, row) => {
-                const deleteButton = `<button class="management-button">삭제</button>`;
-                return gridjs.html(deleteButton);
-            }
-        }
-    ];
+		{
+			name: '관리', width: '5%',
+			width: '10px',
+			formatter: (cell, row) => {
 
-	const paymentData = [
-	    ["1", "김민준", "user_kim", "50,000원", "충전", "2025-09-29 14:30:15", "정상"],
-	    ["2", "이서연", "user_lee", "15,000원", "차감", "2025-09-28 11:20:45", "정상"],
-	    ["3", "박도현", "user_park", "10,000원", "충전", "2025-09-28 09:05:30", "실패"],
-	    ["4", "최지아", "user_choi", "30,000원", "충전", "2025-09-27 18:55:02", "정상"],
-	    ["5", "정은우", "user_jung", "5,000원", "차감", "2025-09-27 16:40:11", "정상"],
-	    ["6", "김민준", "user_kim", "20,000원", "차감", "2025-09-26 20:10:58", "정상"],
-	    ["7", "강하윤", "user_kang", "100,000원", "충전", "2025-09-25 13:00:00", "정상"],
-	    ["8", "윤서준", "user_yoon", "25,000원", "차감", "2025-09-24 10:15:23", "실패"],
-	    ["9", "임지민", "user_lim", "50,000원", "충전", "2025-09-23 22:05:18", "정상"],
-	    ["10", "이서연", "user_lee", "7,500원", "차감", "2025-09-22 15:30:00", "정상"]
+				// row.cells 배열에서 필요한 데이터를 먼저 꺼내서 변수에 담아야 합니다.
+				const member_idx = row.cells[0].data; // 'No.' 컬럼
+				const member_id = row.cells[3].data;  // '매장 아이디' 컬럼
+
+				const delete_button = `<button class="management-button delete-btn" data-idx="${member_idx}" data-id="${member_id}">삭제</button>`;
+				return gridjs.html(delete_button);
+			}
+		}
 	];
+	// AJAX 회원 목록 데이터 요청
+	$.ajax({
+		url: '/api/payments/members',
+		type: 'GET',
+		success: function(response) {
+			// Grid.js 형식
+			const formatted_data = response.map((payment, index) => {
+				return [
+					payment.member_idx,
+					index + 1,
+					payment.member_name,
+					payment.member_id,
+					payment.payment_amount + " 원",
+					payment.pay_type,
+					payment.payment_date ? payment.payment_date.substring(0, 10) : '-',
+					payment.pay_status,
+					null
+				];
+			});
 
-    createGrid({
-        targetId: '#member-payment-table',
-        columns: paymentColumns,
-        data: paymentData,
-        pagination: { limit: 10 }
-    });
+			// 공통 함수 createGrid
+			createGrid({
+				targetId: '#member-payment-table', // 테이블을 표시할 div ID
+				columns: paymentColumns,
+				data: formatted_data,
+				pagination: { limit: 10 }
+			});
+		},
+	});
+});
+
+// 삭제 버튼 클릭 이벤트
+$('#member-payment-table').on('click', '.delete-btn', function() {
+
+	const member_idx = $(this).data('idx');
+
+	if (confirm(`정말로 삭제하시겠습니까?`)) {
+
+		// 확인을 눌렀을 때 AJAX 코드 실행
+		$.ajax({
+			url: `/api/members/${member_idx}`,
+			type: 'POST',
+			success: function(response) {
+				alert("삭제에 성공했습니다.");
+				location.reload();
+			},
+			error: function(error) {
+				alert("삭제에 실패했습니다.");
+			}
+		});
+
+	} else {
+		console.log("삭제가 취소되었습니다.");
+	}
 });

@@ -1,6 +1,7 @@
 $(function() {
 	// Grid.js 컬럼
 	const member_columns = [
+		{ name: 'member_idx', hidden: true },
 		{ name: 'No.', width: '5%' },
 		{ name: '회원 이름', width: '10%' },
 		{ name: '회원 아이디', width: '10%' },
@@ -35,9 +36,10 @@ $(function() {
 		type: 'GET',
 		success: function(response) {
 			// Grid.js 형식
-			const formatted_data = response.map(member => {
+			const formatted_data = response.map((member, index) => {
 				return [
 					member.member_idx,
+					index + 1,
 					member.member_name,
 					member.member_id,
 					member.email,

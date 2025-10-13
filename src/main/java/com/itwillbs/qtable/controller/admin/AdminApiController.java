@@ -13,6 +13,7 @@ import com.itwillbs.qtable.service.admin.AdminService;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
 import com.itwillbs.qtable.vo.admin.MemberUpdateVO;
+import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
@@ -88,4 +89,20 @@ public class AdminApiController {
     public void deleteStore(@PathVariable("StoreIdx") Integer StoreIdx) {
     	adminService.deleteMember(StoreIdx);
     }
+    
+    // -------------------------- 결제 -----------------------
+    
+    // 회원 결제 목록 리스트 조회
+	@GetMapping("/api/payments/members")
+	public List<PaymentListVO> findPaymentListMembers() {
+
+		return adminService.findPaymentListMembers();
+	}
+	
+    // 회원 결제 목록 리스트 조회
+	@GetMapping("/api/payments/stores")
+	public List<PaymentListVO> findPaymentListStores() {
+
+		return adminService.findPaymentListStores();
+	}
 }

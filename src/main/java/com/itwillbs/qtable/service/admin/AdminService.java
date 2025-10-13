@@ -15,6 +15,7 @@ import com.itwillbs.qtable.repository.StoreRepository;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
 import com.itwillbs.qtable.vo.admin.MemberUpdateVO;
+import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
@@ -137,6 +138,18 @@ public class AdminService {
     public void deleteStore(Integer storeIdx) {
         // jpa deleteById 활용 DB에서 데이터 삭제
         storeRepository.deleteById(storeIdx);
+    }
+    
+    // -------------------------- 결제 -----------------------
+    
+    // 회원 결제 목록 리스트 조회
+    public List<PaymentListVO> findPaymentListMembers() {
+        return adminMapper.findPaymentListMembers();
+    }
+    
+    // 매장 결제 목록 리스트 조회
+    public List<PaymentListVO> findPaymentListStores() {
+        return adminMapper.findPaymentListStores();
     }
 
 }

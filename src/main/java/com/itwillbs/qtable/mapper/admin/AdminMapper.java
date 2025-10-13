@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
+import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 
 @Mapper
@@ -18,5 +19,11 @@ public interface AdminMapper {
 	List<StoreListVO> findEntryStores();
 	
 	MemberDetailVO findMemberDetail(Integer member_idx);
+	
+	// 회원 결제 목록 리스트 조회
+	List<PaymentListVO> findPaymentListMembers();
+	
+	// 매장 결제 목록 리스트 조회
+	List<PaymentListVO> findPaymentListStores();
 	
 }
