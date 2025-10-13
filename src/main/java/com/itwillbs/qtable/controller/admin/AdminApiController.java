@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.itwillbs.qtable.service.AdminService;
+import com.itwillbs.qtable.service.admin.AdminService;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
 import com.itwillbs.qtable.vo.admin.MemberUpdateVO;

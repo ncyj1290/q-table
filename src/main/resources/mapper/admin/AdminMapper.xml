@@ -18,6 +18,36 @@
            AND c.group_code = 'member_status'
     </select>
     
+    <!-- 회원 / 매장 상세페이지 조회-->
+    <select id="findMemberDetail">
+        SELECT
+        	   m.member_idx,
+        	   m.member_id,
+        	   m.birth,
+        	   m.address,
+        	   m.address_detail,
+        	   m.member_name,
+        	   m.email,
+       	       m.signup_date,
+       	       m.q_money,
+       	       m.leave_at,
+       	       m.member_type,
+       	       m.business_reg_no,
+        	   c.code_label AS member_status,
+        	   s.store_name,
+        	   s.store_seat,
+        	   s.deposit,
+        	   s.account_number,
+        	   c1.code_label AS open_time,
+        	   c2.code_label AS close_time
+    	  FROM member m 
+     LEFT JOIN store s ON m.member_idx = s.member_idx
+     LEFT JOIN common_code c ON m.member_status = c.code AND c.group_code = 'member_status'
+     LEFT JOIN common_code c1 ON s.open_time = c.code AND c.group_code = 'time'
+     LEFT JOIN common_code c2 ON s.close_time = c.code AND c.group_code = 'time'
+         WHERE m.member_idx = #{member_idx}
+    </select>
+    
     <!-- 매장 입점 신청 목록 리스트 조회-->
     <select id="findEntryStores">
       SELECT

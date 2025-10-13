@@ -41,7 +41,7 @@
 									<div class="detail-item">
 										<label>가입일자</label>
 										<input type="text" class="component-write" readonly
-											th:value="${member.signup_date}">
+											th:value="${#temporals.format(member.signup_date, 'yyyy-MM-dd')}">
 									</div>
 									<div class="detail-item">
 										<label>Q머니 보유량</label>
@@ -51,7 +51,7 @@
 									<div class="detail-item">
 										<label>탈퇴일자</label>
 										<input type="text" class="component-write" readonly
-											th:value="${member.leave_at}">
+											th:value="${#temporals.format(member.leave_at, 'yyyy-MM-dd')}">
 									</div>
 									<div class="detail-item">
 										<label>회원상태</label>
@@ -60,7 +60,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="detail-grid" th:if="${store != null}">
+							<div class="detail-grid" th:if="${member.member_type == 'mtype_03'}">
 								<div class="detail-item2">
 									<label>매장 사진 파일</label>
 									<input type="text" class="component-write" readonly value="store_image.jpg">
@@ -70,7 +70,7 @@
 									<input type="text" class="component-write" readonly value="store_image.jpg">
 								</div>
 							</div>
-							<div class="detail-grid" th:if="${store != null}">
+							<div class="detail-grid" th:if="${member.member_type == 'mtype_03'}">
 								<div class="detail-item2">
 									<label>매장 사진 파일</label>
 									<input type="text" class="component-write" readonly value="store_image.jpg">
@@ -87,12 +87,12 @@
 									class="profile-img-large">
 								<span class="profile-name-large" th:text="${member.member_name}"></span>
 							</div>
-							<div class="detail-card mt-4" th:if="${store != null}">
+							<div class="detail-card mt-4" th:if="${member.member_type == 'mtype_03'}">
 								<div class="detail-grid">
 									<div class="detail-item">
 										<label>매장명</label>
 										<input type="text" class="component-write" readonly
-											th:value="${store.store_name}">
+											th:value="${member.store_name}">
 									</div>
 									<div class="detail-item">
 										<label>사업자 등록번호</label>
@@ -102,21 +102,21 @@
 									<div class="detail-item">
 										<label>매장 테이블 수</label>
 										<input type="text" class="component-write" readonly
-											th:value="${store.store_seat}">
+											th:value="${member.store_seat}">
 									</div>
 									<div class="detail-item">
 										<label>예약금</label>
-										<input type="text" class="component-write" readonly th:value="${store.deposit}">
+										<input type="text" class="component-write" readonly th:value="${member.deposit}">
 									</div>
 									<div class="detail-item">
 										<label>매장 운영시간</label>
 										<input type="text" class="component-write" readonly
-											th:value="${store.open_time} + ' ~ ' + ${store.close_time}">
+											th:value="${member.open_time} + ' ~ ' + ${member.close_time}">
 									</div>
 									<div class="detail-item">
 										<label>계좌번호</label>
 										<input type="text" class="component-write" readonly
-											th:value="${store.account_number}">
+											th:value="${member.account_number}">
 									</div>
 								</div>
 							</div>
