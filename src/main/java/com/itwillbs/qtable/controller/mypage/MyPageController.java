@@ -42,6 +42,13 @@ public class MyPageController {
 		return "mypage/mypageHistory";
 	}
 
+	@GetMapping("/mypage_payment")
+	public String mypagePayment() {
+
+		return "mypage/mypagePayment";
+	}
+
+	
 	@GetMapping("/reservation_cancel")
 	public String reservationCancel() {
 

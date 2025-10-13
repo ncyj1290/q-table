@@ -1,48 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const amountButtons = document.querySelectorAll('.charge-amount-group .box');
-  const payButtons = document.querySelectorAll('.payment-method-section .img-button, .payment-method-section .card');
+$(document).ready(function() {
+  const amountButtons = $('.charge-amount-group .box');
+  const payButtons = $('.payment-method-section .img-button, .payment-method-section .card');
 
-  const selectedAmountDisplay = document.getElementById('selectedAmountDisplay');
-  const totalPaymentAmount = document.getElementById('totalPaymentAmount');
-  
   let selectedAmount = null;
   let selectedPayMethod = null;
 
   // 금액 선택
-  amountButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      amountButtons.forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
+  amountButtons.click(function() {
+    amountButtons.removeClass('selected');
+    $(this).addClass('selected');
 
-      selectedAmount = btn.textContent.replace(/[^0-9]/g, '');
+    selectedAmount = $(this).text().replace(/[^0-9]/g, '');
 
-      // 금액 표시
-      selectedAmountDisplay.textContent = selectedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
-      totalPaymentAmount.textContent = selectedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
-    });
+    $('#selectedAmountDisplay').text(selectedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원');
+    $('#totalPaymentAmount').text(selectedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원');
   });
 
   // 결제 수단 선택
-  payButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      payButtons.forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
+  payButtons.click(function() {
+    payButtons.removeClass('selected');
+    $(this).addClass('selected');
 
-      if (btn.classList.contains('card')) {
-        selectedPayMethod = 'card';
-      } else if (btn.querySelector('.kakao_pay')) {
-        selectedPayMethod = 'kakao';
-      } else if (btn.querySelector('.naver_pay')) {
-        selectedPayMethod = 'naver';
-      } else if (btn.querySelector('.toss_pay')) {
-        selectedPayMethod = 'toss';
-      }
-    });
+    if ($(this).hasClass('card')) {
+      selectedPayMethod = 'card';
+    } else if ($(this).find('.kakao_pay').length > 0) {
+      selectedPayMethod = 'kakao';
+    } else if ($(this).find('.naver_pay').length > 0) {
+      selectedPayMethod = 'naver';
+    } else if ($(this).find('.toss_pay').length > 0) {
+      selectedPayMethod = 'toss';
+    }
   });
 
   // 결제하기 버튼 클릭 시
-  const payButton = document.querySelector('.positive-button.paylast');
-  payButton.addEventListener('click', () => {
+  $('.positive-button.paylast').click(function() {
     if (!selectedAmount) {
       alert('충전할 금액을 선택해 주세요.');
       return;
@@ -51,32 +42,37 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('결제 수단을 선택해 주세요.');
       return;
     }
-
-    const agreeCheckbox = document.querySelector('.component-checkbox');
-    if (!agreeCheckbox.checked) {
+    if (!$('.component-checkbox').is(':checked')) {
       alert('결제 및 환불 정책에 동의해 주세요.');
       return;
     }
 
-    fetch('/pay/ready', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ 
-        payMethod: selectedPayMethod, 
-        amount: selectedAmount 
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data && data.next_redirect_pc_url) {
-        window.location.href = data.next_redirect_pc_url;
-      } else {
-        alert('결제 요청 실패');
+    let token = $("meta[name='_csrf']").attr('content');
+    let header = $("meta[name='_csrf_header']").attr('content');
+
+    $.ajax({
+      url: '/mypage/qmoneyCharge',
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({
+        payMethod: selectedPayMethod,
+        amount: selectedAmount
+      }),
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader(header, token);
+      },
+      success: function(data) {
+        if (data && data.next_redirect_pc_url) {
+          window.location.href = data.next_redirect_pc_url;
+        } else {
+          alert('결제 요청 실패');
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('결제 중 오류:', error);
+        alert('결제 중 오류가 발생했습니다.');
       }
-    })
-    .catch(e => {
-      console.error(e);
-      alert('결제 중 오류가 발생했습니다.');
     });
   });
 });

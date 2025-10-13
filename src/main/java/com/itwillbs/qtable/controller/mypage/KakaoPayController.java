@@ -18,14 +18,14 @@ import com.itwillbs.qtable.vo.myPage.KakaoReadyResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/pay")
+@RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class KakaoPayController {
 
 	private final KakaoPayService kakaoPayService;
 
 	// 결제 요청
-	@PostMapping("/ready")
+	@PostMapping("/qmoneyCharge")
 	public KakaoReadyResponse readyToKakaoPay(@RequestBody Map<String, String> request) {
 
 		String payMethod = request.get("payMethod");
