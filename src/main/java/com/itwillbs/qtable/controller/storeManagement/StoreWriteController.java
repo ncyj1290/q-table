@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.itwillbs.qtable.config.QtableAccessDeniedHandler;
 import com.itwillbs.qtable.config.QtableUserDetails;
+import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite;
 import com.itwillbs.qtable.service.FileUploadService;
+import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import com.itwillbs.qtable.service.storeManagement.StoreWriteService;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.storeManagement.StoreIngredient;
@@ -25,6 +27,8 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class StoreWriteController {
+
+    private final QtableAccessDeniedHandler qtableAccessDeniedHandler;
 	
 	@Autowired
 	StoreWriteService storeWriteService;
@@ -33,11 +37,19 @@ public class StoreWriteController {
 	StoreWrite storeWrite;
 	
 	@Autowired
+	StoreDataService storeDataService;
+	
+	@Autowired
 	FileUploadService fileUploadService;
+
+
+    StoreWriteController(QtableAccessDeniedHandler qtableAccessDeniedHandler) {
+        this.qtableAccessDeniedHandler = qtableAccessDeniedHandler;
+    }
 	
 	
 	/* ================================================= */
-	/* 매장 등록/수정 페이지 */
+	/* 매장 등록 관련 */
 	@GetMapping("/write_store")
 	public String wrtieStore(Model model) {
 
@@ -46,7 +58,6 @@ public class StoreWriteController {
 
 		return "storeManagement/writeStore";
 	}
-	
 	
 	/* 매장 등록 Post */
 	@PostMapping("/write_store")
@@ -62,4 +73,25 @@ public class StoreWriteController {
 		
 		return "redirect:store_reservation_list";
 	}
+	
+	
+	/* ================================================= */
+	/* 매장 수정 관련 */
+	
+	@GetMapping("/modify_store")
+	public String modifyStore(@AuthenticationPrincipal QtableUserDetails user, Model model) {
+		
+		/* 매장 관련 공통코드 모두 불러와서 Model에 담는 서비스 함수 */
+		storeWriteService.selectAllCommonCodeForStore(model);
+		
+		StoreVO sData = storeDataService.selectAllStoreData(user.getMember().getMemberIdx());
+		model.addAttribute("sData", sData);
+		
+		return "storeManagement/modifyStore";
+	}
+	
+	
+	
+	
+	
 }

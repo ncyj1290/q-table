@@ -40,10 +40,13 @@ public class StoreVO {
 	
 	/* 휴일 목록 -> split(",") */
 	private String holidays;
+	/* 휴일 select 해서 뿌릴 때 */
+	private List<String> holiday_list;
+	
 	/* 편의 시설 목록  -> split(",") 필요 */
 	private String store_amenity;
-	
-	
+	/* 편의 시설 select 해서 뿌릴 때 */
+	private List<String> amenity_list;
 	
 	/* 매장 카테고리 */
 	private List<String> store_category;

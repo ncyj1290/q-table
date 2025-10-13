@@ -22,6 +22,14 @@
 		and img.target_type = 'imguse_01'
 	</select>
 	
+	<!-- 회원 idx로 store_idx 찾는 쿼리문 ㄴ-->
+	<select id="selectStoreIdxByOwnerIdx">
+		select store_idx 
+		from store
+		where member_idx = #{member_idx}
+	</select>
+	
+	
 	<!-- 예약 받는지 안 받는지 상태값 받아오는 쿼리문 -->
 	<select id="selectAcceptStatus">
 		select is_accept 
@@ -36,4 +44,113 @@
 		where store_idx = #{store_idx}
 	</update>
 	
+	<!-- 매장 기본 전체 정보 들고오기 -->
+	<select id="selectStoreBasicData">
+		select store_idx
+			,member_idx
+			,store_name
+			,store_phone
+			,post_code
+			,full_address
+			,sido
+			,sigungu
+			,store_seat
+			,account_number
+			,deposit
+			,store_content
+			,open_time
+			,close_time
+			,price_avg
+			,qr_code
+			,is_accept
+			,is_24hour
+			,bank_code
+			,store_status
+			,rejection_reason
+			,processed_at
+			,applied_at
+		from store 
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 매장 프로필 이미지 사진 들고오는거 -->
+	<select id="selectProfilePathByStoreIdx">
+		select image_url 
+		from image 
+		where target_idx = #{store_idx}
+		and target_type = "imguse_01"
+	</select>
+	
+	<!-- 매장 이미지 불러오는 쿼리문 -->
+	<select id="selectStoreImgPathByStoreIdx">
+		select image_url
+		from image
+		where target_idx = #{store_idx}
+		and target_type = "imguse_02"	
+	</select>
+	
+	<!-- 식자재 불러오는 쿼리문 -->
+	<select id="selectIngredientByStoreIdx">
+		select ingredients_idx
+			,store_idx
+			,ingredients_name
+			,ingredients_origin
+			,allergy
+		from ingredients
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 매장 메뉴 들고오는거 -->
+	<select id="selectMenuByStoreIdx">
+		select m.menu_idx
+			,m.store_idx
+			,m.menu_name
+			,m.price
+			,m.menu_content
+			,m.menu_gram
+			,i.image_url as image_url
+		from menu m join image i
+		on i.target_idx = m.menu_idx
+		where i.target_type = "imguse_03"
+		and m.store_idx = #{store_idx}
+	</select>
+	
+	<!-- 휴일 들고오는 쿼리문 -->
+	<select id="selectHolidayByStoreIdx">
+		select store_holiday
+		from store_holiday
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 편의 시설 들고오는 쿼리문 -->
+	<select id="selectAmenityByStoreIdx">
+		select store_amenity
+		from store_amenity
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 매장 카테고리 들고오는 쿼리문 -->
+	<select id="selectCategoryByStoreIdx">
+		select store_category
+		from store_category
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 매장 분위기 들고오는 쿼리문 -->
+	<select id="selectAtmosphereByStoreIdx">
+		select store_atmosphere
+		from store_atmosphere
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 메뉴판 이미지 불러오는 쿼리문 -->
+	<select id="selectBoardImgPathByStoreIdx">
+		select image_url
+		from image
+		where target_type = "imguse_04"
+		and target_idx = #{store_idx}
+	</select>
+	
+		
+
 </mapper>

@@ -1,0 +1,390 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+	
+	<head>
+	    <title>매장 정보 수정</title>
+	    <link rel="stylesheet" th:href="@{/css/storeManagement/write_store.css}">
+		<script th:src="@{/js/storeManagement/modifyStore.js}"></script>
+		<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+	</head>
+	
+	<body>
+		
+		<div layout:fragment="Content">
+			
+			<form th:action="@{/write_store}" method="post" class="write-store-layout" enctype="multipart/form-data">
+				
+				<div class="d-flex flex-row justify-content-center">
+					<h1>매장 정보 수정</h1>	
+				</div>
+
+				<div class="store-profile-layout">
+					<img th:src="@{${sData.store_profile_path}}" class="store-profile">
+					<label class="positive-button" for="store_profile_file">프로필 변경</label>
+					<input type="file" name="store_profile_file" id="store_profile_file" style="display: none;" accept=".jpg, .jpeg, .png">
+					
+					<!-- 기존 이미지 Path를 VO로 넘겨주는데, 만약에 Multipart File에 뭐 파일 올라간거 없으면 이거 그대로 다시 집어넣을거임 -->
+					<input type="hidden" th:value="${sData.store_profile_path}" name="store_profile_path">
+					<span class="store-profile-name" th:text="${sData.store_profile_path}"></span>
+				</div>
+				
+				<div class="horizontal-line"></div>
+
+				<!-- 매장 기본 정보(매장 명, 전화 번호 입력) -->
+				<div class="component-layout-row">
+					<label for="store_name" class="input-label"><b>*매장 명</b></label>
+					<input type="text" class="component-write" placeholder="매장 명" id="store_name" name="store_name" th:value="${sData.store_name}">	
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="store_phone" inputmode="numeric" class="input-label"><b>*매장 전화번호</b></label>
+					<input type="text" class="component-write" placeholder="매장 전화번호: (-) 제외 숫자 11자리만 입력하세요." id="store_phone" name="store_phone" maxlength="11" th:value="${sData.store_phone}">	
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="store_account_number" inputmode="numeric" class="input-label"><b>*매장 계좌번호</b></label>
+					<input type="text" class="component-write" placeholder="매장 계좌번호 - 숫자만 입력하세요." id="account_number" name="account_number" th:value="${sData.account_number}">
+						
+					<select  name="bank_code" class="select-box">
+						<option th:each="bank, i : ${bankList}" th:value="${bank.code}" th:text="${bank.code_label}" th:selected="${bank.code == sData.bank_code}"></option>
+					</select>
+				</div>
+				
+				<br>
+				
+				<!-- 주소 입력 영역 -->
+				<div class="component-layout-row">
+					<label for="post_code" class="input-label"><b>*우편 번호</b></label>
+					<input type="text" class="component-write" placeholder="우편 번호" id="post_code" name="post_code" readonly th:value="${sData.post_code}">	
+					<button type="button" class="positive-button" id="address_button">주소 선택</button>
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="address" class="input-label"><b>*주소</b></label>
+					<input type="text" class="component-write" placeholder="매장 주소" id="address" name="address" readonly th:value="${sData.address}">	
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="address_detail" class="input-label"><b>*주소(상세)</b></label>
+					<input type="text" class="component-write" placeholder="매장 상세 주소" id="address_detail" name="address_detail" th:value="${sData.address_detail}">	
+				</div>
+				
+				<br>
+				
+				<div class="component-layout-row">
+					<label for="total_seat" class="input-label"><b>*총 좌석 수</b></label>
+					<input type="text" class="component-write" placeholder="매장 내 총 좌석수 입력" id="store_seat" name="store_seat" th:value="${sData.store_seat}">	
+				</div>
+								
+				<div class="component-layout-row">
+					<label for="reservation_deposit" class="input-label"><b>예약금 설정</b></label>
+					<input type="text" class="component-write" placeholder="예약금 입력" id="deposit" name="deposit" th:value="${sData.deposit}">	
+					<b>원</b>
+				</div>
+				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 예약금을 받지 않을 예정이면, 0을 입력하세요.</label>
+				<br>
+				
+				<div class="component-layout-row">
+					<label for="store_description" class="title-label"><h4>*매장 소개</h4></label>
+				</div>
+				
+				<div class="component-layout-row">
+					<textarea type="text" class="component-write" placeholder="" id="store_content" name="store_content" th:text="${sData.store_content}"></textarea>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 매장 운영 시간 입력 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>*매장 운영 시간 선택</h4></label>
+				</div>
+				
+				<div class="component-layout-row">
+					<label for="is_24hour" class="input-label">24시간 운영하는 매장 인가요?</label>
+					<input type="checkbox" class="component-checkbox" name="flag_24hour" id="is_24hour" value="true" th:checked="is_24hour">
+				</div>
+	
+				<!-- Open -->
+				<div class="component-layout-row">
+					<label for="open_time" class="input-label"><b>Open Time</b></label>
+						
+					<select name="open_time" id="open_time" class="select-box">
+						<option th:each="time, i : ${operationTimeList}" th:value="${time.code}" th:text="${time.code_label}" th:selected="${sData.open_time != null and sData.open_time == time.code}"></option>
+					</select>
+				</div>
+				
+				<!-- Close -->
+				<div class="component-layout-row">
+					<label for="close_time" class="input-label"><b>Close Time</b></label>
+						
+					<select name="close_time" id="close_time" class="select-box">
+						<option th:each="time, i : ${operationTimeList}" th:value="${time.code}" th:text="${time.code_label}" th:selected="${sData.close_time != null and sData.close_time == time.code}"></option>
+					</select>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 매장 휴일 선택 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>휴일 선택(중복 가능)</h4></label>
+				</div>
+				
+				<div class="component-layout-row" th:with="selected=${sData.holiday_list != null ? sData.holiday_list : T(java.util.Collections).emptyList()}">
+					<input type="hidden" name="holidays" id="holidays">
+					<button th:each="holiday, i : ${holidayList}" type="button" class="holiday-button" th:value="${holiday.code}" th:text="${holiday.code_label}" th:classappend="${selected.contains(holiday.code)} ? ' active' : ''"></button>
+				</div>
+				
+				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 필수 선택 사항이 아닙니다.</label>
+				
+				<div class="horizontal-line"></div>
+
+				<!-- 매장 사진 업로드 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>매장 사진 업로드</h4></label>
+					<button class="positive-button" type="button" id="sp_upload">추가</button>
+				</div>
+				
+				<div class="store_picture_layout">
+					<div class="store_picture_element">
+						<i class="bi bi-trash fs-4 sp-remove-bt"></i>
+						<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
+						<span class="sp-name">선택된 파일 없음</span>
+					</div>
+				</div>
+				
+				<!-- Just Info Text -->
+				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 필수 선택 사항이 아닙니다.</label>
+				
+				<div class="horizontal-line"></div>
+
+				<!-- 매장 휴일 선택 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>*음식 분류 카테고리(중복 가능)</h4></label>
+				</div>
+				
+				<div class="component-layout-column" th:with="selected=${sData.store_category != null ? sData.store_category : T(java.util.Collections).emptyList()}">
+					
+					<!-- Store Category -> Country -->
+					<label class="title-label" style="align-self: start;"><h5>국가별</h5></label>
+					
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctCountryList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctCountry, iterStat : ${ctCountryList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctCountry.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctCountry.code)}">
+							<label th:text="${ctCountry.code_label}"></label>	
+						</div>
+					</div>
+					
+					<br>
+					
+					<!-- Store Category -> Meat(?) -->
+					<label class="title-label" style="align-self: start;"><h5>육류</h5></label>
+										
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctMeatList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctMeat, iterStat : ${ctMeatList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctMeat.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctMeat.code)}">
+							<label th:text="${ctMeat.code_label}"></label>	
+						</div>
+					</div>
+					
+					<br>
+					
+					<!-- Store Category -> Seafood -->
+					<label class="title-label" style="align-self: start;"><h5>해산물</h5></label>
+										
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctSeafoodList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctSeafood, iterStat : ${ctSeafoodList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctSeafood.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctSeafood.code)}">
+							<label th:text="${ctSeafood.code_label}"></label>	
+						</div>
+					</div>
+					
+					<br>
+					
+					<!-- Store Category -> Drink(alcohol) -->
+					<label class="title-label" style="align-self: start;"><h5>술</h5></label>
+					
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctDrinkList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctDrink, iterStat : ${ctDrinkList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctDrink.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctDrink.code)}">
+							<label th:text="${ctDrink.code_label}"></label>	
+						</div>
+					</div>
+										
+					<br>
+					
+					<!-- Store Category -> Drink(alcohol) -->
+					<label class="title-label" style="align-self: start;"><h5>카페</h5></label>
+										
+					<div th:each="lineIdx : ${#numbers.sequence(0, (ctCafeList.size() - 1) / 6)}" class="check-box-line-layout">
+						<div th:each="ctCafe, iterStat : ${ctCafeList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+							<input type="checkbox"  th:value="${ctCafe.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctCafe.code)}">
+							<label th:text="${ctCafe.code_label}"></label>	
+						</div>
+					</div>
+										
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 편의 시설 선택 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>편의 시설(중복 가능)</h4></label>
+				</div>
+
+				<div class="component-layout-row" th:with="selected=${sData.amenity_list != null ? sData.amenity_list : T(java.util.Collections).emptyList()}">
+					<input type="hidden" name="store_amenity" id="store_facilities">
+
+					<button type="button" th:each="facility, i : ${facilityList}" th:class="facility-button" th:value="${facility.code}" th:classappend="${selected.contains(facility.code)} ? ' active' : ''">
+						<img th:src="@{'/icons/store_facility/' + ${facility.code} + '.png'}" class="facility-icon-size">
+					</button>
+				</div>
+				
+				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 필수 선택 사항이 아닙니다.</label>
+				
+				<div class="horizontal-line"></div>
+
+				<!-- 식자제 정보 작성 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>*식자재 정보</h4></label>
+					<button type="button" class="positive-button" id="ing_upload">정보 추가</button>
+				</div>
+
+				<div class="ingredient-layout">	
+											
+					<div class="ingredient-layout-row" th:each="ing, i : ${sData.ingredientList}">
+						
+						<input type="hidden" th:value="${ing.ingredients_idx}" data-field="ingredients_idx">
+											
+						<div class="d-flex flex-row justify-content-center align-item-center">
+							<i class="bi bi-trash fs-4 ing-remove-bt"></i>
+						</div>
+						
+						<div class="ingredient-element">
+							<div class="ingredient-element-row">
+								<label class="ingredient-label"><b>재료명</b></label>
+								<input type="text" data-field="ingredients_name" class="component-write" placeholder="재료 명을 입력하세요." th:value="${ing.ingredients_name}">	
+							</div>
+							
+							<div class="ingredient-element-row">
+								<label class="ingredient-label"><b>원산지</b></label>
+								<input type="text" data-field="ingredients_origin" class="component-write" placeholder="재료의 원산지를 입력하세요." th:value="${ing.ingredients_origin}">	
+							</div>
+							
+							<div class="ingredient-element-row">
+								<label class="ingredient-label"><b>알레르기 정보</b></label>
+								<input type="text" data-field="allergy" class="component-write" placeholder="해당 재료의 알레르기 정보를 입력하세요." th:value="${ing.allergy}">	
+							</div>
+						</div>
+					</div>
+					
+
+				</div>
+	
+				<div class="horizontal-line"></div>
+
+				<!-- 매장 분위기 선택 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>매장 분위기(중복 가능)</h4></label>
+				</div>
+				
+				<div class="component-layout-column" th:with="selected=${sData.store_atmosphere != null ? sData.store_atmosphere : T(java.util.Collections).emptyList()}">
+				    <!-- 한 줄 6개씩 -->
+				    <div th:each="lineIdx : ${#numbers.sequence(0, (atmosphereList.size() - 1) / 6)}" class="check-box-line-layout">
+				        <div th:each="atmo, iterStat : ${atmosphereList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
+				            <input type="checkbox" name="store_atmosphere" class="component-checkbox" th:value="${atmo.code}" th:checked="${selected.contains(atmo.code)}">
+				            <label th:text="${atmo.code_label}">분위기</label>
+				        </div>
+				    </div>
+				</div>
+
+				<div class="horizontal-line"></div>
+				
+				<!-- 인당 평균 식사 비용 입력 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>*인당 평균 비용(예상)</h4></label>
+				</div>
+				
+				<div class="component-layout-row">
+					<input type="text" class="component-write" placeholder="숫자만 입력하세요" id="price_avg" name="price_avg" th:value="${sData.price_avg}"><b>원</b>
+				</div>
+				
+				<div class="horizontal-line"></div>
+				
+				<!-- 매장 메뉴 등록 영역 -->
+				<div class="component-layout-row">
+					<label class="title-label"><h4>*메뉴 등록</h4></label>
+					<button type="button" class="positive-button" id="menu_upload">메뉴 추가</button>
+				</div>
+				
+				<div class="menu-layout">	
+					
+					<!-- Example Menu (1) -->
+					<div class="menu-layout-row" th:each="menu, i : ${sData.menuList}">
+						
+						<div class="d-flex flex-row justify-content-center align-item-center">
+							<i class="bi bi-trash fs-4 menu-remove-bt"></i>
+						</div>
+						
+						<div class="d-flex flex-row align-items-center gap-3 menu-border">
+							
+							<div class="d-flex flex-column align-items-center gap-3">
+								<img th:src="@{${menu.image_url}}" class="menu-image-size">
+								<label class="positive-button">메뉴 사진 추가<input type="file" data-field="menu_picture" accept=".jpg, .jpeg, .png" hidden></label>
+							</div>
+							
+							<div class="menu-element">
+								<div class="menu-element-row">
+									<label class="menu-label"><b>음식명</b></label>
+									<input type="text" data-field="menu_name" class="component-write" placeholder="메뉴 명을 입력하세요." th:value="${menu.menu_name}">	
+								</div>
+								
+								<div class="menu-element-row">
+									<label class="menu-label"><b>가격</b></label>
+									<input type="text" data-field="price" class="component-write" placeholder="메뉴 가격을 작성하세요.." th:value="${menu.price}">	
+								</div>
+								
+								<div class="menu-element-row">
+									<label class="menu-label"><b>설명</b></label>
+									<textarea type="text" data-field="menu_content" class="component-write menu-description-size" th:text="${menu.menu_content}"></textarea>
+								</div>
+								
+								<div class="menu-element-row">
+									<label class="menu-label"><b>중량</b></label>
+									<input type="text" data-field="menu_gram" class="component-write menu-weight-size" placeholder="단위: (g)" th:value="${menu.menu_gram}">
+									<b>(g)</b>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				<!-- End -->
+				</div>
+				
+				<br>
+				
+				<div class="component-layout-row menu-board-layout">
+					<label class="title-label"><h5>메뉴판 사진 업로드</h5></label>
+					<label class="positive-button">매뉴 사진 추가<input type="file" name="menu_board_picture" accept=".jpg, .jpeg, .png" hidden></label>
+					<span class="menu-board-name" th:text="${sData.menu_board_url}">선택된 파일 없음</span>
+				</div>
+				
+				<br>
+				
+				<!-- 취소, 전송 버튼 -->
+				<div class="d-flex flex-row justify-content-center gap-5">
+					<button type="button" class="negative-button" id="test_bt">Test</button>
+					<button type="button" class="negative-button" onclick="history.back()">취소</button>
+<!--					<button class="positive-button" onclick="location.href='store_reservation_list'">등록</button>-->
+					<button type="button" class="positive-button" id="submit_bt">등록</button>
+				</div>
+				
+			</form>
+			
+			
+		</div>
+
+	</body>
+	
+</html>
