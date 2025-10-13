@@ -42,7 +42,14 @@ function login(event) {
 	const passwd = $(this).find('#passwd').val();
 	const memType = $(this).find('#memType').val();
 	const isSavedId = $('#save-id').is(":checked");
-	
+	const isSaveLogin = $('#remember-me').is(":checked");
+	const loginData = {
+	    'id': id, 
+	    'passwd': passwd, 
+	};
+	if (isSaveLogin) {
+	    loginData['remember-me'] = 'true'; 
+	}
 	//아이디 기억하기 체크 유무에 따라 쿠키 생성및 삭제 
 	if(isSavedId) setCookie(id);
 	if(!isSavedId) deleteCookie();
@@ -56,10 +63,7 @@ function login(event) {
 	$.ajax({
 		url:"/loginPro",
 		type: 'POST',
-		data: { 
-            id: id,
-            passwd: passwd
-        },
+		data: loginData,
 		dataType: "json",
 		success : function(res) {
 			window.location.href = res.redirectUrl;

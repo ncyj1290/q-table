@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +27,10 @@ public class SecurityConfig {
 	private final QtableAccessDeniedHandler accessDeniedHandler;
     // 소셜 로그인 유저디테일 서비스 
 	private final QtableOAuth2UserService oAuth2UserService;
+	//아이디 기억하기 위한 시크릿키 
+	@Value("${security.rememberme.key}")
+	private String rememberme;
+	
 	@Bean //크롬 개발자 도구 url 요청 무시하기
 	public WebSecurityCustomizer webSecurityCustomizer() {
 	    return (web) -> web.ignoring().requestMatchers("/.well-known/**");
@@ -124,6 +129,8 @@ public class SecurityConfig {
 	            )
 				//로그인 유지 설정 
 				.rememberMe(rememberMe -> rememberMe
+					.rememberMeParameter("remember-me")
+					.key(rememberme)
 				    .tokenValiditySeconds(86400 * 30) //30일
 				    .userDetailsService(qtableUserDetailsService)
 				)
@@ -131,8 +138,8 @@ public class SecurityConfig {
 				.logout(logout -> logout
 		            .logoutUrl("/logout") // 로그아웃을 처리할 URL 지정
 		            .logoutSuccessUrl("/") // 로그아웃 성공 후 리다이렉트될 URL 지정
-		            .invalidateHttpSession(true) // HTTP 세션을 무효화할지 여부 (기본값 true)
 		            .deleteCookies("QTABLE_SID") // 로그아웃 시 삭제할 쿠키 지정
+		            .invalidateHttpSession(true) // HTTP 세션을 무효화할지 여부 (기본값 true)
 		        )
 				//403에러 페이지 처리, 추후 세부 구현 예정 
 				.exceptionHandling(exception -> exception

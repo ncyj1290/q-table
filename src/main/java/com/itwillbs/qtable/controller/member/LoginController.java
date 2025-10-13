@@ -1,8 +1,5 @@
 package com.itwillbs.qtable.controller.member;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,7 +51,6 @@ public class LoginController {
 		String accessToken = authorizedClient.getAccessToken().getTokenValue();
 		service.updateMemStatus(accessToken);
 		
-		// 로그 아웃 처리 
 		// 사이트 로그아웃 처리 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
