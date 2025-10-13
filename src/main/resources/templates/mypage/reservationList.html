@@ -34,7 +34,7 @@
 			<!-- 방문예정 탭 -->
 			<div id="visit" class="tab-content">
 				<div class="reservation-item" th:each="item : ${upcomingList}">
-					<img src="/img/food1.jpg" class="store-img" />
+					<img  th:src="@{${item.store_img}}" class="store-img" />
 					<div class="reservation-info">
 						<div class="store-title">
 							<div class="name-star-group">
@@ -55,19 +55,18 @@
 
 			<!-- 취소 탭 -->
 			<div id="cancel" class="tab-content" style="display:none;">
-				<div class="reservation-item">
-					<img src="/img/food1.jpg" class="store-img" />
+				<div class="reservation-item" th:each="item : ${canceledList}">
+					<img th:src="@{${item.store_img}}" class="store-img" />
 					<div class="reservation-info">
 						<div class="store-title">
 							<div class="name-star-group">
-								<span class="store-name">야끼니꾸 서면점</span>
-								<span class="star">★ 4.8(647)</span>
+								<span th:text="${item.store_name}"></span>
+								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
 							</div>
 							<img src="/img/scrap_full.png" class="scrap-icon" />
 						</div>
-						<span class="desc"> 신선한 고기와 다양한 일본식 소스를 즐길 수 있는 정통 야끼니꾸 전문점입니다.<br>
-							합리적인 가격과 아늑한 분위기로 가족, 친구, 연인 모두 만족할 수 있는 인기 맛집이에요.</span>
-						<span class="date">2025.09.21</span>
+						<span class="desc" th:text="${item.store_content}"></span>
+						<span class="date" th:text="${item.reserve_dt}"></span>
 						<div class="reservation-buttons">
 							<button class="positive-button" style="width: 130px;" id="rebookBtn">재예약 하기</button>
 						</div>

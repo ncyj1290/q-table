@@ -30,6 +30,19 @@
 					찾아보기</button>
 			</div>
 		</div>
+		
+		<!--예약이 있는 경우-->
+		<div th:if="${not #lists.isEmpty(upcomingList)}">
+		  <h3>최근 방문 예정 예약</h3>
+		  <ul>
+		    <li th:each="item : ${upcomingList}">
+		      <img th:src="@{${item.store_img}}" alt="매장 이미지" style="width:50px;height:50px;" />
+		      <span th:text="${item.store_name}"></span>
+		      <span th:text="${item.reserve_dt}"></span>
+		    </li>
+		  </ul>
+		  <a th:href="@{/reservation_list}">자세히 보기</a>
+		</div>
 
 	</div>
 
