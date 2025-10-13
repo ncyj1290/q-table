@@ -101,11 +101,13 @@ public class SecurityConfig {
 	
 	            // 4.그 외 모든 비로그인까지 모두 허용되는 경로는 여기에 추가 
 	            .requestMatchers(
-	                "/", "/login**", "/find_account**", "/member_join**", "/terms_of_use",
+	                "/", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
 	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore"
 	            ).permitAll()
-	            
+	            .requestMatchers(
+            		"/login", "/loginPro"
+	            ).anonymous()
 	            //5.static 파일 경로 
 	            .requestMatchers(
             		"/css/**", "/js/**", "/img/**", "/icons/**", "/plugins/**"
@@ -123,7 +125,6 @@ public class SecurityConfig {
 					.successHandler(successHandler) //  성공시 핸들러 
 					.failureHandler(failHandler) // 실패시 핸들러 
 //					.failureUrl("/login?error=true") //로그인 실패시 이동하는 경로
-					.permitAll() //로그인 처리는 누구나 할 수 있어야함 
 			 	)
 				.oauth2Login(oauth2 -> oauth2
 	                .loginPage("/login")  // 직접 만든 로그인 페이지 경로
