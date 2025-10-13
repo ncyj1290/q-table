@@ -15,7 +15,9 @@ import com.itwillbs.qtable.exception.AccountRestoreRequiredException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.java.Log;
 
+@Log
 @Component
 public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler{
 	
@@ -27,6 +29,7 @@ public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler{
 		HttpServletResponse response,
 		AuthenticationException exception) throws IOException, ServletException {
 		
+		log.info(request.getParameter("username") + request.getRemoteAddr());
 		// 에러메시지 선언 
 		String msg;
 		
@@ -50,13 +53,5 @@ public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler{
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(objectMapper.writeValueAsString(responseData));
-		
-		//메시지를 json 형태로 담아서 ajax 응답 값으로 주기 
-		
-//		//메시지를 url로 받기 때문에 인코딩 필요 
-//		msg = URLEncoder.encode(msg, "UTF-8");
-//		//실패시 이동할 경로 지정 
-//		setDefaultFailureUrl("/login?error=true&msg=" + msg);
-//		super.onAuthenticationFailure(request, response, exception);
 	}
 }

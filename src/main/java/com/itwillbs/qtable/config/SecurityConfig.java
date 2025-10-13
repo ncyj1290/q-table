@@ -43,8 +43,7 @@ public class SecurityConfig {
 	
 	@Bean
     public PasswordEncoder passwordEncoder() { // 암호화 메서드 
-		return NoOpPasswordEncoder.getInstance(); //회원가입 아직 안돼서 암호화 없는걸로함 
-//		return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
     }
 	
 	@Bean
