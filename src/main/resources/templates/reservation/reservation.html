@@ -89,15 +89,15 @@
             <div class="reservation-details">
                 <div class="detail-row">
                     <i class="fas fa-calendar-alt detail-icon"></i>
-                    <span class="detail-value">2025년 10월 8일</span>
+                    <span class="detail-value" th:text="${reservationDate != null ? reservationDate : '날짜 미선택'}"></span>
                 </div>
                 <div class="detail-row">
                     <i class="fas fa-clock detail-icon"></i>
-                    <span class="detail-value">오후 8:00</span>
+                    <span class="detail-value" th:text="${reservationTime != null ? reservationTime : '시간 미선택'}"></span>
                 </div>
                 <div class="detail-row">
                     <i class="fas fa-user detail-icon"></i>
-                    <span class="detail-value">2명</span>
+                    <span class="detail-value" th:text="${personCount != null ? personCount + '명' : '인원 미입력'}"></span>
                 </div>
             </div>
 

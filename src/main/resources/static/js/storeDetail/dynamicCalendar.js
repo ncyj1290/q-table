@@ -88,6 +88,33 @@ $(function() {
 		// TODO: 백엔드 연동 시 예약 가능 시간 불러오기
 	});
 
+	// 예약하기 버튼 클릭
+	$('#reservation-submit-btn').on('click', function() {
+		// 날짜 선택 확인
+		if (!selectedDate) {
+			alert('날짜를 선택해주세요.');
+			return;
+		}
+
+		// 인원수 입력 확인
+		const personCount = $('#person-count').val().trim();
+		if (!personCount) {
+			alert('인원수를 입력해주세요.');
+			return;
+		}
+
+		// 시간 선택 확인
+		const time = $('#reservation-time').val();
+		if (!time) {
+			alert('시간을 선택해주세요.');
+			return;
+		}
+
+		// 예약 페이지로 이동 (쿼리스트링으로 데이터 전달)
+		const queryString = `?date=${selectedDate}&personCount=${personCount}&time=${time}`;
+		window.location.href = '/reservation' + queryString;
+	});
+
 	// 초기 달력 생성
 	generateCalendar(currentYear, currentMonth);
 
