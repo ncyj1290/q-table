@@ -29,6 +29,30 @@ public class MemberDetailVO {
     private boolean marketing_agreed;
     private int q_money;
     private int no_show_count;
+    
+    private Integer store_idx;
+    private String store_name;
+    private String store_phone;
+    private String full_address;
+    private String sido;
+    private String sigungu;
+    private int store_seat;
+    private String account_number;
+    private int deposit;
+    private String store_content;
+    private String open_time;
+    private String close_time;
+    private int price_avg;
+    private String qr_code;
+    private boolean is_accept;
+    private boolean is_24hour;
+    private String bank_code;
+    
+    // 입점 신청 관리
+    private String store_status;
+    private String rejection_reason;
+    private LocalDateTime processed_at;
+    private LocalDateTime applied_at;
 
     public MemberDetailVO(Member entity) {
         this.member_idx = entity.getMemberIdx();

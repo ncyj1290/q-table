@@ -1,4 +1,4 @@
-package com.itwillbs.qtable.service;
+package com.itwillbs.qtable.service.admin;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,6 +52,10 @@ public class AdminService {
 		// MemberDetailVO로 변환하여 반환
 		return new MemberDetailVO(memberEntity);
 	}
+	
+    public MemberDetailVO findMemberDetail(Integer member_idx) {
+        return adminMapper.findMemberDetail(member_idx);
+    }
 	
     // member_idx로 매장 상세 정보를 조회
     public StoreDetailVO findByMemberIdx(Integer member_idx) {
