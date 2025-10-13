@@ -23,13 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class KakaoPayService {
 
-	private final KakaoPayProperties KakaoayProperties;
+	private final KakaoPayProperties kakaoPayProperties;
 	private RestTemplate restTemplate = new RestTemplate();
 	private KakaoReadyResponse KakaoReady;
 	
 	private org.springframework.http.HttpHeaders getHeaders() {
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "KakaoAK " + KakaoayProperties.getSecretKey());
+		headers.set("Authorization", "KakaoAK " + kakaoPayProperties.getSecretKey());
 		headers.set("Content-Type", "application/json");
 
 		
@@ -39,12 +39,12 @@ public class KakaoPayService {
 	// 결제 완료 요청 
 	public KakaoReadyResponse KakaoPayReady(String payMethod, String amount) { 
 		Map<String, Object> parameters = new HashMap<>(); 
-		parameters.put("cid", KakaoayProperties.getCid()); 
+		parameters.put("cid", kakaoPayProperties.getCid()); 
 		parameters.put("partner_order_id", "ORDER1234"); // 주문 번호 
 		parameters.put("partner_user_id", "user_kim"); // 사용자 id
 		parameters.put("item_name", "q-money"); // 상품명
 		parameters.put("quantity", "1"); // 수량, 숫자 
-		parameters.put("total_amount", "amount"); // 총 금액
+		parameters.put("total_amount", amount); // 총 금액
 		parameters.put("vat_amount", "1"); // 부가세
 		parameters.put("tax_free_amount", "0"); // 비가세
 		parameters.put("approval_url", "http://localhost:8080/pay/success"); // 등록한 url
@@ -57,7 +57,7 @@ public class KakaoPayService {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		KakaoReady = restTemplate.postForObject(
-				"https://open-api.kakaopay.com/online/v1/payment/ready",	
+				"https://kapi.kakao.com/v1/payment/ready",	
 				requestEntity, 
 				KakaoReadyResponse.class);
 		
@@ -69,10 +69,10 @@ public class KakaoPayService {
 		
 		//카카오 요청
 		Map<String, String>parameters = new HashMap<>();
-		parameters.put("cid", KakaoayProperties.getCid());
+		parameters.put("cid", kakaoPayProperties.getCid());
 		parameters.put("tid", KakaoReady.getTid());
-		parameters.put("partner_order_id", "ORDER_ID");
-		parameters.put("partner_user_id", "USER_ID");
+		parameters.put("partner_order_id", "ORDER1234");
+		parameters.put("partner_user_id", "user_kim");
 		parameters.put("pg_token", pgToken);
 		
 		//파라미터 헤더
@@ -89,7 +89,7 @@ public class KakaoPayService {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		KakaoApproveResponse approveResponse = restTemplate.postForObject(
-				"https://open-api.kakaopay.com/online/v1/payment/approve", 
+				"https://kapi.kakao.com/v1/payment/approve", 
 				requestEntity, 
 				KakaoApproveResponse.class);
 		System.out.println();

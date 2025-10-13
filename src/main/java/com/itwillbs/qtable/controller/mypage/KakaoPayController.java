@@ -18,7 +18,7 @@ import com.itwillbs.qtable.vo.myPage.KakaoReadyResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/payment")
+@RequestMapping("/pay")
 @RequiredArgsConstructor
 public class KakaoPayController {
 
@@ -33,7 +33,7 @@ public class KakaoPayController {
 
 		return kakaoPayService.KakaoPayReady(payMethod, amount);
 	}
-
+	
 	// 결제 성공
 	@PostMapping("/success")
 	public ResponseEntity<KakaoApproveResponse> afterPayRequest(@RequestParam("pg_token") String pgToken) {

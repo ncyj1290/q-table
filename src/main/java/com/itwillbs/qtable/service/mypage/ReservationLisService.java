@@ -16,18 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ReservationService {
+public class ReservationLisService {
 
 	private final ReservationListMapper reservationListMapper;
 
     /*방문예정 예약 리스트 조회*/
-	public List<Map<String, Object>> getUpcomingList(Long memberIdx) {
-		List<Map<String, Object>> result = reservationListMapper.getMyReservationList(memberIdx, "rsrt_05");
+	public List<Map<String, Object>> getUpcomingList(String MemberIdx) {
+		List<Map<String, Object>> result = reservationListMapper.getMyReservationList(MemberIdx, "rsrt_05");
 	    return result;
 	}
 
 	/*취소 예약 리스트 조회*/
-    public List<Map<String, Object>> getCanceledList(Long memberIdx) {
-        return reservationListMapper.getMyReservationList(memberIdx, "rsrt_03");
+    public List<Map<String, Object>> getCanceledList(String MemberIdx) {
+        return reservationListMapper.getMyReservationList(MemberIdx, "rsrt_03");
     }
 }
