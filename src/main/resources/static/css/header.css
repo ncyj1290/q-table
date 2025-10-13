@@ -129,6 +129,7 @@
   padding: 5px 16px;
   margin: 0 20px;         /* 좌우 살짝만 여백 */
   justify-content: space-between;
+  cursor: pointer;
 }
 .search-box > span {
 	color: var(--color-placeholder);
