@@ -5,7 +5,8 @@
 	<link rel="stylesheet" th:href="@{/css/member/memberJoin.css}">
 	<script th:src="@{/js/member/memberJoin.js}"></script>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="flatpickr.min.js"></script>
 </head>
 
 <body>
@@ -59,12 +60,11 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="birthDate">생년월일</label>
-							<div class="input-with-icon">
-								<input type="date" id="birthDate" name="birth" class="component-write"
-									placeholder="생년월일">
-								<i class="far fa-calendar-alt birth-calendar-icon"></i>
-							</div>
+						  <label for="birthDate">생년월일</label>
+						  <div class="input-with-icon">
+						    <input type="date" id="birthDate" name="birth" class="component-write" placeholder="생년월일">
+<!--						    <i class="far fa-calendar-alt birth-calendar-icon"></i>-->
+						  </div>
 						</div>
 						<div class="addresshide">
 						<div class="form-group">
@@ -109,21 +109,22 @@
 							
 							<div class="term-item">
 								<input type="checkbox" id="termsOfService" class="component-checkbox">
-								<label for="termsOfService">이용약관 동의</label>
-								<a href="#" class="view-details">자세히 보기</a>
+								<label for="termsOfService">이용약관 동의(필수)</label>
+								<button type="button" class="view-details">자세히 보기</button>
 							</div>
-							
+							<p class="agree">이용약관 어쩌구 </p>	
 							<div class="term-item">
 								<input type="checkbox" id="privacyPolicy" class="component-checkbox">
-								<label for="privacyPolicy">개인정보 처리 방침</label>
-								<a href="#" class="view-details">자세히 보기</a>
+								<label for="privacyPolicy">개인정보 처리 방침(필수)</label>
+								<button type="button" class="view-details">자세히 보기</button>
 							</div>
-							
+							<p class="agree">개인정보 처리방침 어쩌구 </p>	
 							<div class="term-item">
 								<input type="checkbox" id="marketingConsent" name="marketingAgreed" class="component-checkbox">
-								<label for="marketingConsent">마케팅 동의</label>
-								<a href="#" class="view-details">자세히 보기</a>
+								<label for="marketingConsent">마케팅 동의(선택)</label>
+								<button type="button" class="view-details">자세히 보기</button>
 							</div>
+							<p class="agree">마케팅 어쩌구 </p>	
 						</div>
 
 					</div>

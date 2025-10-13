@@ -109,7 +109,6 @@
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none;
   color: #888;
 }
 
@@ -146,6 +145,8 @@
   color: #888;
   text-decoration: underline;
   cursor: pointer;
+  border: none;
+  background-color: #fff;
 }
 .component-checkbox {
   margin: 2px;
@@ -181,22 +182,31 @@
   text-align: center;
 }
 .input-with-icon {
-  position: relative;      /* 아이콘 위치 기준 */
+  position: relative;
   display: inline-block;
-  width: 200px;            /* input width와 동일하게 */
 }
 
 .input-with-icon input {
-  width: 100%;
-  padding-right: 30px;     /* 아이콘 공간 확보 */
-  box-sizing: border-box;
+  width: 200px;
+  padding-right: 35px;
 }
 
-.input-with-icon .birth-calendar-icon {
+.birth-calendar-icon {
   position: absolute;
-  right: 10px;             /* input 오른쪽 끝에 배치 */
   top: 50%;
+  right: 10px;
   transform: translateY(-50%);
-  pointer-events: none;    /* 아이콘 클릭해도 input 동작 */
-  color: #888;
+  cursor: pointer;
+  z-index: 10; /* 다른 요소보다 위 */
+  pointer-events: auto; /* 반드시 클릭 가능 */
+}
+.agree {
+    width: 530px;
+    height: 100px;
+    border: 1px solid var(--color-main);
+    overflow-y: scroll;
+    display: none; /* 초기에는 숨김 */
+	color: #333;
+	font-size: 14px;
+	padding: 2px;
 }

@@ -111,3 +111,44 @@ function execDaumPostcode() {
 		}
 	}).open();
 }
+
+function showTerms() {
+    const terms = document.getElementById("terms");
+    // 토글 기능: 보이면 숨기고, 숨겨져 있으면 보이게
+    if (terms.style.display === "none") {
+        terms.style.display = "block";
+    } else {
+        terms.style.display = "none";
+    }
+}
+$(document).ready(function() {
+    $(".view-details").click(function() {
+        const agreeBox = $(this).parent().next(".agree");
+        const btn = $(this);
+
+        agreeBox.slideToggle(300, function() { // 300ms 슬라이드
+            if (agreeBox.is(":visible")) {
+                btn.text("간략히 보기");   // 열렸을 때
+            } else {
+                btn.text("자세히 보기"); // 닫혔을 때
+            }
+        });
+    });
+});
+//document.addEventListener("DOMContentLoaded", function() {
+//  const birthInput = document.getElementById("birthDate");
+//  const calendarIcon = document.querySelector(".birth-calendar-icon");
+//
+//  // flatpickr 초기화
+//  const fp = flatpickr(birthInput, {
+//    dateFormat: "Y-m-d",
+//    allowInput: true,
+//    clickOpens: false // 기본 클릭으로 열리지 않도록
+//  });
+//
+//  // 달력 아이콘 클릭 시 flatpickr 열기
+//  calendarIcon.addEventListener("click", () => {
+//	console.log("아이콘 클릭됨");
+//	  fp.open();
+//  });
+//});
