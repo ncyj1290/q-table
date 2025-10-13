@@ -13,6 +13,8 @@
 			
 			<form th:action="@{/write_store}" method="post" class="write-store-layout" enctype="multipart/form-data">
 				
+				<input type="hidden" th:value="${sData.store_idx}" name="store_idx">
+				
 				<div class="d-flex flex-row justify-content-center">
 					<h1>매장 정보 수정</h1>	
 				</div>
