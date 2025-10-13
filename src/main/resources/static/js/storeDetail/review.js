@@ -102,7 +102,7 @@ $(function() {
 			store_idx: storeIdx,
 			sort_type: $('#reviewSort').val() || 'rvs_01'
 		},
-		pageSize: 3,  // 3개씩 렌더링
+		pageSize: 5,  // 5개씩 렌더링
 		renderItem: function(review) {
 			const starWidth = review.score * 20;
 			let html = `
@@ -197,15 +197,46 @@ $(function() {
 		
 		const formData = new FormData();
 		
+		formData.append("store_idx", storeIdx);
+		formData.append("score", selectedRating);
+		formData.append("content", $('#reviewText').val());
+		
+		// 이미지 추가
+	    selectedFiles.forEach(file => {
+	        formData.append('images', file);
+	    });
+		
+		
 		$.ajax({
 			url: '/api/storeDetail/reviews',
 			type: 'POST',
 			data: formData,
 			processData: false,
 			contentType: false,
-			success: function(res){
-				console.log('성공');
+			success: function(){
+				alert('리뷰가 등록되었습니다.');
+				
+				// 모당창 숨기기
+				$reviewModal.hide();
+				
+				// 모달창 초기화
+				resetModal();
+				
+				// 리뷰 목록 새로고침
+                reviewPagination.loadPage(1);
+			},
+			error: function(res){
+				console.log(res.errer);
 			}
 		})
+	}
+	
+	// 모달 초기화 함수
+	function resetModal() {
+	    selectedRating = 0;
+	    selectedFiles = [];
+	    $('#reviewText').val('');
+	    $imagePreview.empty();
+	    displayStars(0);
 	}
 });

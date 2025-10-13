@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper;
 import com.itwillbs.qtable.vo.PageResponse;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
@@ -176,5 +177,31 @@ public class StoreDetailService {
 
 		return new PageResponse<>(menu, page, size, totalCount);
 	}
+
+	@Transactional
+    public void insertReview(Map<String, Object> reviewData) {
+
+		// 리뷰 등록
+        storeMapper.insertReview(reviewData);
+
+        // 이미지 리스트 따로 만들어서 따로 저장
+        List<String> imageList = (List<String>) reviewData.get("imagePaths");
+        
+        // 리뷰 인덱스 가져오기 
+        Object reviewIdxObj = reviewData.get("reviewIdx");
+        
+        if (reviewIdxObj == null) {
+            throw new RuntimeException("리뷰 등록 후 reviewIdx를 가져올 수 없습니다.");
+        }
+
+        Integer reviewIdx = ((Number) reviewIdxObj).intValue();
+        log.info("변환된 reviewIdx: " + reviewIdx);
+
+
+        if (imageList != null && !imageList.isEmpty()) {
+            storeMapper.insertReviewImages(reviewIdx, imageList);
+        }
+    }
+
 
 }

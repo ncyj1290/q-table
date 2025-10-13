@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.controller.storeDetail;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
+import com.itwillbs.qtable.entity.Member;
+import com.itwillbs.qtable.service.FileUploadService;
 import com.itwillbs.qtable.service.storeDetail.StoreDetailService;
 import com.itwillbs.qtable.vo.PageResponse;
 
@@ -23,8 +27,9 @@ import lombok.extern.java.Log;
 @RequiredArgsConstructor
 @Log
 public class StoreDetailController {
-	
+
 	private final StoreDetailService storeService;
+	private final FileUploadService fileUploadService;
 	
 	// 식당 상세 페이지 이동
 	@GetMapping("store_detail_main")
@@ -54,7 +59,6 @@ public class StoreDetailController {
 		List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);
 		model.addAttribute("availableTimes", reservationTimeData);
 		
-
 //		log.info("storeData: " + storeData.toString()); // 식당 정보 섹션
 //		log.info("categories: " + storeData.get("categories")); // 음식카테고리
 //		log.info("atmosphere: " + storeData.get("atmosphere")); // 분위기
@@ -94,13 +98,52 @@ public class StoreDetailController {
 	}
 	
 	// 리뷰 작성 api
-	// 리뷰 작성 api
-	  @PostMapping("/api/storeDetail/reviews")
-	  @ResponseBody
-	  public Map<String, Object> writeReview(@AuthenticationPrincipal QtableUserDetails userDetails) {
-	      Map<String, Object> result = new HashMap<>();
-	
-	
-	      return result;
-	  }
+	@PostMapping("/api/storeDetail/reviews")
+	@ResponseBody
+	public Map<String, Object> writeReview(
+			@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam("store_idx") Integer storeIdx,
+			@RequestParam("score") Integer score,
+			@RequestParam("content") String content,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
+		
+		// 결과 보낼 맵 
+		Map<String, Object> result = new HashMap<>();
+		
+		try {
+			Member member = userDetails.getMember();
+			Integer memberIdx = member.getMemberIdx();
+			
+			// 이미지 업로드하고 경로 뽑아내는 작업
+			List<String> imagePaths = new ArrayList<>();
+			if (images != null && !images.isEmpty()) {
+				for (MultipartFile image : images) {
+					if (!image.isEmpty()) {
+						String path = fileUploadService.saveFileAndGetPath(image);
+						imagePaths.add(path);
+					}
+				}
+			}
+
+			// 리뷰 데이터 
+			Map<String, Object> reviewData = new HashMap<>();
+			reviewData.put("memberIdx", memberIdx);
+			reviewData.put("storeIdx", storeIdx);
+			reviewData.put("score", score);
+			reviewData.put("content", content);
+			reviewData.put("imagePaths", imagePaths);
+			log.info(imagePaths.toString());
+			
+			storeService.insertReview(reviewData);
+			
+			result.put("success", "성공ㄱㄷㄴ");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("error", e.getMessage());
+		}
+		
+		
+		return result;
+	}
 }

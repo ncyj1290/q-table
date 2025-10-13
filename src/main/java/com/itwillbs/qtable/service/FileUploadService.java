@@ -1,6 +1,8 @@
 package com.itwillbs.qtable.service;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +26,12 @@ public class FileUploadService {
 		/* 파일 X -> 않으면 예외 발생 */
 		if(uploadFile == null || uploadFile.isEmpty()) throw new Exception("파일이 비어있습니다.");
 		
+        // 날짜별 폴더 구조 생성 (예: 2025/10/13)
+        String datePath = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+		
 		/* 경로 세팅 -> 없으면 폴더 생성 */
 		String projectPath = System.getProperty("user.dir");
-		File dir = new File(projectPath, uploadPath);
+		File dir = new File(projectPath, uploadPath + "/" + datePath);
 		if(!dir.exists()) dir.mkdirs();
 		
 		/* 업로드 파일 원본 경로 */
@@ -50,7 +55,7 @@ public class FileUploadService {
 		String savePath = originalPath + "_" + UUID.randomUUID().toString() + ext;
 		uploadFile.transferTo(new File(dir, savePath));
 		
-		return "/upload/" + savePath;
+		return "/upload/" + datePath + "/" + savePath;
 	}
 
 }
