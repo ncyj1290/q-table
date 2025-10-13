@@ -225,6 +225,30 @@ public class StoreWriteService {
 		
 		/* imguse_04 -> 메뉴판 사진 */
 		storeWrite.insertNewImage("imguse_04", storeIdx, storeVO.getMenu_board_url());
-
 	}
+	
+	/* ------------------------------------------------------------------------------------ */
+	/* 매장 정보 업데이트 */
+	@Transactional
+	public void updateSotre() {
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

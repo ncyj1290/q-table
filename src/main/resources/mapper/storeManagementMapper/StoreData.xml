@@ -29,7 +29,6 @@
 		where member_idx = #{member_idx}
 	</select>
 	
-	
 	<!-- 예약 받는지 안 받는지 상태값 받아오는 쿼리문 -->
 	<select id="selectAcceptStatus">
 		select is_accept 
@@ -151,6 +150,47 @@
 		and target_idx = #{store_idx}
 	</select>
 	
-		
-
+	<!-- 데이터 삭제 쿼리문들 -> 아무튼 이거그 뭐... 그... 매장 정보 갱신하기전에 기존 데이터들 다 속편하게 날려버리는 용도 -->
+	<!-- 휴일 삭제 -->
+	<delete id="deleteHolidayByStoreIdx">
+		delete from store_holiday
+		where store_idx = #{store_idx}
+	</delete>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="deleteCategoryByStoreIdx">
+		delete from store_category
+		where store_idx = #{store_idx}
+	</delete>
+	
+	<!-- 편의 시설 삭제 -->
+	<delete id="deleteAmenityByStoreIdx">
+		delete from store_amenity
+		where store_idx = #{store_idx}
+	</delete>
+	
+	<!-- 분위기 삭제 -->
+	<delete id="deleteAtmosphereByStoreIdx">
+		delete from store_atmosphere
+		where store_idx = #{store_idx}
+	</delete>
+	
+	<!-- 식자재 삭제 -->
+	<delete id="deleteIngredientByStoreIdx">
+		delete from ingredients
+		where store_idx = #{store_idx}
+	</delete>
+	
+	<!-- 메뉴 삭제 -->
+	<delete id="deleteMenuByStoreIdx">
+		delete from menu
+		where store_idx = #{store_idx}
+	</delete>
+	
+	<!-- 이미지 삭제 -->
+	<delete id="deleteStoreImage">
+		delete from image
+		where image_url = #{image_url}
+	</delete>
+	
 </mapper>

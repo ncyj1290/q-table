@@ -64,10 +64,6 @@ public class StoreWriteController {
 	public String inserNewStore(@ModelAttribute  StoreVO storeVO, @AuthenticationPrincipal QtableUserDetails user) throws Exception {
 		
 		storeVO.setMember_idx(user.getMember().getMemberIdx());
-		
-		System.out.println("Store Write - VO CHECK: " + storeVO.toString());
-		System.out.println("Check Member IDX: " + storeVO.getMember_idx());
-		
 		/* 새로운 매장 및 매장 부가 요소 DB에 추가 */
 		storeWriteService.insertNewStore(storeVO);
 		
@@ -77,7 +73,6 @@ public class StoreWriteController {
 	
 	/* ================================================= */
 	/* 매장 수정 관련 */
-	
 	@GetMapping("/modify_store")
 	public String modifyStore(@AuthenticationPrincipal QtableUserDetails user, Model model) {
 		
@@ -88,6 +83,16 @@ public class StoreWriteController {
 		model.addAttribute("sData", sData);
 		
 		return "storeManagement/modifyStore";
+	}
+	
+	/* 매장 수정 Post */
+	@PostMapping("/modify_store")
+	public String updateStore(StoreVO sData) {
+		
+		
+		
+		
+		return "redirect:store_reservation_list";
 	}
 	
 	
