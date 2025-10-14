@@ -24,6 +24,10 @@ public class MemberJoinController {
 	public String member_join(Model model) {
 	    List<CommonCodeVO> genderCodes = memberJoinService.getCodesByGroup("GENDER");
 	    model.addAttribute("genderCodes", genderCodes);
+	    List<CommonCodeVO> statusCodes = memberJoinService.getCodesByGroup("member_status");
+	    model.addAttribute("statusCodes", statusCodes);
+	    List<CommonCodeVO> memberType = memberJoinService.getCodesByGroup("member_type");
+	    model.addAttribute("memberType", memberType);
 		return "member/memberJoin";
 	}
 

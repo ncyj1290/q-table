@@ -37,18 +37,17 @@ $(function() {
 		    businessInput.removeAttribute('name');
 		    businessInput.style.display = 'none';
 		}
-		// 값이 ''일경우  값을 null로 바꾸기 db저장할떄 유니크 속성이있을떄 ''허용 불가
-		if (!userId) { alert('아이디를 입력해주세요.'); return; }
-		if (!password) { alert('비밀번호를 입력해주세요.'); return; }
-		if (!confirmPassword) { alert('비밀번호 확인을 입력해주세요.'); return; }
-		if (password !== confirmPassword) { alert('비밀번호가 일치하지 않습니다.'); return; }
-		if (!userName) { alert('이름을 입력해주세요.'); return; }
-		if (!gender) { alert('성별을 선택해주세요.'); return; }
-		if (!birthDate) { alert('생년월일을 입력해주세요.'); return; }
-		if (!addressPostcode) { alert('우편번호를 입력해주세요.'); return; }
-		if (!addressDetail) { alert('상세주소를 입력해주세요.'); return; }
-		if (!email) { alert('이메일을 입력해주세요.'); return; }
-		if (!emailVerification) { alert('이메일 인증번호를 입력해주세요.'); return; }
+//		if (!userId) { alert('아이디를 입력해주세요.'); return; }
+//		if (!password) { alert('비밀번호를 입력해주세요.'); return; }
+//		if (!confirmPassword) { alert('비밀번호 확인을 입력해주세요.'); return; }
+//		if (password !== confirmPassword) { alert('비밀번호가 일치하지 않습니다.'); return; }
+//		if (!userName) { alert('이름을 입력해주세요.'); return; }
+//		if (!gender) { alert('성별을 선택해주세요.'); return; }
+//		if (!birthDate) { alert('생년월일을 입력해주세요.'); return; }
+//		if (!addressPostcode) { alert('우편번호를 입력해주세요.'); return; }
+//		if (!addressDetail) { alert('상세주소를 입력해주세요.'); return; }
+//		if (!email) { alert('이메일을 입력해주세요.'); return; }
+//		if (!emailVerification) { alert('이메일 인증번호를 입력해주세요.'); return; }
 
 		// 약관 체크 확인
 		let allRequiredChecked = true;
@@ -66,39 +65,34 @@ $(function() {
 	});
 });
 $(document).ready(function() {
-	// 초기 상태: 개인회원가입 기준
-	$(".form-group.business").hide();  // 사업자 등록번호 숨김
-	$(".addresshide").show();          // 주소 영역 보임
-	$("#personalBtn").addClass("active"); // 초기 선택된 버튼 표시
-	$("#memberType").val("mtype_02"); //초기 맴버 타입 값
-	// 개인회원가입 클릭
-	$("#personalBtn").click(function() {
-		if (!$(this).hasClass("active")) {
-			$(this).addClass("active");
-			$("#storeBtn").removeClass("active");
+    // 초기 상태: 개인회원가입 기준
+    const personalCode = (MEMBER_TYPE_CODES?.find(c => c.code.startsWith('mtype_02'))?.code) || 'mtype_02';
+    const storeCode = (MEMBER_TYPE_CODES?.find(c => c.code.startsWith('mtype_03'))?.code) || 'mtype_03';
 
-			// 영역 전환 (토글)
-			$(".form-group.business").hide();
-			$(".addresshide").show();
-			//개인 회원가입 탭일때 맴버 타입 값
-			$("#memberType").val("mtype_02");
-		}
-	});
+    $(".form-group.business").hide();  // 사업자 등록번호 숨김
+    $(".addresshide").show();           // 주소 영역 보임
+    $("#personalBtn").addClass("active"); // 초기 선택된 버튼 표시
+    $("#memberType").val(personalCode);  // 초기 memberType 값 설정
 
-	// 매장회원가입 클릭
-	$("#storeBtn").click(function() {
-		if (!$(this).hasClass("active")) {
-			$(this).addClass("active");
-			$("#personalBtn").removeClass("active");
+    // 버튼 클릭 이벤트 공통 함수
+    function toggleMemberType(isPersonal) {
+        if (isPersonal) {
+            $("#personalBtn").addClass("active");
+            $("#storeBtn").removeClass("active");
+            $(".form-group.business").hide();
+            $("#memberType").val(personalCode);
+        } else {
+            $("#storeBtn").addClass("active");
+            $("#personalBtn").removeClass("active");
+            $(".form-group.business").show();
+            $("#memberType").val(storeCode);
+        }
+    }
 
-			// 영역 전환 (토글)
-			$(".form-group.business").show();
-			//매장 회원가입 탭일때 맴버 타입 값
-			$("#memberType").val("mtype_03");
-		}
-	});
+    // 이벤트 바인딩
+    $("#personalBtn").click(() => toggleMemberType(true));
+    $("#storeBtn").click(() => toggleMemberType(false));
 });
-
 // Daum주소 API로 불러오기
 function execDaumPostcode() {
 	new daum.Postcode({
@@ -135,20 +129,16 @@ $(document).ready(function() {
         });
     });
 });
-//document.addEventListener("DOMContentLoaded", function() {
-//  const birthInput = document.getElementById("birthDate");
-//  const calendarIcon = document.querySelector(".birth-calendar-icon");
-//
-//  // flatpickr 초기화
-//  const fp = flatpickr(birthInput, {
-//    dateFormat: "Y-m-d",
-//    allowInput: true,
-//    clickOpens: false // 기본 클릭으로 열리지 않도록
-//  });
-//
-//  // 달력 아이콘 클릭 시 flatpickr 열기
-//  calendarIcon.addEventListener("click", () => {
-//	console.log("아이콘 클릭됨");
-//	  fp.open();
-//  });
-//});
+document.addEventListener("DOMContentLoaded", function() {
+    const birthInput = document.getElementById("birthDate");
+    const calendarIcon = document.querySelector(".birth-calendar-icon");
+
+    const fp = flatpickr(birthInput, {
+        dateFormat: "Y-m-d",
+        allowInput: true,
+    });
+
+    calendarIcon.addEventListener("click", () => {
+        fp.open();
+    });
+});
