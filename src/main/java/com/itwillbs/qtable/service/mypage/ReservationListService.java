@@ -26,9 +26,10 @@ public class ReservationListService {
 	    return result;
 	}
 
-//	/*취소 예약 리스트 조회*/
-//    public  List<Map<String, Object>> getCanceledList(String memberIdx) {
-//    	List<Map<String, Object>> result = reservationListMapper.getCanceledList(memberIdx, "rsrt_03");
-//	    return result;
-//    }
+	/*취소 예약 리스트 조회*/
+    public  List<Map<String, Object>> getCanceledList(String memberIdx) {
+    	List<Map<String, Object>> result = reservationListMapper.getCanceledList(memberIdx, "rsrt_03");
+	    return result;
+   }
+	
 }
