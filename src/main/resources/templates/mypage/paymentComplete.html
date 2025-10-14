@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/defaultLayout}">
+	<head>
+		<link rel="stylesheet" th:href="@{/css/main/paymentComplet.css}">
+	</head>
+	<body>
+			<div layout:fragment="Content">
+				<div class="complet-container">
+				<img src="img/logo.PNG">
+				<h1>결제 완료</h1>
+				<p>"Q-money 결제가 완료되었습니다"</p>
+				<button type="button" onclick="location.href='/'">메인 화면으로 이동</button>
+				</div>
+	</div>
+	</body>
+</html>

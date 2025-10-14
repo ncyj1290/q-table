@@ -38,7 +38,7 @@ public class KakaoPayController {
 	}
 
 	// 결제 성공
-	@GetMapping("/qmoneySuccess")
+	@GetMapping("/paymentcomplete")
 	public ResponseEntity<KakaoApproveResponse> afterPayRequest(@AuthenticationPrincipal QtableUserDetails qtable,
 			@RequestParam("pg_token") String pgToken) {
 
@@ -47,14 +47,5 @@ public class KakaoPayController {
 		return new ResponseEntity<>(kakaoApprove, HttpStatus.OK);
 	}
 
-//	@GetMapping("/cancel")
-//	public String payCancel() {
-//		return "pay/qmoneyCancel"; 
-//	}
-//
-//	@GetMapping("/fail")
-//	public String payFail() {
-//		return "pay/qmoneyFail";
-//	}
 
 }

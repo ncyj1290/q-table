@@ -1,0 +1,36 @@
+.complet-container {
+	text-align: center;
+}
+
+.complet-container img{
+	width: 280px;
+	height: auto;
+	margin-top: 45px;
+	margin-bottom: -20px;
+}
+
+
+.complet-container h1,.error-container p {
+	color: var(--color-main);
+}
+.complet-container h1 {
+	font-size: 160px;
+}
+.complet-container p {
+	font-size: 50px;
+}
+.complet-container button{
+	width: 200px;
+	height: 45px;
+	font-weight: bold;
+	font-size: 17px;
+	color: var(--color-font-positive);
+	border: 1px;
+	border-radius: 30px;
+	background-color: var(--color-main);
+	align-content: center;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	margin-top: 20px;
+}
