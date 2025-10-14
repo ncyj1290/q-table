@@ -42,4 +42,7 @@ public interface StoreWrite {
 	int updateStoreBasicData(StoreVO storeVO);
 	
 	
+	
+	
+	
 }

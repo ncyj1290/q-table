@@ -168,7 +168,6 @@
 				,close_time = #{close_time}
 			</if>
 			,price_avg = #{price_avg}
-			,qr_code = #{qr_code}
 			,is_24hour = #{is_24hour}
 		where store_idx = #{store_idx}
 	</update>

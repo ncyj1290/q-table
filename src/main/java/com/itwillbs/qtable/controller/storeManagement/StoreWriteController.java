@@ -87,10 +87,12 @@ public class StoreWriteController {
 	
 	/* 매장 수정 Post */
 	@PostMapping("/modify_store")
-	public String updateStore(@ModelAttribute StoreVO storeVO, @AuthenticationPrincipal QtableUserDetails user) {
+	public String updateStore(@ModelAttribute StoreVO storeVO, @AuthenticationPrincipal QtableUserDetails user) throws Exception {
 		
 		System.out.println("Check User: " + user.getMember().getMemberId());
 		System.out.println("Modify Store-> Check VO Data: " + storeVO.toString());
+		
+		storeWriteService.updateStore(storeVO);
 		
 		
 		return "redirect:store_reservation_list";

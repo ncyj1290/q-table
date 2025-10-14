@@ -147,7 +147,7 @@
 				
 				<div class="store_picture_layout">
 					
-					<div class="store_picture_element" th:each="sImg, i : ${sData.storePictureList}">
+					<div class="store_picture_element" th:each="sImg, i : ${sData.storePictureList}" th:if="${sData.storePictureList != null}">
 						<i class="bi bi-trash fs-4 sp-remove-bt"></i>
 						<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
 						<span class="sp-name" th:text="${sImg.image_url}">선택된 파일 없음</span>
