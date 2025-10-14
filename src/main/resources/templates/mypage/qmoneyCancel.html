@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}">
+
+<head>
+  <link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
+  <link rel="stylesheet" th:href="@{/css/mypage/qmoneyCancel.css}">
+  <meta charset="UTF-8">
+  <title>결제 취소</title>
+</head>
+
+<body>
+  <div layout:fragment="Content">
+    <div class="qmoney-result-container">
+      <img src="/img/spoon.png" alt="취소 아이콘" class="cancel-icon-large" />
+      <h2>결제가 취소되었습니다</h2>
+      <p>사용자가 결제를 취소하였습니다.<br>다시 시도하시겠습니까?</p>
+
+      <div class="button-group">
+        <a href="/mypage/qmoneyCharge" class="positive-button">다시 결제하기</a>
+        <a href="/mypage" class="negative-button">마이페이지로 이동</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

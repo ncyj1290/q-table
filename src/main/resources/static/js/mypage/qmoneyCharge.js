@@ -56,7 +56,7 @@ $(document).ready(function() {
       contentType: 'application/json',
       dataType: 'json',
       data: JSON.stringify({
-        payMethod: selectedPayMethod,
+        payment_idx: selectedPayMethod,
         amount: selectedAmount
       }),
       beforeSend: function(xhr) {

@@ -10,7 +10,7 @@ public class KakaoApproveResponse {
 	private String cid; //가맹점 코드
 	private String sid; // 정기 결제용
 	private String partner_order_id; // 가맹점 주문번호
-	private String partner_user_id; // 가맹점 회원 id
+	private String member_idx; // 가맹점 회원 id
 	private String payment_method_type; // 결제 수단
 	private String payment_amount; // 결제 금액 정보
 	private String item_name; // 상품명

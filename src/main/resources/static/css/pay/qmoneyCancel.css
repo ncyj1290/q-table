@@ -1,0 +1,51 @@
+.qmoney-result-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+}
+
+.cancel-icon-large {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 2.5rem;
+  color: var(--color-sub); /* 서브 컬러 사용 (노란색 등) */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 18px;
+  color: var(--color-font-negative);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+}
+
+.positive-button, .negative-button {
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.positive-button {
+  background-color: var(--color-main);
+  color: var(--color-font-positive);
+}
+
+.negative-button {
+  background-color: #ccc;
+  color: #333;
+}

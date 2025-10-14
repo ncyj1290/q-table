@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/defaultLayout}">
+
+<head>
+  <link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
+  <link rel="stylesheet" th:href="@{/css/mypage/qmoneySuccess.css}">
+  <meta charset="UTF-8">
+  <title>결제 완료</title>
+</head>
+
+<body>
+  <div layout:fragment="Content">
+    <div class="qmoney-result-container">
+      <img src="/img/check.png" alt="결제 완료 아이콘" class="success-icon" />
+      <h2>결제가 완료되었습니다!</h2>
+      <p>충전하신 Q-money가 정상적으로 반영되었습니다.</p>
+
+      <div class="button-group">
+        <a href="/mypage" class="positive-button">마이페이지로 이동</a>
+        <a href="/home" class="negative-button">홈으로 돌아가기</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
