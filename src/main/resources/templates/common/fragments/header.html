@@ -34,15 +34,24 @@
              <!-- 로그인 상태: 아이콘만 표시 -->
              <div sec:authorize="isAuthenticated()">
                  <div class="menu-icons">
-                     <a th:href="@{/#}"><img th:src="@{/img/header_month.png}" alt="달력"></a>
+					<a href="#" id="openModalBtn">
+					  <img src="/img/header_month.png" alt="달력">
+					</a>
+					 <div id="calendarModal" class="modal">
+					   <div class="modal-content">
+					     <span class="close-btn">&times;</span>
+					     <!-- 여기는 나중에 달력이나 내용 추가 가능 -->
+					   </div>
+					 </div>
                      <a th:href="@{/chat}"><img th:src="@{/img/header_messenger.png}" alt="메신저"></a>
 					 <!-- 프로필 드롭다운 -->
 					 <div class="profile-dropdown">
 					     <img th:src="@{/img/header_profile.png}" alt="프로필" class="profile-icon">
 					     <div class="dropdown-menu">
 					         <!-- 프로필 정보 -->
+							 
 					         <div class="header-profile-info" onclick="location.href='/reservation_list'">
-								<img src="/img/profile.png" alt="프로필 사진" class="header-profile-img">
+								<img th:src="${#authentication.principal.member.profileImgUrl}" alt="프로필 사진" class="header-profile-img">
 					             <div class="user-details">
 					                 <div class="user-name"><span sec:authentication="principal.member.memberName"></span>님</div>
 					                 <div class="user-email"><span sec:authentication="principal.member.email"></span></div>

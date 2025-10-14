@@ -1,4 +1,4 @@
-package com.itwillbs.qtable.service;
+package com.itwillbs.qtable.service.member;
 
 import java.util.List;
 import java.util.Map;

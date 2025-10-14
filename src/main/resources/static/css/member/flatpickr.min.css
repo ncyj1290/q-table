@@ -165,7 +165,7 @@
 }
 
 .flatpickr-months .flatpickr-month {
-	background: transparent;
+	background: var(--color-main);
 	color: rgba(0, 0, 0, 0.9);
 	fill: rgba(0, 0, 0, 0.9);
 	height: 34px;
@@ -614,8 +614,8 @@ span.flatpickr-weekday {
 
 .flatpickr-day.today:hover,
 .flatpickr-day.today:focus {
-	border-color: #959ea9;
-	background: #959ea9;
+	border-color: var(--color-focus);
+	background:var(--color-focus);
 	color: #fff
 }
 
@@ -637,11 +637,11 @@ span.flatpickr-weekday {
 .flatpickr-day.selected.nextMonthDay,
 .flatpickr-day.startRange.nextMonthDay,
 .flatpickr-day.endRange.nextMonthDay {
-	background: #569ff7;
+	background: var(--color-main); 
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #fff;
-	border-color: #569ff7
+	border-color: var(--color-main)
 }
 
 .flatpickr-day.selected.startRange,

@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const calendarIcon = document.querySelector(".birth-calendar-icon");
 
     const fp = flatpickr(birthInput, {
+		locale: "ko",
         dateFormat: "Y-m-d",
         allowInput: true,
     });

@@ -3,15 +3,16 @@
 
 <head>
 	<link rel="stylesheet" th:href="@{/css/member/memberJoin.css}">
-	<link rel="stylesheet" th:href="@{/css/external/flatpickr.min.css}">
+	<link rel="stylesheet" th:href="@{/css/member/flatpickr.min.css}">
 	<script th:inline="javascript">
 	    /*<![CDATA[*/
-	    var MEMBER_TYPE_CODES = /*[[${memberTypeCodes}]]*/ [];
+	    var MEMBER_TYPE_CODES = /*[[${memberType}]]*/ [];
 	    /*]]>*/
 	</script>
 	<script th:src="@{/js/member/memberJoin.js}"></script>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 </head>
 
 <body>
@@ -21,6 +22,7 @@
 			<form th:action="@{/member_join_Pro}" method="post" id="signupForm">
 				<input type="hidden" id="memberType" name="memberType" th:value="${memberType[1].code}">
 				<input type="hidden" id="memberStatus" name="memberStatus" th:value="${statusCodes[0].code}">
+				<input type="hidden" name="profileImgUrl" value="/img/profile.png">
 				<div class="signup-tabs">
 					<button type="button" id="personalBtn">개인 회원가입</button>
 					<button type="button" id="storeBtn">매장 회원가입</button>

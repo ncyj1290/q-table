@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.itwillbs.qtable.entity.Member;
-import com.itwillbs.qtable.service.MemberJoinService;
+import com.itwillbs.qtable.service.member.MemberJoinService;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 import lombok.RequiredArgsConstructor;
