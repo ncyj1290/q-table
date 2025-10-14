@@ -170,6 +170,8 @@ public class AdminService {
     	paymentRepository.deleteById(paymentIdx);
     }
     
+    // ------------------------ 정산 -----------------------
+    
     // 매장 정산 목록 리스트 조회
     public List<JeongsanListVO> findJeongsanList() {
         return adminMapper.findJeongsanList();
@@ -199,6 +201,13 @@ public class AdminService {
 			jeongsan.setRejectionReason(JeongsanUpdateVO.getRejection_reason());
 		}
 		
+    }
+    
+	// 정산 삭제 이벤트
+    @Transactional
+    public void deleteJeongsan(Integer jeongsanIdx) {
+        // jpa deleteById 활용 DB에서 데이터 삭제
+    	jeongsanRepository.deleteById(jeongsanIdx);
     }
 
 }

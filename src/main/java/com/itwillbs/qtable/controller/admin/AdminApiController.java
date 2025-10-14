@@ -114,6 +114,8 @@ public class AdminApiController {
     	adminService.deletePayment(paymentIdx);
     }
     
+    // ----------------------- 정산 --------------------------
+    
     // 매장 정산 목록 리스트 조회
 	@GetMapping("/api/jeongsan")
 	public List<JeongsanListVO> findJeongsanList() {
@@ -134,5 +136,11 @@ public class AdminApiController {
             @RequestBody JeongsanUpdateVO JeongsanUpdateVO) {
     	
         adminService.updateJeongsanStatus(jeongsanIdx, JeongsanUpdateVO);
+    }
+    
+    // 정산 목록 삭제 이벤트
+    @PostMapping("/api/jeongsan/{jeongsanIdx}")
+    public void deleteJeongsan(@PathVariable("jeongsanIdx") Integer jeongsanIdx) {
+    	adminService.deleteJeongsan(jeongsanIdx);
     }
 }

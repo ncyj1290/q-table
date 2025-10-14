@@ -37,7 +37,7 @@ $(function() {
 
 				const member_idx = row.cells[0].data;
 				const store_idx = row.cells[1].data;
-				const member_id = row.cells[2].data;  // '매장 아이디' 컬럼
+				const member_id = row.cells[2].data;
 				
 				const detail_button = `<a href="/admin_detail/${member_idx}" class="management-button">상세보기</a>`;
 				const status_button = `<button class="management-button approve-btn" data-idx="${store_idx}" data-id="${member_id}">입점 신청 관리</button>`;

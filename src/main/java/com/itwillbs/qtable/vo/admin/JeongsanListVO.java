@@ -17,9 +17,11 @@ public class JeongsanListVO {
 	private String member_id;
 	private int jeongsan_amount;
 	private String calculate_result;
+	private String calculate_result_name;
 	private LocalDateTime requested_at;
 	private LocalDateTime processed_at;
 	private String rejection_reason;
+	private String account_number;
 	
 	public JeongsanListVO(Jeongsan entity) {
 		this.jeongsan_idx = entity.getJeongsanIdx();

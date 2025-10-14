@@ -36,7 +36,7 @@ public class Jeongsan {
     @Column(name = "processed_at")
     private LocalDateTime processedAt;
     
-    @Column(name = "rejection_reason")
+    @Column(name = "rejection_reason", columnDefinition = "TEXT")
     private String rejectionReason;
 
 }

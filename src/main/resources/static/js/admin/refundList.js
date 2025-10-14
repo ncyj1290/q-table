@@ -1,15 +1,16 @@
 $(function() {
-    const refundColumns = [
+	const refundColumns = [
 		{ name: 'jeongsan_idx', hidden: true },
 		{ name: 'No.', width: '5%' },
-		{ name: '매장명', width: '15%' },
-		{ name: '회원 아이디', width: '15%' },
+		{ name: '매장명', width: '10%'},
+		{ name: '회원 아이디', width: '7%' },
 		{ name: '정산 금액', width: '10%' },
-		{ name: '정산 요청 일시', width: '15%' },
-		{ name: '정산 처리 일시', width: '15%' },
+		{ name: '계좌번호', width: '10%' },
+		{ name: '정산 요청 일시', width: '10%' },
+		{ name: '정산 처리 일시', width: '10%' },
 		{
 			name: '처리상태',
-			width: '10%',
+			width: '8%',
 			formatter: (cell) => {
 				let badgeClass = '';
 				switch (cell) {
@@ -29,18 +30,18 @@ $(function() {
 				return gridjs.html(`<span class="status-badge ${badgeClass}">${cell}</span>`);
 			}
 		},
-        {
-            name: '관리', width: '10%',
-            width: '200px',
-            formatter: (cell, row) => {
+		{
+			name: '관리', width: '10%',
+			width: '100px',
+			formatter: (cell, row) => {
 				const jeongsan_idx = row.cells[0].data;
-				
+
 				const detailButton = `<button class="management-button status-change-btn" data-idx="${jeongsan_idx}">정산</button>`;
-                const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
-                return gridjs.html(detailButton + deleteButton);
-            }
-        }
-    ];
+				const deleteButton = `<button class="management-button delete-btn" data-idx="${jeongsan_idx}">삭제</button>`;
+				return gridjs.html(detailButton + deleteButton);
+			}
+		}
+	];
 
 	// AJAX 회원 목록 데이터 요청
 	$.ajax({
@@ -54,9 +55,10 @@ $(function() {
 					index + 1,
 					jeongsan.store_name,
 					jeongsan.member_id,
-					jeongsan.jeongsan_amount,
-					jeongsan.requested_at,
-					jeongsan.processed_at,
+					jeongsan.jeongsan_amount + " 원",
+					jeongsan.account_number,
+					jeongsan.requested_at.replace('T', ' '),
+					jeongsan.processed_at.replace('T', ' '),
 					jeongsan.calculate_result,
 					null
 				];
@@ -71,15 +73,18 @@ $(function() {
 			});
 		},
 	});
-	
+
 	$('#refund-table').on('click', '.status-change-btn', function() {
-		const jeongsan_idx = $(this).data('idx');		
+		const jeongsan_idx = $(this).data('idx');
 
 		// AJAX로 매장의 현재 정보
 		$.ajax({
 			url: `/api/jeongsan/${jeongsan_idx}`,
 			type: 'GET',
 			success: function(JeongsanListVO) {
+
+				console.log(JeongsanListVO);
+
 				const body_html = `
 	                <div class="form-group">
 	                    <label>매장명</label>
@@ -133,5 +138,30 @@ $(function() {
 			}
 		});
 	});
-	
+
+	// 삭제 버튼 클릭 이벤트
+	$('#refund-table').on('click', '.delete-btn', function() {
+
+		const jeongsan_idx = $(this).data('idx');
+
+		if (confirm(`정말로 삭제하시겠습니까?`)) {
+
+			// 확인을 눌렀을 때 AJAX 코드 실행
+			$.ajax({
+				url: `/api/jeongsan/${jeongsan_idx}`,
+				type: 'POST',
+				success: function(response) {
+					alert("삭제에 성공했습니다.");
+					location.reload();
+				},
+				error: function(error) {
+					alert("삭제에 실패했습니다.");
+				}
+			});
+
+		} else {
+			console.log("삭제가 취소되었습니다.");
+		}
+	});
+
 });

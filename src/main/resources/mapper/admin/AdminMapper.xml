@@ -116,6 +116,7 @@
 		       j.requested_at,
 		       j.processed_at,
 		       s.store_name,
+		       s.account_number,
 		       m.member_id
 		  FROM jeongsan j 
 	 LEFT JOIN member m ON j.member_idx = m.member_idx
@@ -130,15 +131,17 @@
 	            j.jeongsan_idx,
 	            j.member_idx,
 	            j.jeongsan_amount,
-	            c.code_label AS calculate_result,
+		        j.calculate_result, 
+		        c.code_label AS calculate_result_name,
 	            j.requested_at,
 	            j.processed_at,
+	            j.rejection_reason,
 	            m.member_id,
 	            s.store_name
 	       FROM jeongsan j
 	       JOIN member m ON j.member_idx = m.member_idx
 	  LEFT JOIN store s ON j.member_idx = s.member_idx
-	  LEFT JOIN common_code c ON j.calculate_result = c.code
+	  LEFT JOIN common_code c ON j.calculate_result = c.code AND c.group_code = 'calculate_result'
 	      WHERE j.jeongsan_idx = #{jeongsan_idx}
     </select>
 
