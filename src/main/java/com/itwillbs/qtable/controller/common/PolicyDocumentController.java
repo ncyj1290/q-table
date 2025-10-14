@@ -15,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 public class PolicyDocumentController {
 	
 	private final StoreDetailService storeDetailService ;
-	    @GetMapping("/")
-	    public String home(Model model, Integer storeIdx) {
-	    	Map<String, Object> storeInfo = storeDetailService.getStoreInfo(storeIdx);	    	    
-	    	model.addAttribute("storeInfo", storeInfo);
-	        return "index"; // templates/index.html과 일치해야 함
-	    }
+//	    @GetMapping("/")
+//	    public String home(Model model, Integer storeIdx) {
+//	    	Map<String, Object> storeInfo = storeDetailService.getStoreInfo(storeIdx);	    	    
+//	    	model.addAttribute("storeInfo", storeInfo);
+//	        return "index"; // templates/index.html과 일치해야 함
+//	    }
 		@GetMapping("/terms_of_use")
 		public String terms_of_use(){
 			return "termsOfUse";
