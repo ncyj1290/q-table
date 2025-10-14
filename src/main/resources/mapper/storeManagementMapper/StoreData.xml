@@ -191,6 +191,14 @@
 	<delete id="deleteStoreImage">
 		delete from image
 		where image_url = #{image_url}
+		and target_type = #{target_type}
+	</delete>
+	
+	<!-- 이미지 삭제 By Store Idx -->
+	<delete id="deleteStoreImageByStoreIdx">
+		delete from image
+		where target_idx = #{store_idx}
+		and target_type = #{target_type}
 	</delete>
 	
 </mapper>

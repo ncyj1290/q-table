@@ -78,7 +78,10 @@ public interface StoreData {
 	int deleteMenuByStoreIdx(@Param("store_idx") int store_idx);
 	
 	/* 이미지 삭제 */
-	int deleteStoreImage(@Param("image_url") String image_url);
+	int deleteStoreImage(@Param("image_url") String image_url, @Param("target_type") String target_type);
+	
+	/* 매장 idx로 이미지 삭제 */
+	int deleteStoreImageByStoreIdx(@Param("store_idx") int store_idx, @Param("target_type") String target_type);
 	
 	
 }

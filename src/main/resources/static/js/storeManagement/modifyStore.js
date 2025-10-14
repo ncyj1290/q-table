@@ -128,6 +128,13 @@ $(function() {
 	/* ==================================== */
 	/* 휴일 선택 */
 	/* ==================================== */
+	/* 초기 렌더링 후 값 */
+	let selected = $(".holiday-button.active").map(function() {
+		return $(this).val();
+    }).get();
+	
+	$("#holidays").val(selected.join(","));
+	
 	/* 휴일 선택 버튼 */
 	$(".holiday-button").on("click", function() {
 		

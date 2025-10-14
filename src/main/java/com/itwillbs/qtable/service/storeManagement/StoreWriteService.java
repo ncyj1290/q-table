@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.reactive.TransactionSynchronizationManager;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreCommonCode;
+import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite;
 import com.itwillbs.qtable.service.FileUploadService;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
@@ -25,6 +27,9 @@ public class StoreWriteService {
 	
 	@Autowired
 	StoreWrite storeWrite;
+	
+	@Autowired
+	StoreData storeData;
 	
 	@Autowired
 	FileUploadService fileUploadService;
@@ -127,18 +132,13 @@ public class StoreWriteService {
 		/* ------------------------------------------------------------------------------------ */
 		/* 휴일 등록 */
 		String[] holidayList = storeVO.getHolidays().split(",");
-		
-		if(holidayList != null) {
-			for(String holiday:holidayList) {
-				storeWrite.insertNewHoliday(storeIdx, holiday);
-			}
-		}
-		
+		if(holidayList != null) for(String holiday:holidayList) storeWrite.insertNewHoliday(storeIdx, holiday);
+
 		/* ------------------------------------------------------------------------------------ */
 		/* 매장 사진 등록 */
 		List<StorePicture> spList = storeVO.getStorePictureList();
 		
-		if(!spList.isEmpty()) {
+		if(spList != null && !spList.isEmpty()) {
 			
 			for(StorePicture pic : spList) {
 				
@@ -155,38 +155,23 @@ public class StoreWriteService {
 		/* ------------------------------------------------------------------------------------ */
 		/* 분위기 */
 		String[] amenityList = storeVO.getStore_amenity().split(",");
-		
-		if(amenityList != null) {
-			for(String amenity:amenityList) {
-				storeWrite.insertNewAmenity(storeIdx, amenity);
-			}
-		}
+		if(amenityList != null) for(String amenity:amenityList) storeWrite.insertNewAmenity(storeIdx, amenity);
 
 		/* ------------------------------------------------------------------------------------ */
 		/* 편의 시설 */
 		List<String> atmoList = storeVO.getStore_atmosphere();
-		
-		if(!atmoList.isEmpty()) {
-			for(String atmo:atmoList) {
-				storeWrite.insertNewAtmosphere(storeIdx, atmo);
-			}
-		}
-		
+		if(atmoList != null && !atmoList.isEmpty()) for(String atmo:atmoList) storeWrite.insertNewAtmosphere(storeIdx, atmo);
+
 		/* ------------------------------------------------------------------------------------ */
 		/* 카테고리 */
 		List<String> categoryList = storeVO.getStore_category();
-		
-		if(!categoryList.isEmpty()) {
-			for(String cat:categoryList) {
-				storeWrite.insertNewCategory(storeIdx, cat);
-			}
-		}
-		
+		if(categoryList != null && !categoryList.isEmpty()) for(String cat:categoryList) storeWrite.insertNewCategory(storeIdx, cat);
+
 		/* ------------------------------------------------------------------------------------ */
 		/* 삭자재 */
 		List<StoreIngredient> ingList = storeVO.getIngredientList();
 		
-		if(!ingList.isEmpty()) {
+		if(ingList != null && !ingList.isEmpty()) {
 			for(StoreIngredient ing:ingList) {
 				ing.setStore_idx(storeIdx);
 				storeWrite.insertNewIngredient(ing);
@@ -199,7 +184,6 @@ public class StoreWriteService {
 		
 		if(!menuList.isEmpty()) {
 			for(StoreMenu menu : menuList) {
-				
 				
 				/* 기본 메뉴 프로필 */
 				menu.setImage_url("/icons/icon_menu_profile.png");
@@ -214,7 +198,6 @@ public class StoreWriteService {
 				
 				/* imguse_03 -> 메뉴 사진 */
 				storeWrite.insertNewImage("imguse_03", menu.getMenu_idx(), menu.getImage_url());
-				
 			}
 		}
 		
@@ -234,6 +217,9 @@ public class StoreWriteService {
 
 		/* ------------------------------------------------------------------------------------ */
 		/* 기본 매장 정보 Update */
+		/* 이거는 매장 idx */
+		int storeIdx = storeVO.getStore_idx();
+		
 		boolean timeFlag = false;
 		if("true".equals(storeVO.getFlag_24hour())) timeFlag = true;
 		storeVO.set_24hour(timeFlag);
@@ -261,22 +247,75 @@ public class StoreWriteService {
 		int storeRes = storeWrite.updateStoreBasicData(storeVO);
 		System.out.println("Basic Data Updated Result: " + storeRes);
 		
-		/* ============================ */
+		/* ------------------------------------------------------------------------------------ */
+		/* 프로필 이미지 수정 */
+		MultipartFile storeProfileFile = storeVO.getStore_profile_file();
+		/* 파일 업로드한게 있으면 교체하고 따로 없으면 기존꺼 그냥 그대로 쓰는걸로. */
+		if(storeProfileFile != null && !storeProfileFile.isEmpty()) {
+			
+			/* 프로필 사진 경로 */
+			String profilePath = storeVO.getStore_profile_path();
+			
+			storeData.deleteStoreImage(profilePath, "imguse_01");
+			fileUploadService.deleteFileByPath(profilePath);
+			
+			/* 새거 집어넣기 */
+			storeVO.setStore_profile_path(fileUploadService.saveFileAndGetPath(storeProfileFile));
+			storeWrite.insertNewImage("imguse_01", storeIdx, storeVO.getStore_profile_path());
+		}
+
+		/* ------------------------------------------------------------------------------------ */
+		/* 휴일 수정 -> 변경 사항 있으면 기존거 다 지우고 새로 업로드 */
+		String[] holidayList = storeVO.getHolidays().split(",");
+		
+		if(holidayList != null) {
+			/* 기존 휴일 정보들 삭제 */
+			storeData.deleteHolidayByStoreIdx(storeIdx);
+
+			/* 휴일 새로 집어넣기 */
+			for(String holiday:holidayList) storeWrite.insertNewHoliday(storeIdx, holiday);
+		}
+		
+		/* ------------------------------------------------------------------------------------ */
+		/* 매장 사진 수정 */
+		List<StorePicture> spList = storeVO.getStorePictureList();
+		
+		/* 기존 이미지 정보들 제거 */
+		storeData.deleteStoreImageByStoreIdx(storeIdx, "imguse_02");	
+		
+		if(spList != null && !spList.isEmpty()) {
+			
+			/* 사진 목록들 돌면서 이미지 insert */
+			for(StorePicture pic : spList) {
+				
+				/* 아무것도 없으면 Pass */
+				if(pic.getStore_picture().isEmpty() && pic.getImage_url() == null) continue;
+				
+				/* 업로드 된 파일이 있으면 그걸로 경로 수정, 그거 아니면 기존거 그대로 유지 */
+				MultipartFile pictureFile = pic.getStore_picture();
+				if(pictureFile != null && !pictureFile.isEmpty()) pic.setImage_url(fileUploadService.saveFileAndGetPath(pictureFile));
+
+				/* imguse_02 -> 메장 사진 */
+				storeWrite.insertNewImage("imguse_02", storeIdx, pic.getImage_url());
+			}
+		}
+		
+		/* ------------------------------------------------------------------------------------ */
+		/* 분위기 수정 */
+//		String[] amenityList = storeVO.getStore_amenity().split(",");
+//		if(amenityList != null) for(String amenity:amenityList) storeWrite.insertNewAmenity(storeIdx, amenity);
+
+		/* ------------------------------------------------------------------------------------ */
+		/* 편의 시설 수정 */
+//		List<String> atmoList = storeVO.getStore_atmosphere();
+//		if(atmoList != null && !atmoList.isEmpty()) for(String atmo:atmoList) storeWrite.insertNewAtmosphere(storeIdx, atmo);
+
+		/* ------------------------------------------------------------------------------------ */
+		/* 카테고리 수정 */
+//		List<String> categoryList = storeVO.getStore_category();
+//		if(categoryList != null && !categoryList.isEmpty()) for(String cat:categoryList) storeWrite.insertNewCategory(storeIdx, cat);
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

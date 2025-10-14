@@ -1,6 +1,9 @@
 package com.itwillbs.qtable.service;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -57,5 +60,40 @@ public class FileUploadService {
 		
 		return "/upload/" + datePath + "/" + savePath;
 	}
+	
+	
+	/* DB에 저장된 경로대로 파일 삭제하는 함수 */
+	public boolean deleteFileByPath(String path) throws Exception {
+		
+		/* Null -> Return False */
+		if(path == null || path.isBlank()) return false;
+		
+		path = path.replace('\\', '/');
+		
+		String prefix = "/" + uploadPath + "/";
+		
+		/* Prefix, '/' 제거 */
+		if(path.startsWith(prefix)) path = path.substring(prefix.length());
+		if(path.startsWith("/")) path = path.substring(1);
+		
+		/* 상대 경로 해서 project/upload/ 까지 잡아주는거라고 함 */
+		Path base = Paths.get(System.getProperty("user.dir"))
+				.resolve(uploadPath)
+				.toAbsolutePath()
+				.normalize();
+		
+		/* 지울 놈 */
+		Path target = base.resolve(path).normalize();
+		
+		/* 경로 벗어나면 false */
+		if(!target.startsWith(base)) return false;
+		
+		return Files.deleteIfExists(target);
+	}
+	
+	
+	
+	
+	
 
 }
