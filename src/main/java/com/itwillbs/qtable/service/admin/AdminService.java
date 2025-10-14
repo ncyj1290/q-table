@@ -7,11 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.qtable.entity.Jeongsan;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.entity.Store;
 import com.itwillbs.qtable.mapper.admin.AdminMapper;
+import com.itwillbs.qtable.repository.JeongsanRepository;
 import com.itwillbs.qtable.repository.MemberRepository;
+import com.itwillbs.qtable.repository.PaymentRepository;
 import com.itwillbs.qtable.repository.StoreRepository;
+import com.itwillbs.qtable.vo.admin.JeongsanListVO;
+import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
 import com.itwillbs.qtable.vo.admin.MemberUpdateVO;
@@ -30,6 +35,12 @@ public class AdminService {
 	
 	@Autowired
 	private StoreRepository storeRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
+	
+	@Autowired
+	private JeongsanRepository jeongsanRepository;
 	
 	@Autowired
     private AdminMapper adminMapper;
@@ -150,6 +161,44 @@ public class AdminService {
     // 매장 결제 목록 리스트 조회
     public List<PaymentListVO> findPaymentListStores() {
         return adminMapper.findPaymentListStores();
+    }
+    
+	// 결제 삭제 이벤트
+    @Transactional
+    public void deletePayment(Integer paymentIdx) {
+        // jpa deleteById 활용 DB에서 데이터 삭제
+    	paymentRepository.deleteById(paymentIdx);
+    }
+    
+    // 매장 정산 목록 리스트 조회
+    public List<JeongsanListVO> findJeongsanList() {
+        return adminMapper.findJeongsanList();
+    }
+    
+    // 정산 상세 정보 조회
+    public JeongsanListVO findJeongsanDetail(Integer Jeongsan_idx) {
+        return adminMapper.findJeongsanDetail(Jeongsan_idx);
+    }
+    
+    // 정산 상태 업데이트
+    @Transactional
+    public void updateJeongsanStatus(Integer jeongsanIdx, JeongsanUpdateVO JeongsanUpdateVO) {
+        Jeongsan jeongsan = jeongsanRepository.findById(jeongsanIdx).orElseThrow();
+        
+        String newStatus = JeongsanUpdateVO.getCalculate_result();
+        
+        jeongsan.setCalculateResult(newStatus);
+        jeongsan.setProcessedAt(LocalDateTime.now()); // 처리 시각 기록
+        
+		// jeongsan_status가 정상인지 확인
+		if ("ctrt_01".equals(newStatus) || "ctrt_02".equals(newStatus)) {
+			// 승인, 보류일 경우, 탈퇴 사유를 null
+			jeongsan.setRejectionReason(null);
+		} else {
+			// 거부일 경우 거부 사유를 저장
+			jeongsan.setRejectionReason(JeongsanUpdateVO.getRejection_reason());
+		}
+		
     }
 
 }

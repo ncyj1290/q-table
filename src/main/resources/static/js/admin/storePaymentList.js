@@ -1,6 +1,6 @@
 $(function() {
 	const paymentColumns = [
-		{ name: 'store_idx', hidden: true },
+		{ name: 'payment_idx', hidden: true },
 		{ name: 'No.', width: '2%' },
 		{ name: '매장 이름', width: '5%' },
 		{ name: '결제자 이름', width: '5%' },
@@ -21,10 +21,9 @@ $(function() {
 			formatter: (cell, row) => {
 
 				// row.cells 배열에서 필요한 데이터를 먼저 꺼내서 변수에 담아야 합니다.
-				const member_idx = row.cells[0].data; // 'No.' 컬럼
-				const member_id = row.cells[3].data;  // '매장 아이디' 컬럼
+				const payment_idx = row.cells[0].data;
 
-				const delete_button = `<button class="management-button delete-btn" data-idx="${member_idx}" data-id="${member_id}">삭제</button>`;
+				const delete_button = `<button class="management-button delete-btn" data-idx="${payment_idx}">삭제</button>`;
 				return gridjs.html(delete_button);
 			}
 		}
@@ -37,7 +36,7 @@ $(function() {
 			// Grid.js 형식
 			const formatted_data = response.map((payment, index) => {
 				return [
-					payment.store_idx,
+					payment.payment_idx,
 					index + 1,
 					payment.store_name,
 					payment.member_name,
@@ -64,13 +63,13 @@ $(function() {
 // 삭제 버튼 클릭 이벤트
 $('#member-payment-table').on('click', '.delete-btn', function() {
 
-	const store_idx = $(this).data('idx');
+	const payment_idx = $(this).data('idx');
 
 	if (confirm(`정말로 삭제하시겠습니까?`)) {
 
 		// 확인을 눌렀을 때 AJAX 코드 실행
 		$.ajax({
-			url: `/api/members/${store_idx}`,
+			url: `/api/${payment_idx}`,
 			type: 'POST',
 			success: function(response) {
 				alert("삭제에 성공했습니다.");

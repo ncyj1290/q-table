@@ -65,6 +65,7 @@
     ORDER BY s.store_idx DESC
     </select>
     
+    <!-- 회원 결제 목록 리스트 -->
     <select id="findPaymentListMembers">
 	    SELECT
 		   	   p.payment_idx,
@@ -80,9 +81,10 @@
 	 LEFT JOIN member m ON p.member_idx = m.member_idx
 	 LEFT JOIN common_code c ON p.pay_status = c.code
 	 LEFT JOIN common_code c1 ON p.pay_way = c1.code
-	 LEFT JOIN common_code c2 ON p.pay_type = c2.code;
+	 LEFT JOIN common_code c2 ON p.pay_type = c2.code
     </select>
     
+    <!-- 매장 결제 목록 리스트 -->
     <select id="findPaymentListStores">
 	    SELECT
 		   	   p.payment_idx,
@@ -97,14 +99,48 @@
 	           c2.code_label AS pay_type
 	      FROM payment p 
 	 LEFT JOIN member m ON p.member_idx = m.member_idx
-	 LEFT JOIN store s ON m.member_idx = s.member_idx
+	 LEFT JOIN reservation r ON p.reference_idx = r.reserve_idx
+	 LEFT JOIN store s ON r.store_idx = s.store_idx
 	 LEFT JOIN common_code c ON p.pay_status = c.code
 	 LEFT JOIN common_code c1 ON p.pay_way = c1.code
 	 LEFT JOIN common_code c2 ON p.pay_type = c2.code
-	     WHERE p.pay_reference = 'pyref_01'
-           AND p.pay_type IN ('pyus_02', 'pyus_03');
+         WHERE p.pay_type IN ('pyus_02', 'pyus_03') -- 예약금 결제, 현장 결제
     </select>
     
+    <!-- 매장 정산 리스트 -->
+    <select id="findJeongsanList">
+		SELECT
+			   j.jeongsan_idx,
+		       j.jeongsan_amount,
+		       c.code_label AS calculate_result,
+		       j.requested_at,
+		       j.processed_at,
+		       s.store_name,
+		       m.member_id
+		  FROM jeongsan j 
+	 LEFT JOIN member m ON j.member_idx = m.member_idx
+	 LEFT JOIN store s ON j.member_idx = s.member_idx
+	 LEFT JOIN common_code c ON j.calculate_result = c.code
+		 WHERE member_type = "mtype_03"
+    </select>
+    
+    <!-- 매장 정산 상세 내용 -->
+    <select id="findJeongsanDetail">
+	     SELECT
+	            j.jeongsan_idx,
+	            j.member_idx,
+	            j.jeongsan_amount,
+	            c.code_label AS calculate_result,
+	            j.requested_at,
+	            j.processed_at,
+	            m.member_id,
+	            s.store_name
+	       FROM jeongsan j
+	       JOIN member m ON j.member_idx = m.member_idx
+	  LEFT JOIN store s ON j.member_idx = s.member_idx
+	  LEFT JOIN common_code c ON j.calculate_result = c.code
+	      WHERE j.jeongsan_idx = #{jeongsan_idx}
+    </select>
 
     
     
