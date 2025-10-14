@@ -35,7 +35,7 @@ public class KakaoPayController {
 	}
 	
 	// 결제 성공
-	@PostMapping("/success")
+	@GetMapping("/success")
 	public ResponseEntity<KakaoApproveResponse> afterPayRequest(@RequestParam("pg_token") String pgToken) {
 
 		KakaoApproveResponse kakaoApprove = kakaoPayService.approveResponse(pgToken);

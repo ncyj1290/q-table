@@ -13,6 +13,4 @@ public class KakaoPayProperties {
 	private String secretkey;
 	private String cid;
 	
-
-
 }

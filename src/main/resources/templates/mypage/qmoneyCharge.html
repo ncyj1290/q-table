@@ -11,12 +11,19 @@
 	<meta charset="UTF-8">
 	<title>my_page</title>
 </head>
- 
+
 <body>
 	<div layout:fragment="Content">
 		<div class="qmoney-charge-container">
 			<h2>Q-money 충전</h2>
 			<div class="charge-amount-group">
+				
+				<!--테스트용 결제-->
+				<button type="button" class="form-noshadow box">10원
+					<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
+				</button>
+				
+				
 				<button type="button" class="form-noshadow box">10,000원
 					<img src="/img/Q_money.png" alt="Q-money 아이콘" class="qmoney-icon" />
 				</button>
@@ -102,7 +109,7 @@
 						</div>
 
 						<div class="refund-policy-row">
-							<div id="selectedAmountDisplay" style="margin-left: 20px;"></div> - 
+							<div id="selectedAmountDisplay" style="margin-left: 20px;"></div> -
 							<div>0원</div> =
 							<div id="totalPaymentAmount" style="margin-right: 15px;">0원</div>
 						</div>
