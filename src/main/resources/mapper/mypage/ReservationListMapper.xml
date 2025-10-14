@@ -8,24 +8,30 @@
 	<!--예약 완료-->
 	<select id="getMyReservationList" resultType="map">
 		SELECT
-		s.store_idx,
-		s.store_name,
-		s.store_content,
-		(SELECT image_url
-		   FROM image
-		  WHERE target_type = 'imguse_01'
-		    AND target_idx = s.store_idx LIMIT 1) AS store_img,
-		(SELECT ROUND(AVG(r.score), 2) FROM review r WHERE r.store_idx =
-		s.store_idx)
-		AS avgScore,
-		CONCAT(rv.reserve_date, ' ', rv.reserve_time) AS reserve_dt
-		FROM reservation rv
-		JOIN store s ON rv.store_idx = s.store_idx
-		WHERE rv.member_idx = #{member_idx}
-		AND rv.reserve_result = #{reserve_result}
-		ORDER BY rv.created_at DESC
+				s.store_idx,
+				s.store_name,
+				s.store_content,
+				(SELECT image_url
+				   FROM image
+				  WHERE target_type = 'imguse_01'
+				    AND target_idx = s.store_idx LIMIT 1) AS store_img,
+				(SELECT ROUND(AVG(r.score), 2) FROM review r WHERE r.store_idx =
+				s.store_idx)
+				AS avgScore,
+				CONCAT(rv.reserve_date, ' ', rv.reserve_time) AS reserve_dt
+		 FROM 	reservation rv
+				JOIN store s ON rv.store_idx = s.store_idx
+		WHERE 	rv.member_idx = #{member_idx}
+				AND rv.reserve_result = #{reserve_result}
+	 ORDER BY 	rv.created_at DESC
 	</select>	
 	
+<!--	<update id="getCanceledList" >-->
+<!--  	  UPDATE 	reservation-->
+<!--   		 SET 	reserve_result = #{reserve_result}-->
+<!--  	   WHERE 	reserve_idx = #{reserve_idx}-->
+<!--	     AND 	member_idx = #{member_idx}-->
+<!--	</update>-->
 	
 	
 </mapper>

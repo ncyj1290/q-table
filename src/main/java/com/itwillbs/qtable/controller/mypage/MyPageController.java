@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
-import com.itwillbs.qtable.service.mypage.ReservationLisService;
+import com.itwillbs.qtable.service.mypage.ReservationListService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import lombok.extern.java.Log;
 @Log
 public class MyPageController {
 
-	private final ReservationLisService reservationService;
+	private final ReservationListService reservationService;
 
 	@GetMapping("/mypage_review")
 	public String mypageReview() {
@@ -83,26 +83,26 @@ public class MyPageController {
 		return "mypage/profileSettings";
 	}
 
-	@GetMapping("/mypage_main")
-	public String mypageMain() {
-
-		return "mypage/mypageMain";
-	}
-
 	// 예약현황
 	@GetMapping("/reservation_list")
 	public String reservationList(Model model, HttpServletRequest request,
 								  @AuthenticationPrincipal QtableUserDetails userDetails) {
 		Member member = userDetails.getMember();
-		String MemberIdx = String.valueOf(member.getMemberIdx());
+		String memberIdx = String.valueOf(member.getMemberIdx());
 		// 방문예정 예약 리스트와 취소된 예약 리스트 각각 조회
-		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(MemberIdx);
-		List<Map<String, Object>> canceledList = reservationService.getCanceledList(MemberIdx);
+		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx);
+//		List<Map<String, Object>> canceledList = reservationService.getCanceledList(memberIdx);
 
 		// 뷰에서 사용할 변수명으로 리스트 저장
 		model.addAttribute("upcomingList", upcomingList);
-		model.addAttribute("canceledList", canceledList);
-
-		return "mypage/reservationList";
+//		model.addAttribute("canceledList", canceledList);
+		
+		if (upcomingList != null && !upcomingList.isEmpty()) {
+	        // 예약현황이 있을 때 보이는 화면
+	        return "mypage/reservationList";
+	    } else {
+	        // 예약 현황이 없을 때 보이는 화면
+	        return "mypage/mypageMain";
+	    }
 	}
 }
