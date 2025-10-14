@@ -29,7 +29,8 @@ public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler{
 		HttpServletResponse response,
 		AuthenticationException exception) throws IOException, ServletException {
 		
-		log.info(request.getParameter("username") + request.getRemoteAddr());
+		log.info("로그인 실패" + request.getParameter("username") + request.getRemoteAddr());
+		log.info("로그인 실패 유형"+ exception.getMessage());
 		// 에러메시지 선언 
 		String msg;
 		

@@ -69,7 +69,7 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	        
 	        if (optionalMember.isPresent()) {
 	            
-	        	if("mstat_02".equals(existingMember.getMemberStatus())) {
+	        	if ("mstat_02".equals(existingMember.getMemberStatus())) {
 	        		httpSession.setAttribute("userIdForRestore", userId);
 	        		throw new AccountRestoreRequiredException("DELETED_ACCOUNT");
 	        	}
