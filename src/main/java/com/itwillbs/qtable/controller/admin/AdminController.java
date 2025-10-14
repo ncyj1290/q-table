@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.itwillbs.qtable.service.admin.AdminService;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
-import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 
 
 @Controller

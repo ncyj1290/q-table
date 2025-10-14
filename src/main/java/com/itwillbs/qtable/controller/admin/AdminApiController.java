@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itwillbs.qtable.service.admin.AdminService;
+import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
 import com.itwillbs.qtable.vo.admin.MemberUpdateVO;
@@ -17,6 +18,7 @@ import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
+import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 
 @RestController
 public class AdminApiController {
@@ -99,10 +101,38 @@ public class AdminApiController {
 		return adminService.findPaymentListMembers();
 	}
 	
-    // 회원 결제 목록 리스트 조회
+    // 매장 결제 목록 리스트 조회
 	@GetMapping("/api/payments/stores")
 	public List<PaymentListVO> findPaymentListStores() {
 
 		return adminService.findPaymentListStores();
 	}
+	
+    // 결제 목록 삭제 이벤트
+    @PostMapping("/api/{paymentIdx}")
+    public void deletePayment(@PathVariable("paymentIdx") Integer paymentIdx) {
+    	adminService.deletePayment(paymentIdx);
+    }
+    
+    // 매장 정산 목록 리스트 조회
+	@GetMapping("/api/jeongsan")
+	public List<JeongsanListVO> findJeongsanList() {
+
+		return adminService.findJeongsanList();
+	}
+	
+    // 정산 상세 정보 조회
+    @GetMapping("/api/jeongsan/{jeongsanIdx}")
+    public JeongsanListVO findJeongsanDetail(@PathVariable("jeongsanIdx") Integer jeongsanIdx) {
+        return adminService.findJeongsanDetail(jeongsanIdx);
+    }
+    
+    // 정산 상태 변경
+    @PostMapping("/api/jeongsan/{jeongsanIdx}/status")
+    public void updateJeongsanStatus(
+            @PathVariable("jeongsanIdx") Integer jeongsanIdx,
+            @RequestBody JeongsanUpdateVO JeongsanUpdateVO) {
+    	
+        adminService.updateJeongsanStatus(jeongsanIdx, JeongsanUpdateVO);
+    }
 }
