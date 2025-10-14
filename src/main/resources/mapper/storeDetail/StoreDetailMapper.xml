@@ -33,13 +33,22 @@
 		 WHERE s.store_idx = #{storeIdx}
 	</select>
 	
-	<!-- 매장 이미지 조회  -->
+	<!-- 매장 프로필 이미지 조회 -->
+	<select id="getStoreProfileImage" resultType="string">
+		SELECT image_url
+		  FROM image
+		 WHERE target_idx = #{storeIdx}
+		   AND target_type = 'imguse_01'
+      ORDER BY is_main_image DESC, image_idx ASC
+	</select>
+	
+	<!-- 매장 이미지 조회 -->
 	<select id="getStoreImage" resultType="string">
 		SELECT image_url
 		  FROM image
 		 WHERE target_idx = #{storeIdx}
 		   AND target_type = 'imguse_02'
-		 ORDER BY is_main_image DESC, image_idx ASC
+	  ORDER BY is_main_image DESC, image_idx ASC
 	</select>
 
 	<!-- 매장 카테고리 조회 -->

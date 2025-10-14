@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,19 @@ public class StoreDetailService {
 		}
 
 		// 매장 이미지 조회 (null 방어)
+		List<String> profileImage = storeMapper.getStoreProfileImage(storeIdx);
 		List<String> images = storeMapper.getStoreImage(storeIdx);
-		result.put("store_images", images != null && !images.isEmpty()
-			? images : List.of("/img/logo.png"));
+		
+		// 매장 프로필이미지 + 매장 사진들 리스트 
+		List<String> storeImages = Stream.concat(
+			profileImage != null ? profileImage.stream() : Stream.empty(),
+		    images != null ? images.stream() : Stream.empty()
+		)
+		.toList();
+
+		result.put("store_images", storeImages.isEmpty() ? List.of("/img/logo.png") : storeImages);
+	
+		
 
 		// 카테고리 조회 (null 방어)
 		List<String> categories = storeMapper.getStoreCategories(storeIdx);

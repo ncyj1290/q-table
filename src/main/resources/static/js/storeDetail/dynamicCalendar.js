@@ -110,9 +110,17 @@ $(function() {
 			return;
 		}
 
-		// 예약 페이지로 이동 (쿼리스트링으로 데이터 전달)
-		const queryString = `?date=${selectedDate}&personCount=${personCount}&time=${time}`;
-		window.location.href = '/reservation' + queryString;
+		// URL에서 store_idx 가져오기
+		const urlParams = new URLSearchParams(location.search);
+		const storeIdx = urlParams.get('store_idx');
+
+		if (!storeIdx) {
+			alert('잘못된 접근입니다.');
+			return;
+		}
+
+		// URL 파라미터로 예약 페이지 이동
+		location.href = `/reservation?store_idx=${storeIdx}&reserve_date=${selectedDate}&reserve_time=${time}&person_count=${personCount}`;
 	});
 
 	// 초기 달력 생성

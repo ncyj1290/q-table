@@ -12,6 +12,9 @@ public interface StoreDetailMapper {
 	// 매장 기본 정보 조회
 	Map<String, Object> getStoreBasicInfo(Integer storeIdx);
 	
+	// 매장 프로필 이미지 조회
+	List<String> getStoreProfileImage(Integer storeIdx);
+	
 	// 매장 이미지 조회
 	List<String> getStoreImage(Integer storeIdx);
 
@@ -65,6 +68,7 @@ public interface StoreDetailMapper {
 	
 	// 리뷰 이미지 등록 
 	void insertReviewImages(@Param("reviewIdx") Integer reviewIdx, @Param("imageList") List<String> imageList);
+
 
 
 }

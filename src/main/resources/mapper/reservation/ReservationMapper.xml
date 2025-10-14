@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.qtable.mapper.reservation.ReservationMapper">
+
+	<!-- 매장 정보 조회 (예약 페이지용) -->
+	<select id="getStoreInfo" resultType="map">
+		SELECT
+		       store_idx
+		     , store_name
+		     , store_phone
+		     , full_address
+		     , sido
+		     , sigungu
+		     , deposit
+		     , store_content
+		     , open_time
+		     , close_time
+		     , price_avg
+		  FROM store
+		 WHERE store_idx = #{storeIdx}
+	</select>
+
+	<!-- 예약 등록 -->
+	<insert id="insertReservation" useGeneratedKeys="true" keyProperty="reserve_idx">
+		INSERT INTO reservation (
+		       store_idx
+		     , member_idx
+		     , reserve_name
+		     , reserve_email
+		     , reserve_date
+		     , reserve_time
+		     , person_count
+		     , requirement
+		     , allergy
+		     , reserve_result
+		) VALUES (
+		       #{store_idx}
+		     , #{member_idx}
+		     , #{reserve_name}
+		     , #{reserve_email}
+		     , #{reserve_date}
+		     , #{reserve_time}
+		     , #{person_count}
+		     , #{requirement}
+		     , #{allergy}
+		     , 'rsrt_05'  -- 예약 완료 상태
+		)
+	</insert>
+
+	<!-- 회원 큐머니 차감 -->
+	<update id="updateMemberQMoney">
+		UPDATE member
+		   SET q_money = q_money - #{amount}
+		 WHERE member_idx = #{memberIdx}
+	</update>
+
+	<!-- 결제 내역 등록 -->
+
+
+</mapper>
