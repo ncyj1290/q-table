@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itwillbs.qtable.mapper.search.SearchKeywordListMapper">
+	<select id="selectSeatCntPriceRange">
+		SELECT * 
+		  FROM common_code
+		 WHERE group_code = #{group_code}
+	</select>
+	
+	<select id="getRegionLargeCategory">
+		SELECT code, code_label
+		  FROM common_code
+		 WHERE group_code = 'location'
+		   AND parent_code is null;
+	</select>
+	
+	<select id="getSubLocation">
+		SELECT * 
+		  FROM common_code
+		 WHERE group_code = 'location'
+		   AND parent_code= #{code} -- 프론트에서 받아올 값 대분류의 코드 
+		 UNION 
+		SELECT * 
+		  FROM common_code 
+		 WHERE code_label = #{code_label} -- 프론트에서 받아올 값 대분류의 코드 라벨
+	  ORDER BY common_idx;
+	</select>
+	
+</mapper>

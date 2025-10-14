@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -103,6 +102,7 @@ public class SecurityConfig {
 	                "/", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
 	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore"
+	                ,"/api/search_getSubLocation"
 	            ).permitAll()
 	            .requestMatchers(
             		"/login", "/loginPro"
@@ -148,8 +148,8 @@ public class SecurityConfig {
 		        )
 				//403에러 페이지 처리, 추후 세부 구현 예정 
 				.exceptionHandling(exception -> exception
-//		            .accessDeniedPage("/error") // 접근 거부 시 이동할 페이지 지정
-					.accessDeniedHandler(accessDeniedHandler)
+		            .accessDeniedPage("/error/denied") // 접근 거부 시 이동할 페이지 지정
+//					.accessDeniedHandler(accessDeniedHandler)
 			    )
 				.userDetailsService(qtableUserDetailsService) //커스텀한 객체로 사용하기
 				.build();

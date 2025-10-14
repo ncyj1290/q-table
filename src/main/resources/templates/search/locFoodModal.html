@@ -12,30 +12,17 @@
 	 				</div>
 	 				<div class="locfood-content">
 	 					<div class="keywords single-choice" id="main-location">
-	 						<span class="keyword no-outline active">부산</span>
-	 						<span class="keyword no-outline">서울</span>
-	 						<span class="keyword no-outline">경기도</span>
-	 						<span class="keyword no-outline">경상남도</span>
-	 						<span class="keyword no-outline">전라북도</span>
-	 						<span class="keyword no-outline">전라남도</span>
-	 						<span class="keyword no-outline">강원도</span>
-	 						<span class="keyword no-outline">울산</span>
-	 						<span class="keyword no-outline">광주</span>
-	 						<span class="keyword no-outline">대구</span>
-	 						<span class="keyword no-outline">대전</span>
-	 						<span class="keyword no-outline">경상북도</span>
-	 						<span class="keyword no-outline">충청남도</span>
-	 						<span class="keyword no-outline">충청북도</span>
-	 						<span class="keyword no-outline">제주</span>
-	 						<!-- 이후 동적으로 채우기 -->
+	 						<span th:each="locLarge: ${locLargeList}" class="keyword no-outline" 
+	 						th:text="${locLarge.code_label}" th:data-loclarge="${locLarge.code}" ></span>
 	 					</div>
 	 				</div>
 	 				<div class="locfood-content" id="sub-location">
-	 					<div class="keywords locFoodModal">
-	 						<span class="keyword location">서울전체</span>
-	 						<span class="keyword location">강남구</span>
-	 						<span class="keyword location">강서구</span>
-	 						<span class="keyword location">마포구</span>
+	 					<div class="keywords locFoodModal" id="sub-location-container">
+	 						<span id="not-selected">원하는 지역을 선택해보세요!</span>
+<!-- 	 						<span class="keyword location">서울전체</span> -->
+<!-- 	 						<span class="keyword location">강남구</span> -->
+<!-- 	 						<span class="keyword location">강서구</span> -->
+<!-- 	 						<span class="keyword location">마포구</span> -->
 	 						<!-- 이후 동적으로 채우기 -->
 	 					</div>
 	 				</div>
@@ -48,31 +35,31 @@
 	 				<div class="locfood-content">
 	 					<span class="sub-category">국가별</span>
 	 					<div class="keywords locFoodModal">
-	 						<span th:each="ct:${ctCountryList}" th:text="${ct.code_label}" th:data-food="${ct.code}" class="keyword food"></span>
+	 						<span th:each="ct:${ctCountryList}" th:text="${ct.code_label}" th:data-loc-food="${ct.code}" class="keyword food"></span>
 	 					</div>
 	 				</div>
 	 				<div class="locfood-content">
 	 					<span class="sub-category">육류</span>
 	 					<div class="keywords locFoodModal">
-	 						<span th:each="ct:${ctMeatList}" th:text="${ct.code_label}" th:data-food="${ct.code}" class="keyword food"></span>
+	 						<span th:each="ct:${ctMeatList}" th:text="${ct.code_label}" th:data-loc-food="${ct.code}" class="keyword food"></span>
 	 					</div>
 	 				</div>
 	 				<div class="locfood-content">
 						<span class="sub-category">해산물</span>
 	 					<div class="keywords locFoodModal">
-	 						<span th:each="ct:${ctSeafoodList}" th:text="${ct.code_label}" th:data-food="${ct.code}" class="keyword food"></span>
+	 						<span th:each="ct:${ctSeafoodList}" th:text="${ct.code_label}" th:data-loc-food="${ct.code}" class="keyword food"></span>
 	 					</div>
 	 				</div>
 	 				<div class="locfood-content">
 						<span class="sub-category">술</span>
 	 					<div class="keywords locFoodModal">
-	 						<span th:each="ct:${ctDrinkList}" th:text="${ct.code_label}" th:data-food="${ct.code}" class="keyword food"></span>
+	 						<span th:each="ct:${ctDrinkList}" th:text="${ct.code_label}" th:data-loc-food="${ct.code}" class="keyword food"></span>
 	 					</div>
 	 				</div>
 	 				<div class="locfood-content">
 						<span class="sub-category">카페</span>
 	 					<div class="keywords locFoodModal">
-	 						<span th:each="ct:${ctCafeList}" th:text="${ct.code_label}" th:data-food="${ct.code}" class="keyword food"></span>
+	 						<span th:each="ct:${ctCafeList}" th:text="${ct.code_label}" th:data-loc-food="${ct.code}" class="keyword food"></span>
 	 					</div>
 	 				</div>
 	 			</div>

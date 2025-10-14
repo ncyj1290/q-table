@@ -24,4 +24,12 @@ public class searchService {
 		model.addAttribute("priceRangeList", priceRangeList);
 	}
 	
+	public List<Map<String,String>> getRegionLargeCategory() {
+		return mapper.getRegionLargeCategory();
+	}
+	
+	public List<Map<String, Object>> getSubLocation(String code, String code_label) {
+		return mapper.getSubLocation(code, code_label);
+	}
+	
 }
