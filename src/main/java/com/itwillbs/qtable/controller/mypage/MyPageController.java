@@ -8,6 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
@@ -23,6 +26,7 @@ import lombok.extern.java.Log;
 public class MyPageController {
 
 	private final ReservationListService reservationService;
+	private Object canceledList;
 
 	@GetMapping("/mypage_review")
 	public String mypageReview() {
@@ -48,7 +52,6 @@ public class MyPageController {
 		return "mypage/mypagePayment";
 	}
 
-	
 	@GetMapping("/reservation_cancel")
 	public String reservationCancel() {
 
@@ -86,23 +89,27 @@ public class MyPageController {
 	// 예약현황
 	@GetMapping("/reservation_list")
 	public String reservationList(Model model, HttpServletRequest request,
-								  @AuthenticationPrincipal QtableUserDetails userDetails) {
+									@AuthenticationPrincipal QtableUserDetails userDetails) {
 		Member member = userDetails.getMember();
 		String memberIdx = String.valueOf(member.getMemberIdx());
+		
 		// 방문예정 예약 리스트와 취소된 예약 리스트 각각 조회
 		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx);
-//		List<Map<String, Object>> canceledList = reservationService.getCanceledList(memberIdx);
+		List<Map<String, Object>> canceledList = reservationService.getCanceledList(memberIdx);
 
 		// 뷰에서 사용할 변수명으로 리스트 저장
 		model.addAttribute("upcomingList", upcomingList);
-//		model.addAttribute("canceledList", canceledList);
-		
+		model.addAttribute("canceledList", canceledList);
+
 		if (upcomingList != null && !upcomingList.isEmpty()) {
-	        // 예약현황이 있을 때 보이는 화면
-	        return "mypage/reservationList";
-	    } else {
-	        // 예약 현황이 없을 때 보이는 화면
-	        return "mypage/mypageMain";
-	    }
+			// 예약현황이 있을 때 보이는 화면
+			 System.out.println(upcomingList.get(0).keySet());
+			return "mypage/reservationList";
+		} else {
+			// 예약 현황이 없을 때 보이는 화면
+			return "mypage/mypageMain";
+		}
 	}
+
+
 }
