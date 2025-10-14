@@ -71,7 +71,7 @@ public class SecurityConfig {
 	                "/store_management_main", "/store_reservation_list",
 	                "/store_reservation_detail", "/purchase_subscribe",
 	                "/store_calculate_list", "/store_calculate_detail", 
-	                "/write_store"
+	                "/write_store", "/modify_store"
 	            ).hasRole("mtype_03")
 	            
 	            // 사이트 관리자, 일반 회원만 접근 가능한 경로 

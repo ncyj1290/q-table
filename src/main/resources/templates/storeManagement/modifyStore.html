@@ -11,7 +11,7 @@
 		
 		<div layout:fragment="Content">
 			
-			<form th:action="@{/write_store}" method="post" class="write-store-layout" enctype="multipart/form-data">
+			<form th:action="@{/modify_store}" method="post" class="write-store-layout" enctype="multipart/form-data">
 				
 				<input type="hidden" th:value="${sData.store_idx}" name="store_idx">
 				
@@ -146,11 +146,14 @@
 				</div>
 				
 				<div class="store_picture_layout">
-					<div class="store_picture_element">
+					
+					<div class="store_picture_element" th:each="sImg, i : ${sData.storePictureList}">
 						<i class="bi bi-trash fs-4 sp-remove-bt"></i>
 						<label class="positive-button">매장 사진 추가<input type="file" data-field="store_picture" accept=".jpg, .jpeg, .png" hidden></label>
-						<span class="sp-name">선택된 파일 없음</span>
+						<span class="sp-name" th:text="${sImg.image_url}">선택된 파일 없음</span>
+						<input type="hidden" th:value="${sImg.image_url}" data-field="image_url">
 					</div>
+					
 				</div>
 				
 				<!-- Just Info Text -->
@@ -331,6 +334,7 @@
 							<div class="d-flex flex-column align-items-center gap-3">
 								<img th:src="@{${menu.image_url}}" class="menu-image-size">
 								<label class="positive-button">메뉴 사진 추가<input type="file" data-field="menu_picture" accept=".jpg, .jpeg, .png" hidden></label>
+								<input type="hidden" th:value="${menu.image_url}" data-field="image_url">
 							</div>
 							
 							<div class="menu-element">
@@ -370,6 +374,7 @@
 					<label class="title-label"><h5>메뉴판 사진 업로드</h5></label>
 					<label class="positive-button">매뉴 사진 추가<input type="file" name="menu_board_picture" accept=".jpg, .jpeg, .png" hidden></label>
 					<span class="menu-board-name" th:text="${sData.menu_board_url}">선택된 파일 없음</span>
+					<input type="hidden" th:value="${sData.menu_board_url}" th:if="${sData.menu_board_url != null}" name="menu_board_url">
 				</div>
 				
 				<br>

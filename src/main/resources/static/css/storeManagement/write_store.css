@@ -105,6 +105,27 @@ textarea.component-write{
 	height: 100px;
 }
 
+
+span{
+	font-size: 12px;
+	max-width: 500px;
+	
+}
+
+.positive-button{
+	width: 120px;
+}
+
+
+.menu-board-layout{
+	gap: 20px;
+}
+
+.menu-board-layout > .title-label{
+	width: 200px !important;
+}
+
+
 /* ================================================= */
 /* Select Box Resizing */
 .select-box{

@@ -228,15 +228,38 @@ public class StoreWriteService {
 	}
 	
 	/* ------------------------------------------------------------------------------------ */
-	/* 매장 정보 업데이트 */
-	@Transactional
-	public void updateSotre() {
-		
-		
-		
-		
-		
-	}
+	/* 매장 정보 업데이트(수정) */
+//	@Transactional
+//	public void updateSotre(StoreVO storeVO) throws Exception {
+//		
+//		/* ------------------------------------------------------------------------------------ */
+//		/* 기본 매장 정보 Update */
+//		boolean timeFlag = false;
+//		if("true".equals(storeVO.getFlag_24hour())) timeFlag = true;
+//		storeVO.set_24hour(timeFlag);
+//		
+//		/* 주소 정보 가공 */
+//		String postCode = storeVO.getPost_code();
+//		String address = storeVO.getAddress();
+//		String addDetail = storeVO.getAddress_detail();
+//		
+//		String[] addressDiv = address.split(" ");
+//		
+//		System.out.println("Check Address Div: " + addressDiv.toString());
+//		
+//		storeVO.setSido(addressDiv[0]);
+//		storeVO.setSigungu(addressDiv[1]);
+//		
+//		
+//		String fullAdd = postCode + ", " + address + ", " + addDetail;
+//		storeVO.setFull_address(fullAdd);
+//		
+//		/* 1차 Insert -> Store 기본 정보 저장 */
+//		int storeRes = storeWrite.updateStoreBasicData(storeVO);
+//
+//		
+//		
+//	}
 	
 	
 	

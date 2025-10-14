@@ -37,4 +37,9 @@ public interface StoreWrite {
 	/* 메뉴 등록 */
 	int insertNewMenu(StoreMenu storeMenu);
 	
+	/* ==================================================== */
+	/* 매장 정보 수정 */
+	int updateStoreBasicData(StoreVO storeVO);
+	
+	
 }

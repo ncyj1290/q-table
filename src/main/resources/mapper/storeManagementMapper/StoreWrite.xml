@@ -146,6 +146,32 @@
 		);
 	</insert>
 	
+	<!-- ================================================= -->
+	<!-- 업데이트(수정) 관련 -->
+	
+	<!-- 매장 기본정보 수정 -->
+	<update id="updateStoreBasicData">
+		update store
+		set store_name = #{store_name}
+			,store_phone = #{store_phone}
+			,post_code = #{post_code}
+			,full_address = #{full_address}
+			,sido = #{sido}
+			,sigungu = #{sigungu}
+			,store_seat = #{store_seat}
+			,account_number = #{account_number}
+			,bank_code = #{bank_code}
+			,deposit = #{deposit}
+			,store_content = #{store_content}
+			<if test="flag_24hour != 'true'">
+				,open_time = #{open_time} 
+				,close_time = #{close_time}
+			</if>
+			,price_avg = #{price_avg}
+			,qr_code = #{qr_code}
+			,is_24hour = #{is_24hour}
+		where store_idx = #{store_idx}
+	</update>
 	
 	
 	

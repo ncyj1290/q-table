@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class StoreWriteController {
 
-    private final QtableAccessDeniedHandler qtableAccessDeniedHandler;
+//    private final QtableAccessDeniedHandler qtableAccessDeniedHandler;
 	
 	@Autowired
 	StoreWriteService storeWriteService;
@@ -43,9 +43,9 @@ public class StoreWriteController {
 	FileUploadService fileUploadService;
 
 
-    StoreWriteController(QtableAccessDeniedHandler qtableAccessDeniedHandler) {
-        this.qtableAccessDeniedHandler = qtableAccessDeniedHandler;
-    }
+//    StoreWriteController(QtableAccessDeniedHandler qtableAccessDeniedHandler) {
+//        this.qtableAccessDeniedHandler = qtableAccessDeniedHandler;
+//    }
 	
 	
 	/* ================================================= */
@@ -87,9 +87,10 @@ public class StoreWriteController {
 	
 	/* 매장 수정 Post */
 	@PostMapping("/modify_store")
-	public String updateStore(StoreVO sData) {
+	public String updateStore(@ModelAttribute StoreVO storeVO, @AuthenticationPrincipal QtableUserDetails user) {
 		
-		
+		System.out.println("Check User: " + user.getMember().getMemberId());
+		System.out.println("Modify Store-> Check VO Data: " + storeVO.toString());
 		
 		
 		return "redirect:store_reservation_list";
