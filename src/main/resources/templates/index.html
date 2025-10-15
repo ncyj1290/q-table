@@ -10,10 +10,10 @@
 <body>
 	<div layout:fragment="Content">
 		<div class="main-banner-full">
-		    <img src="img/banner.jpg" alt="메인 배너">
-		    <div class="banner-text">
-		        <h3>쉽고 간편한 식당 예약을 여기에서 한번에</h3>
-		    </div>
+			<img src="img/banner.jpg" alt="메인 배너">
+			<div class="banner-text">
+				<h3>쉽고 간편한 식당 예약을 여기에서 한번에</h3>
+			</div>
 		</div>
 
 		<div class="section restaurant-section">
@@ -21,38 +21,43 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list restaurant-list">
-					<div class="card">1</div>
-					<div class="card">2</div>
-					<div class="card">3</div>
-					<div class="card">4</div>
-					<div class="card">5</div>
-					<div class="card">6</div>
-					<div class="card">7</div>
-					<div class="card">8</div>
-					<div class="card">9</div>
-					<div class="card">10</div>
+					<div th:each="restaurant, iterStat : ${stores}" th:if="${iterStat.index < 10}" class="card">
+						<a th:href="@{/store_detail_main(store_idx=${restaurant.storeIdx})}" 
+						   style="text-decoration: none; color: inherit;">
+							<div class="card-image">
+								이미지 불러올예정
+							</div>
+							<div class="card-info">
+								<h4 th:text="${restaurant.storeName}">식당이름</h4>
+								<p th:text="'예약금: ' + ${restaurant.deposit} + 원">예약금</p>
+								<p th:text="'위치: ' + ${restaurant.fullAddress}">위치</p>
+								<p th:text="'영업시간: ' + ${restaurant.openTime} + ' ~ ' + ${restaurant.closeTime}">영업시간
+								</p>
+							</div>
+						</a>
+					</div>
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
 		</div>
 		<div class="section restaurant-section location-section">
-		    <h5>인기지역</h5>
-		    <div class="restaurant-wrapper" style="position: relative;">
-		        <button class="scroll-btn left"></button>
-		        <div class="card-list location-list">
-		            <div class="card">1</div>
-		            <div class="card">2</div>
-		            <div class="card">3</div>
-		            <div class="card">4</div>
-		            <div class="card">5</div>
-		            <div class="card">6</div>
-		            <div class="card">7</div>
-		            <div class="card">8</div>
-		            <div class="card">9</div>
-		            <div class="card">10</div>
-		        </div>
-		        <button class="scroll-btn right"></button>
-		    </div>
+			<h5>인기지역</h5>
+			<div class="restaurant-wrapper" style="position: relative;">
+				<button class="scroll-btn left"></button>
+				<div class="card-list location-list">
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+				</div>
+				<button class="scroll-btn right"></button>
+			</div>
 		</div>
 
 
@@ -61,16 +66,16 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list restaurant-list">
-					<div class="card">1</div>
-					<div class="card">2</div>
-					<div class="card">3</div>
-					<div class="card">4</div>
-					<div class="card">5</div>
-					<div class="card">6</div>
-					<div class="card">7</div>
-					<div class="card">8</div>
-					<div class="card">9</div>
-					<div class="card">10</div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
@@ -80,32 +85,32 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list restaurant-list">
-					<div class="card">1</div>
-					<div class="card">2</div>
-					<div class="card">3</div>
-					<div class="card">4</div>
-					<div class="card">5</div>
-					<div class="card">6</div>
-					<div class="card">7</div>
-					<div class="card">8</div>
-					<div class="card">9</div>
-					<div class="card">10</div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
+					<div class="card"></div>
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
 		</div>
 		<div class="section restaurant-section">
-			<h5>전 지역 레스토랑을 예약해보세요</h5>		
-				<div class="card-list alllocation-list">
-					<div class="card">1</div>
-					<div class="card">2</div>
-					<div class="card">3</div>	
-				</div>			
-				<div class="card-list alllocation-list">
-					<div class="card">4</div>
-					<div class="card">5</div>
-					<div class="card">6</div>	
-				</div>			
+			<h5>전 지역 레스토랑을 예약해보세요</h5>
+			<div class="card-list alllocation-list">
+				<div class="card"></div>
+				<div class="card"></div>
+				<div class="card"></div>
+			</div>
+			<div class="card-list alllocation-list">
+				<div class="card"></div>
+				<div class="card"></div>
+				<div class="card"></div>
+			</div>
 		</div>
 
 

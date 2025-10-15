@@ -23,15 +23,48 @@
 }
 
 .card {
-    min-width: 200px;           /* 카드 최소 너비 */
+	min-width: 200px;
+    max-width: 200px;
     height: 200px;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     border-radius: 10px;
-    flex-shrink: 0;             /* 크기 줄어드는 것 방지 */
+    flex-shrink: 0;
+    overflow: hidden;   /* 카드 밖으로 이미지 안넘어가게 */
+}
+
+.card-image {
+    width: 100%;
+    height: 100px;   /* 카드 높이 고정 */
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;        /* 카드 높이에 맞춤 */
+    object-fit: cover;   /* 비율 유지하며 영역 채우기 */
+    object-position: center; /* 중앙 기준으로 잘림 */
+    display: block;
+}
+.card-info {
+    height: 50%;
+    padding: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.card-info h4 {
+    margin: 0;
+    font-size: 16px;
     font-weight: bold;
+}
+
+.card-info p {
+    white-space: normal;      /* 줄바꿈 허용 */
+    word-break: break-word;   /* 단어 중간도 줄바꿈 가능 */
+    overflow-wrap: anywhere;  /* 길이가 너무 길면 자동 줄바꿈 */
+    margin: 0px 0;            /* 필요하면 여백 조정 */
 }
 
 .location-list .card {

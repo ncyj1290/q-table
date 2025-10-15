@@ -143,3 +143,19 @@ document.addEventListener("DOMContentLoaded", function() {
         fp.open();
     });
 });
+
+$(function(){
+  $("#emailsand").click(function(){
+    $.ajax({
+      type: "GET",  
+      url: "/send",
+      data: { email: $("#email").val() }, 
+      success: function(result){
+        alert(result);
+      },
+      error: function(){
+        alert("메일 전송 실패!");
+      }
+    });
+  });
+});

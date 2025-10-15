@@ -102,7 +102,7 @@ public class SecurityConfig {
 	                "/", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
 	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore"
-	                ,"/api/search_getSubLocation"
+	                ,"/api/search_getSubLocation","/send"
 	            ).permitAll()
 	            .requestMatchers(
             		"/login", "/loginPro"

@@ -43,13 +43,13 @@ public class Store {
     private String sigungu;
 
     @Column(name = "store_seat")
-    private int storeSeat;
+    private Integer storeSeat;
 
     @Column(name = "account_number", length = 20)
     private String accountNumber;
 
     @Column(name = "deposit")
-    private int deposit;
+    private Integer  deposit;
 
     @Column(name = "store_content", columnDefinition = "TEXT")
     private String storeContent;
@@ -61,7 +61,7 @@ public class Store {
     private String closeTime;
 
     @Column(name = "price_avg")
-    private int priceAvg;
+    private Integer priceAvg;
 
     @Column(name = "qr_code", length = 255)
     private String qrCode;
