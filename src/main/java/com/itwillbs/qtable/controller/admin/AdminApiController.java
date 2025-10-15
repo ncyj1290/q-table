@@ -18,6 +18,7 @@ import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
+import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 
 @RestController
@@ -142,5 +143,20 @@ public class AdminApiController {
     @PostMapping("/api/jeongsan/{jeongsanIdx}")
     public void deleteJeongsan(@PathVariable("jeongsanIdx") Integer jeongsanIdx) {
     	adminService.deleteJeongsan(jeongsanIdx);
+    }
+    
+    // ------------------------- 구독 ----------------------
+    
+    // 매장 구독 목록 리스트 조회
+	@GetMapping("/api/subscribe")
+	public List<SubscribeListVO> findSubscribeList() {
+
+		return adminService.findSubscribeList();
+	}
+	
+    // 정산 구독 삭제 이벤트
+    @PostMapping("/api/subscribe/{subscribeIdx}")
+    public void deleteSubscribe(@PathVariable("subscribeIdx") Integer subscribeIdx) {
+    	adminService.deleteSubscribe(subscribeIdx);
     }
 }

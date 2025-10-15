@@ -1,8 +1,9 @@
 $(function() {
     const subscribeColumns = [
+		{ name: 'subscribe_idx', hidden: true },
+		{ name: 'member_idx', hidden: true },
 		{ name: 'No.', width: '5%' },
-		{ name: '매장명', width: '15%' },
-		{ name: '결제자 이름', width: '10%' },
+		{ name: '매장명', width: '10%' },
 		{ name: '회원 아이디', width: '10%' },
 		{ name: '구독 시작날짜', width: '10%' },
 		{ name: '구독 종료날짜', width: '10%' },
@@ -11,30 +12,70 @@ $(function() {
             name: '관리', width: '20%',
             width: '200px',
             formatter: (cell, row) => {
-				const detailButton = `<a href="/admin_detail" class="management-button">상세보기</a>`;;
-                const deleteButton = `<button class="management-button">삭제</button>`;
-                return gridjs.html(detailButton + deleteButton);
+				
+				const subscribe_idx = row.cells[0].data;
+				const member_idx = row.cells[1].data;
+				
+				const detail_button = `<a href="/admin_detail/${member_idx}" class="management-button">상세보기</a>`;
+                const delete_button = `<button class="management-button delete-btn" data-idx="${subscribe_idx}">삭제</button>`;
+                return gridjs.html(detail_button + delete_button);
             }
         }
     ];
 
-	const subscribeData = [
-	    ["1", "Q-Table 레스토랑", "김민준", "user_kim", "2025-08-01", "2025-11-01", "30일", ""],
-	    ["2", "맛있는 파스타", "이서연", "user_lee", "2025-05-15", "2025-11-15", "30일", ""],
-	    ["3", "행복한 베이커리", "박도현", "user_park", "2024-11-20", "2025-11-20", "30일", ""],
-	    ["4", "든든한 국밥집", "최지아", "user_choi", "2025-09-05", "2025-12-05", "30일", ""],
-	    ["5", "신선한 샐러드", "정은우", "user_jung", "2025-07-10", "2026-01-10", "30일", ""],
-	    ["6", "달콤한 디저트 카페", "강하윤", "user_kang", "2025-01-01", "2026-01-01", "30일", ""],
-	    ["7", "최고의 스테이크 하우스", "윤서준", "user_yoon", "2025-09-18", "2025-12-18", "30일", ""],
-	    ["8", "아늑한 심야식당", "임지민", "user_lim", "2025-04-30", "2025-10-30", "30일", ""],
-	    ["9", "Q-Table 레스토랑", "박도현", "user_park", "2024-10-10", "2025-10-10", "30일", ""],
-	    ["10", "맛있는 파스타", "김민준", "user_kim", "2025-06-25", "2025-09-25", "30일", ""]
-	];
+	// AJAX 회원 목록 데이터 요청
+	$.ajax({
+		url: '/api/subscribe',
+		type: 'GET',
+		success: function(response) {
+			// Grid.js 형식
+			const formatted_data = response.map((subscribe, index) => {
+				return [
+					subscribe.subscribe_idx,
+					subscribe.member_idx,
+					index + 1,
+					subscribe.store_name,
+					subscribe.member_id,
+					subscribe.subscribe_start,
+					subscribe.subscribe_end,
+					subscribe.remaining_days + "일",
+					null
+				];
+			});
 
-    createGrid({
-        targetId: '#subscribe-table',
-        columns: subscribeColumns,
-        data: subscribeData,
-        pagination: { limit: 10 }
-    });
+			// 공통 함수 createGrid
+			createGrid({
+				targetId: '#subscribe-table', // 테이블을 표시할 div ID
+				columns: subscribeColumns,
+				data: formatted_data,
+				pagination: { limit: 10 }
+			});
+		},
+	});
+	
+	// 삭제 버튼 클릭 이벤트
+	$('#subscribe-table').on('click', '.delete-btn', function() {
+
+		const subscribe_idx = $(this).data('idx');
+
+		if (confirm(`정말로 삭제하시겠습니까?`)) {
+
+			// 확인을 눌렀을 때 AJAX 코드 실행
+			$.ajax({
+				url: `/api/subscribe/${subscribe_idx}`,
+				type: 'POST',
+				success: function(response) {
+					alert("삭제에 성공했습니다.");
+					location.reload();
+				},
+				error: function(error) {
+					alert("삭제에 실패했습니다.");
+				}
+			});
+
+		} else {
+			console.log("삭제가 취소되었습니다.");
+		}
+	});
+	
 });

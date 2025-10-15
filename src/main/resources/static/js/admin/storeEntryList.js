@@ -41,8 +41,7 @@ $(function() {
 				
 				const detail_button = `<a href="/admin_detail/${member_idx}" class="management-button">상세보기</a>`;
 				const status_button = `<button class="management-button approve-btn" data-idx="${store_idx}" data-id="${member_id}">입점 신청 관리</button>`;
-				const delete_button = `<button class="management-button delete-btn" data-idx="${member_idx}" data-id="${member_id}">삭제</button>`;
-				return gridjs.html(detail_button + status_button + delete_button);
+				return gridjs.html(detail_button + status_button);
 			}
 		}
 	];
@@ -139,29 +138,29 @@ $(function() {
 		});
 	});
 
-	// 삭제 버튼 클릭 이벤트
-	$('#store-table').on('click', '.delete-btn', function() {
-
-		const store_idx = $(this).data('idx');
-
-		if (confirm(`정말로 삭제하시겠습니까?`)) {
-
-			// 확인을 눌렀을 때 AJAX 코드 실행
-			$.ajax({
-				url: `/api/stores/${store_idx}`,
-				type: 'POST',
-				success: function(response) {
-					alert("삭제에 성공했습니다.");
-					location.reload();
-				},
-				error: function(error) {
-					alert("삭제에 실패했습니다.");
-				}
-			});
-
-		} else {
-			console.log("삭제가 취소되었습니다.");
-		}
-	});
+//	// 삭제 버튼 클릭 이벤트
+//	$('#store-table').on('click', '.delete-btn', function() {
+//
+//		const store_idx = $(this).data('idx');
+//
+//		if (confirm(`정말로 삭제하시겠습니까?`)) {
+//
+//			// 확인을 눌렀을 때 AJAX 코드 실행
+//			$.ajax({
+//				url: `/api/stores/${store_idx}`,
+//				type: 'POST',
+//				success: function(response) {
+//					alert("삭제에 성공했습니다.");
+//					location.reload();
+//				},
+//				error: function(error) {
+//					alert("삭제에 실패했습니다.");
+//				}
+//			});
+//
+//		} else {
+//			console.log("삭제가 취소되었습니다.");
+//		}
+//	});
 
 });

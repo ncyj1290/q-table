@@ -144,6 +144,21 @@
 	  LEFT JOIN common_code c ON j.calculate_result = c.code AND c.group_code = 'calculate_result'
 	      WHERE j.jeongsan_idx = #{jeongsan_idx}
     </select>
+    
+    <!-- 매장 구독 리스트 -->
+    <select id="findSubscribeList">
+		SELECT ss.subscribe_idx,
+			   ss.subscribe_start,
+		       ss.subscribe_end,
+		       s.store_idx,
+		       s.store_name,
+		       m.member_idx,
+		       m.member_id,
+		       DATEDIFF(subscribe_end, CURDATE()) AS remaining_days
+		  FROM subscribe ss 
+	 LEFT JOIN store s ON ss.store_idx = s.store_idx
+	 LEFT JOIN member m ON m.member_idx = s.member_idx;
+    </select>
 
     
     
