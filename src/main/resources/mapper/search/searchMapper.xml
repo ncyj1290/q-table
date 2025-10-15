@@ -21,11 +21,7 @@
 		SELECT * 
 		  FROM common_code
 		 WHERE group_code = 'location'
-		   AND parent_code= #{code} -- 프론트에서 받아올 값 대분류의 코드 
-		 UNION 
-		SELECT * 
-		  FROM common_code 
-		 WHERE code_label = #{code_label} -- 프론트에서 받아올 값 대분류의 코드 라벨
+		   and parent_code is not null 
 	  ORDER BY common_idx;
 	</select>
 	

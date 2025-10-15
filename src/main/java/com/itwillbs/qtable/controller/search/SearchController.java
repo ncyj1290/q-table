@@ -31,15 +31,8 @@ public class SearchController {
 		searchService.selectSeatCntPriceRange(model);
 		List<Map<String,String>> locLargeList = searchService.getRegionLargeCategory();
 		model.addAttribute("locLargeList", locLargeList);
-		
+		List<Map<String,Object>> locSubList = searchService.getSubLocation();
+		model.addAttribute("locSubList", locSubList);
 		return "search/search";
 	}
-//	
-	@PostMapping("/api/search_getSubLocation")
-	@ResponseBody
-	public List<Map<String,Object>> getSubLocation(@RequestParam("code") String code, 
-			@RequestParam("code_label") String code_label) {
-		return searchService.getSubLocation(code,code_label);
-	}
-	
 }

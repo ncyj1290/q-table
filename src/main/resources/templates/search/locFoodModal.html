@@ -12,18 +12,25 @@
 	 				</div>
 	 				<div class="locfood-content">
 	 					<div class="keywords single-choice" id="main-location">
-	 						<span th:each="locLarge: ${locLargeList}" class="keyword no-outline" 
-	 						th:text="${locLarge.code_label}" th:data-loclarge="${locLarge.code}" ></span>
+	 						<span th:each="locLarge,state: ${locLargeList}" class="keyword no-outline" 
+	 						th:text="${locLarge.code_label}" th:data-loclarge="${locLarge.code}" 
+	 						th:classappend="${state.index == 0} ? active : ''"></span>
 	 					</div>
 	 				</div>
 	 				<div class="locfood-content" id="sub-location">
-	 					<div class="keywords locFoodModal" id="sub-location-container">
-	 						<span id="not-selected">원하는 지역을 선택해보세요!</span>
-<!-- 	 						<span class="keyword location">서울전체</span> -->
-<!-- 	 						<span class="keyword location">강남구</span> -->
-<!-- 	 						<span class="keyword location">강서구</span> -->
-<!-- 	 						<span class="keyword location">마포구</span> -->
-	 						<!-- 이후 동적으로 채우기 -->
+	 					<div class="locFoodModal" id="sub-location-container"> <!-- keywords 삭제 -->
+	 						<div th:each="locLarge, state: ${locLargeList}" 
+	 							 class="subLoc-container keywords"
+	 							 th:data-loclarge="${locLarge.code}"
+	 							 th:style="${state.index == 0} ? 'display: flex;' : 'display: none;'">
+	 							<th:block th:each="locSub, state :${locSubList}">
+	 							<span th:if="${state.index == 0}" class="keyword location" th:data-loc-food="${locLarge.code}" th:text="|${locLarge.code_label} 전체|"></span>
+	 							<span th:if="${locLarge.code == locSub.parent_code}"
+	 								  th:text="${locSub.code_label}"
+	 								  class="keyword location" th:data-loc-food="${locSub.code}"></span>
+	 							</th:block>
+ 							</div>
+<!-- 	 					<span class="keyword location">서울전체</span> -->
 	 					</div>
 	 				</div>
 	 			</div>

@@ -28,8 +28,8 @@ public class searchService {
 		return mapper.getRegionLargeCategory();
 	}
 	
-	public List<Map<String, Object>> getSubLocation(String code, String code_label) {
-		return mapper.getSubLocation(code, code_label);
+	public List<Map<String, Object>> getSubLocation() {
+		return mapper.getSubLocation();
 	}
 	
 }

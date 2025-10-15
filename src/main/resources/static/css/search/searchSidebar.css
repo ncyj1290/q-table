@@ -55,6 +55,7 @@
 	flex-wrap: wrap;  
 	gap:5px;
 	margin-top: 10px;
+	    width: 100%;
 }
 
 .keyword {

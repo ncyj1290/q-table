@@ -11,7 +11,7 @@ $(function() {
 		$('.footer-modal').show(); 
 		toggleActive(this);//active 토글
 		priceUpdate(this);//가격 키워드 반영
-//		keywordUpdate(this);
+		keywordUpdate(this);
 		hideSelectedDiv();
 		//쿼리스트링 반영하는것도 짜야함 
 	});
@@ -45,6 +45,10 @@ $(function() {
 	    hideLocFoodModal();
 	});
 	
+	// 지역 대분류 선택시 
+	$('#main-location').on('click', '.keyword', toggleSubLocation);
+	
+	
 	//개별 키워드 삭제버튼 
 	$('.selectedKeywords').on('click', '.delete', function(){
 		deleteKeyword(this);
@@ -75,14 +79,42 @@ let tempFilterState = {
 
 let filterState = {
 	location: {
-		code:["loc_01"],
-		code_label:["서울"]
+		code:[],
+		code_label:[]
 	},
 	food: {
-		code:["srct_01"],
-		code_label:["한식"]
+		code:[],
+		code_label:[]
 	}
 }
+
+
+// 적용하기 버튼 눌러서 모달에 반영 
+function updateSidebar() {
+	// 선택된 값이 있을 경우 추가할 버튼 
+	const selectBtn = `<span class="select show-modal">종류선택</span>`;
+	// 임시저장소값을 실제 저장소에 옮김 
+	filterState = JSON.parse(JSON.stringify(tempFilterState));
+	
+	renderKeyword(filterState.location, $('#locationArea'), $('#sidebar').find('#locReset'), selectBtn);
+	renderKeyword(filterState.food, $('#foodArea'), $('#sidebar').find('#foodReset'), selectBtn);
+}
+
+function renderKeyword(object, area, resetBtn, selectBtn) {
+	console.log(object);
+	if(object.code.length == 0 && object.code_label.length == 0) {
+		reset(resetBtn);
+	} else {
+		area.empty();
+		object.code.forEach((code,index) => {
+			const label = object.code_label[index];
+			const el = `<span class="keyword active" data-loc-food="${code}">${label}</span>`
+			area.append(el);		
+		});
+		area.append(selectBtn);
+	}
+}
+
 
 // 모달 열기
 function showLocFoodModal() {
@@ -119,162 +151,191 @@ function renderModal() {
 		if(tempFilterState.location.code.includes($(key).data('loc-food'))) $(this).addClass('active');
 	});
 }
-//function updateSidebar() {
-//	const selectBtn = `<span class="select show-modal">종류선택</span>`;
-//	filterState = JSON.parse(JSON.stringify(tempFilterState));
-//	const locKeywords = $('.selectedKeyword:not(.food)').map(function() {
-//	  return $(this).clone().find('.delete').remove().end().text().trim();
-//	}); 
-//	const foodKeywords = $('.selectedKeyword:not(.location)').map(function() {
-//	  return $(this).clone().find('.delete').remove().end().text().trim();
-//	}); 
-//	// 나중에 value 값도 추가 해야함
-//	$('#locationArea').empty();
-//	$('#foodArea').empty();
-//	
-//	renderKeyword(locKeywords, $('#locationArea'), $('#sidebar').find('#locReset'), selectBtn);
-//	renderKeyword(foodKeywords, $('#foodArea'), $('#sidebar').find('#foodReset'), selectBtn);
-//}
+
+// 지역 대분류 클릭시 소분류 토글
+function toggleSubLocation() {
+	const mainValue = $(this).data('loclarge'); // 이 값으로 보여줄 div 판별
+	const subContainer = $('#sub-location-container').find('.subLoc-container');
+	// 일단 모든 소분류 div 숨기기
+	subContainer.hide();
+	$('#sub-location-container .subLoc-container').each(function() {
+		const subValue = $(this).data('loclarge');
+		if (mainValue == subValue) $(this).show();
+	}); 
+	
+}
+
+//(모달)선택한 키워드에 반영하기 
+function keywordUpdate(el) {
+	const code_label = $(el).text(); //선택한 키워드의 label, code 
+	const code = $(el).data('loc-food'); //선택한 키워드의 code 
+	const keywordClass = $(el).attr('class').split(' ')[1]; //keyword food or location 클래스
+	console.log(code_label)
+	console.log(code)
+	console.log(keywordClass)
+	
+	//사이드바에서 선택한 것이 아닌 모달에서 선택된것만 반영되게함
+	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
+	if(!isModalEvent) return;
+	
+	//지역 대분류선택은 키워드 반영 막음
+	const isMainLocation = $(el).closest('.keywords').attr('id') == 'main-location' ;
+	if(isMainLocation) return;
+	
+	//지역, 음식 별로 초기화 기능을 위해 food/location 클래스를 줘서 구분하여 반영시킴
+	const selectedKeyword = `<span data-loc-food="${code}" class="selectedKeyword active ${keywordClass}">${code_label}
+							 <span class="delete active">&times;</span></span>`
+		
+	//중복 선택 방어
+	let isDetach = false;
+	$('.selectedKeywords').children('.selectedKeyword').each(function() {
+	let selectedCode = $(this).clone().find('.delete').remove().end().data('loc-food'); 
+		if(selectedCode == code) {//이미 선택되어 있어서 다시 해제할때  
+			$(this).detach(); //이미 선택된거니 선택된 목록에서 지워야함 
+			// 이미 선택된거를 다시 해제 하니 임시 저장소에도 없애야함 
+			if(keywordClass == 'location') {
+				tempFilterState.location.code = tempFilterState.location.code.filter(loc => loc != code);
+				tempFilterState.location.code_label = tempFilterState.location.code_label.filter(loc => loc != code_label);
+			}	
+			if(keywordClass == 'food') {
+				tempFilterState.food.code = tempFilterState.food.code.filter(fod => fod != code);
+				tempFilterState.food.code_label = tempFilterState.food.code_label.filter(fod => fod != code_label);
+			}
+			console.log(tempFilterState);
+			isDetach = true;
+		}
+	});
+	if(isDetach) return;
+	
+	// 선택된 목록에 요소 추가 
+	$('.selectedKeywords').append(selectedKeyword);
+	
+	//tempFilterState 에 저장하기 
+	if(keywordClass == 'location') {
+		tempFilterState.location.code.push(code);
+		tempFilterState.location.code_label.push(code_label);
+	}
+	if(keywordClass == 'food') {
+		tempFilterState.food.code.push(code);
+		tempFilterState.food.code_label.push(code_label);
+	}
+	
+	console.log('현재 값');
+	console.log(tempFilterState);
+}
+
+// 초기화 버튼 실행 함수 
+function reset(el) {
+	const isNoReset = $(el).closest('.top').hasClass('no-reset');
+	const isPrice = $(el).closest('.top').hasClass('price');
+	const isLocation = $(el).closest('.parent').hasClass('locReset');
+	const isFood = $(el).closest('.parent').hasClass('foodReset');
+	
+	//사이드바에서 초기화 눌렀을때 초기화 되지 말아야할 부분
+	if(isNoReset) {
+		//사이드바에서 지역, 음식 부분 초기화 버튼 클릭시 동작 
+		const parentEl = $(el).closest('section.part').find('.keywords');
+		parentEl.empty();
+		parentEl.append(`<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>`);
+		$(el).closest('section.part').find('.select').hide();
+		
+		//사이드바에서 초기화 누르면 모달에서 키워드, 선택된 목록에도 반영하기
+		if(isLocation) {
+			$('.location').removeClass('active');
+			$('.selectedKeywords').find('.location').detach();
+			// filterState에 반영 로직 
+			filterState.location.code = [];
+			filterState.location.code_label = [];
+		} 
+		if(isFood) {
+			$('.food').removeClass('active');
+			$('.selectedKeywords').find('.food').detach();	
+			// filterState에 반영 로직
+			filterState.food.code = [];
+			filterState.food.code_label = [];
+		}
+		return;	
+	}
+	//사이드바에서 가격 부분 리셋 
+	if(isPrice) $('#price-slider')[0].noUiSlider.reset();
+	
+	// 모달에서 지역 대분류는 리셋방지하고 그외 액티브 효과 없애기 
+	$(el).closest('.parent').find('.keyword:not(.no-outline)').removeClass('active');
+	//모달에서 초기화 버튼 눌렀을때, 선택된 목록들, 임시 보관소에서도 초기화 시키기 
+	if(isLocation) {
+		$('.selectedKeywords').find('.location').detach();
+		tempFilterState.location.code = [];
+		tempFilterState.location.code_label = [];		
+	}
+	if(isFood) {
+		$('.selectedKeywords').find('.food').detach();
+		tempFilterState.food.code = [];
+		tempFilterState.food.code_label = [];
+	}
+}
+
+// 선택된 목록에서 개별 키워드 삭제할때 
+function deleteKeyword(el) {
+	const parentEl = $(el).closest('.selectedKeyword');
+	//배열을 돌면서 직접 매치되는것의 요소의 클래스 삭제 -> 백엔드 들어가면, vaule값으로 판별하는걸로 바꾸기
+	const code = $(el).closest('.selectedKeyword').clone().find('.delete').remove()      
+							 .end().data('loc-food');                       
+	const code_label = $(el).closest('.selectedKeyword').clone().find('.delete').remove()      
+							 .end().text().trim();                       
+	$('.locFoodModal').find('.keyword').each(function() { 
+		if($(this).data('loc-food') == code) {
+			$(this).removeClass('active');
+		}
+	});
+	parentEl.detach();
+	const isLocation = $(el).closest('.selectedKeyword').hasClass('location');
+	if(isLocation) {
+		tempFilterState.location.code = tempFilterState.location.code.filter(loc => loc != code);
+		tempFilterState.location.code_label = tempFilterState.location.code_label.filter(loc => loc != code_label);
+	}	
+	if(!isLocation) {
+		tempFilterState.food.code = tempFilterState.food.code.filter(fod => fod != code);
+		tempFilterState.food.code_label = tempFilterState.food.code_label.filter(fod => fod != code_label);
+	}
+	console.log(tempFilterState);
+	//개별로 다 삭제 했을때 키워드 목록창 가리기 
+	hideSelectedDiv();
+}
+
 //
-//function renderKeyword(keywords, area, resetBtn, selectBtn) {
-//	if(!keywords.length) {
-//		reset(resetBtn);
-//	} else {
-//		keywords.map(function(_,keyword) {
-//			const el = `<span class="keyword active">${keyword}</span>`
-//			area.append(el);		
-//		});
-//		area.append(selectBtn);
-//	}
-//}
-//
-//// 초기화 버튼 실행 함수 
-//function reset(el) {
-//	const isNoReset = $(el).closest('.top').hasClass('no-reset');
-//	const isPrice = $(el).closest('.top').hasClass('price');
-//	const isLocation = $(el).closest('.parent').hasClass('locReset');
-//	const isFood = $(el).closest('.parent').hasClass('foodReset');
-//	
-//	//사이드바에서 초기화 눌렀을때 초기화 되지 말아야할 부분
-//	if(isNoReset) {
-//		//사이드바에서 지역, 음식 부분 초기화 버튼 클릭시 동작 
-//		const parentEl = $(el).closest('section.part').find('.keywords');
-//		parentEl.empty();
-//		parentEl.append(`<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>`);
-//		$(el).closest('section.part').find('.select').hide();
-//		
-//		//사이드바에서 초기화 누르면 모달에서 키워드, 선택된 목록에도 반영하기
-//		if(isLocation) {
-//			$('.location').removeClass('active');
-//			$('.selectedKeywords').find('.location').detach();
-//			// filterState에 반영 로직 
-//			filterState.location = [];
-//		} 
-//		if(isFood) {
-//			$('.food').removeClass('active');
-//			$('.selectedKeywords').find('.food').detach();	
-//			// filterState에 반영 로직
-//			filterState.food = [];
-//		}
-//		return;	
-//	}
-//	//사이드바에서 가격 부분 리셋 
-//	if(isPrice) $('#price-slider')[0].noUiSlider.reset();
-//	// 모달에서 지역 대분류는 리셋방지하고 그외 액티브 효과 없애기 
-//	$(el).closest('.parent').find('.keyword:not(.no-outline)').removeClass('active');
-//	//모달에서 초기화 버튼 눌렀을때, 선택된 목록들, 임시 보관소에서도 초기화 시키기 
-//	if(isLocation) {
-//		$('.selectedKeywords').find('.location').detach();
-//		tempFilterState.location = [];		
-//	}
-//	if(isFood) {
-//		$('.selectedKeywords').find('.food').detach();
-//		tempFilterState.food = [];	
-//	}
-//}
+
 //
 function hideSelectedDiv() {
 	//개별로 다 삭제 했을때 키워드 목록창 가리기 
 	let childCnt = $('.selectedKeywords').find('.selectedKeyword').length;
 	if(!childCnt) $('.footer-modal').hide();
 }
-//
-//function deleteKeyword(el) {
-//	const parentEl = $(el).closest('.selectedKeyword');
-//	//배열을 돌면서 직접 매치되는것의 요소의 클래스 삭제 -> 백엔드 들어가면, vaule값으로 판별하는걸로 바꾸기
-//	const keywordText = $(el).closest('.selectedKeyword').clone().find('.delete').remove()      
-//							 .end().text().trim();                       
-//	$('.locFoodModal').find('.keyword').each(function() { 
-//		if($(this).text().trim() == keywordText) {
-//			$(this).removeClass('active');
-//		}
-//	});
-//	parentEl.detach();
-//	const isLocation = $(el).closest('.selectedKeyword').hasClass('location');
-//	isLocation ? tempFilterState.location = tempFilterState.location.filter(loc => loc != keywordText):
-//				 tempFilterState.food = tempFilterState.food.filter(food => food != keywordText);
-//
-//	//개별로 다 삭제 했을때 키워드 목록창 가리기 
-//	hideSelectedDiv();
-//}
-//
-////(모달)선택한 키워드에 반영하기 
-//function keywordUpdate(el) {
-//	const keyword = $(el).text(); //선택한 키워드
-//	const keywordClass = $(el).attr('class').split(' ')[1]; //keyword food or location 클래스
-//	//초기화 기능을 위해 food/location 클래스를 줘서 구분하여 반영시킴
-//	const selectedKeyword = `<span class="selectedKeyword active ${keywordClass}">${keyword}
-//							 <span class="delete active">&times;</span></span>`
-//	
-//	
-//	//모달에서 선택된것만 반영되게함
-//	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
-//	if(!isModalEvent) return;
-//	
-//	//지역 대분류선택은 키워드 반영 막음
-//	const isMainLocation = $(el).closest('.keywords').attr('id') == 'main-location' ;
-//	if(isMainLocation) return;
-//	
-//	//중복 선택 방어
-//	let isDetach = false;
-//	$('.selectedKeywords').children('.selectedKeyword').each(function() {
-//	let keywordText = $(this).clone().find('.delete').remove().end().text().trim(); 
-//		if(keywordText == keyword) {
-//			//이미 선택된거는 목록에서 지우기 
-//			$(this).detach();
-//			//
-//			if(keywordClass == 'location') tempFilterState.location = tempFilterState.location.filter(loc => loc != keyword);
-//			if(keywordClass == 'food') tempFilterState.food =tempFilterState.food.filter(food => food != keyword);
-//			console.log(tempFilterState);
-//			isDetach = true;
-//		}
-//	});
-//	if(isDetach) return;
-//	
-//	// 선택된 목록에 요소 추가 
-//	$('.selectedKeywords').append(selectedKeyword);
-//	
-//	//tempFilterState 에 저장하기 
-//	if(keywordClass == 'location') tempFilterState.location.push(keyword);
-//	if(keywordClass == 'food') tempFilterState.food.push(keyword);
-//}
-//
-//// 휴지통 버튼 눌렀을때: 선택된 키워드 전부 삭제, active 효과 다 지우기 
-//function deleteAll() {
-//	$('.selectedKeywords').find('.selectedKeyword').detach();
-//	$('.locfood-content').find('.active:not(.no-outline)').removeClass('active');
-//	// 임시 보관소에 값들 지우기
-//	tempFilterState.food = [];
-//	tempFilterState.location = [];
-//}
-//
-//
+
+
+
+
+// 모달에서 휴지통 버튼 눌렀을때: 선택된 키워드 전부 삭제, active 효과 다 지우기 
+function deleteAll() {
+	$('.selectedKeywords').find('.selectedKeyword').detach();
+	$('.locfood-content').find('.active:not(.no-outline)').removeClass('active');
+	// 임시 보관소에 값들 지우기
+	emptyTempFilterState();
+}
+
+
 
 // 모달 닫기
 function hideLocFoodModal () {
+	emptyTempFilterState();
 	$("#myModal").fadeOut(200);
-	tempFilterState.location = [];
-	tempFilterState.food = [];
+}
+
+
+function emptyTempFilterState() {
+	tempFilterState.food.code = [];
+	tempFilterState.food.code_label = [];
+	tempFilterState.location.code = [];
+	tempFilterState.location.code_label = [];
 }
 
 function priceUpdate(el) {

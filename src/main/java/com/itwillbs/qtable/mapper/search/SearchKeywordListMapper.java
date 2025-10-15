@@ -12,5 +12,5 @@ import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 public interface SearchKeywordListMapper {
 	List<CommonCodeVO> selectSeatCntPriceRange (@Param("group_code") String group_code);
 	List<Map<String,String>> getRegionLargeCategory();
-	List<Map<String,Object>> getSubLocation(@Param("code") String code, @Param("code_label") String code_label);
+	List<Map<String,Object>> getSubLocation();
 }
