@@ -86,7 +86,7 @@ $(document).ready(function() {
 		if (pgToken) {
 			// 결제 완료 후 돌아온 경우
 			$.ajax({
-				url: `/mypage/paymentcomplete?pg_token=${pgToken}`,
+				url: `/mypage/paymentSuccess?pg_token=${pgToken}`,
 				type: 'GET',
 				dataType: 'json',
 				success: function(data) {

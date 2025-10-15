@@ -54,7 +54,7 @@ public class KakaoPayService {
 		parameters.put("total_amount", amount); // 총 금액
 //		parameters.put("vat_amount", "1"); // 부가세
 		parameters.put("tax_free_amount", 0); // 비가세, 필수 값
-		parameters.put("approval_url", "http://localhost:8080/mypage/paymentcomplete"); // 등록한 url
+		parameters.put("approval_url", "http://localhost:8080/mypage/paymentSuccess"); // 등록한 url
 		parameters.put("fail_url", "http://localhost:8080/pay/fail"); // 등록한 fail
 		parameters.put("cancel_url", "http://localhost:8080/pay/cancel"); // 등록한 cancel
 

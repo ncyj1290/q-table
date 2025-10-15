@@ -1,8 +1,8 @@
-.complet-container {
+.complete-container {
 	text-align: center;
 }
 
-.complet-container img{
+.complete-container img{
 	width: 280px;
 	height: auto;
 	margin-top: 45px;
@@ -10,16 +10,16 @@
 }
 
 
-.complet-container h1,.error-container p {
+.complete-container h1,.error-container p {
 	color: var(--color-main);
 }
-.complet-container h1 {
+.complete-container h1 {
 	font-size: 160px;
 }
-.complet-container p {
+.complete-container p {
 	font-size: 50px;
 }
-.complet-container button{
+.complete-container button{
 	width: 200px;
 	height: 45px;
 	font-weight: bold;
