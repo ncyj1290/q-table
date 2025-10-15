@@ -10,4 +10,6 @@ function showTab(tabId, element) {
 
   // 클릭한 라벨 활성화
   element.classList.add("active");
+  
+  
 }

@@ -56,7 +56,7 @@
 
 			<!-- 취소 탭 -->
 			<div id="cancel" class="tab-content" style="display:none;">
-				<div class="reservation-item" th:each="item : ${canceledList}">
+				<div class="reservation-item" th:each="item : ${upcomingList}">
 					<img th:src="@{${item.store_img}}" class="store-img" />
 					<div class="reservation-info">
 						<div class="store-title">

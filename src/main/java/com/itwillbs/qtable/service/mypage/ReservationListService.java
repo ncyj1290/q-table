@@ -21,15 +21,12 @@ public class ReservationListService {
 	private final ReservationListMapper reservationListMapper;
 
     /*방문예정 예약 리스트 조회*/
-	public List<Map<String, Object>> getUpcomingList(String memberIdx) {
-		List<Map<String, Object>> result = reservationListMapper.getMyReservationList(memberIdx, "rsrt_05");
+	public List<Map<String, Object>> getUpcomingList(String memberIdx, String reserveResult) {
+		List<Map<String, Object>> result = reservationListMapper.getMyReservationList(memberIdx, reserveResult);
+		 System.out.println("서비스 reserveResult: " + reserveResult);  // 값 확인용
 	    return result;
 	}
 
-	/*취소 예약 리스트 조회*/
-    public  List<Map<String, Object>> getCanceledList(String memberIdx) {
-    	List<Map<String, Object>> result = reservationListMapper.getCanceledList(memberIdx, "rsrt_03");
-	    return result;
-   }
+	
 	
 }

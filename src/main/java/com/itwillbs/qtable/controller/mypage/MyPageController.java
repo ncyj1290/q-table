@@ -89,18 +89,16 @@ public class MyPageController {
 	// 예약현황
 	@GetMapping("/reservation_list")
 	public String reservationList(Model model, HttpServletRequest request,
-									@AuthenticationPrincipal QtableUserDetails userDetails) {
+									@AuthenticationPrincipal QtableUserDetails userDetails,
+									@RequestParam(value = "reserveResult", required = false) String reserveResult) {
 		Member member = userDetails.getMember();
 		String memberIdx = String.valueOf(member.getMemberIdx());
 		
-		// 방문예정 예약 리스트와 취소된 예약 리스트 각각 조회
-		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx);
-		List<Map<String, Object>> canceledList = reservationService.getCanceledList(memberIdx);
-
-		// 뷰에서 사용할 변수명으로 리스트 저장
+		// 예약상태 넘김
+		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
+		System.out.println("reserveResult = " + reserveResult);		// 뷰에서 사용할 변수명으로 리스트 저장
 		model.addAttribute("upcomingList", upcomingList);
-		model.addAttribute("canceledList", canceledList);
-
+		
 		if (upcomingList != null && !upcomingList.isEmpty()) {
 			// 예약현황이 있을 때 보이는 화면
 			 System.out.println(upcomingList.get(0).keySet());
