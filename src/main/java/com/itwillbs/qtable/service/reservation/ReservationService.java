@@ -21,6 +21,12 @@ public class ReservationService {
 	// 매장 정보 조회
 	public Map<String, Object> getStoreInfo(Integer storeIdx) {
 		Map<String, Object> storeInfo = reservationMapper.getStoreInfo(storeIdx);
+		String storeImg = reservationMapper.getStoreProfileImage(storeIdx);
+
+		// 이미지 URL이 있으면 추가
+		if (storeImg != null && !storeImg.isEmpty()) {
+			storeInfo.put("store_img", storeImg);
+		}
 
 		return storeInfo;
 	}

@@ -17,4 +17,7 @@ public interface ReservationMapper {
 	// 예약금 차감 
 	int updateMemberQMoney(@Param("memberIdx") Integer memberIdx, @Param("amount") Integer amount);
 
+	// 매장 이미지 가져오기
+	String getStoreProfileImage(Integer storeIdx);
+
 }
