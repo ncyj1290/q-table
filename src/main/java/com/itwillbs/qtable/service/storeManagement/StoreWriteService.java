@@ -49,7 +49,6 @@ public class StoreWriteService {
 		List<CommonCodeVO> holidayList = storeCommonCode.selectCommonCodeForStore("store_holiday", null);
 		model.addAttribute("holidayList", holidayList);
 		
-		/* =========================================== */
 		/* 매장 카테고리 (전체) */
 		List<CommonCodeVO> storeCategoryList = storeCommonCode.selectCommonCodeForStore("store_category", null);
 		model.addAttribute("storeCategoryList", storeCategoryList);
@@ -73,8 +72,7 @@ public class StoreWriteService {
 		/* 카테고리 카페 */
 		List<CommonCodeVO> ctCafeList = storeCommonCode.selectCommonCodeForStore("store_category", "srct_m05");
 		model.addAttribute("ctCafeList", ctCafeList);
-		/* =========================================== */
-		
+
 		/* 편의 시설 */
 		List<CommonCodeVO> facilityList = storeCommonCode.selectCommonCodeForStore("convenient_facilities", null);
 		model.addAttribute("facilityList", facilityList);
@@ -153,12 +151,12 @@ public class StoreWriteService {
 		}
 		
 		/* ------------------------------------------------------------------------------------ */
-		/* 분위기 */
+		/* 편의 시설 */
 		String[] amenityList = storeVO.getStore_amenity().split(",");
 		if(amenityList != null) for(String amenity:amenityList) storeWrite.insertNewAmenity(storeIdx, amenity);
 
 		/* ------------------------------------------------------------------------------------ */
-		/* 편의 시설 */
+		/* 분위기 */
 		List<String> atmoList = storeVO.getStore_atmosphere();
 		if(atmoList != null && !atmoList.isEmpty()) for(String atmo:atmoList) storeWrite.insertNewAtmosphere(storeIdx, atmo);
 
@@ -302,20 +300,83 @@ public class StoreWriteService {
 		
 		/* ------------------------------------------------------------------------------------ */
 		/* 분위기 수정 */
-//		String[] amenityList = storeVO.getStore_amenity().split(",");
-//		if(amenityList != null) for(String amenity:amenityList) storeWrite.insertNewAmenity(storeIdx, amenity);
+		storeData.deleteAtmosphereByStoreIdx(storeIdx);
+		
+		List<String> atmoList = storeVO.getStore_atmosphere();
+		if(atmoList != null && !atmoList.isEmpty()) for(String atmo:atmoList) storeWrite.insertNewAtmosphere(storeIdx, atmo);
 
 		/* ------------------------------------------------------------------------------------ */
 		/* 편의 시설 수정 */
-//		List<String> atmoList = storeVO.getStore_atmosphere();
-//		if(atmoList != null && !atmoList.isEmpty()) for(String atmo:atmoList) storeWrite.insertNewAtmosphere(storeIdx, atmo);
-
+		storeData.deleteAmenityByStoreIdx(storeIdx);
+		
+		String[] amenityList = storeVO.getStore_amenity().split(",");
+		if(amenityList != null) for(String amenity:amenityList) storeWrite.insertNewAmenity(storeIdx, amenity);
+		
 		/* ------------------------------------------------------------------------------------ */
 		/* 카테고리 수정 */
-//		List<String> categoryList = storeVO.getStore_category();
-//		if(categoryList != null && !categoryList.isEmpty()) for(String cat:categoryList) storeWrite.insertNewCategory(storeIdx, cat);
+		storeData.deleteCategoryByStoreIdx(storeIdx);
 		
+		List<String> categoryList = storeVO.getStore_category();
+		if(categoryList != null && !categoryList.isEmpty()) for(String cat:categoryList) storeWrite.insertNewCategory(storeIdx, cat);
 		
+		/* ------------------------------------------------------------------------------------ */
+		/* 삭자재 */
+		storeData.deleteIngredientByStoreIdx(storeIdx);
+		
+		List<StoreIngredient> ingList = storeVO.getIngredientList();
+		
+		if(ingList != null && !ingList.isEmpty()) {
+			for(StoreIngredient ing:ingList) {
+				ing.setStore_idx(storeIdx);
+				storeWrite.insertNewIngredient(ing);
+			}
+		}
+		
+		/* ------------------------------------------------------------------------------------ */
+		/* 메뉴 */
+		/* 이전 메뉴 이미지들 삭제 */
+		List<StoreMenu> prevStoreMenu = storeData.selectMenuByStoreIdx(storeIdx);
+		for(StoreMenu pMenu:prevStoreMenu) storeData.deleteStoreImage(pMenu.getImage_url(), "imguse_03");
+		
+		/* 이전 메뉴 삭제 */
+		storeData.deleteMenuByStoreIdx(storeIdx);
+		
+		/* 메뉴 새로 삽입 */
+		List<StoreMenu> menuList = storeVO.getMenuList();
+		
+		if(!menuList.isEmpty()) {
+			for(StoreMenu menu : menuList) {
+				
+				/* 기본 메뉴 프로필 -> 둘 다 아무것도 없으면 */
+				if(menu.getMenu_picture() == null && menu.getImage_url() == null) menu.setImage_url("/icons/icon_menu_profile.png");
+				
+				/* 파일 유뮤 확인하고 파일 저장 로직 진행 -> 이미 기존 이미지 경로 있으면 무시 */
+				MultipartFile menuImg = menu.getMenu_picture();
+				if(menuImg != null && !menuImg.isEmpty()) menu.setImage_url(fileUploadService.saveFileAndGetPath(menuImg));
+				
+				/* 메뉴 먼저 저장하고 idx 가져와서 메뉴 이미지 저장 */
+				menu.setStore_idx(storeIdx);
+				storeWrite.insertNewMenu(menu);
+				
+				storeWrite.insertNewImage("imguse_03", menu.getMenu_idx(), menu.getImage_url());
+			}
+		}
+		
+		/* ------------------------------------------------------------------------------------ */
+		/* 메뉴판 업로드 */
+		MultipartFile menuBoardFile = storeVO.getMenu_board_picture();
+		
+		if(menuBoardFile != null && !menuBoardFile.isEmpty()) {
+			
+			storeData.deleteStoreImageByStoreIdx(storeIdx, "imguse_04");
+			fileUploadService.deleteFileByPath(storeVO.getMenu_board_url());
+			
+			storeVO.setMenu_board_url(fileUploadService.saveFileAndGetPath(menuBoardFile));
+			
+			/* imguse_04 -> 메뉴판 사진 */
+			storeWrite.insertNewImage("imguse_04", storeIdx, storeVO.getMenu_board_url());
+		}
+
 	}
 
 }

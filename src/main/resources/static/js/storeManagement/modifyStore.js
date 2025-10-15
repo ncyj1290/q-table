@@ -129,11 +129,11 @@ $(function() {
 	/* 휴일 선택 */
 	/* ==================================== */
 	/* 초기 렌더링 후 값 */
-	let selected = $(".holiday-button.active").map(function() {
+	let previousHoliday = $(".holiday-button.active").map(function() {
 		return $(this).val();
     }).get();
 	
-	$("#holidays").val(selected.join(","));
+	$("#holidays").val(previousHoliday.join(","));
 	
 	/* 휴일 선택 버튼 */
 	$(".holiday-button").on("click", function() {
@@ -214,8 +214,14 @@ $(function() {
 	}
 		
 	/* ==================================== */
-	/* 편의 시설 */
+	/* 편의 시설 (amenity) */
 	/* ==================================== */
+	let previousFacility = $(".facility-button.active").map(function() {
+		return $(this).val();
+    }).get();
+			
+	$("#store_facilities").val(previousFacility.join(",")); 
+	
 	/* 매장 편의 시설 선택 버튼 */
 	$(".facility-button").on("click", function() {
 		
