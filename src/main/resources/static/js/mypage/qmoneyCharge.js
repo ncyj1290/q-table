@@ -78,22 +78,29 @@ $(document).ready(function() {
 		});
 	});
 
-	// 결제 성공 후 잔액 갱신용 API 호출 함수
-	function refreshQmoneyBalance() {
-		$.ajax({
-			url: '/mypage/qmoneyBalance',
-			type: 'GET',
-			success: function(response) {
-				if (response && response.balance) {
-					$('#qmoneyBalance').text(response.balance + '원');
-				}
-			},
-			error: function() {
-				console.error('잔액 조회 실패');
-			}
-		});
-	}
+	// 카카오페이 결제 완료 후 승인 처리 & 완료 페이지 이동
+	$(window).on('load', function() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const pgToken = urlParams.get('pg_token');
 
-	// 페이지 로드 시 또는 결제 성공 후 호출
-	refreshQmoneyBalance();
+		if (pgToken) {
+			// 결제 완료 후 돌아온 경우
+			$.ajax({
+				url: `/mypage/paymentcomplete?pg_token=${pgToken}`,
+				type: 'GET',
+				dataType: 'json',
+				success: function(data) {
+					console.log('결제 승인 성공:', data);
+
+					// 결제 완료 페이지로 이동
+					window.location.href = `/mypage/paymentcomplete?tid=${data.tid || ''}`;
+				},
+				error: function(xhr, status, error) {
+					console.error('결제 승인 오류:', error);
+					window.location.href = '/pay/fail';
+				}
+			});
+		}
+	});
 });
+
