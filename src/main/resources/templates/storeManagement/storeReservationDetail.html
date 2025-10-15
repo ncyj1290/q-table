@@ -25,35 +25,40 @@
 					</div>
 					
 					<div class="detail-row">
-						<label class="info-label">예약자:</label>
-						<label class="info-data-label">USER_01</label>
+						<label class="info-label">예약자 ID:</label>
+						<label class="info-data-label" th:text="${resData.member_id}">USER_01</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">예약자 성함:</label>
+						<label class="info-data-label" th:text="${resData.reserve_name}">USER_01</label>
 					</div>
 					
 					<div class="detail-row">
 						<label class="info-label">예약 날짜:</label>
-						<label class="info-data-label">25.09.19</label>
+						<label class="info-data-label" th:text="${resData.reserve_date}">25.09.19</label>
 					</div>
 					
 					<div class="detail-row">
 						<label class="info-label">예약 시간:</label>
-						<label class="info-data-label">18:00</label>
+						<label class="info-data-label" th:text="${resData.reserve_time}">18:00</label>
 					</div>
 					
 					<div class="detail-row">
 						<label class="info-label">총 인원: </label>
-						<label class="info-data-label">5 명</label>
+						<label class="info-data-label" th:text="${resData.person_count}">5 명</label>
 					</div>
 					
 					<br>
 					
 					<div class="detail-column">
 						<label class="info-label">예약자 요구사항</label>
-						<div class="component-write"></div>
+						<div class="component-write" th:text="${resData.requirement}"></div>
 					</div>
 					
 					<div class="detail-column">
 						<label class="info-label">예약자 알레르기 사항</label>
-						<div class="component-write"></div>
+						<div class="component-write" th:text="${resData.allergy}"></div>
 					</div>
 
 					<div class="horizontal-line"></div>

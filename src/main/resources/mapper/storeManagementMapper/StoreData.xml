@@ -9,6 +9,7 @@
 	<select id="selectStoreProfileByOwnerIdx">
 		select sb.store_idx
 			,sb.member_idx
+			,sb.store_idx
 			,sb.store_name
 			,sb.is_accept
 			,sb.store_status
