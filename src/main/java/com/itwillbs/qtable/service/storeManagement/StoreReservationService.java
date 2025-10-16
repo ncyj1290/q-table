@@ -14,14 +14,14 @@ public class StoreReservationService {
 	@Autowired
 	StoreReservation storeReservation;
 	
-	public int countReservationByStoreIdx(int store_idx) {
-		return storeReservation.countReservationByStoreIdx(store_idx);
+	public int countReservationByStoreIdx(int store_idx, String filter) {
+		return storeReservation.countReservationByStoreIdx(store_idx, filter);
 	}
 	
 	
 	/* 해당 매장 idx로 예약 목록 가져오는 쿼리문*/
-	public List<ReservationVO> selectReservationByStoreIdx(int store_idx, int start_row, int list_limit){
-		return storeReservation.selectReservationByStoreIdx(store_idx, start_row, list_limit);
+	public List<ReservationVO> selectReservationByStoreIdx(int store_idx, int start_row, int list_limit, String filter){
+		return storeReservation.selectReservationByStoreIdx(store_idx, start_row, list_limit, filter);
 	}
 	
 	/* 예약 정보 디테일 가져오는 쿼리문 */
