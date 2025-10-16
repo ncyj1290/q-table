@@ -49,7 +49,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
         } else if (isAdmin) {
         	redirectUrl = "/admin_main";
         } else if (isStore) {
-        	redirectUrl = "/store_reservation_list";
+        	redirectUrl = "/store_management_main";
         } else {
             redirectUrl = "/";
         }
