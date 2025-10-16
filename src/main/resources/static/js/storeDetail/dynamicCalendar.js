@@ -1,8 +1,11 @@
 // ===================================
 // 변수 선언
 // ===================================
-// 서버에서 가져올 데이터 (TODO: 백엔드 연동)
-const closedDays = [0, 1]; // 휴무 요일 (0=일요일, 1=월요일)
+// 요일 이름을 숫자로 변환에 사용할 맵
+const DAY_NAME_TO_NUMBER = {'일': 0, '월': 1, '화': 2, '수': 3,'목': 4,'금': 5,'토': 6};
+
+// 휴무 요일 
+let closedDays = [];
 
 // 상수
 const MONTHS = [
@@ -24,6 +27,17 @@ maxReservationDate.setDate(maxReservationDate.getDate() + 60); // 오늘부터 6
 maxReservationDate.setHours(23, 59, 59, 999);
 
 $(function() {
+	// ===================================
+	// 휴일 데이터 로드 
+	// ===================================
+	const $calendarContainer = $('.calendar-container');
+	const holidaysData = $calendarContainer.attr('data-holidays');
+
+	// 문자열을 배열로 변환 + 공백제거  
+	const holidayNames = holidaysData.split(',').map(name => name.trim()).filter(name => name);
+	// 한글로 된 요일을 숫자로 변환 
+	closedDays = holidayNames.map(name => DAY_NAME_TO_NUMBER[name]).filter(num => num !== undefined);
+
 	const $calendarTitle = $('.calendar-title');
 	const $calendarDays = $('.calendar-days');
 	const $calendarNavBtns = $('.calendar-nav-btn');
@@ -83,9 +97,6 @@ $(function() {
 
 		// 클릭한 날짜에 selected 클래스 추가
 		$(this).addClass('selected');
-
-		console.log('선택된 날짜:', selectedDate);
-		// TODO: 백엔드 연동 시 예약 가능 시간 불러오기
 	});
 
 	// 예약하기 버튼 클릭
