@@ -9,6 +9,7 @@ import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
+import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 
 @Mapper
 public interface AdminMapper {
@@ -33,5 +34,8 @@ public interface AdminMapper {
 	
 	// 매장 정산 상세 조회
 	JeongsanListVO findJeongsanDetail(Integer jeongsan_idx);
+	
+	// 매장 구독 목록 리스트 조회
+	List<SubscribeListVO> findSubscribeList();
 	
 }

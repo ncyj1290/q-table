@@ -24,6 +24,7 @@ $(function() {
 	// DOM 캐싱
 	// ===================================
 	const $storeName = $('#storeName');
+	const $storeImage = $('#storeImage');
 	const $storeLocation = $('#storeLocation');
 	const $reservationDate = $('#reservationDate');
 	const $reservationTime = $('#reservationTime');
@@ -104,14 +105,16 @@ $(function() {
 			url: '/api/reservation/store_info',
 			type: 'GET',
 			data: { store_idx: storeIdx },
-			success: function(response) {
-				storeInfo = response.data;
+			success: function(res) {
+				storeInfo = res.data;
+//				console.log('서버 응답:', res);
+//				console.log('매장 정보:', storeInfo);
 				displayStoreInfo(storeInfo);
 				calculateDeposit(storeInfo.deposit, personCount);
 			},
 			error: function(xhr) {
+				console.error('매장 정보 로드 실패:', xhr);
 				alert('매장 정보를 불러올 수 없습니다.');
-				console(xhr);
 				location.href = '/';
 			}
 		});
@@ -120,6 +123,7 @@ $(function() {
 	// 매장 정보 표시
 	function displayStoreInfo(storeInfo) {
 		$storeName.text(storeInfo.store_name);
+		$storeImage.attr('src', storeInfo.store_img);
 		$storeLocation.text(storeInfo.full_address || storeInfo.sido + ' ' + storeInfo.sigungu);
 	}
 

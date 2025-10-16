@@ -19,7 +19,15 @@
 		  FROM store
 		 WHERE store_idx = #{storeIdx}
 	</select>
-
+	
+	<!-- 매장 프로필 이미지 조회 -->
+	<select id="getStoreProfileImage" resultType="string">
+		SELECT image_url
+		  FROM image
+		 WHERE target_idx = #{storeIdx}
+		   AND target_type = 'imguse_01'
+	</select>
+	
 	<!-- 예약 등록 -->
 	<insert id="insertReservation" useGeneratedKeys="true" keyProperty="reserve_idx">
 		INSERT INTO reservation (

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreReservation">
+	
+	<select id="countReservationByStoreIdx">
+		select count(*)
+		from reservation
+		where store_idx = #{store_idx}
+	</select>
+	
+	<!-- 해당 매장 idx로 예약 목록 가져오는 쿼리문 -->
+	<select id="selectReservationByStoreIdx">
+		select r.store_idx
+			,r.reserve_time
+			,r.reserve_result
+			,r.reserve_name
+			,r.reserve_idx
+			,r.reserve_email
+			,r.reserve_date
+			,r.requirement
+			,r.person_count
+			,r.member_idx
+			,r.created_at
+			,r.allergy
+			,c.code_label as result_label
+			,m.member_id 
+		from reservation r join common_code c
+		on r.reserve_result = c.code
+		join member m
+		on r.member_idx = m.member_idx 
+		where r.store_idx = #{store_idx}
+		limit #{start_row}, #{list_limit}
+	</select>
+
+	<!-- 해당 매장 idx로 예약 목록 가져오는 쿼리문 -->
+	<select id="selectReservationDetail">
+		select r.store_idx
+			,r.reserve_time
+			,r.reserve_result
+			,r.reserve_name
+			,r.reserve_idx
+			,r.reserve_email
+			,r.reserve_date
+			,r.requirement
+			,r.person_count
+			,r.member_idx
+			,r.created_at
+			,r.allergy
+			,c.code_label as result_label
+			,m.member_id 
+		from reservation r join common_code c
+		on r.reserve_result = c.code
+		join member m
+		on r.member_idx = m.member_idx
+		where reserve_idx = #{reserve_idx}
+		and store_idx = #{store_idx}
+	</select>
+
+</mapper>

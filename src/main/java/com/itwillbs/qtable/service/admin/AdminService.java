@@ -15,6 +15,7 @@ import com.itwillbs.qtable.repository.JeongsanRepository;
 import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.repository.PaymentRepository;
 import com.itwillbs.qtable.repository.StoreRepository;
+import com.itwillbs.qtable.repository.SubscribeRepository;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
@@ -24,6 +25,7 @@ import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
+import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 
 import jakarta.transaction.Transactional;
 
@@ -43,18 +45,23 @@ public class AdminService {
 	private JeongsanRepository jeongsanRepository;
 	
 	@Autowired
+	private SubscribeRepository subscribeRepository;
+	
+	@Autowired
     private AdminMapper adminMapper;
 
-	// 전체 회원 목록 조회
-	public List<MemberListVO> memberFindAll() {
+    // 전체 회원 목록 조회
+    public List<MemberListVO> memberFindAll() {
+        
+        List<Member> memberList = memberRepository.findByMemberType("mtype_02");
 
-		// jpa findAll
-		List<Member> memberList = memberRepository.findAll();
-		System.out.println("memberList : " + memberList);
+        System.out.println("memberList : " + memberList);
 
-		return memberList.stream().map(entity -> new MemberListVO(entity, entity.getMemberIdx()))
-				.collect(Collectors.toList());
-	}
+        // Entity -> VO 변환 로직
+        return memberList.stream()
+                .map(entity -> new MemberListVO(entity, entity.getMemberIdx()))
+                .collect(Collectors.toList());
+    }
 
 	// 회원 상세정보 조회
 	public MemberDetailVO findMemberDetailById(Integer memberIdx) {
@@ -208,6 +215,20 @@ public class AdminService {
     public void deleteJeongsan(Integer jeongsanIdx) {
         // jpa deleteById 활용 DB에서 데이터 삭제
     	jeongsanRepository.deleteById(jeongsanIdx);
+    }
+    
+    // -------------------------- 구독 ------------------------
+    
+    // 매장 구독 목록 리스트
+    public List<SubscribeListVO> findSubscribeList() {
+    	return adminMapper.findSubscribeList();
+	}
+    
+	// 구독 삭제 이벤트
+    @Transactional
+    public void deleteSubscribe(Integer subscribeIdx) {
+        // jpa deleteById 활용 DB에서 데이터 삭제
+    	subscribeRepository.deleteById(subscribeIdx);
     }
 
 }
