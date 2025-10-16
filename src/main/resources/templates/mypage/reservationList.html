@@ -29,10 +29,11 @@
 			</div>
 		</div>
 		
-		
+		<div id="reservationContent"></div>
 
 		<div class="reservation-list">
 			<!-- 방문예정 탭 -->
+			<th:block th:fragment="listFragment">
 			<div id="visit" class="tab-content">
 				<div class="reservation-item" th:each="item : ${upcomingList}">
 					<img  th:src="@{${item.store_img}}" class="store-img" />
@@ -42,7 +43,7 @@
 								<span th:text="${item.store_name}" class="store-name" ></span>
 								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
 							</div>
-							<img src="/img/scrap_full.png" class="scrap-icon" />
+						<img src="/img/scrap_full.png" class="scrap-icon" />
 						</div>
 						<span class="desc" th:text="${item.store_content}"></span>
 						<span class="date" th:text="${item.reserve_dt}"></span>
@@ -53,8 +54,10 @@
 					</div>
 				</div>
 			</div>
+			</th:block>
 
 			<!-- 취소 탭 -->
+			<th:block th:fragment="listFragment">
 			<div id="cancel" class="tab-content" style="display:none;">
 				<div class="reservation-item" th:each="item : ${upcomingList}">
 					<img th:src="@{${item.store_img}}" class="store-img" />
@@ -74,6 +77,7 @@
 					</div>
 				</div>
 			</div>
+			</th:block>
 
 			<div th:replace="mypage/pick :: mainnav"></div>
 		</div>

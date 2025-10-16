@@ -10,7 +10,11 @@ import org.apache.ibatis.annotations.Param;
 public interface ReservationListMapper {
 
 	// 예약현황 조회
-    List<Map<String, Object>> getMyReservationList(@Param("member_idx") String memberIdx, @Param("reserve_result") String reserve_result);
+	List<Map<String, Object>> getMyReservationList(Map<String, Object> params);
+
+
+
+
 
 
 

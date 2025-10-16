@@ -1,4 +1,14 @@
-let currentStat = 'rsrt_05';  // 디폴트 방문예정 상태
+let currentStat = "rsrt_05";  // 기본 예약상태 초기값 할당
+
+// 페이지 로드 시 기본 예약상태 탭 보여주기
+window.onload = function() {
+	const defaultTabId = "visit";
+	  // 방문예정 탭에만 showTab 호출
+	  if (defaultLabel) {
+	    showTab(defaultTabId, defaultLabel, currentStat);
+	  }
+};
+
 function showTab(tabId, element, reserveResult) {
 	// 모든 탭 내용 숨기기
 	document.querySelectorAll(".tab-content").forEach(c => c.style.display = "none");
@@ -11,8 +21,10 @@ function showTab(tabId, element, reserveResult) {
 
 	// 클릭한 라벨 활성화
 	element.classList.add("active");
-
+	
 	currentStat = reserveResult;  // 현재 상태 갱신
+	
+	console.log('[reserveResult 전달값]', reserveResult);
 	// 서버에서 예약 리스트 조회 및 화면에 렌더링
 	$.ajax({
 	  url: "/reservation_list",
@@ -28,7 +40,6 @@ function showTab(tabId, element, reserveResult) {
 	});
 }
 
-$(document).ready(function() {
-  showTab('visit', document.querySelector('.reserve-label.active'), 'rsrt_05');
-})
+
+
 
