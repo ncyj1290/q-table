@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
+	
+	<head>
+	    <title>매장 관리자 메인화면</title>
+	    <link rel="stylesheet" th:href="@{/css/storeManagement/commonStoreManagement.css}">
+		<link rel="stylesheet" th:href="@{/css/storeManagement/storeReservationDetail.css}">
+	</head>
+	
+	<body>
+		
+		<div layout:fragment="Content">
+			
+			<br>
+			
+			<div class="root-layout">
+				
+				<!-- Store Management Side Bar -->
+				<div th:replace="storeManagement/storeProfile :: storeProfile"></div>
+				
+				<!-- 메인 컨텐츠 담는 DIV -->
+				<div class="sub-layout">
+					
+					<div class="row-component">
+						<h3>매장 관리자 메인</h3>	
+					</div>
+					
+					<div class="detail-row" th:if="${spData == null}">
+						<label class="no-store-label">현재 등록된 매장이 없습니다.</label>
+					</div>
+
+					<div class="detail-row" th:if="${spData != null}">
+						<label class="info-data-label" th:text="|등록된 매장 명: ${spData.store_name}|"></label>
+					</div>
+					
+					
+					
+					
+					
+					
+
+				</div>
+				<!-- 메인 컨텐츠 Layout End -->
+				
+			</div>
+
+		</div>		
+	
+	</body>
+	
+</html>

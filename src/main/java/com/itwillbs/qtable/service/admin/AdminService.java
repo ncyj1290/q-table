@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 import jakarta.transaction.Transactional;
 
@@ -229,6 +231,29 @@ public class AdminService {
     public void deleteSubscribe(Integer subscribeIdx) {
         // jpa deleteById 활용 DB에서 데이터 삭제
     	subscribeRepository.deleteById(subscribeIdx);
+    }
+    
+    // ---------------------- 공통코드 ----------------------
+    
+    // 공통 코드 목록 리스트
+    public List<CommonCodeVO>findCommonCodeList() {
+    	return adminMapper.findCommonCodeList();
+    }
+    
+    // 공통코드 상세 정보 조회
+    public CommonCodeVO findCommoncodeDetail(Integer common_idx) {
+        return adminMapper.findCommoncodeDetail(common_idx);
+    }
+    
+    // 공통 코드 업데이트
+    @Transactional
+    public void updateCommonCode(Integer common_idx, CommonCodeVO CommonCodeVO) {
+    	adminMapper.updateCommonCode(common_idx, CommonCodeVO);
+    }
+    
+    // 공통 코드 삭제
+    public Integer deleteCommonCodeById(@Param("common_idx") Integer common_idx) {
+    	return adminMapper.deleteCommonCodeById(common_idx);
     }
 
 }

@@ -4,12 +4,14 @@ package com.itwillbs.qtable.mapper.admin;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 @Mapper
 public interface AdminMapper {
@@ -37,5 +39,17 @@ public interface AdminMapper {
 	
 	// 매장 구독 목록 리스트 조회
 	List<SubscribeListVO> findSubscribeList();
+	
+	// 공통 코드 목록 리스트 조회
+	List<CommonCodeVO>findCommonCodeList();
+	
+	// 공통 코드 상세 조회
+	CommonCodeVO findCommoncodeDetail(Integer common_idx);
+	
+	// 공통 코드 삭제
+	Integer deleteCommonCodeById(@Param("common_idx") Integer common_idx);
+	
+	// 공통 코드 수정
+    void updateCommonCode(@Param("common_idx") Integer common_idx, @Param("CommonCodeVO") CommonCodeVO CommonCodeVO);
 	
 }

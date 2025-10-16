@@ -19,6 +19,7 @@ import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 
 @RestController
@@ -159,4 +160,34 @@ public class AdminApiController {
     public void deleteSubscribe(@PathVariable("subscribeIdx") Integer subscribeIdx) {
     	adminService.deleteSubscribe(subscribeIdx);
     }
+    
+    // ------------------------ 공통코드 --------------------
+    
+    // 공통 코드 목록 리스트 조회
+	@GetMapping("/api/commoncode")
+	public List<CommonCodeVO>findCommonCodeList() {
+
+		return adminService.findCommonCodeList();
+	}
+	
+    // 공통 코드 상세 정보 조회
+    @GetMapping("/api/commoncode/{commoncodeIdx}")
+    public CommonCodeVO findCommoncodeDetail(@PathVariable("commoncodeIdx") Integer commoncodeIdx) {
+        return adminService.findCommoncodeDetail(commoncodeIdx);
+    }
+    
+    // 공통 코드 수정
+    @PostMapping("/api/commoncode/{commoncodeIdx}/update")
+    public void updateCommonCode(@PathVariable("commoncodeIdx") Integer commoncodeIdx,
+            					 @RequestBody CommonCodeVO CommonCodeVO) {
+        
+    	adminService.updateCommonCode(commoncodeIdx, CommonCodeVO);
+    }
+	
+    // 공통코드 삭제 이벤트
+    @PostMapping("/api/commoncode/{commoncodeIdx}")
+    public void deleteCommonCodeById(@PathVariable("commoncodeIdx") Integer commoncodeIdx) {
+    	adminService.deleteCommonCodeById(commoncodeIdx);
+    }
+    
 }

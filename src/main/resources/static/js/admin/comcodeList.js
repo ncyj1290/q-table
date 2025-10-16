@@ -1,39 +1,143 @@
 $(function() {
     const comcodeColumns = [
+		{ name: 'common_idx', hidden: true },
 		{ name: 'No.', width: '5%' },
-		{ name: '코드타입 ID', width: '10%' },
-		{ name: '코드타입 명', width: '10%' },
-		{ name: '공통코드 ID', width: '10%' },
-		{ name: '공통코드 명', width: '10%' },
+		{ name: '코드그룹 ID', width: '8%' },
+		{ name: '코드그룹 명', width: '15%' },
+		{ name: '공통코드 ID', width: '7%' },
+		{ name: '공통코드 명', width: '7%' },
 		{ name: '공통코드 설명', width: '20%' },
         {
             name: '관리', width: '25%',
             width: '150px',
             formatter: (cell, row) => {
-                const detailButton = `<button class="management-button status-change-btn">상세보기</button>`;
-                const deleteButton = `<button class="management-button delete-btn">삭제</button>`;
+				
+				const common_idx = row.cells[0].data;
+				
+                const detailButton = `<button class="management-button status-change-btn" data-idx=${common_idx}>상세보기</button>`;
+                const deleteButton = `<button class="management-button delete-btn" data-idx=${common_idx}>삭제</button>`;
                 return gridjs.html(detailButton + deleteButton);
             }
         }
     ];
 
-	const comcodeData = [
-	    ["1", "UST", "회원상태", "UST01", "정상", "활성화된 정상 사용자"],
-	    ["2", "UST", "회원상태", "UST02", "휴면", "장기 미접속으로 비활성화된 사용자"],
-	    ["3", "UST", "회원상태", "UST03", "탈퇴", "서비스를 탈퇴한 사용자"],
-	    ["4", "SST", "매장상태", "SST01", "영업중", "현재 정상 영업중인 매장"],
-	    ["5", "SST", "매장상태", "SST02", "휴업", "임시 또는 정기 휴업중인 매장"],
-	    ["6", "SST", "매장상태", "SST03", "폐업", "영업을 종료한 매장"],
-	    ["7",- "PTY", "결제유형", "PTY01", "신용카드", "신용/체크카드를 통한 결제"],
-	    ["8", "PTY", "결제유형", "PTY02", "계좌이체", "실시간 계좌이체를 통한 결제"],
-	    ["9", "PTY", "결제유형", "PTY03", "포인트", "보유 포인트를 사용한 결제"],
-	    ["10", "BTY", "게시판유형", "BTY01", "공지사항", "관리자가 작성하는 공지 게시판"]
-	];
+	// AJAX 회원 목록 데이터 요청
+	$.ajax({
+		url: '/api/commoncode',
+		type: 'GET',
+		success: function(response) {
+			// Grid.js 형식
+			const formatted_data = response.map((commoncode, index) => {
+				return [
+					commoncode.common_idx,
+					index + 1,
+					commoncode.group_code,
+					commoncode.group_desc,
+					commoncode.code,
+					commoncode.code_label,
+					commoncode.code_desc,
+					null
+				];
+			});
 
-    createGrid({
-        targetId: '#comcode-table',
-        columns: comcodeColumns,
-        data: comcodeData,
-        pagination: { limit: 10 }
-    });
+			// 공통 함수 createGrid
+			createGrid({
+				targetId: '#comcode-table', // 테이블을 표시할 div ID
+				columns: comcodeColumns,
+				data: formatted_data,
+				pagination: { limit: 10 }
+			});
+		},
+	});
+	
+	$('#comcode-table').on('click', '.status-change-btn', function() {
+		const common_idx = $(this).data('idx');
+
+		$.ajax({
+			url: `/api/commoncode/${common_idx}`,
+			type: 'GET',
+			success: function(CommonCodeVO) {
+
+				console.log(CommonCodeVO);
+
+				const body_html = `
+	                <div class="form-group">
+	                    <label>코드그룹 ID</label>
+	                    <input type="text" class="component-write" value="${CommonCodeVO.group_code}" readonly>
+	                </div>
+					<div class="form-group">
+					    <label>코드그룹 명</label>
+					    <input type="text" class="component-write" value="${CommonCodeVO.group_desc}" readonly>
+					</div>
+					<div class="form-group">
+					    <label>공통코드 ID</label>
+					    <input type="text" class="component-write" id="modal-code" value="${CommonCodeVO.code}">
+					</div>
+					<div class="form-group">
+					    <label>공통코드 명</label>
+					    <input type="text" class="component-write" id="modal-code-label" value="${CommonCodeVO.code_label}">
+					</div>
+					<div class="form-group">
+					    <label>공통코드 설명</label>
+					    <input type="text" class="component-write" id="modal-code-desc" value="${CommonCodeVO.code_desc}">
+					</div>
+	            `;
+
+				const save_function = function() {
+					const update_data = {
+						code: $('#modal-code').val(),
+						code_label: $('#modal-code-label').val(),
+						code_desc: $('#modal-code-desc').val()
+					};
+
+					$.ajax({
+						url: `/api/commoncode/${common_idx}/update`,
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(update_data),
+						success: function(response) {
+							alert("상태 변경에 성공했습니다.");
+							$('#common-modal').removeClass('active');
+							location.reload();
+						}
+					});
+				};
+
+				// 공통 모달 함수
+				openCommonModal({
+					title: '공통코드 수정',
+					bodyHtml: body_html,
+					saveButtonText: '저장',
+					onSave: save_function
+				});
+
+			}
+		});
+	});
+	
+	// 삭제 버튼 클릭 이벤트
+	$('#comcode-table').on('click', '.delete-btn', function() {
+
+		const common_idx = $(this).data('idx');
+
+		if (confirm(`정말로 삭제하시겠습니까?`)) {
+
+			// 확인을 눌렀을 때 AJAX 코드 실행
+			$.ajax({
+				url: `/api/commoncode/${common_idx}`,
+				type: 'POST',
+				success: function(response) {
+					alert("삭제에 성공했습니다.");
+					location.reload();
+				},
+				error: function(error) {
+					alert("삭제에 실패했습니다.");
+				}
+			});
+
+		} else {
+			console.log("삭제가 취소되었습니다.");
+		}
+	});
+	
 });
