@@ -139,7 +139,7 @@ $('#store-table').on('click', '.delete-btn', function() {
 
 		// 확인을 눌렀을 때 AJAX 코드 실행
 		$.ajax({
-			url: `/api/members/${member_idx}`,
+			url: `/api/stores/${member_idx}`,
 			type: 'POST',
 			success: function(response) {
 				alert("삭제에 성공했습니다.");

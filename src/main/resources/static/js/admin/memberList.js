@@ -60,7 +60,7 @@ $(function() {
 	});
 
 
-	$('.grid-wrapper').on('click', '.status-change-btn', function() {
+	$('#member-table').on('click', '.status-change-btn', function() {
 		const member_idx = $(this).data('idx');
 		const member_id = $(this).data('id');
 

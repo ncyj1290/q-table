@@ -37,4 +37,24 @@ $(function() {
 			$('#common-modal').removeClass('active');
 		}
 	});
+
+	// --- 관리자 계정 생성 전용 모달 로직 ---
+
+	// '관리자 계정 생성' 버튼(#status-change-btn2) 클릭 시
+	$('#status-change-btn2').on('click', function() {
+		// '관리자 계정 생성' 모달(#status-change-modal2)을 직접 엽니다.
+		$('#status-change-modal2').addClass('active');
+	});
+
+	// '관리자 계정 생성' 모달의 '취소' 버튼(#modal-close-btn2) 클릭 시
+	$('#modal-close-btn2').on('click', function() {
+		$('#status-change-modal2').removeClass('active');
+	});
+
+	// '관리자 계정 생성' 모달의 바깥 영역 클릭 시
+	$('#status-change-modal2').on('click', function(e) {
+		if (e.target === this) {
+			$(this).removeClass('active');
+		}
+	});
 });

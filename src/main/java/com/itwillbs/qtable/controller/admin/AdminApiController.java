@@ -89,9 +89,9 @@ public class AdminApiController {
     }
     
     // 매장 삭제 이벤트
-    @PostMapping("/api/stores/{storeIdx}")
-    public void deleteStore(@PathVariable("StoreIdx") Integer StoreIdx) {
-    	adminService.deleteMember(StoreIdx);
+    @PostMapping("/api/stores/{member_idx}")
+    public void deleteStoreMember(@PathVariable("member_idx") Integer member_idx) {
+    	adminService.deleteStoreMember(member_idx);
     }
     
     // -------------------------- 결제 -----------------------
@@ -189,5 +189,14 @@ public class AdminApiController {
     public void deleteCommonCodeById(@PathVariable("commoncodeIdx") Integer commoncodeIdx) {
     	adminService.deleteCommonCodeById(commoncodeIdx);
     }
+    
+    // --------------------------- 어드민 -----------------------
+    
+	// 회원 목록 리스트 조회
+	@GetMapping("/api/members/admin")
+	public List<MemberListVO> adminMemberFindAll() {
+
+		return adminService.adminMemberFindAll();
+	}
     
 }

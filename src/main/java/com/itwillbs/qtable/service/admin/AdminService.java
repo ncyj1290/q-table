@@ -12,6 +12,7 @@ import com.itwillbs.qtable.entity.Jeongsan;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.entity.Store;
 import com.itwillbs.qtable.mapper.admin.AdminMapper;
+import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
 import com.itwillbs.qtable.repository.JeongsanRepository;
 import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.repository.PaymentRepository;
@@ -51,6 +52,9 @@ public class AdminService {
 	
 	@Autowired
     private AdminMapper adminMapper;
+	
+	@Autowired
+	private StoreData storedata;
 
     // 전체 회원 목록 조회
     public List<MemberListVO> memberFindAll() {
@@ -144,20 +148,46 @@ public class AdminService {
         
 		// Store_status가 정상인지 확인
 		if ("srst_01".equals(newStatus) || "srst_02".equals(newStatus)) {
-			// 승인, 보류일 경우, 탈퇴 사유를 null
+			// 승인, 보류일 경우, 반려 사유를 null
 			store.setRejectionReason(null);;
 		} else {
-			// 거부일 경우 거부 사유를 저장
+			// 반려일 경우 반려 사유를 저장
 			store.setRejectionReason(StoreUpdateVO.getRejection_reason());
 		}
 		
     }
     
-	// 매장 삭제 이벤트
     @Transactional
-    public void deleteStore(Integer storeIdx) {
-        // jpa deleteById 활용 DB에서 데이터 삭제
-        storeRepository.deleteById(storeIdx);
+    public void deleteStoreMember(Integer member_idx) {
+    	
+        // store_idx를 찾기
+        Integer store_idx = storeRepository.findByMemberIdx(member_idx)
+                                .map(Store::getStoreIdx)
+                                .orElse(null);
+
+        // store_idx가 존재할 경우 하위 데이터를 삭제
+        if (store_idx != null) {
+        	storedata.deleteHolidayByStoreIdx(store_idx);
+        	storedata.deleteCategoryByStoreIdx(store_idx);
+        	storedata.deleteAmenityByStoreIdx(store_idx);
+        	storedata.deleteAtmosphereByStoreIdx(store_idx);
+        	storedata.deleteIngredientByStoreIdx(store_idx);
+        	storedata.deleteMenuByStoreIdx(store_idx);
+        	
+        	// 매장과 관련된 이미지 타입들을 배열로 정의
+            String[] imageTypesToDelete = {"imguse_01", "imguse_02", "imguse_03", "imguse_04", "imguse_05"};
+
+            // 각 이미지 타입에 대해 삭제 메소드 호출
+            for (String imageType : imageTypesToDelete) {
+            	storedata.deleteStoreImageByStoreIdx(store_idx, imageType);
+            }
+
+            // store 테이블의 데이터 삭제(JPA 사용)
+            storeRepository.deleteById(store_idx);
+        }
+        
+        // member 테이블의 데이터 삭제(JPA 사용)
+        memberRepository.deleteById(member_idx);
     }
     
     // -------------------------- 결제 -----------------------
@@ -254,6 +284,21 @@ public class AdminService {
     // 공통 코드 삭제
     public Integer deleteCommonCodeById(@Param("common_idx") Integer common_idx) {
     	return adminMapper.deleteCommonCodeById(common_idx);
+    }
+    
+    // ----------------------- 관리자 ---------------------
+    
+    // 관리자 회원 목록 조회
+    public List<MemberListVO> adminMemberFindAll() {
+        
+        List<Member> memberList = memberRepository.findByMemberType("mtype_01");
+
+        System.out.println("memberList : " + memberList);
+
+        // Entity -> VO 변환 로직
+        return memberList.stream()
+                .map(entity -> new MemberListVO(entity, entity.getMemberIdx()))
+                .collect(Collectors.toList());
     }
 
 }
