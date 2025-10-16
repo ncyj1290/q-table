@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,26 +28,28 @@ public class ReservationController {
 	
 	// 예약 페이지 이동
 	@GetMapping("reservation")
-	public String reservation() {
+	public String reservation(
+			@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam(value = "store_idx", required = false) Integer storeIdx,
+			@RequestParam(value = "reserve_date", required = false) String reserveDate,
+			@RequestParam(value = "reserve_time", required = false) String reserveTime,
+			@RequestParam(value = "person_count", required = false) Integer personCount,
+			Model model) {
+
+		Member member = userDetails.getMember();
+
+		// 매장 정보 조회
+		Map<String, Object> storeInfo = reservationService.getStoreInfo(storeIdx);
+
+		// Model에 담기
+		model.addAttribute("storeInfo", storeInfo);
+		model.addAttribute("userQMoney", member.getQMoney());
+		model.addAttribute("storeIdx", storeIdx);
+		model.addAttribute("reserveDate", reserveDate);
+		model.addAttribute("reserveTime", reserveTime);
+		model.addAttribute("personCount", personCount);
+
 		return "reservation/reservation";
-	}
-
-	// 매장 정보 조회 API (예약 페이지용)
-	@GetMapping("/api/reservation/store_info")
-	@ResponseBody
-	public Map<String, Object> getStoreInfo(@RequestParam("store_idx") Integer storeIdx) {
-		Map<String, Object> response = new HashMap<>();
-
-		try {
-			Map<String, Object> storeInfo = reservationService.getStoreInfo(storeIdx);
-			response.put("success", true);
-			response.put("data", storeInfo);
-		} catch (Exception e) {
-			response.put("success", false);
-			response.put("message", e.getMessage());
-		}
-
-		return response;
 	}
 
 	// 예약 전송 API
@@ -62,20 +65,14 @@ public class ReservationController {
 		try {
 			Integer memberIdx = member.getMemberIdx();
 
-//			log.info("매장 번호: " + reservationData.get("store_idx"));
-//			log.info("예약자명: " + reservationData.get("reserve_name"));
-//			log.info("이메일: " + reservationData.get("reserve_email"));
-//			log.info("예약일: " + reservationData.get("reserve_date"));
-//			log.info("예약시간: " + reservationData.get("reserve_time"));
-//			log.info("인원수: " + reservationData.get("person_count"));
-
-			Map<String, Object> result = reservationService.createReservation(reservationData, memberIdx);
+			Map<String, Object> result = reservationService.insertReservation(reservationData, memberIdx);
 
 			response.put("success", true);
 			response.put("message", "예약이 완료되었습니다.");
 			response.put("data", result);
 		} catch (Exception e) {
 			e.printStackTrace();
+			// service 에서 던진 에러 처리 
 			response.put("success", false);
 			response.put("message", e.getMessage());
 		}

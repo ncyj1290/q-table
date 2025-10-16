@@ -33,31 +33,35 @@ public class ReservationService {
 
 	// 예약 등록 + 큐머니 차감 + 결제내역(예정)
 	@Transactional
-	public Map<String, Object> createReservation(Map<String, Object> reservationData, Integer memberIdx) {
-		// 1. 매장 정보 조회 (예약금 확인)
-		Integer storeIdx = Integer.parseInt(String.valueOf(reservationData.get("store_idx")));
+	public Map<String, Object> insertReservation(Map<String, Object> reservationData, Integer memberIdx) {
+		// 1. 매장 정보 조회
+		Integer storeIdx = convertToInteger(reservationData.get("store_idx"));
 		Map<String, Object> storeInfo = reservationMapper.getStoreInfo(storeIdx);
 
 		// 예약금 계산
-		Number depositNum = (Number) storeInfo.get("deposit");
-		Integer deposit = depositNum.intValue();
-		
-		Integer personCount = Integer.parseInt(String.valueOf(reservationData.get("person_count")));
+		Integer deposit = convertToInteger(storeInfo.get("deposit"));
+		Integer personCount = convertToInteger(reservationData.get("person_count"));
 		Integer totalAmount = deposit * personCount;
 
+		// 2. 중복 예약 확인
+		String reserveDate = String.valueOf(reservationData.get("reserve_date"));
+		int duplicateCount = reservationMapper.checkDuplicateReservation(memberIdx, storeIdx, reserveDate);
 
-		// 2. 예약 등록 
+		if (duplicateCount > 0) {
+			throw new RuntimeException("해당 날짜에 이미 예약이 존재합니다.");
+		}
+
+		// 3. 예약 등록
 		reservationData.put("member_idx", memberIdx);
 		int result = reservationMapper.insertReservation(reservationData);
 
-		Number reserveNum = (Number) reservationData.get("reserve_idx");
-		Integer reserveIdx = reserveNum.intValue();
+		Integer reserveIdx = convertToInteger(reservationData.get("reserve_idx"));
 
-		// 3. 큐머니 차감
+		// 4. 큐머니 차감
 		result = reservationMapper.updateMemberQMoney(memberIdx, totalAmount);
-		
+
 		if (result == 0) {
-			throw new RuntimeException("큐머니 차감에 실패했습니다.");
+			throw new RuntimeException("큐머니 잔액이 부족합니다. 충전 후 다시 시도해주세요.");
 		}
 
 		
@@ -69,5 +73,16 @@ public class ReservationService {
 		resultMap.put("total_amount", totalAmount);
 
 		return resultMap;
+	}
+
+	// Object를 Integer로 안전하게 변환 (Number, String 모두 처리)
+	private Integer convertToInteger(Object value) {
+		if (value == null) return null;	
+
+		if (value instanceof Number) return ((Number) value).intValue();
+
+		if (value instanceof String) return Integer.parseInt((String) value);
+
+		throw new IllegalArgumentException("Cannot convert " + value.getClass() + " to Integer");
 	}
 }

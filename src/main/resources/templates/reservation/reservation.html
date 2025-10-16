@@ -10,7 +10,7 @@
         <!-- 왼쪽 메인 섹션 -->
         <div class="reservation-form">
             <!-- 통합 예약 폼 -->
-            <form id="reservationForm" method="POST" th:action="@{/reservation/submit}">
+            <form id="reservationForm">
             <div class="form-box">
                 <!-- 예약자 정보 -->
                 <div class="section-title">
@@ -81,26 +81,27 @@
         <div class="store-info-card">
             <div class="store-header">
                 <div class="store-image">
-                    <img id="storeImage" alt="매장 이미지">
+                    <img id="storeImage" th:src="${storeInfo.store_img}" alt="매장 이미지">
                 </div>
                 <div class="store-info">
-                    <h3 id="storeName">매장명</h3>
-                    <span id="storeLocation" class="store-location"></span>
+                    <h3 id="storeName" th:text="${storeInfo.store_name}">매장명</h3>
+                    <span id="storeLocation" class="store-location"
+                          th:text="${storeInfo.full_address != null ? storeInfo.full_address : storeInfo.sido + ' ' + storeInfo.sigungu}"></span>
                 </div>
             </div>
 
             <div class="reservation-details">
                 <div class="detail-row">
                     <i class="fas fa-calendar-alt detail-icon"></i>
-                    <span id="reservationDate" class="detail-value">날짜 미선택</span>
+                    <span id="reservationDate" class="detail-value" th:text="${reserveDate}">날짜 미선택</span>
                 </div>
                 <div class="detail-row">
                     <i class="fas fa-clock detail-icon"></i>
-                    <span id="reservationTime" class="detail-value">시간 미선택</span>
+                    <span id="reservationTime" class="detail-value" th:text="${reserveTime}">시간 미선택</span>
                 </div>
                 <div class="detail-row">
                     <i class="fas fa-user detail-icon"></i>
-                    <span id="personCount" class="detail-value">인원 미입력</span>
+                    <span id="personCount" class="detail-value" th:text="${personCount} + '명'">인원 미입력</span>
                 </div>
             </div>
 
@@ -108,15 +109,29 @@
                 <h4>서비스 이용료</h4>
                 <div class="fee-item">
                     <span class="fee-label">예약금</span>
-                    <span id="depositAmount" class="fee-amount">3000 Q-money</span>
+                    <span id="depositAmount" class="fee-amount" th:text="${#numbers.formatInteger(storeInfo.deposit, 0, 'COMMA')} + ' Q-money'"></span>
                 </div>
                 <div class="fee-item total">
                     <span class="fee-label">총 결제</span>
-                    <span id="totalAmount" class="fee-amount total-amount">6000 Q-money</span>
+                    <span id="totalAmount" class="fee-amount total-amount" th:text="${#numbers.formatInteger(storeInfo.deposit * personCount, 0, 'COMMA')} + ' Q-money'"></span>
+                </div>
+                <div class="horizontal-line-gray qmoney-divider"></div>
+                <div class="qmoney-info-box">
+                    <div class="fee-item qmoney-balance">
+                        <span class="fee-label">보유 큐머니</span>
+                        <span id="userQMoney" class="fee-amount" th:text="${#numbers.formatInteger(userQMoney, 0, 'COMMA')} + ' Q-money'"></span>
+                    </div>
+                    <div class="fee-item remaining-qmoney" id="remainingQMoney">
+                        <span class="fee-label">결제 후 잔액</span>
+                        <span id="afterPaymentQMoney" class="fee-amount" th:text="${#numbers.formatInteger(userQMoney - (storeInfo.deposit * personCount), 0, 'COMMA')} + ' Q-money'"></span>
+                    </div>
                 </div>
                 <p class="fee-note">※ 총 결제 금액 = 인원 수 * 예약금</p>
-<!--                 <p class="fee-note">※ 식사대금의 결제가 아닙니다. 당일의 식사대금은 반드시 현지의 매장에서 지불해 주십시요.</p> -->
             </div>
+
+            <!-- hidden inputs for JS -->
+            <input type="hidden" id="storeIdx" th:value="${storeIdx}">
+            <input type="hidden" id="deposit" th:value="${storeInfo.deposit}">
         </div>
     </div>
 </div>

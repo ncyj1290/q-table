@@ -60,7 +60,18 @@
 		UPDATE member
 		   SET q_money = q_money - #{amount}
 		 WHERE member_idx = #{memberIdx}
+		   AND q_money >= #{amount}
 	</update>
+
+	<!-- 중복 예약 확인 -->
+	<select id="checkDuplicateReservation" resultType="int">
+		SELECT COUNT(*)
+		  FROM reservation
+		 WHERE member_idx = #{memberIdx}
+		   AND store_idx = #{storeIdx}
+		   AND reserve_date = #{reserveDate}
+		   AND reserve_result = 'rsrt_05' 
+	</select>
 
 	<!-- 결제 내역 등록 -->
 

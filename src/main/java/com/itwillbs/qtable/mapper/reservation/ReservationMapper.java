@@ -20,4 +20,7 @@ public interface ReservationMapper {
 	// 매장 이미지 가져오기
 	String getStoreProfileImage(Integer storeIdx);
 
+	// 중복 예약 확인
+	int checkDuplicateReservation(@Param("memberIdx") Integer memberIdx, @Param("storeIdx") Integer storeIdx, @Param("reserveDate") String reserveDate);
+
 }
