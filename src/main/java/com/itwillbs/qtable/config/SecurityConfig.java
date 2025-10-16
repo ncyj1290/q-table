@@ -131,6 +131,7 @@ public class SecurityConfig {
 	                .userInfoEndpoint(userInfo -> userInfo
 	                		.userService(oAuth2UserService) // 커스텀한 소셜유저서비스 적용시키기 
                 	).failureHandler(authenticationFailureHandler())
+	                 .successHandler(successHandler)
 	            )
 				//로그인 유지 설정 
 				.rememberMe(rememberMe -> rememberMe
