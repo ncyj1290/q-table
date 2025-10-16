@@ -113,6 +113,7 @@
 			   j.jeongsan_idx,
 		       j.jeongsan_amount,
 		       c.code_label AS calculate_result,
+		       c1.code_label AS bank_code,
 		       j.requested_at,
 		       j.processed_at,
 		       s.store_name,
@@ -122,6 +123,7 @@
 	 LEFT JOIN member m ON j.member_idx = m.member_idx
 	 LEFT JOIN store s ON j.member_idx = s.member_idx
 	 LEFT JOIN common_code c ON j.calculate_result = c.code
+	 LEFT JOIN common_code c1 ON s.bank_code = c1.code
 		 WHERE member_type = "mtype_03"
     </select>
     
@@ -159,6 +161,49 @@
 	 LEFT JOIN store s ON ss.store_idx = s.store_idx
 	 LEFT JOIN member m ON m.member_idx = s.member_idx;
     </select>
+    
+    <!-- 공통 코드 리스트 -->
+    <select id="findCommonCodeList">
+	    SELECT
+		   	   c.common_idx,
+		       g.group_code,
+	           g.group_desc,
+	           c.code,
+	           c.code_label,
+	           c.code_desc
+	      FROM common_code c 
+	 LEFT JOIN common_code_group g ON c.group_code = g.group_code
+    </select>
+    
+    <!-- 공통 코드 상세 조회 -->
+    <select id="findCommoncodeDetail">
+	    SELECT
+		   	   c.common_idx,
+		       g.group_code,
+	           g.group_desc,
+	           c.code,
+	           c.code_label,
+	           c.code_desc
+	      FROM common_code c 
+	 LEFT JOIN common_code_group g ON c.group_code = g.group_code
+	     WHERE c.common_idx = #{common_idx}
+    </select>
+    
+    <!-- 공통 코드 삭제 -->
+    <delete id="deleteCommonCodeById">
+    	DELETE
+    	  FROM common_code
+    	 WHERE common_idx = #{common_idx} 
+    </delete>
+    
+    <!-- 공통 코드 업데이트 -->
+    <update id="updateCommonCode">
+		UPDATE common_code
+	       SET code = #{CommonCodeVO.code},
+	           code_label = #{CommonCodeVO.code_label},
+	           code_desc = #{CommonCodeVO.code_desc}
+	     WHERE common_idx = #{common_idx}
+    </update>
 
     
     

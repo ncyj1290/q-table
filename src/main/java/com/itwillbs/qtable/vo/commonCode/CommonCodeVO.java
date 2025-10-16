@@ -9,6 +9,7 @@ import lombok.Data;
 public class CommonCodeVO {
 	private int common_idx;
 	private String group_code;
+	private String group_desc;
 	private String code;
 	private String code_label;
 	private String code_desc;

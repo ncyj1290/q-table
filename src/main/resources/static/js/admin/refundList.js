@@ -4,8 +4,9 @@ $(function() {
 		{ name: 'No.', width: '5%' },
 		{ name: '매장명', width: '10%'},
 		{ name: '회원 아이디', width: '7%' },
-		{ name: '정산 금액', width: '10%' },
+		{ name: '정산 금액', width: '7%' },
 		{ name: '계좌번호', width: '10%' },
+		{ name: '은행명', width: '7%' },
 		{ name: '정산 요청 일시', width: '10%' },
 		{ name: '정산 처리 일시', width: '10%' },
 		{
@@ -57,6 +58,7 @@ $(function() {
 					jeongsan.member_id,
 					jeongsan.jeongsan_amount + " 원",
 					jeongsan.account_number,
+					jeongsan.bank_code,
 					jeongsan.requested_at.replace('T', ' '),
 					jeongsan.processed_at.replace('T', ' '),
 					jeongsan.calculate_result,

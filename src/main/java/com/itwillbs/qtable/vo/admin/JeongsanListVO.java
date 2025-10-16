@@ -22,6 +22,7 @@ public class JeongsanListVO {
 	private LocalDateTime processed_at;
 	private String rejection_reason;
 	private String account_number;
+	private String bank_code;
 	
 	public JeongsanListVO(Jeongsan entity) {
 		this.jeongsan_idx = entity.getJeongsanIdx();
