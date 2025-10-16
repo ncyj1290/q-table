@@ -13,7 +13,8 @@ $(function() {
 		priceUpdate(this);//가격 키워드 반영
 		keywordUpdate(this);
 		hideSelectedDiv();
-		//쿼리스트링 반영하는것도 짜야함 
+		//쿼리스트링 반영하는것도 짜야함
+		updateQueryForSidebar(this); 
 	});
 	
 	//초기화 눌렀을때
@@ -42,6 +43,7 @@ $(function() {
 	// 모달 적용하기 버튼 
 	$("#apply-btn").on("click", function() {
 		updateSidebar();
+		updateQueryForLocFood();
 	    hideLocFoodModal();
 	});
 	
@@ -88,6 +90,79 @@ let filterState = {
 	}
 }
 
+let searchState = {
+	loc: [],
+	food: [],
+	atmosphere: [],
+	facility: [],
+	seatCnt: null,
+	price: null
+}
+
+function buildUrlAndFetchData() {
+    const params = new URLSearchParams();
+
+    // 현재 저장된 모든 필터 상태를 기반으로 파라미터를 구성합니다.
+    if (searchState.price) params.set('price', searchState.price);
+    if (searchState.seatCnt) params.set('seatCnt', searchState.seatCnt);
+    
+    searchState.atmosphere.forEach(v => params.append('atmosphere', v));
+    searchState.facility.forEach(v => params.append('facility', v));
+    searchState.food.forEach(v => params.append('food', v));
+    searchState.loc.forEach(v => params.append('loc', v));
+
+    const baseUrl = "/search";
+    const finalUrl = `${baseUrl}?${params.toString()}`;
+
+    console.log("🚀 최종 생성된 URL:", finalUrl);
+    // 이 URL로 AJAX 요청을 보내 화면을 업데이트합니다.
+}
+
+//사이드바에서 선택한 키워드 쿼리에 적용 
+function updateQueryForSidebar(el) {
+	// 모달에서 선택된 키워드는 ㄲㅈ 
+	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
+	if(isModalEvent) return;
+	console.log('사이드바에서 선택된 이벤트 ');
+	console.log(el);
+	const price = $(el).data('price');
+	const seatcnt = $(el).data('seatcnt');
+	const atmosphere = $(el).data('atmosphere');
+	const facility = $(el).data('facility');
+	if(price) {
+		searchState.price = price;
+	}
+	if(seatcnt) {
+		searchState.seatCnt = seatcnt;
+	}
+    if (atmosphere) {
+        const alreadyExists = searchState.atmosphere.includes(atmosphere);
+        if (alreadyExists) {
+            searchState.atmosphere = searchState.atmosphere.filter(v => v != atmosphere);
+        } else {
+            searchState.atmosphere.push(atmosphere);
+        }
+    }
+
+    if (facility) {
+        const alreadyExists = searchState.facility.includes(facility);
+        if (alreadyExists) {
+            searchState.facility = searchState.facility.filter(v => v != facility);
+        } else {
+            searchState.facility.push(facility);
+        }
+    }
+	
+	buildUrlAndFetchData();
+}
+
+//지역,음식 모달에서 선택한 키워드 쿼리에 적용 
+function updateQueryForLocFood() {
+	searchState.loc = filterState.location.code_label;
+	searchState.food = filterState.food.code;
+	
+	buildUrlAndFetchData();
+}
 
 // 적용하기 버튼 눌러서 모달에 반영 
 function updateSidebar() {

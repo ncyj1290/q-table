@@ -60,16 +60,16 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 		boolean isAjax = acceptHeader != null && acceptHeader.contains("application/json");
 		UserLog userLog = new UserLog();
 		String userIp = request.getRemoteAddr();
+		QtableUserDetails userDetails = (QtableUserDetails)authentication.getPrincipal();
+		
+		// 멤버 idx, ip 
+		log.info("사용자 idx "+ userDetails.getMember().getMemberIdx());
+		log.info("사용자 ip "+request.getRemoteAddr());
+		userLog.setMember_idx(userDetails.getMember().getMemberIdx());
+		userLog.setIp_address(userIp);
+		repo.save(userLog);// 로그 디비 저장
+		
         if(isAjax) { //일반 호출이면 ajax 응답 
-        	
-        	QtableUserDetails userDetails = (QtableUserDetails)authentication.getPrincipal();
-    		// 멤버 idx, ip 
-    		log.info("일반 사용자 idx "+ userDetails.getMember().getMemberIdx());
-    		log.info("사용자 ip "+request.getRemoteAddr());
-    		userLog.setMember_idx(userDetails.getMember().getMemberIdx());
-    		userLog.setIp_address(userIp);
-    		repo.save(userLog);// 로그 디비 저장
-    		
         	 // 응답 데이터 생성
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("status", "success");
@@ -82,12 +82,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
             response.getWriter().write(objectMapper.writeValueAsString(responseData));
             
         } else { // 소셜 회원이면 바로 리다이렉트 요청보내기 
-        	QtableOAuth2User socialDetails = (QtableOAuth2User)authentication.getPrincipal();
-    		log.info("소셜 사용자 idx "+ socialDetails.getMember().getMemberIdx());
-    		log.info("사용자 ip "+request.getRemoteAddr());
-    		userLog.setMember_idx(socialDetails.getMember().getMemberIdx());
-    		userLog.setIp_address(userIp);
-    		repo.save(userLog); // 로그 디비 저장
     		
         	getRedirectStrategy().sendRedirect(request, response, redirectUrl);
         }

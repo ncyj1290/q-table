@@ -54,7 +54,7 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         Member member = saveOrUpdate(registrationId, attributes, userRequest.getAccessToken().getTokenValue(), userNameAttributeName);
 
-        return new QtableOAuth2User(member, oAuth2User);
+        return new QtableUserDetails(member, attributes);
     }
 
     private Member saveOrUpdate(String registrationId, 

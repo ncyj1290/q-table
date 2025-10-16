@@ -102,15 +102,18 @@ public class SecurityConfig {
 	                "/", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
 	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore"
-	                ,"/api/search_getSubLocation","/send"
+	                ,"/api/search_getSubLocation","/send","/verify"
 	            ).permitAll()
+	            
 	            .requestMatchers(
             		"/login", "/loginPro"
 	            ).anonymous()
+	            
 	            //5.static 파일 경로 
 	            .requestMatchers(
             		"/css/**", "/js/**", "/img/**", "/icons/**", "/plugins/**"
 	            ).permitAll()
+	            
 	            // 6. 위에서 설정한 경로 외 나머지 모든 경로는 일단 인증요구
 	            .anyRequest().authenticated())
 				

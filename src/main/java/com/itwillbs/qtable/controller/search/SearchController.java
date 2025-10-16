@@ -25,7 +25,14 @@ public class SearchController {
 	private final searchService searchService;
 	
 	@GetMapping("search")
-	public String search(Model model) {
+	public String search(
+			Model model,
+			@RequestParam(value = "loc", required = false) List<String> locList,
+			@RequestParam(value = "food", required = false) List<String> foodList) {
+		
+		log.info("지역 리스트 " + locList);
+		log.info("음식 리스트 " + foodList);
+		
 		model.addAttribute("isSearch", true);
 		storeWriteService.selectAllCommonCodeForStore(model);
 		searchService.selectSeatCntPriceRange(model);
