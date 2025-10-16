@@ -10,6 +10,8 @@
 }
 
 
+
+
 /* Sub Layout */
 .sub-layout{
 	display: flex;
@@ -44,6 +46,7 @@
 }
 
 
+
 /* 매장 프로필 이미지 배치 레이아웃 */
 .store-profile-layout{
 	display: flex;
@@ -67,11 +70,11 @@
 	border-radius: 20px;
 }
 
-
 .no-store-label{
 	font-size: 12px;
 	color: red;	
 }
+
 
 
 /* 사이드 바 배치용 레이아웃 */
@@ -92,18 +95,9 @@
 }
 
 
-/* Disabled 일 경우 */
-.category-button-size:disabled{
-	border: 1px solid gray;
-	background-color: gray;
-}
 
 
-/* 클릭 모션 제거 */
-.category-button-size:disabled:active{
-	transform: scale(1.0);
-	background-position: 100% 0%;
-}
+
 
 
 

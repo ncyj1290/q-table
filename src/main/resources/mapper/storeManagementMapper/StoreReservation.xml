@@ -8,13 +8,7 @@
 	<select id="countReservationByStoreIdx">
 		select count(*)
 		from reservation
-		<where>
-			store_idx = #{store_idx}
-			<!-- 필터 있을 때 where 조건 -->
-			<if test="filter != null and filter != ''">
-				and reserve_result = #{filter}
-			</if>
-		</where> 
+		where store_idx = #{store_idx}
 	</select>
 	
 	<!-- 해당 매장 idx로 예약 목록 가져오는 쿼리문 -->
@@ -37,14 +31,7 @@
 		on r.reserve_result = c.code
 		join member m
 		on r.member_idx = m.member_idx 
-		<where>
-			r.store_idx = #{store_idx}
-			<!-- 필터 있을 때 where 조건 -->
-			<if test="filter != null and filter != ''">
-				and r.reserve_result = #{filter}
-			</if>
-		</where>
-		order by r.created_at desc
+		where r.store_idx = #{store_idx}
 		limit #{start_row}, #{list_limit}
 	</select>
 

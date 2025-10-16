@@ -1,9 +1,8 @@
 <div th:fragment="storeManagementSideBar" class="side-bar-layout">
-	<button type="button" onclick="location.href='/store_management_main'" class="positive-button category-button-size">매장 관리자 메인</button>
-	<button type="button" onclick="location.href='/write_store'" class="positive-button category-button-size" th:if="${spData == null}">매장 정보 등록</button>
-	<button type="button" onclick="location.href='/modify_store'" class="positive-button category-button-size" th:if="${spData != null}">매장 정보 수정</button>
-	<button type="button" onclick="location.href='/store_management_main'" class="positive-button category-button-size" th:disabled="${spData == null}">매장 통계</button>
-	<button type="button" onclick="location.href='/store_reservation_list'" class="positive-button category-button-size" th:disabled="${spData == null}">예약 목록</button>
-	<button type="button" onclick="location.href='/store_calculate_list'" class="positive-button category-button-size" th:disabled="${spData == null}">정산 목록</button>
-	<button type="button" onclick="location.href='/purchase_subscribe'" class="positive-button category-button-size">구독권 구매</button>
+	<a href="/write_store" class="positive-button category-button-size">매장 정보 등록</a>
+	<a href="/modify_store" class="positive-button category-button-size">매장 정보 수정</a>
+	<a href="#" class="positive-button category-button-size">매장 통계</a>
+	<a href="/store_reservation_list" class="positive-button category-button-size">예약 목록</a>
+	<a href="/store_calculate_list" class="positive-button category-button-size">정산 목록</a>
+	<a href="/purchase_subscribe" class="positive-button category-button-size">구독권 구매</a>
 </div>

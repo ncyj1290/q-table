@@ -1,4 +1,3 @@
-
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layouts/defaultLayout}">
 	
 	<head>
@@ -24,11 +23,13 @@
 					<div class="row-component">
 						<h3>예약 목록</h3>	
 					</div>
-
-					<div class="filter-button-layout" th:with="currFilter=${filter}">
+					
+					<div class="filter-button-layout">
 						<b>목록 필터</b>
-						<button th:class="${(currFilter == null or currFilter == '')} ? 'positive-button' : 'negative-button'" th:onclick="|location.href='@{/store_reservation_list(pageNum=1)}'|">전체</button>	
-						<button th:each="rcode, i : ${resvList}" th:text="${rcode.code_label}" th:class="${(currFilter == rcode.code) ? 'positive-button' : 'negative-button'}" th:onclick="|location.href='@{/store_reservation_list(filter=${rcode.code})}'|"></button>
+						<button class="positive-button">받은 예약</button>	
+						<button class="positive-button">취소 예약</button>	
+						<button class="positive-button">전체 예약</button>	
+						<button class="positive-button">날짜 순</button>	
 					</div>
 					
 					<!-- 목록 배치 레이아웃 -->
@@ -41,7 +42,7 @@
 							<label class="label-id-size"><b>예약자 이름</b></label>
 							<label class="label-date-size"><b>예약 날짜</b></label>
 							<label class="label-time-size"><b>예약 시간</b></label>
-							<label class="label-result-size"><b>예약 결과</b></label>
+							<label class="label-result-size"><b>취소 여부</b></label>
 						</div>
 
 						<a th:href="@{/store_reservation_detail(reserve_idx=${res.reserve_idx})}" class="element-row" th:each="res, i : ${reservationList}">
@@ -56,14 +57,13 @@
 					</div>
 					
 					<!-- 페이지네이션 셀렉터 -->
-					<div class="page-selector-layout" 
-					th:with="curr=${pageVo.pageNum}, prev=${pageVo.pageNum - 1}, next=${pageVo.pageNum + 1}, start=${pageVo.startPage}, end=${pageVo.endPage}, max=${pageVo.maxPage}, currFilter=${filter}" >
+					<div class="page-selector-layout" th:with="curr=${pageVo.pageNum}, prev=${pageVo.pageNum - 1}, next=${pageVo.pageNum + 1}, start=${pageVo.startPage}, end=${pageVo.endPage}, max=${pageVo.maxPage}">
 					  <!-- 이전 -->
-					  <button class="page-selector" th:onclick="|location.href='@{/store_reservation_list(pageNum=${prev}, filter=${currFilter})}'|" th:disabled="${curr <= 1}">&lt;</button>
+					  <button class="page-selector" th:onclick="|location.href='@{/store_reservation_list(pageNum=${prev})}'|" th:disabled="${curr <= 1}">&lt;</button>
 					  <!-- 페이지 번호들 -->
-					  <button class="page-selector" th:each="p : ${#numbers.sequence(start, end)}" th:text="${p}" th:onclick="|location.href='@{/store_reservation_list(pageNum=${p}, filter=${currFilter})}'|"  th:classappend="${p == curr} ? ' active' : ''"></button>
+					  <button class="page-selector" th:each="p : ${#numbers.sequence(start, end)}" th:text="${p}" th:onclick="|location.href='@{/store_reservation_list(pageNum=${p})}'|"  th:classappend="${p == curr} ? ' active' : ''"></button>
 					  <!-- 다음 -->
-					  <button class="page-selector" th:onclick="|location.href='@{/store_reservation_list(pageNum=${next}, filter=${currFilter})}'|" th:disabled="${curr >= max}">&gt;</button>
+					  <button class="page-selector" th:onclick="|location.href='@{/store_reservation_list(pageNum=${next})}'|" th:disabled="${curr >= max}">&gt;</button>
 					</div>
 
 				</div>
