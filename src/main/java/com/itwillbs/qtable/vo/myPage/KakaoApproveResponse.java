@@ -15,8 +15,10 @@ public class KakaoApproveResponse {
 	private String payment_amount; // 결제 금액 정보
 	private String item_name; // 상품명
 	private String item_code; //상품 코드
-	private int qunatity; // 상품 수량
+	private int quantity; // 상품 수량
 	private String created_at; // 결제 요청 시간
 	private String approved_at; // 결제 승인 시간
 	private String payload; // 요정 전달 내용
+	
+	private Amount amount;
 }

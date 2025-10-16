@@ -50,32 +50,77 @@ $(document).ready(function() {
 		let token = $("meta[name='_csrf']").attr('content');
 		let header = $("meta[name='_csrf_header']").attr('content');
 
-		$.ajax({
-			url: '/mypage/qmoneyCharge',
-			type: 'POST',
-			contentType: 'application/json',
-			dataType: 'json',
-			data: JSON.stringify({
-				payment_idx: selectedPayMethod,
-				amount: selectedAmount
-			}),
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader(header, token);
-			},
-			success: function(data) {
-				if (data && data.next_redirect_pc_url) {
-					window.location.href = data.next_redirect_pc_url;
-				} else if (data && data.updatedBalance) {
-					$('.Qmoney-balance span').text(data.updatedBalance + '원');
-				} else {
-					alert('결제 요청 실패');
+		// 카카오 페이 결제
+		if (selectedPayMethod === 'kakao') {
+			$.ajax({
+				url: '/mypage/qmoneyCharge',
+				type: 'POST',
+				contentType: 'application/json',
+				dataType: 'json',
+				data: JSON.stringify({
+					payment_idx: selectedPayMethod,
+					amount: selectedAmount
+				}),
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				success: function(data) {
+					if (data && data.next_redirect_pc_url) {
+						window.location.href = data.next_redirect_pc_url;
+					} else if (data && data.updatedBalance) {
+						$('.Qmoney-balance span').text(data.updatedBalance + '원');
+					} else {
+						alert('결제 요청 실패');
+					}
+				},
+				error: function(xhr, status, error) {
+					console.error('결제 중 오류:', error);
+					alert('결제 중 오류가 발생했습니다.');
 				}
-			},
-			error: function(xhr, status, error) {
-				console.error('결제 중 오류:', error);
-				alert('결제 중 오류가 발생했습니다.');
-			}
-		});
+			});
+
+		}
+		
+		// 카드 결제
+		else if (selectedPayMethod === 'card') {
+			const { IMP } = window;
+			IMP.init('imp70636281'); 
+
+			IMP.request_pay({
+				pg: 'html5_inicis', 
+				pay_method: 'card',
+				merchant_uid: 'order_' + new Date().getTime(),
+				name: 'Q-money 충전',
+				amount: selectedAmount,
+				buyer_email: 'user@example.com',
+			}, function(rsp) {
+				if (rsp.success) {
+					$.ajax({
+						url: '/mypage/qmoneyCharge',
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify({
+							imp_uid: rsp.imp_uid,
+							merchant_uid: rsp.merchant_uid,
+							amount: selectedAmount
+						}),
+						beforeSend: function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						success: function(data) {
+							alert('결제가 완료되었습니다!');
+							window.location.href = '/mypage/paymentcomplete';
+						},
+						error: function(xhr, status, error) {
+							console.error('서버 검증 오류:', error);
+							alert('결제 검증 중 오류가 발생했습니다.');
+						}
+					});
+				} else {
+					alert('결제 실패: ' + rsp.error_msg);
+				}
+			});
+		}
 	});
 
 	// 카카오페이 결제 완료 후 승인 처리 & 완료 페이지 이동

@@ -3,7 +3,8 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.itwillbs.qtable.mapper.mypage.kakoPayMapper">
+<!--<mapper namespace="com.itwillbs.qtable.mapper.mypage.kakaoPayMapper">-->
+<mapper namespace="com.itwillbs.qtable.mapper.pay.PaymentMapper">
 	
 	<insert id="insertPayment"  parameterType="com.itwillbs.qtable.vo.myPage.payment">
 	insert into payment(
@@ -15,7 +16,7 @@
 		pay_type,
 		pay_reference,
 		reference_idx
-	) value (
+	) values (
 		#{member_idx},
 		NOW(),
 		#{payment_amount},
@@ -25,9 +26,36 @@
 		#{pay_reference},
 		#{reference_idx}
 	)
-
 	</insert>	
 	
+	<select id="selectPaymentsByMember" parameterType="int" resultType="com.itwillbs.qtable.vo.myPage.payment">
+        SELECT *
+        FROM payment
+        WHERE member_idx = #{memberIdx}
+        ORDER BY payment_date DESC
+    </select>
+	
+	<insert id="insertPortOne"  parameterType="com.itwillbs.qtable.vo.myPage.payment">
+	insert into payment(
+		member_idx,
+		payment_date,
+		payment_amount,
+		pay_status,
+		pay_way,
+		pay_type,
+		pay_reference,
+		reference_idx
+	) values (
+		#{member_idx},
+		NOW(),
+		#{payment_amount},
+		#{pay_status},
+		#{pay_way},
+		#{pay_type},
+		#{pay_reference},
+		#{reference_idx}
+	)
+	</insert>	
 	
 	
 </mapper>

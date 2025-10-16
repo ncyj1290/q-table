@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.service.mypage.ReservationListService;
+import com.itwillbs.qtable.service.pay.KakaoPayService;
 import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ import lombok.extern.java.Log;
 @Log
 public class MyPageController {
 
-
+	private final KakaoPayService kakaoPayService;
 	private final ReservationListService reservationService;
 	
 	@GetMapping("/mypage_main")
@@ -174,5 +175,17 @@ public class MyPageController {
 	    }
 	}
 
+	// q-money 금액 불러오기
+		@GetMapping("/mypage/qmoneyBalance")
+		@ResponseBody
+		public Map<String, Object> getQmoneyBalance(@AuthenticationPrincipal QtableUserDetails userDetails) {
+		    int memberIdx = userDetails.getMember().getMemberIdx();
 
+		    // 서비스에서 총 Q-money 계산
+		    int totalQmoney = kakaoPayService.getTotalQmoney(memberIdx);
+
+		    Map<String, Object> result = Map.of("balance", totalQmoney);
+		    return result;
+		}
+	
 }

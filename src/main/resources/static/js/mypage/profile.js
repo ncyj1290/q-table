@@ -16,3 +16,11 @@ fileInput.addEventListener('change', function(event) {
     reader.readAsDataURL(event.target.files[0]);
   }
 });
+
+// 금액 불러오기
+$(document).ready(function() {
+    $.getJSON('/mypage/qmoneyBalance', function(data) {
+        const formattedBalance = Number(data.balance).toLocaleString('ko-KR'); // 천 단위 쉼표
+        $('#qmoneyBalance').text(formattedBalance + '원');
+    });
+});

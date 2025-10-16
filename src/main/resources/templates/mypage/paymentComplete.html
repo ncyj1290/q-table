@@ -1,16 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/layouts/defaultLayout}">
-	<head>
-		<link rel="stylesheet" th:href="@{/css/mypage/paymentComplete.css}">
-	</head>
-	<body>
-			<div layout:fragment="Content">
-				<div class="complete-container">
-				<img src="img/logo.PNG">
-				<h1>결제 완료</h1>
-				<p>"Q-money 결제가 완료되었습니다"</p>
-				<button type="button" lick="location.href='/'">메인 화면으로 이동</button>
-				</div>
+
+<head>
+	<link rel="stylesheet" th:href="@{/css/mypage/paymentComplete.css}">
+</head>
+
+<body>
+	<div layout:fragment="Content">
+		<div class="complete-container">
+			<img src="/img/logo.PNG">
+			<h1>결제 완료</h1>
+
+			<div th:if="${!payments.isEmpty()}">
+				<h2>결제금액: <span th:text="${payments[0].payment_amount}">금액</span> 원</h2>
+				<h2>결제일시: <span th:text="${#dates.format(payments[0].payment_date, 'yyyy-MM-dd HH:mm:ss')}">날짜</span></h2>
+			</div>
+
+			<!-- 결제 내역이 없는 경우 -->
+			<div th:if="${payments.isEmpty()}">
+				<p>결제 내역이 없습니다.</p>
+			</div>
+
+			<a th:href="@{/}">
+				<button type="button">메인 화면으로 이동</button>
+			</a>
+		</div>
 	</div>
-	</body>
+</body>
+
 </html>

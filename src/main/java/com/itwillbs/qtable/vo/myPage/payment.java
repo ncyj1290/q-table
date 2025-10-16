@@ -1,6 +1,6 @@
 package com.itwillbs.qtable.vo.myPage;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import lombok.Data;
 
@@ -18,4 +18,5 @@ public class payment {
 	private int reference_idx;
 	private String external_transaction;
 	
+	private String item_name;
 }

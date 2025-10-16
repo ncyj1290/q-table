@@ -14,10 +14,13 @@
 	color: var(--color-main);
 }
 .complete-container h1 {
-	font-size: 160px;
+	font-size: 120px;
 }
-.complete-container p {
+.complete-container h2 {
 	font-size: 50px;
+}
+.complete-container h2 {
+	font-size: 30px;
 }
 .complete-container button{
 	width: 200px;

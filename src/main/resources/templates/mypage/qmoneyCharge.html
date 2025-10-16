@@ -7,6 +7,7 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/qmoneyCharge.css}">
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<script th:src="@{/js/mypage/qmoneyCharge.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>my_page</title>
@@ -62,29 +63,29 @@
 						</div>
 					</button>
 
-					<button type="button" class="form-noshadow img-button" style="width: 170px; height: 90px;">
+					<button type="button" class="form-noshadow img-button" style="width: 170px; height: 90px;" disabled>
 						<div class="pay-icon-items">
 							<img src="/img/naver_pay.png" alt="kakao_pay" class="naver_pay" />
 							<span>네이버페이</span>
 						</div>
 					</button>
 
-					<button type="button" class="form-noshadow img-button" style="width: 170px; height: 90px;">
+					<button type="button" class="form-noshadow img-button" style="width: 170px; height: 90px;" disabled>
 						<div class="pay-icon-items">
 							<img src="/img/toss_pay.png" alt="kakao_pay" class="toss_pay" />
 							<span>토스페이</span>
 						</div>
 					</button>
 				</div>
-				<div class="select-box" id="big-select">
-					<select>
-						<option value="">카드사 선택</option>
-						<option value="shinhan">신한카드</option>
-						<option value="kb">국민카드</option>
-						<option value="lotte">롯데카드</option>
-						<!-- 필요한 카드사 추가 -->
-					</select>
-				</div>
+<!--				<div class="select-box" id="big-select">-->
+<!--					<select>-->
+<!--						<option value="">카드사 선택</option>-->
+<!--						<option value="shinhan">신한카드</option>-->
+<!--						<option value="kb">국민카드</option>-->
+<!--						<option value="lotte">롯데카드</option>-->
+<!--						 필요한 카드사 추가 -->
+<!--					</select>-->
+<!--				</div>-->
 				<div class="refund-policy-section">
 					<label class="title-box" id="refund-policy" style="width: 96%; height: 40px;">환불정책</label>
 					<div class="refund-policy-list">

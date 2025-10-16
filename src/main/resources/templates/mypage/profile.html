@@ -10,12 +10,13 @@
 
 		<div class="profile-info">
 			<div class="nickname-box" sec:authorize="isAuthenticated()">
-				<div sec:authentication="principal.username" class="nickname"></div>
+				<span th:text="${#authentication.principal.member.memberName} + '님'"></span>
+
 				<div class="profile-icons">
 					<a th:href="@{/}">
 						<img src="/img/mypage_month.png" alt="달력" class="mypage_month" />
 					</a>
-					<a th:href="@{/}">
+					<a th:href="@{/chat}">
 						<img src="/img/mypage_messenger.png" alt="메세지" class="mypage_messenger" />
 					</a>
 					<a th:href="@{/setting}">

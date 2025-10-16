@@ -1,6 +1,7 @@
 package com.itwillbs.qtable.service.pay;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpEntity;
@@ -12,9 +13,11 @@ import org.springframework.web.client.RestTemplate;
 import com.itwillbs.qtable.config.KakaoPayProperties;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
+import com.itwillbs.qtable.mapper.pay.PaymentMapper;
 import com.itwillbs.qtable.util.SessionUtils;
 import com.itwillbs.qtable.vo.myPage.KakaoApproveResponse;
 import com.itwillbs.qtable.vo.myPage.KakaoReadyResponse;
+import com.itwillbs.qtable.vo.myPage.payment;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class KakaoPayService {
 
+	private final PaymentMapper paymentMapper;
+	private final PaymentService paymentService;
 	private final KakaoPayProperties kakaoPayProperties;
 	private RestTemplate restTemplate = new RestTemplate();
 	private KakaoReadyResponse KakaoReady;
@@ -107,8 +112,44 @@ public class KakaoPayService {
 		System.out.println();
 		System.out.println();
 		System.out.println();
+		
+        // DB에 저장할 payment 객체 생성
+		payment pay = new payment();
+		pay.setMember_idx(member_idx);
+		pay.setPayment_amount(approveResponse.getAmount().getTotal()); 
+		pay.setPay_status("pyst_01");  // 상태 코드
+		pay.setPay_way("pywy_01");
+		pay.setPay_type("pyus_01");  // 결제 유형
+		pay.setPay_reference(approveResponse.getTid());
+		pay.setExternal_transaction(approveResponse.getAid());
+		pay.setItem_name(approveResponse.getItem_name());
+
+        // DB 저장
+        paymentService.savePayment(pay);
 
 		return approveResponse;
 	}
+
+    // 결제 내역 조회
+    public List<payment> getPaymentsByMember(int memberIdx) {
+        return paymentMapper.selectPaymentsByMember(memberIdx);
+    }
+    
+    // q-money 합산해서 가져오기
+    public int getTotalQmoney(int memberIdx) {
+        // 결제 내역 조회
+        List<payment> payments = paymentMapper.selectPaymentsByMember(memberIdx);
+
+        // 결제 금액 합산
+        int total = 0;
+        if (payments != null) {
+            for (payment p : payments) {
+                total += p.getPayment_amount();
+            }
+        }
+
+        return total;
+    }
+
 	
 }
