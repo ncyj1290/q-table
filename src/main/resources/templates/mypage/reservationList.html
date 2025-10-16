@@ -25,7 +25,7 @@
 			<div class="reservation-header">
 				<span class="reserve-label active" onclick="showTab('visit', this, 'rsrt_05')">방문예정</span>
 				<span class="reserve-label">|</span>
-				<span class="reserve-label" onclick="showTab('cancel', this, 'rsrt_03')">취소</span>
+				<span class="reserve-label " onclick="showTab('cancel', this, 'rsrt_03')">취소</span>
 			</div>
 		</div>
 		
@@ -64,7 +64,7 @@
 					<div class="reservation-info">
 						<div class="store-title">
 							<div class="name-star-group">
-								<span th:text="${item.store_name}"></span>
+								<span th:text="${item.store_name}" class="store-name"></span>
 								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
 							</div>
 							<img src="/img/scrap_full.png" class="scrap-icon" />

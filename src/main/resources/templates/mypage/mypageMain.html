@@ -5,6 +5,8 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/reservationList.css}">
+	<script th:src="@{/js/mypage/mypage_main.js}"></script>
 	<meta charset="UTF-8">
 	<title>my_page</title>
 </head>
@@ -16,19 +18,42 @@
 
 		<div class="reservation-empty-container">
 			<div class="reservation-header">
-				<span class="reserve-label" onclick="reserveTab(this, 'visit')">방문예정</span>
+				<span class="reserve-label" onclick="showTab('visit', this, 'rsrt_05')">방문예정</span>
 				<span class="reserve-label">|</span>
-				<span class="reserve-label" onclick="reserveTab(this, 'cancel')">취소</span>
+				<span class="reserve-label" onclick="showTab('cancel', this, 'rsrt_03')">취소</span>
 			</div>
+			<div id="reservationContent"></div>
 			<div class="reservation-empty-content">
 				<div class="reserve-text">예약한 매장이 없어요</div>
-				
 				<div class="reserve-text">맛집을 찾으러 가볼까요?</div>
 				<a th:href="@{/search}">
 				<button class="positive-button"
 					style="width: 180px; height: 50px; font-size: 25px; border-radius: 10px; justify-content: center; margin-top: 10px;">맛집
 					찾아보기</button>
 			</div>
+			
+<!-- 			취소탭 -->
+			<th:block th:fragment="listFragment">
+			<div id="cancel" class="tab-content" style="display:none;">
+				<div class="reservation-item" th:each="item : ${upcomingList}">
+					<img th:src="@{${item.store_img}}" class="store-img" />
+					<div class="reservation-info">
+						<div class="store-title">
+							<div class="name-star-group">
+								<span th:text="${item.store_name}" class="store-name"></span>
+								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
+							</div>
+							<img src="/img/scrap_full.png" class="scrap-icon" />
+						</div>
+						<span class="desc" th:text="${item.store_content}"></span>
+						<span class="date" th:text="${item.reserve_dt}"></span>
+						<div class="reservation-buttons">
+							<button class="positive-button " style="width: 130px;" id="rebookBtn">재예약 하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			</th:block>
 		</div>
 	</div>
 

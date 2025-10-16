@@ -96,52 +96,8 @@ public class MyPageController {
 
 		return "mypage/profileSettings";
 	}
-
-	// 예약현황
-//	@GetMapping("/reservation_list")
-//	public String reservationList(Model model, HttpServletRequest request,
-//									@AuthenticationPrincipal QtableUserDetails userDetails,
-//									@RequestParam(value = "reserveResult", required = false) String reserveResult) {
-//		Member member = userDetails.getMember();
-//		String memberIdx = String.valueOf(member.getMemberIdx());
-//		
-//		// 예약상태 넘김
-//		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
-//		System.out.println("upcomingList size: " + (upcomingList != null ? upcomingList.size() : "null"));
-//		System.out.println("upcomingList contents: " + upcomingList);
-//		model.addAttribute("upcomingList", upcomingList);
-//		
-//		
-//		if (upcomingList != null && !upcomingList.isEmpty()) {
-//			// 예약현황이 있을 때 보이는 화면
-//			 System.out.println(upcomingList.get(0).keySet());
-//			 System.out.println("upcomingList size: "+ upcomingList.size());
-//			 System.out.println("Keys: " + upcomingList.get(0).keySet());
-//			return "mypage/reservationList";
-//		} else {
-//			// 예약 현황이 없을 때 보이는 화면
-//			return "mypage/mypageMain";
-//		}
-//	}
-//	
-//	//ajax
-//	@GetMapping("/reservation_list/fragment")
-//	public String reservationListFragment(Model model,
-//	        @AuthenticationPrincipal QtableUserDetails userDetails,
-//	        @RequestParam(value = "reserveResult", required = false) String reserveResult) {
-//		
-//		 String memberIdx = String.valueOf(userDetails.getMember().getMemberIdx());
-//
-//	    List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
-//	    model.addAttribute("upcomingList", upcomingList);
-//
-//	    if (upcomingList == null || upcomingList.isEmpty()) {
-//	    	 System.out.println(upcomingList.get(0).keySet());
-//	        return "mypage/reservationList :: listFragment"; // 필요하면 메인 화면 일부 fragment 반환
-//	    }
-//	    return "mypage/reservationList :: listFragment"; // 예약 현황 fragment 반환
-//	}
 	
+	// 예약&취소 조회
 	@GetMapping("reservation_list")
 	public String reservationList(Model model,
 	                                      HttpServletRequest request,
@@ -150,29 +106,20 @@ public class MyPageController {
 	    Member member = userDetails.getMember();
 	    String memberIdx = String.valueOf(member.getMemberIdx());
 
-	    if (reserveResult == null || reserveResult.isEmpty()) {
-	        reserveResult = "rsrt_05";  // 기본 예약상태 설정
-	    }
+	    // null이거나 빈 문자열이면 기본값 할당
+	    reserveResult = (reserveResult == null || reserveResult.isEmpty()) ? "rsrt_05" : reserveResult;
 
 	    List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
 	    model.addAttribute("upcomingList", upcomingList);
-	    System.out.println("memberIdx=" + memberIdx + ", reserveResult=" + reserveResult);
 
 	    // AJAX 요청인지 확인
 	    String requestedWith = request.getHeader("X-Requested-With");
 	    boolean isAjax = "XMLHttpRequest".equals(requestedWith);
 
 	    if (isAjax) {
-	        // AJAX이면 fragment 반환
-	        return "mypage/reservationList :: listFragment";
-	    } else {
-	        // 일반 요청일 때 페이지 뷰 반환
-	        if (upcomingList != null && !upcomingList.isEmpty()) {
-	            return "mypage/reservationList";
-	        } else {
-	            return "mypage/mypageMain";
-	        }
-	    }
+	        return "mypage/reservationList :: listFragment";  // AJAX 요청: fragment 반환
+	    } // isAjax x-> upcomingList에 따라 뷰 반환 
+	    return (upcomingList != null && !upcomingList.isEmpty()) ? "mypage/reservationList" : "mypage/mypageMain";
 	}
 
 	// q-money 금액 불러오기
