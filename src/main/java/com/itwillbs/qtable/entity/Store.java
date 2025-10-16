@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -87,5 +88,10 @@ public class Store {
 
     @Column(name = "applied_at")
     private LocalDateTime appliedAt;
+    
+    
+    //뷰ㅇ
+    @Transient
+    private Image mainImage;
 
 }

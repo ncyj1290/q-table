@@ -61,6 +61,11 @@ $(function() {
 			alert("필수 약관에 모두 동의해주세요.");
 			return;
 		}
+		if(!emailVerified) {
+		    alert("이메일 인증이 완료되어야 회원가입이 가능합니다.");
+		    return;
+		}
+		
 		this.submit();
 	});
 });
@@ -147,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function() {
 $(function(){
   $("#emailsand").click(function(){
     $.ajax({
-      type: "GET",  
+      type: "POST",  
       url: "/send",
       data: { email: $("#email").val() }, 
       success: function(result){
@@ -158,4 +163,28 @@ $(function(){
       }
     });
   });
+});
+
+let emailVerified = false; // 인증 여부 저장
+
+$(function(){
+    $("#verifyBtn").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "/verify",
+            data: { emailVerification: $("#emailVerification").val() },
+            success: function(result){
+                alert(result); // 인증 성공/실패 메시지
+                if(result.includes("인증성공")) {
+                    emailVerified = true; // ✅ 인증 성공 시 플래그 true
+                } else {
+                    emailVerified = false;
+                }
+            },
+            error: function(xhr){
+                alert("인증 실패! (" + xhr.status + ")");
+                emailVerified = false;
+            }
+        });
+    });
 });

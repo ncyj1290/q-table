@@ -13,9 +13,7 @@ public class EmailTestRunner implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		 emailService.sendSimpleEmail(
-		            "tmddyd6004@gmail.com",
-		            "테스트 이메일",
-		            "스프링 부트 이메일 전송 성공!"
+		            "tmddyd6004@gmail.com"
 		        );	
 	}
 
