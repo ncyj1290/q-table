@@ -31,6 +31,7 @@
 			,r.member_idx
 			,r.created_at
 			,r.allergy
+			,r.deny_reason
 			,c.code_label as result_label
 			,m.member_id 
 		from reservation r join common_code c
@@ -44,7 +45,7 @@
 				and r.reserve_result = #{filter}
 			</if>
 		</where>
-		order by r.created_at desc
+		order by r.reserve_date desc
 		limit #{start_row}, #{list_limit}
 	</select>
 
@@ -62,6 +63,7 @@
 			,r.member_idx
 			,r.created_at
 			,r.allergy
+			,r.deny_reason
 			,c.code_label as result_label
 			,m.member_id 
 		from reservation r join common_code c
@@ -71,5 +73,23 @@
 		where reserve_idx = #{reserve_idx}
 		and store_idx = #{store_idx}
 	</select>
+	
+	<!-- 예약 결과 갱신 쿼리문 -->
+	<update id="updateReservationResult">
+		update reservation
+		set reserve_result = #{reserve_result}
+			<if test="reserve_result == 'rsrt_04' and deny_reason != null">
+				,deny_reason = #{deny_reason}
+			</if>
+		where reserve_idx = #{reserve_idx}
+	</update>
+	
+	<!-- 노쇼 + 1 -->
+	<update id="updateNoShowCount">
+		update member
+		set no_show_count = no_show_count + 1
+		where member_idx = #{member_idx}
+	</update>
+	
 
 </mapper>

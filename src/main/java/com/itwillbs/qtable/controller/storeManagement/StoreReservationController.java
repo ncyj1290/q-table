@@ -1,5 +1,10 @@
 package com.itwillbs.qtable.controller.storeManagement;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
@@ -72,13 +78,34 @@ public class StoreReservationController {
 		storeDataService.injectStoreProfileByOwnerIdx(model, user.getMember().getMemberIdx());
 		StoreVO sData = (StoreVO) model.getAttribute("spData");
 		
+		/* 예약 정보 */
 		ReservationVO resData = storeReservationService.selectReservationDetail(reserve_idx, sData.getStore_idx());
-		model.addAttribute("resData", resData);
+
+		/* 예약 결과 공통 코드 */
+		List<CommonCodeVO> resvList = storeCommonCode.selectCommonCodeForStore("reservation_result", null);
 		
-		System.out.println("Check Reservation Data: " + resData.toString());
+		/* 예약 날짜와 시간이 오늘 이전 + 예약 시간 + 30분 전이면  방문 완료와 노쇼는 보여주지 않음 */
+		LocalDateTime rDateTime = LocalDateTime.of(resData.getReserve_date().toLocalDate(), resData.getReserve_time().toLocalTime().minusMinutes(30));
+		/* 오늘 날짜 */
+		LocalDateTime today = LocalDateTime.now();
+		/* 오늘 날짜가 예약시간 이전이면 방문 완료, 노쇼 제거 */
+		if(today.isBefore(rDateTime)) resvList.subList(0, 2).clear();
+		
+		/* 모델에 다 때려박기 */
+		model.addAttribute("resData", resData);
+		model.addAttribute("resvList", resvList);
 		
 		return "storeManagement/storeReservationDetail";
 	}
 	
-
+	/* 예약 결과 변경 및 Ridirect to previous reservation detail page */ 
+	@PostMapping("/modify_store_reservation_result")
+	public String modifyStoreReservationResult(ReservationVO reservationVo){
+		
+		int res = storeReservationService.updateReservationResult(reservationVo);		
+		if(reservationVo.getReserve_result().equals("rsrt_02")) storeReservationService.updateNoShowCount(reservationVo.getMember_idx());
+		
+		return "redirect:/store_reservation_detail?reserve_idx=" +  reservationVo.getReserve_idx();
+	}
+	
 }

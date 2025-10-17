@@ -18,5 +18,13 @@ public interface StoreReservation {
 	
 	/* 예약 정보 디테일 가져오는 쿼리문 -> 근데 헛짓거리 하면 안되니까 매장 idx도 같이 */
 	ReservationVO selectReservationDetail(@Param("reserve_idx") int reserve_idx, @Param("store_idx") int store_idx);
+	
+	/* 예약 결과 수정 쿼리문 */
+	int updateReservationResult(ReservationVO reservationVO);
+	
+	/* 해당 회원 노쇼 +1 쿼리문 */
+	int updateNoShowCount(@Param("member_idx") int member_idx);
+
+	
 
 }
