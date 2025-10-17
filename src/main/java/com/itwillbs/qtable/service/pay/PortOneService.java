@@ -7,7 +7,7 @@ import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.mapper.pay.PaymentMapper;
 import com.itwillbs.qtable.util.PortOneClient;
 import com.itwillbs.qtable.vo.myPage.PortOneVO;
-import com.itwillbs.qtable.vo.myPage.payment;
+import com.itwillbs.qtable.vo.myPage.PaymentVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,35 +27,38 @@ public class PortOneService {
             return false;
         }
 
+        PortOneVO.PaymentResponse response = resp.getResponse();
+        
         // 응답 값 검증
         if (!resp.getResponse().getMerchant_uid().equals(merchantUid)) {
             return false;
         }
-        if (resp.getResponse().getAmount() != amount) {
+        // 금액 검증
+        if (response.getAmount() != amount) {
             return false;
         }
         if (!"paid".equals(resp.getResponse().getStatus())) {
             return false;
         }
-
-        // DB 저장
-        PortOneVO.PaymentResponse response = resp.getResponse();
-        QtableUserDetails qtables = (QtableUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        payment pay = new payment();
-        pay.setMember_idx(qtables.getMember().getMemberIdx());
-        pay.setPayment_amount((int) response.getAmount());
+        System.out.println("PortOne Response: " + response);
+        
+        // DB 저장
+        PaymentVO pay = new PaymentVO();
+        pay.setMember_idx(qtable.getMember().getMemberIdx());
+        pay.setPayment_amount(response.getAmount()); 
         pay.setPay_status("pyst_01");  // 상태 코드
-        pay.setPay_way("pywy_01");
+        pay.setPay_way("pywy_02");
         pay.setPay_type("pyus_01");  // 결제 유형
         pay.setPay_reference(response.getMerchant_uid()); // Merchant UID
-        pay.setExternal_transaction(response.getImp_uid()); // IMP UID
+        pay.setExternal_transaction_idx(response.getImp_uid()); // IMP UID
         pay.setItem_name(response.getItem_name());
 
         // DB 저장
         paymentService.savePortOne(pay);
+        System.out.println("Inserting Payment: " + pay);
 
-
+        
         return true;
     }
 }

@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.itwillbs.qtable.vo.myPage.payment;
+import com.itwillbs.qtable.vo.myPage.PaymentVO;
 
 @Mapper
 public interface PaymentMapper {
 
-	int insertPayment(payment paymentVo);
+	int insertPayment(PaymentVO paymentVo);
 	
-	int insertPortOne(payment paymentVo);
+	int insertPortOne(PaymentVO paymentVo);
 
-	List<payment> selectPaymentsByMember(int memberIdx);
+	List<PaymentVO> selectPaymentsByMember(int memberIdx);
 	
     // 카드 결제
-    List<payment> selectPaymentsByMerchantUid(String merchantUid);
+    List<PaymentVO> selectPaymentsByMerchantUid(String merchantUid);
 	
 }

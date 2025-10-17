@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.service.pay.KakaoPayService;
 import com.itwillbs.qtable.service.pay.PaymentService;
-import com.itwillbs.qtable.vo.myPage.payment;
+import com.itwillbs.qtable.vo.myPage.PaymentVO;
 
 @Controller
 @RequestMapping("/mypage")
@@ -53,7 +53,7 @@ public class MypageViewController {
         if(kakaoPayments == null) kakaoPayments = new ArrayList<>();
         
         // 포트원 결제 내역
-        List<payment> portOnePayments = new ArrayList<>();
+        List<PaymentVO> portOnePayments = new ArrayList<>();
         if(merchantUid != null && !merchantUid.isEmpty()) {
             portOnePayments = paymentService.findByMerchantUid(merchantUid);
         }

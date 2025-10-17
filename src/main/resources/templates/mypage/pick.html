@@ -1,7 +1,9 @@
 <div th:fragment="mainnav">
 	<!-- 추천 가게 UI -->
 	<section class="recommend-section">
-		<h3>00님, 이 가게는 어때요?</h3>
+		<div sec:authorize="isAuthenticated()">
+			<h3 th:text="${#authentication.principal.member.memberName} + '님, 이 가게는 어때요?'"></h3>
+		</div>
 		<div class="recommend-cards">
 			<div class="card">
 				<img src="img/food1.jpg" alt="간아가리">

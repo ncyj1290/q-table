@@ -24,16 +24,28 @@ public class PortOnePaymentController {
 	private final KakaoPayService kakaoPayService;
 	private final PortOneService portOneService;
 
-	// 결제 검증 엔드포인트
+	// 결제 검증
 	@PostMapping("/portone/verify/{imp_uid}")
 	@ResponseBody
-	public Map<String, Object> verifyPayment(@PathVariable String imp_uid, @RequestBody Map<String, Object> payload,
+	public Map<String, Object> verifyPayment( @PathVariable("imp_uid") String imp_uid, @RequestBody Map<String, Object> payload,
 			@AuthenticationPrincipal QtableUserDetails qtable) {
 
-		String merchantUid = (String) payload.get("merchantUid");
-		Number amount = (Number) payload.get("amount");
+		String merchantUid = (String) payload.get("merchant_uid");
+		Object amountObj = payload.get("amount");
+		
+		long amount = 0;
+		if (amountObj != null) {
+		    try {
+		        amount = Long.parseLong(amountObj.toString());
+		    } catch(NumberFormatException e) {
+		        return Map.of("status", "fail", "msg", "amount 변환 오류");
+		    }
+		}
 
-		boolean ok = portOneService.verifyPayment(imp_uid, merchantUid, amount.longValue(), qtable);
+		System.out.println("==== verifyPayment start ====");
+		System.out.println("impUid=" + imp_uid + ", merchantUid=" + merchantUid + ", amount=" + amount);
+		
+		boolean ok = portOneService.verifyPayment(imp_uid, merchantUid, amount, qtable);
 
 		if (ok) {
 			return Map.of("status", "success");

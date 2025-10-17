@@ -6,7 +6,7 @@
 <!--<mapper namespace="com.itwillbs.qtable.mapper.mypage.kakaoPayMapper">-->
 <mapper namespace="com.itwillbs.qtable.mapper.pay.PaymentMapper">
 	
-	<insert id="insertPayment"  parameterType="com.itwillbs.qtable.vo.myPage.payment">
+	<insert id="insertPayment"  parameterType="com.itwillbs.qtable.vo.myPage.PaymentVO">
 	insert into payment(
 		member_idx,
 		payment_date,
@@ -14,8 +14,7 @@
 		pay_status,
 		pay_way,
 		pay_type,
-		pay_reference,
-		reference_idx
+		external_transaction_idx 
 	) values (
 		#{member_idx},
 		NOW(),
@@ -23,19 +22,18 @@
 		#{pay_status},
 		#{pay_way},
 		#{pay_type},
-		#{pay_reference},
-		#{reference_idx}
+		#{external_transaction_idx}
 	)
 	</insert>	
 	
-	<select id="selectPaymentsByMember" parameterType="int" resultType="com.itwillbs.qtable.vo.myPage.payment">
+	<select id="selectPaymentsByMember" parameterType="int" resultType="com.itwillbs.qtable.vo.myPage.PaymentVO">
         SELECT *
         FROM payment
         WHERE member_idx = #{memberIdx}
         ORDER BY payment_date DESC
     </select>
 	
-	<insert id="insertPortOne"  parameterType="com.itwillbs.qtable.vo.myPage.payment">
+	<insert id="insertPortOne"  parameterType="com.itwillbs.qtable.vo.myPage.PaymentVO">
 	insert into payment(
 		member_idx,
 		payment_date,
@@ -43,8 +41,7 @@
 		pay_status,
 		pay_way,
 		pay_type,
-		pay_reference,
-		reference_idx
+		external_transaction_idx 
 	) values (
 		#{member_idx},
 		NOW(),
@@ -52,10 +49,16 @@
 		#{pay_status},
 		#{pay_way},
 		#{pay_type},
-		#{pay_reference},
-		#{reference_idx}
+		#{external_transaction_idx}
 	)
 	</insert>	
+	
+	<select id="selectPaymentsByMerchantUid" parameterType="String" resultType="com.itwillbs.qtable.vo.myPage.PaymentVO">
+        SELECT *
+	    FROM payment
+	    WHERE pay_reference = #{merchantUid} 
+	    ORDER BY payment_date DESC
+    </select>
 	
 	
 </mapper>

@@ -26,10 +26,10 @@ public class PortOneClient {
     public PortOneVO getPaymentByImpUid(String impUid) {
 
         // 1. 토큰 발급 요청
-        String tokenUrl = "https://api.portone.io/v1/token";
+        String tokenUrl = "https://api.iamport.kr/users/getToken";
         Map<String, String> body = Map.of(
-                "api_key", apiKey,
-                "api_secret", secretKey
+                "imp_key", apiKey,
+                "imp_secret", secretKey
         );
         HttpEntity<Map<String, String>> tokenEntity = new HttpEntity<>(body, new HttpHeaders());
         ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenUrl, tokenEntity, Map.class);
@@ -37,7 +37,7 @@ public class PortOneClient {
         String accessToken = (String) ((Map) tokenResponse.getBody().get("response")).get("access_token");
 
         // 2. 결제 조회 요청
-        String url = "https://api.portone.io/v1/payments/" + impUid;
+        String url = "https://api.iamport.kr/payments/" + impUid;
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);

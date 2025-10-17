@@ -14,8 +14,8 @@
 
 <body>
 	<div layout:fragment="Content">
-		<div th:replace="mypage/profile :: mainnav"></div>
-		<div th:replace="mypage/mypageNav :: mainnav"></div>
+		<div th:replace="~{mypage/profile :: mainnav}"></div>
+		<div th:replace="~{mypage/mypageNav :: mainnav}"></div>
 
 		<div style="display: flex; align-items: center;">
 			<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
@@ -37,7 +37,7 @@
 							<span class="store-name">야끼니꾸 서면점</span>
 							<span class="star">★ 4.8(647)</span>
 						</div>
-						<img src="/img/scrap_full.png" class="scrap-icon" />
+						<img src="/img/scrap_full.png" class="scrap-icon" data-store-idx="1" />
 					</div>
 					<span class="date">영업시간 | 15 : 00 ~ 24 : 00</span>
 					<span class="location">주소 | 부산광역시 진구</span>

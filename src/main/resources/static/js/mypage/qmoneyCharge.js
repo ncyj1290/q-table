@@ -96,7 +96,7 @@ $(document).ready(function() {
 			}, function(rsp) {
 				if (rsp.success) {
 					$.ajax({
-						url: '/mypage/qmoneyCharge',
+						url: '/mypage/portone/verify/' + rsp.imp_uid,
 						type: 'POST',
 						contentType: 'application/json',
 						data: JSON.stringify({
@@ -109,7 +109,7 @@ $(document).ready(function() {
 						},
 						success: function(data) {
 							alert('결제가 완료되었습니다!');
-							window.location.href = '/mypage/paymentcomplete';
+							window.location.href = '/mypage/paymentcomplete?merchant_uid=' + rsp.merchant_uid;
 						},
 						error: function(xhr, status, error) {
 							console.error('서버 검증 오류:', error);

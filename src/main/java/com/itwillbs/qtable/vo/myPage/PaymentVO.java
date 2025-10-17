@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class payment {
+public class PaymentVO {
 
 	private int payment_idx;
 	private int member_idx;
@@ -16,7 +16,7 @@ public class payment {
 	private String pay_type;
 	private String pay_reference;
 	private int reference_idx;
-	private String external_transaction;
+	private String external_transaction_idx;
 	
 	private String item_name;
 }

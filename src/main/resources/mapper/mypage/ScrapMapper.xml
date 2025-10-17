@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.qtable.mapper.mypage.ScrapMapper">
+
+    <insert id="insertScrap">
+        INSERT INTO scrap (member_idx, store_idx, create_at)
+        VALUES (#{memberIdx}, #{storeIdx}, NOW())
+    </insert>
+
+    <delete id="deleteScrap">
+        DELETE FROM scrap
+        WHERE member_idx = #{memberIdx}
+        AND store_idx = #{storeIdx}
+    </delete>
+
+    <select id="existsScrap" resultType="int">
+        SELECT COUNT(*) 
+        FROM scrap 
+        WHERE member_idx = #{memberIdx}
+        AND store_idx = #{storeIdx}
+    </select>
+
+    <select id="selectScrapList" resultType="com.itwillbs.qtable.vo.myPage.ScrapVO">
+        SELECT s.*
+        FROM scrap sc
+        JOIN store s ON sc.store_idx = s.store_idx
+        WHERE sc.member_idx = #{memberIdx}
+        ORDER BY sc.create_at DESC
+    </select>
+
+</mapper>
