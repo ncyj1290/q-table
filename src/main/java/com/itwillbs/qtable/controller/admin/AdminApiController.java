@@ -19,6 +19,7 @@ import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
+import com.itwillbs.qtable.vo.admin.UserLogVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 
@@ -192,11 +193,26 @@ public class AdminApiController {
     
     // --------------------------- 어드민 -----------------------
     
-	// 회원 목록 리스트 조회
+	// 어드민 회원 목록 리스트 조회
 	@GetMapping("/api/members/admin")
 	public List<MemberListVO> adminMemberFindAll() {
 
 		return adminService.adminMemberFindAll();
 	}
+	
+	// -------------------------- 로그 --------------------------
+	
+	// 회원 로그인 로그 리스트 조회
+	@GetMapping("/api/members/log")
+	public List<UserLogVO> findUserLogList() {
+
+		return adminService.findUserLogList();
+	}
+	
+    // 로그 삭제 이벤트
+    @PostMapping("/api/log/{LogIdx}")
+    public void deleteUserLog(@PathVariable("LogIdx") Integer LogIdx) {
+    	adminService.deleteUserLog(LogIdx);
+    }
     
 }

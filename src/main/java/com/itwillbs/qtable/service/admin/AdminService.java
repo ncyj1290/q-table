@@ -18,6 +18,7 @@ import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.repository.PaymentRepository;
 import com.itwillbs.qtable.repository.StoreRepository;
 import com.itwillbs.qtable.repository.SubscribeRepository;
+import com.itwillbs.qtable.repository.UserLogRepository;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
@@ -28,6 +29,7 @@ import com.itwillbs.qtable.vo.admin.StoreDetailVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
+import com.itwillbs.qtable.vo.admin.UserLogVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 import jakarta.transaction.Transactional;
@@ -49,6 +51,9 @@ public class AdminService {
 	
 	@Autowired
 	private SubscribeRepository subscribeRepository;
+	
+	@Autowired
+	private UserLogRepository userLogRepository;
 	
 	@Autowired
     private AdminMapper adminMapper;
@@ -299,6 +304,21 @@ public class AdminService {
         return memberList.stream()
                 .map(entity -> new MemberListVO(entity, entity.getMemberIdx()))
                 .collect(Collectors.toList());
+    }
+    
+    // ------------------- 유저 로그인 로그 ---------------------
+    
+    // 유저 로그인 로그 목록 조회
+    public List<UserLogVO> findUserLogList() {
+    	
+		return adminMapper.findUserLogList();
+	}
+    
+	// 로그 삭제 이벤트
+    @Transactional
+    public void deleteUserLog(Integer LogIdx) {
+        // jpa deleteById 활용 DB에서 데이터 삭제
+    	userLogRepository.deleteById(LogIdx);
     }
 
 }

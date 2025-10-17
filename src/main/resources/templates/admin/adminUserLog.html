@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{admin/layout/defaultLayout.html}">
+
+<head>
+	<title>회원 로그인 기록</title>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+	<th:block layout:fragment="content">
+		
+		<div class="table-header">
+			<div class="table-title">회원 로그인 기록</div>
+		</div>
+	
+		<div id="userlog-table" class="grid-wrapper"></div>
+	
+		<script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+		<script th:src="@{/js/admin/userLogList.js}"></script>
+
+	</th:block>
+</body>
+
+</html>

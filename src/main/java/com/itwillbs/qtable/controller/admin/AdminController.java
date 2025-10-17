@@ -99,6 +99,12 @@ public class AdminController {
 		return "admin/adminCommit";
 	}
 	
+//	사용자 로그인 로그 목록 페이지
+	@GetMapping("/admin_userlog")
+	public String adminUserLog() {
+		return "admin/adminUserLog";
+	}
+	
 	
 	
 

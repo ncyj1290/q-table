@@ -204,6 +204,19 @@
 	           code_desc = #{CommonCodeVO.code_desc}
 	     WHERE common_idx = #{common_idx}
     </update>
+    
+    <!-- 사용자 로그 리스트 조회 -->
+    <select id="findUserLogList">
+	    SELECT
+		       l.log_idx,
+	           l.member_idx,
+	           l.login_time,
+	           l.ip_address,
+	           m.member_id
+	      FROM user_log l
+	 LEFT JOIN member m ON l.member_idx = m.member_idx
+	  ORDER BY l.log_idx desc
+    </select>
 
     
     

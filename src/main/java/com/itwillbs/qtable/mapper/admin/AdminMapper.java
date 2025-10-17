@@ -11,6 +11,7 @@ import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
+import com.itwillbs.qtable.vo.admin.UserLogVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 @Mapper
@@ -51,5 +52,8 @@ public interface AdminMapper {
 	
 	// 공통 코드 수정
     void updateCommonCode(@Param("common_idx") Integer common_idx, @Param("CommonCodeVO") CommonCodeVO CommonCodeVO);
+    
+    // 회원 로그 목록 리스트 조회
+    List<UserLogVO> findUserLogList();
 	
 }
