@@ -46,7 +46,5 @@ $(document).ready(function() {
 		
 		
     });
-		$('.search-box').on('click', function() {
-		    window.location.href = '/search';
-		});
+		
 });

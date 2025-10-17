@@ -17,6 +17,10 @@ $(document).ready(function() {
     $(document).on('click', function() {
         $dropdown.hide();
     });
+	
+	$('.search-box').on('click', function() {
+		    window.location.href = '/search';
+	});
 });
 
 //document.addEventListener("DOMContentLoaded", function() {
