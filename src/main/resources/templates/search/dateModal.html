@@ -29,10 +29,11 @@
 		               <label class="form-label">인원수</label>
 		               <div class="select-box">
 		                   <select id="person-count">
-		                       <option>2</option>
-		                       <option>3</option>
-		                       <option>4</option>
-		                       <option>5</option>
+		                       <option th:each="perCnt:${perCntList}" 
+		                       		   th:text="${perCnt.code_label}"
+		                       		   th:value="${perCnt.code_desc}"
+		                       		   >
+		                       </option>
 		                   </select>
 		               </div>
 		           </div>
@@ -40,9 +41,10 @@
 		               <label class="form-label">시간</label>
 		               <div class="select-box">
 		                   <select id="time">
-		                       <option>20:45</option>
-		                       <option>21:00</option>
-		                       <option>21:15</option>
+		                        <option th:each="time:${timeList}" 
+		                       		    th:text="${time.code_label}"
+		                       		    th:value="${time.code}">
+		                       </option>
 		                   </select>
 		               </div>
 		           </div>

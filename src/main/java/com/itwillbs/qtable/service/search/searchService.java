@@ -31,5 +31,11 @@ public class searchService {
 	public List<Map<String, Object>> getSubLocation() {
 		return mapper.getSubLocation();
 	}
+	public List<Map<String, Object>> getPerCnt() {
+		return mapper.getPerCnt();
+	}
+	public List<Map<String, Object>> getTime() {
+		return mapper.getTime();
+	}
 	
 }

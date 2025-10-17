@@ -142,11 +142,17 @@
 }
 
 .search-box a {
+  display: flex;
+  flex-direction: row;
   border: none;
   background: none;
   color: #9bb0c8;
   cursor: pointer;
   font-size: 16px;
+  text-decoration: none;
+  gap: 132px;
+  justify-content: space-around;
+  align-items: center;
 }
 .menu-icons a {
   color:var(--color-main); /* 기존 아이콘 색상과 동일하게 */

@@ -26,12 +26,7 @@ public class SearchController {
 	
 	@GetMapping("search")
 	public String search(
-			Model model,
-			@RequestParam(value = "loc", required = false) List<String> locList,
-			@RequestParam(value = "food", required = false) List<String> foodList) {
-		
-		log.info("지역 리스트 " + locList);
-		log.info("음식 리스트 " + foodList);
+			Model model) {
 		
 		model.addAttribute("isSearch", true);
 		storeWriteService.selectAllCommonCodeForStore(model);
@@ -40,6 +35,39 @@ public class SearchController {
 		model.addAttribute("locLargeList", locLargeList);
 		List<Map<String,Object>> locSubList = searchService.getSubLocation();
 		model.addAttribute("locSubList", locSubList);
+		List<Map<String,Object>> perCntList = searchService.getPerCnt();
+		model.addAttribute("perCntList", perCntList);
+		List<Map<String,Object>> timeList = searchService.getTime();
+		model.addAttribute("timeList", timeList);
 		return "search/search";
 	}
+	
+	@GetMapping("/api/search")
+	@ResponseBody
+	public void search(@RequestParam(value = "loc", required = false) List<String> locList,
+			@RequestParam(value = "food", required = false) List<String> foodList,
+			@RequestParam(value ="atmosphere", required = false) List<String> atmosphereList,
+			@RequestParam(value ="facility", required = false) List<String> facility,
+			@RequestParam(value ="personCnt", required = false) String personCnt,
+			@RequestParam(value ="sort", required = false) String sort,
+			@RequestParam(value ="price", required = false) List<String> price,
+			@RequestParam(value ="day", required = false) String day,
+			@RequestParam(value ="time", required = false) String time,
+			@RequestParam(value ="query", required = false) String query
+			) {
+		
+		log.info("입력값");
+		log.info("지역" + locList);
+		log.info("음식" + foodList);
+		log.info("분위기" + atmosphereList);
+		log.info("편의시설" + facility);
+		log.info("좌석수" + personCnt);
+		log.info("가격" + price);
+		log.info("정렬" + sort);
+		log.info("날짜" + day);
+		log.info("시간" + time);
+		log.info("입력값" + query);
+	}
+	
+	
 }

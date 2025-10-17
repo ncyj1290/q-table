@@ -1,6 +1,5 @@
 $(function() {
 	
-//	console.log(slider.noUiSlider.get(true)); 값가져오기
 	console.log('searchSidebar js 연동');
 	
 	//슬라이더 라이브러리 초기화
@@ -65,6 +64,14 @@ $(function() {
 		hideSelectedDiv();
 	})
 	
+	$('.select-box').on('change', '#filter',updateQueryForFilter);
+	
+	$('#search-btn').on('click', buildUrlAndFetchData);
+	$('#query').on('keydown', function(event) {
+	    if (event.key === 'Enter' || event.which === 13) {
+	        buildUrlAndFetchData();
+	    }
+	});
 });
 
 // 모달 상태관리를 용이하게 하기 위한 변수 선언 
@@ -95,27 +102,53 @@ let searchState = {
 	food: [],
 	atmosphere: [],
 	facility: [],
-	seatCnt: null,
-	price: null
+	personCnt: null,
+	price: null,
+	sort : 'order by score desc',
+	day : null,
+	time : null,
+	query : null
+}
+
+function updateQueryForFilter() {
+	const filter = $('#filter').val();
+	console.log(filter);
+	searchState.sort = filter;
 }
 
 function buildUrlAndFetchData() {
     const params = new URLSearchParams();
-
+	searchState.query = $('#query').val();
     // 현재 저장된 모든 필터 상태를 기반으로 파라미터를 구성합니다.
     if (searchState.price) params.set('price', searchState.price);
-    if (searchState.seatCnt) params.set('seatCnt', searchState.seatCnt);
+    if (searchState.personCnt) params.set('personCnt', searchState.personCnt);
+    if (searchState.sort) params.set('sort', searchState.sort);
+    if (searchState.day) params.set('day', searchState.day);
+    if (searchState.time) params.set('time', searchState.time);
+    if (searchState.query) params.set('query', $('#query').val());
     
     searchState.atmosphere.forEach(v => params.append('atmosphere', v));
     searchState.facility.forEach(v => params.append('facility', v));
     searchState.food.forEach(v => params.append('food', v));
     searchState.loc.forEach(v => params.append('loc', v));
 
-    const baseUrl = "/search";
+    const baseUrl = "/api/search";
     const finalUrl = `${baseUrl}?${params.toString()}`;
 
     console.log("🚀 최종 생성된 URL:", finalUrl);
-    // 이 URL로 AJAX 요청을 보내 화면을 업데이트합니다.
+	$.ajax({
+		url:finalUrl,
+		type:"get",
+		success:function() {
+			alert('호출성공')
+		},
+		error: function(error) {
+			console.log(error);
+			alert('호출실패')
+		}
+		
+	})
+//	$('#search-btn').attr('href', finalUrl);
 }
 
 //사이드바에서 선택한 키워드 쿼리에 적용 
@@ -125,15 +158,11 @@ function updateQueryForSidebar(el) {
 	if(isModalEvent) return;
 	console.log('사이드바에서 선택된 이벤트 ');
 	console.log(el);
-	const price = $(el).data('price');
-	const seatcnt = $(el).data('seatcnt');
+	const price = $('#price-slider')[0].noUiSlider.get(true);
 	const atmosphere = $(el).data('atmosphere');
 	const facility = $(el).data('facility');
 	if(price) {
 		searchState.price = price;
-	}
-	if(seatcnt) {
-		searchState.seatCnt = seatcnt;
 	}
     if (atmosphere) {
         const alreadyExists = searchState.atmosphere.includes(atmosphere);
@@ -153,7 +182,6 @@ function updateQueryForSidebar(el) {
         }
     }
 	
-	buildUrlAndFetchData();
 }
 
 //지역,음식 모달에서 선택한 키워드 쿼리에 적용 
@@ -161,7 +189,6 @@ function updateQueryForLocFood() {
 	searchState.loc = filterState.location.code_label;
 	searchState.food = filterState.food.code;
 	
-	buildUrlAndFetchData();
 }
 
 // 적용하기 버튼 눌러서 모달에 반영 
@@ -476,9 +503,13 @@ function initializePriceSlider() {
 		else $('.priceKeyword').removeClass('active');
 	});
 	
+	$priceSlider[0].noUiSlider.on('change', function() {
+		searchState.price = $priceSlider[0].noUiSlider.get(true);
+	});
+	
 	$priceSlider[0].noUiSlider.on('slide', function() {
 		const sliderEl = $priceSlider[0].noUiSlider;
-		const cValues = sliderEl.get(true);
+		const cValues = sliderEl.get(true); 
 		// 최소 0~1만원
 		if (cValues[0] == 0 && cValues[1] < 1) sliderEl.set([null, 1])
   	});

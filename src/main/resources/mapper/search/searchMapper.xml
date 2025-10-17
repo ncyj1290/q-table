@@ -25,4 +25,16 @@
 	  ORDER BY common_idx;
 	</select>
 	
+	<select id="getPerCnt">
+		select * 
+		  from common_code
+		 where group_code = 'person_count';
+	</select>
+	
+	<select id="getTime">
+		select * 
+		  from common_code
+		 where group_code = 'time';
+	</select>
+	
 </mapper>

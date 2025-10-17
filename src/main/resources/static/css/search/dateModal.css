@@ -97,6 +97,12 @@
 /* ================================== */
 /* 예약 달력 */
 /* ================================== */
+.calendar-container {
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid var(--color-main);
+    margin-bottom: 40px;
+}
 
 /* 달력 헤더 (월 이동 버튼) */
 .calendar-header {
@@ -155,8 +161,21 @@
 
 .calendar-day.prev-month,
 .calendar-day.next-month {
-    color: #ccc;
+    color: #ccc !important;
     cursor: not-allowed;
+}
+
+.calendar-day.past-date,
+.calendar-day.out-of-range {
+    color: #ccc;
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.calendar-day.past-date:hover,
+.calendar-day.out-of-range:hover {
+    background-color: #f9f9f9;
 }
 
 .calendar-day.selected {

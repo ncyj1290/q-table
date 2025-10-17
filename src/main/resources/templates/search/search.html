@@ -26,11 +26,11 @@
 				<div class="filter">
 					<span class="search-title">맛집을 소개합니다!</span>
 					<div class="select-box">
-						<select>
-							<option>별점순</option>
-							<option>리뷰 많은순</option>
-							<option>가격 높은순</option>
-							<option>가격 낮은순</option>
+						<select id="filter">
+							<option value="order by score desc">별점순</option>
+							<option value="order by reviewCnt desc">리뷰 많은순</option>
+							<option value="order by price desc">가격 높은순</option>
+							<option value="order by price asc">가격 낮은순</option>
 						</select>
 					</div>
 				</div>
@@ -555,27 +555,6 @@
 					</div>
 					<a class="positive-button" href="store_detail_main">예약하러 가기</a>
 				</div>
-				
-	<!--			<div class="no-result">-->
-	<!--				<img th:src="@{/img/Q_money_norice.png}">-->
-	<!--				<h1>조건에 맞는 가게가 없어요</h1>-->
-	<!--				<ul>-->
-	<!--					<li>더 일반적인 단어로 검색해보세요</li>-->
-	<!--					<li>문장이 아닌 단어를 입력해보세요</li>-->
-	<!--					<li>설정된 필터를 변경해보세요</li>-->
-	<!--				</ul>-->
-	<!--			</div>-->
-	<!--			<div class="recommend">-->
-	<!--				<h4>이런 음식은 어때요</h4>-->
-	<!--				<div class="recommend-keywords">-->
-	<!--					<span class="keyword">타코</span>				-->
-	<!--					<span class="keyword">오마카세</span>				-->
-	<!--					<span class="keyword">새우</span>				-->
-	<!--					<span class="keyword">한우</span>			-->
-	<!--					<span class="keyword">한돈</span>			-->
-	<!--					<span class="keyword">이자카야</span>			-->
-	<!--				</div>	-->
-	<!--			</div>-->
 			</section>
 		</div>
 		<div class="modal-area">

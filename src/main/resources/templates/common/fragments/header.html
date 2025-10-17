@@ -11,22 +11,20 @@
          <!-- 검색창 -->
          <th:block th:if="${isSearch}">
             <div class="search-box">
-               <input type="text" placeholder="검색어를 입력하세요">
+               <input type="text" placeholder="검색어를 입력하세요" id="query">
                <div class="date-area">
                   <span class="seperator">|</span>
                   <span class="rsv-date">날짜</span>
                   <span class="rsv-time">시간</span>
                   <span class="rsv-person-count">인원선택</span>
                </div>
-               <a href="/search" class="search-btn">
-                  <i class="fas fa-search"></i>
-               </a>
+               <i class="fas fa-search" id="search-btn"></i>
             </div>
          </th:block>
          <th:block th:unless="${isSearch}">
             <div class="search-box">
-               <span>내가 원하는 맛집을 찾아보세요!</span>
                <a href="/search" class="search-btn">
+               <span>내가 원하는 맛집을 찾아보세요!</span>
                   <i class="fas fa-search"></i>
                </a>
             </div>

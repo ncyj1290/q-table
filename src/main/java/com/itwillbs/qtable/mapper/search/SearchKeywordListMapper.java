@@ -13,4 +13,6 @@ public interface SearchKeywordListMapper {
 	List<CommonCodeVO> selectSeatCntPriceRange (@Param("group_code") String group_code);
 	List<Map<String,String>> getRegionLargeCategory();
 	List<Map<String,Object>> getSubLocation();
+	List<Map<String,Object>> getPerCnt();
+	List<Map<String,Object>> getTime();
 }

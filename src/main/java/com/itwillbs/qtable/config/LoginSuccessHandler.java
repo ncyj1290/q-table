@@ -82,7 +82,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
             response.getWriter().write(objectMapper.writeValueAsString(responseData));
             
         } else { // 소셜 회원이면 바로 리다이렉트 요청보내기 
-    		
         	getRedirectStrategy().sendRedirect(request, response, redirectUrl);
         }
        

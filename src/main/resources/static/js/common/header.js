@@ -16,11 +16,8 @@ $(document).ready(function() {
     // 외부 클릭 시 닫기
     $(document).on('click', function() {
         $dropdown.hide();
-    });
+    });0
 	
-	$('.search-box').on('click', function() {
-		    window.location.href = '/search';
-	});
 });
 
 //document.addEventListener("DOMContentLoaded", function() {

@@ -10,10 +10,6 @@
 		<div class="keywords no-toggle" id="locationArea">
 			<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>
 <!--			<span class="keyword active">부산진구</span>-->
-<!--			<span class="keyword active">사상구</span>-->
-<!--			<span class="keyword active">사하구</span>-->
-<!--			<span class="keyword active">영도구</span>-->
-<!--			<span class="select">지역 선택</span>-->
 		</div>
 	</section>
 	<section class="part parent foodReset">
@@ -25,12 +21,6 @@
 		<div class="keywords no-toggle" id="foodArea">
 			<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>
 <!--			<span class="keyword active">중식</span>-->
-<!--			<span class="keyword active">한식</span>-->
-<!--			<span class="keyword active">양식</span>-->
-<!--			<span class="keyword active">일식</span>-->
-<!--			<span class="keyword active">일식</span>-->
-<!--			<span class="keyword active">일식</span>-->
-<!--			<span class="select">종류 선택</span>-->
 		</div>
 	</section>
 	<section class="part parent">
@@ -53,22 +43,12 @@
 	</section>
 	<section class="part parent">
 		<div class="top">
-			<h5>좌석수</h5>
-			<span class="reset">초기화</span>
-		</div>
-		<div class="horizontal-line"></div>
-		<div class="keywords single-choice">
-			<span th:each="seat : ${seatCntList}" th:data-seatCnt="${seat.code}" th:text="${seat.code_label}" class="keyword"></span>
-		</div>
-	</section>
-	<section class="part parent">
-		<div class="top">
 			<h5>분위기</h5>
 			<span class="reset">초기화</span>
 		</div>
 		<div class="horizontal-line"></div>
 		<div class="keywords">
-		<th:block th:each="at :${atmosphereList}">
+		<th:block th:each="at:${atmosphereList}">
 			<span th:text="${at.code_label}" th:data-atmosphere="${at.code}" class="keyword"></span>
 		</th:block>
 		</div>
