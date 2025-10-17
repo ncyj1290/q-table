@@ -73,20 +73,23 @@
 
 .desc {
   display: flex;
-  margin-top: 8px;
+  margin-top: 1px;
   font-size: 14px;
   color: var(--color-font);
+  align-items: flex-end;
+  flex-direction: row;
+  font-weight: 500;
 }
 
 .date {
   display: flex;
-  margin-top: 8px;
-  font-size: 14px;
+  margin-top: 1px;
+  font-size: 16px;
   color: var(--color-placeholder);
 }
 
 .reservation-buttons {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   gap: 10px;
 }

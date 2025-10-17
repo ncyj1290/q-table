@@ -1,6 +1,7 @@
 package com.itwillbs.qtable.controller.mypage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -97,15 +98,20 @@ public class MyPageController {
 		return "mypage/profileSettings";
 	}
 	
+	private String getMemberIdx(QtableUserDetails userDetails) {
+	    Member member = userDetails.getMember();
+	    return String.valueOf(member.getMemberIdx());
+	    //String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨 
+	}
+	
 	// 예약&취소 조회
 	@GetMapping("reservation_list")
-	public String reservationList(Model model,
-	                                      HttpServletRequest request,
-	                                      @AuthenticationPrincipal QtableUserDetails userDetails,
-	                                      @RequestParam(value = "reserveResult", required = false) String reserveResult) {
-	    Member member = userDetails.getMember();
-	    String memberIdx = String.valueOf(member.getMemberIdx());
-
+	public String reservationList(Model model, HttpServletRequest request,
+                                  @AuthenticationPrincipal QtableUserDetails userDetails,
+                                  @RequestParam(value = "reserveResult", required = false) String reserveResult) {
+//	    Member member = userDetails.getMember();
+//	    String memberIdx = String.valueOf(member.getMemberIdx()); 
+		String memberIdx = getMemberIdx(userDetails);
 	    // null이거나 빈 문자열이면 기본값 할당
 	    reserveResult = (reserveResult == null || reserveResult.isEmpty()) ? "rsrt_05" : reserveResult;
 
@@ -121,7 +127,35 @@ public class MyPageController {
 	    } // isAjax x-> upcomingList에 따라 뷰 반환 
 	    return (upcomingList != null && !upcomingList.isEmpty()) ? "mypage/reservationList" : "mypage/mypageMain";
 	}
+	
+	// 예약취소
+	@PostMapping("/reservation_cancel")
+	@ResponseBody
+	public Map<String, Object> reservationCancel(@RequestParam("reserveIdx") int reserveIdx,
+								        		 @AuthenticationPrincipal QtableUserDetails userDetails) {
 
+		String memberIdx = getMemberIdx(userDetails);
+		
+	    boolean success = false;
+	    try {
+	    	// 서비스 호출로 예약 상태 취소로 변경
+	        success = reservationService.cancelReservation(memberIdx, reserveIdx);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        success = false;
+	    }
+	    return Collections.singletonMap("success", success);
+	}
+	
+//	@PostMapping("/scrap/save")
+//	@ResponseBody
+//	public ResponseEntity<?> saveScrap(@RequestParam Long storeId, @AuthenticationPrincipal QtableUserDetails userDetails) {
+//		String memberIdx = getMemberIdx(userDetails);
+//	    boolean saved = scrapService.saveScrap(username, storeId);
+//	    return ResponseEntity.ok(Map.of("success", saved));
+//	}
+
+	
 	// q-money 금액 불러오기
 		@GetMapping("/mypage/qmoneyBalance")
 		@ResponseBody
@@ -134,5 +168,8 @@ public class MyPageController {
 		    Map<String, Object> result = Map.of("balance", totalQmoney);
 		    return result;
 		}
+		
+	
+
 	
 }

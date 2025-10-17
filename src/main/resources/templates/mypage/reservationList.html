@@ -16,8 +16,8 @@
 
 <body>
 	<div layout:fragment="Content">
-		<div th:replace="mypage/profile :: mainnav"></div>
-		<div th:replace="mypage/mypageNav :: mainnav"></div>
+		<div th:replace="~{mypage/profile :: mainnav}"></div>
+		 <div th:replace="~{mypage/mypageNav :: mainnav}"></div>
 
 		<!-- 탭 메뉴 -->
 		<div style="display: flex; align-items: center;">
@@ -43,13 +43,17 @@
 								<span th:text="${item.store_name}" class="store-name" ></span>
 								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
 							</div>
-						<img src="/img/scrap_full.png" class="scrap-icon" />
+						<img src="/img/scrap.png" class="scrap-icon" />
 						</div>
-						<span class="desc" th:text="${item.store_content}"></span>
-						<span class="date" th:text="${item.reserve_dt}"></span>
+						 	<span class="desc" th:text="${item.store_content}"></span></span>
+							<span class="desc">매장 번호:&nbsp;&nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
+							<span class="desc">매장 주소:&nbsp;&nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
+							<span class="date" th:text="${item.reserve_dt}"></span></span>
 						<div class="reservation-buttons">
-							<button class="negative-button" style="margin-right: 10px;" id="cancelBtn">예약 취소</button>
-							<button class="positive-button" id="changeBtn">예약 변경</button>
+							<button class="negative-button" style="margin-right: 10px;" data-type="cancelBtn" 
+							th:data-reserve-idx="${item['reserve_idx']}">예약 취소</button>
+							<button class="positive-button" data-type="changeBtn">예약 변경</button>
+							
 						</div>
 					</div>
 				</div>
@@ -67,18 +71,18 @@
 								<span th:text="${item.store_name}" class="store-name"></span>
 								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
 							</div>
-							<img src="/img/scrap_full.png" class="scrap-icon" />
 						</div>
-						<span class="desc" th:text="${item.store_content}"></span>
-						<span class="date" th:text="${item.reserve_dt}"></span>
+							<span class="desc" th:text="${item.store_content}"></span></span>
+							<span class="desc">매장 번호:&nbsp;&nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
+							<span class="desc">매장 주소:&nbsp;&nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
+							<span class="date" th:text="${item.reserve_dt}"></span></span>
 						<div class="reservation-buttons">
-							<button class="positive-button " style="width: 130px;" id="rebookBtn">재예약 하기</button>
+							<button class="positive-button " style="width: 130px;" data-type="rebookBtn">재예약 하기</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			</th:block>
-
 			<div th:replace="mypage/pick :: mainnav"></div>
 		</div>
 	</div>

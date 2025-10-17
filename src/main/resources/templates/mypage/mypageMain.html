@@ -29,9 +29,9 @@
 				<div class="reserve-text">예약한 매장이 없어요</div>
 				<div class="reserve-text">맛집을 찾으러 가볼까요?</div>
 				<a th:href="@{/search}">
-				<button class="positive-button"
-					style="width: 180px; height: 50px; font-size: 25px; border-radius: 10px; justify-content: center; margin-top: 10px;">맛집
-					찾아보기</button>
+					<button class="positive-button"
+					style="width: 180px; height: 50px; font-size: 25px; border-radius: 10px; justify-content: center; margin-top: 10px;">맛집 찾아보기</button>
+				</a>
 			</div>
 			
 <!-- 			취소탭 -->
@@ -50,7 +50,7 @@
 						<span class="desc" th:text="${item.store_content}"></span>
 						<span class="date" th:text="${item.reserve_dt}"></span>
 						<div class="reservation-buttons">
-							<button class="positive-button " style="width: 130px;" id="rebookBtn">재예약 하기</button>
+							<button class="positive-button " style="width: 130px;" data-type="rebookBtn">재예약 하기</button>
 						</div>
 					</div>
 				</div>

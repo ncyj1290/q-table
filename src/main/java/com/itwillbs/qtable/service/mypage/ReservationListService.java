@@ -26,13 +26,18 @@ public class ReservationListService {
 		 Map<String, Object> params = new HashMap<>();
 	     params.put("member_idx", memberIdx);          // 쿼리 변수명과 동일하게
 	     params.put("reserve_result", reserveResult);  // 쿼리 변수명 그대로
-	    
 	     List<Map<String, Object>> result = reservationListMapper.getMyReservationList(params);
-	    
-	     System.out.println("서비스 reserveResult 나오나: " + reserveResult);  // 값 확인용
 	     return result;
 	}
 
+	public boolean cancelReservation(String memberIdx, int  reserveIdx) {
+	    // 예약 상태 취소로 변경 쿼리 수행 예시
+	    int updateCount = reservationListMapper.updateReservationStatus(reserveIdx, memberIdx, "rsrt_03");
+	    System.out.println("reserveIdx = " + reserveIdx + ", memberIdx = " + memberIdx);
+
+	    System.out.println("업데이트된 행 수: " + updateCount);
+	    return updateCount > 0;
+	}
 	
 	
 }
