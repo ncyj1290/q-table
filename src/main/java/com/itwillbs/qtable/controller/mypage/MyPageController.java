@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.service.mypage.ReservationListService;
+import com.itwillbs.qtable.service.mypage.ScrapService;
 import com.itwillbs.qtable.service.pay.KakaoPayService;
 import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,14 +33,14 @@ public class MyPageController {
 
 	private final KakaoPayService kakaoPayService;
 	private final ReservationListService reservationService;
-	
+	private final ScrapService scrapService;
+
 	@GetMapping("/mypage_main")
 	public String mypageMain() {
 
 		return "mypage/mypageMain";
 	}
-	
-	
+
 	@GetMapping("/mypage_review")
 	public String mypageReview() {
 
@@ -50,6 +51,26 @@ public class MyPageController {
 	public String mypageScrap() {
 
 		return "mypage/mypageScrap";
+	}
+
+	// 목록 조회
+	@GetMapping("/scrap/list")
+	public String scrapList(@AuthenticationPrincipal QtableUserDetails qtable, Model model) {
+
+		int memberIdx = qtable.getMember().getMemberIdx();
+		model.addAttribute("scrapList", scrapService.getScrapList(memberIdx));
+
+		return "mypage/mypageScrap";
+	}
+
+	// 스크랩 추가/해제
+	@PostMapping("/scrap/toggle")
+	@ResponseBody
+	public Map<String, Object> toggleScrap(@RequestParam("storeIdx") int storeIdx,
+			@AuthenticationPrincipal QtableUserDetails qtable) {
+		int memberIdx = qtable.getMember().getMemberIdx();
+		scrapService.toggleScrap(memberIdx, storeIdx);
+		return Map.of("status", "success");
 	}
 
 	@GetMapping("/mypage_history")
@@ -97,56 +118,56 @@ public class MyPageController {
 
 		return "mypage/profileSettings";
 	}
-	
+
 	private String getMemberIdx(QtableUserDetails userDetails) {
-	    Member member = userDetails.getMember();
-	    return String.valueOf(member.getMemberIdx());
-	    //String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨 
+		Member member = userDetails.getMember();
+		return String.valueOf(member.getMemberIdx());
+		// String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨
 	}
-	
+
 	// 예약&취소 조회
 	@GetMapping("reservation_list")
 	public String reservationList(Model model, HttpServletRequest request,
-                                  @AuthenticationPrincipal QtableUserDetails userDetails,
-                                  @RequestParam(value = "reserveResult", required = false) String reserveResult) {
+			@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
 //	    Member member = userDetails.getMember();
 //	    String memberIdx = String.valueOf(member.getMemberIdx()); 
 		String memberIdx = getMemberIdx(userDetails);
-	    // null이거나 빈 문자열이면 기본값 할당
-	    reserveResult = (reserveResult == null || reserveResult.isEmpty()) ? "rsrt_05" : reserveResult;
+		// null이거나 빈 문자열이면 기본값 할당
+		reserveResult = (reserveResult == null || reserveResult.isEmpty()) ? "rsrt_05" : reserveResult;
 
-	    List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
-	    model.addAttribute("upcomingList", upcomingList);
+		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
+		model.addAttribute("upcomingList", upcomingList);
 
-	    // AJAX 요청인지 확인
-	    String requestedWith = request.getHeader("X-Requested-With");
-	    boolean isAjax = "XMLHttpRequest".equals(requestedWith);
+		// AJAX 요청인지 확인
+		String requestedWith = request.getHeader("X-Requested-With");
+		boolean isAjax = "XMLHttpRequest".equals(requestedWith);
 
-	    if (isAjax) {
-	        return "mypage/reservationList :: listFragment";  // AJAX 요청: fragment 반환
-	    } // isAjax x-> upcomingList에 따라 뷰 반환 
-	    return (upcomingList != null && !upcomingList.isEmpty()) ? "mypage/reservationList" : "mypage/mypageMain";
+		if (isAjax) {
+			return "mypage/reservationList :: listFragment"; // AJAX 요청: fragment 반환
+		} // isAjax x-> upcomingList에 따라 뷰 반환
+		return (upcomingList != null && !upcomingList.isEmpty()) ? "mypage/reservationList" : "mypage/mypageMain";
 	}
-	
+
 	// 예약취소
 	@PostMapping("/reservation_cancel")
 	@ResponseBody
 	public Map<String, Object> reservationCancel(@RequestParam("reserveIdx") int reserveIdx,
-								        		 @AuthenticationPrincipal QtableUserDetails userDetails) {
+			@AuthenticationPrincipal QtableUserDetails userDetails) {
 
 		String memberIdx = getMemberIdx(userDetails);
-		
-	    boolean success = false;
-	    try {
-	    	// 서비스 호출로 예약 상태 취소로 변경
-	        success = reservationService.cancelReservation(memberIdx, reserveIdx);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        success = false;
-	    }
-	    return Collections.singletonMap("success", success);
+
+		boolean success = false;
+		try {
+			// 서비스 호출로 예약 상태 취소로 변경
+			success = reservationService.cancelReservation(memberIdx, reserveIdx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			success = false;
+		}
+		return Collections.singletonMap("success", success);
 	}
-	
+
 //	@PostMapping("/scrap/save")
 //	@ResponseBody
 //	public ResponseEntity<?> saveScrap(@RequestParam Long storeId, @AuthenticationPrincipal QtableUserDetails userDetails) {
@@ -155,21 +176,17 @@ public class MyPageController {
 //	    return ResponseEntity.ok(Map.of("success", saved));
 //	}
 
-	
 	// q-money 금액 불러오기
-		@GetMapping("/mypage/qmoneyBalance")
-		@ResponseBody
-		public Map<String, Object> getQmoneyBalance(@AuthenticationPrincipal QtableUserDetails userDetails) {
-		    int memberIdx = userDetails.getMember().getMemberIdx();
+	@GetMapping("/mypage/qmoneyBalance")
+	@ResponseBody
+	public Map<String, Object> getQmoneyBalance(@AuthenticationPrincipal QtableUserDetails userDetails) {
+		int memberIdx = userDetails.getMember().getMemberIdx();
 
-		    // 서비스에서 총 Q-money 계산
-		    int totalQmoney = kakaoPayService.getTotalQmoney(memberIdx);
+		// 서비스에서 총 Q-money 계산
+		int totalQmoney = kakaoPayService.getTotalQmoney(memberIdx);
 
-		    Map<String, Object> result = Map.of("balance", totalQmoney);
-		    return result;
-		}
-		
-	
+		Map<String, Object> result = Map.of("balance", totalQmoney);
+		return result;
+	}
 
-	
 }

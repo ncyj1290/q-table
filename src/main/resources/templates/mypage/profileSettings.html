@@ -20,17 +20,21 @@
 		<!-- 숨겨진 파일 입력 -->
 		<input type="file" id="fileInput" accept="image/*" style="display:none">
 		<div class="profile-right">
-			<input type="text" class="component-write write" style="width: 200px;">
+<!--		    <span class="profile-nickname">닉네임</span>-->
+<!--			<input type="text" class="component-write write" style="width: 200px;">-->
+			<div class="profile-nickname" sec:authorize="isAuthenticated()">
+				<span th:text="${#authentication.principal.member.memberName}" 
+				aria-readonly="true" class="component-write write" style="width: 200px;"></span>
+			</div>
 			<button class="positive-button">변경</button>
 		</div>
 	  </div>
-<!--	 뒤로가기(회원정보수정 옆) 닉네임 입력란, 버튼 크기 조정  -->
 	  
 	<div class="profile-row">
 	  <div class="profile-fields">
 	      <div class="profile-field">
 			<label>아이디</label>
-			<input type="text" class="component-write write" disabled>
+			<input type="text" class="component-write write" readonly>
 		  </div>
 	      <div class="profile-field">
 			<label>비밀번호</label>
@@ -42,11 +46,10 @@
 			<input type="text" class="component-write write">
 		 </div>
 	      <div class="profile-field">
-			<label>이메일</label><input type="text" class="component-write write">
-<!--			<button class="positive-button">변경</button>-->
+			<label>이메일</label><input type="text" class="component-write write" disabled>
 		</div>
 	      <div class="profile-field">
-			<label>주소</label><input type="text" class="component-write write" disabled>
+			<label>주소</label><input type="text" class="component-write write">
 			<button class="positive-button">변경</button>
 		</div>
 	      <div class="profile-field">
