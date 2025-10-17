@@ -22,5 +22,8 @@ public interface ReservationMapper {
 
 	// 중복 예약 확인
 	int checkDuplicateReservation(@Param("memberIdx") Integer memberIdx, @Param("storeIdx") Integer storeIdx, @Param("reserveDate") String reserveDate);
+	
+	// 결제 내역 등록
+	int insertPaymentHistory(@Param("memberIdx") Integer memberIdx, @Param("amount") Integer amount, @Param("reserveIdx") Integer reserveIdx, @Param("status") String status);
 
 }

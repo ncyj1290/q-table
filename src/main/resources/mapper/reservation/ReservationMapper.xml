@@ -74,6 +74,24 @@
 	</select>
 
 	<!-- 결제 내역 등록 -->
-
+	<insert id="insertPaymentHistory">
+		INSERT INTO payment (
+		       member_idx
+		     , payment_amount
+		     , pay_status
+		     , pay_way
+		     , pay_type
+		     , pay_reference
+		     , reference_idx
+		) VALUES (
+		       #{memberIdx}
+		     , #{amount}
+		     , #{status} -- 결제상태
+		     , 'pywy_01' -- 큐머니
+		     , 'pyus_02' -- 예약금 결제
+		     , 'pyref_02' -- 결제참조 (예약)
+		     , #{reserveIdx} -- 참조 idx
+		)
+	</insert>
 
 </mapper>

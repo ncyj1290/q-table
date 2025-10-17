@@ -97,6 +97,9 @@ $(function() {
 
 		// 클릭한 날짜에 selected 클래스 추가
 		$(this).addClass('selected');
+
+		// 시간 옵션 업데이트 (오늘 날짜면 지난 시간 비활성화)
+		updateTimeOptions(selectedDate);
 	});
 
 	// 예약하기 버튼 클릭
@@ -109,11 +112,11 @@ $(function() {
 
 		// 인원수 입력 확인
 		const personCount = $('#person-count').val().trim();
-		if (!personCount) {
+		if (!personCount || personCount === '0') {
 			alert('인원수를 입력해주세요.');
 			return;
 		}
-
+		
 		// 시간 선택 확인
 		const time = $('#reservation-time').val();
 		if (!time) {
@@ -140,6 +143,47 @@ $(function() {
 	// ===================================
 	// 함수 정의
 	// ===================================
+
+	// 시간 옵션 업데이트 (오늘 날짜면 지난 시간 비활성화)
+	function updateTimeOptions(selectedDateStr) {
+		const $timeSelect = $('#reservation-time');
+		const now = new Date();
+		const selectedDateObj = new Date(selectedDateStr);
+
+		// 오늘 날짜인지 확인
+		const isToday = selectedDateObj.getFullYear() === now.getFullYear() &&
+						selectedDateObj.getMonth() === now.getMonth() &&
+						selectedDateObj.getDate() === now.getDate();
+
+		if (isToday) {
+			// 현재 시간
+			const currentHour = now.getHours();
+			const currentMinute = now.getMinutes();
+			const currentTimeStr = `${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`;
+			console.log(currentTimeStr);
+			// 모든 option 순회
+			$timeSelect.find('option').each(function() {
+				const optionTime = $(this).val();
+
+				// 지난 시간이면 비활성화 
+				if (optionTime <= currentTimeStr) {
+					$(this).prop('disabled', true);
+				} else {
+					$(this).prop('disabled', false);
+				}
+			});
+
+			// 첫 번째 활성화된 옵션 선택
+			const firstEnabled = $timeSelect.find('option:not(:disabled)').first();
+			console.log(firstEnabled);
+			if (firstEnabled.length > 0) {
+				$timeSelect.val(firstEnabled.val());
+			}
+		} else {
+			// 오늘이 아니면 모든 시간 활성화
+			$timeSelect.find('option').prop('disabled', false);
+		}
+	}
 
 	// 달력 생성
 	function generateCalendar(year, month) {

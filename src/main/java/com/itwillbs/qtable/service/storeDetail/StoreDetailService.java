@@ -206,7 +206,6 @@ public class StoreDetailService {
         }
 
         Integer reviewIdx = ((Number) reviewIdxObj).intValue();
-        log.info("변환된 reviewIdx: " + reviewIdx);
 
 
         if (imageList != null && !imageList.isEmpty()) {

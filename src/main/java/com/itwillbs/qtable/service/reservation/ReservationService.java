@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.qtable.mapper.reservation.ReservationMapper;
+import com.itwillbs.qtable.service.pay.PaymentHistoryService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -17,6 +18,7 @@ import lombok.extern.java.Log;
 public class ReservationService {
 
 	private final ReservationMapper reservationMapper;
+	private final PaymentHistoryService paymentHistoryService;
 
 	// 매장 정보 조회
 	public Map<String, Object> getStoreInfo(Integer storeIdx) {
@@ -31,7 +33,7 @@ public class ReservationService {
 		return storeInfo;
 	}
 
-	// 예약 등록 + 큐머니 차감 + 결제내역(예정)
+	// 예약 등록 + 큐머니 차감 + 결제내역
 	@Transactional
 	public Map<String, Object> insertReservation(Map<String, Object> reservationData, Integer memberIdx) {
 		// 1. 매장 정보 조회
@@ -51,28 +53,39 @@ public class ReservationService {
 			throw new RuntimeException("해당 날짜에 이미 예약이 존재합니다.");
 		}
 
-		// 3. 예약 등록
-		reservationData.put("member_idx", memberIdx);
-		int result = reservationMapper.insertReservation(reservationData);
+		Integer reserveIdx = null;
 
-		Integer reserveIdx = convertToInteger(reservationData.get("reserve_idx"));
+		try {
+			// 3. 예약 등록
+			reservationData.put("member_idx", memberIdx);
+			int result = reservationMapper.insertReservation(reservationData);
 
-		// 4. 큐머니 차감
-		result = reservationMapper.updateMemberQMoney(memberIdx, totalAmount);
+			reserveIdx = convertToInteger(reservationData.get("reserve_idx"));
 
-		if (result == 0) {
-			throw new RuntimeException("큐머니 잔액이 부족합니다. 충전 후 다시 시도해주세요.");
+			// 4. 큐머니 차감
+			result = reservationMapper.updateMemberQMoney(memberIdx, totalAmount);
+
+			if (result == 0) {
+				throw new RuntimeException("큐머니 잔액이 부족합니다. 충전 후 다시 시도해주세요.");
+			}
+
+			// 5. 결제 성공 기록 (별도 트랜잭션)
+			paymentHistoryService.recordReservationPayment(memberIdx, totalAmount, reserveIdx, "pyst_01");
+
+			// 6. 결과 반환
+			Map<String, Object> resultMap = new HashMap<>();
+			resultMap.put("reserve_idx", reserveIdx);
+			resultMap.put("total_amount", totalAmount);
+
+			return resultMap;
+
+		} catch (Exception e) {
+			// 7. 결제 실패 기록 (별도 트랜잭션)
+			paymentHistoryService.recordReservationPayment(
+				memberIdx, totalAmount, null, "pyst_02"
+			);
+			throw e; // 예외 다시 던져서 예약/큐머니 차감은 롤백
 		}
-
-		
-		// 결제 내역 저장 짜야함 TODO 
-		
-		// 4. 결과 반환
-		Map<String, Object> resultMap = new HashMap<>();
-		resultMap.put("reserve_idx", reserveIdx);
-		resultMap.put("total_amount", totalAmount);
-
-		return resultMap;
 	}
 
 	// Object를 Integer로 안전하게 변환 (Number, String 모두 처리)
