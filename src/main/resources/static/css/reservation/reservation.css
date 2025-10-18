@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-body{
-	min-width: 1800px;
-}
-
 .reservation-container {
     display: flex;
     gap: 30px;
