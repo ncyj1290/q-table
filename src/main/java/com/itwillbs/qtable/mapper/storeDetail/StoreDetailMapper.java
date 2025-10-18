@@ -63,11 +63,21 @@ public interface StoreDetailMapper {
 	// 리뷰 개수 조회
 	int getReviewCount(@Param("storeIdx") Integer storeIdx, @Param("sortType") String sortType);
 
-	// 리뷰 등록
+	// 리뷰 추가
 	void insertReview(Map<String, Object> reviewData);
 	
-	// 리뷰 이미지 등록 
+	// 리뷰 이미지 추가
 	void insertReviewImages(@Param("reviewIdx") Integer reviewIdx, @Param("imageList") List<String> imageList);
+	
+	// 스크랩 존재 여부 확인
+	int checkScrapExists(@Param("storeIdx") Integer storeIdx, @Param("memberIdx") Integer memberIdx);
+	
+	// 스크랩 추가
+	int insertScrap(@Param("storeIdx") Integer storeIdx, @Param("memberIdx") Integer memberIdx);
+	
+	// 스크랩 삭제
+	int deleteScrap(@Param("storeIdx") Integer storeIdx, @Param("memberIdx") Integer memberIdx);
+
 
 
 

@@ -977,6 +977,61 @@
 	font-size: 20px;
 }
 
+/* 스크랩 버튼 */
+.scrap-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	background-color: white;
+	border: 2px solid var(--color-main);
+	color: var(--color-main);
+	border-radius: 20px;
+	transition: all 0.3s ease;
+}
+
+.scrap-btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scrap-icon {
+	width: 25px;
+	height: 30px;
+	transition: transform 0.2s;
+}
+
+.scrap-btn:hover .scrap-icon {
+	transform: scale(1.1);
+}
+
+.scrap-text {
+	font-weight: bold;
+}
+
+/* 스크랩 알림 */
+.scrap-notification {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	background-color: var(--color-main);
+	color: white;
+	padding: 15px 25px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	font-size: 14px;
+	font-weight: bold;
+	opacity: 0;
+	transform: translateY(20px);
+	transition: all 0.3s ease;
+	z-index: 10000;
+}
+
+.scrap-notification.show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
 /* ================================== */
 /* 편의시설 아이콘 스타일 */
 /* ================================== */

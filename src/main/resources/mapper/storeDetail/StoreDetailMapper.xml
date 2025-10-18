@@ -194,8 +194,8 @@
 		SELECT
 		       r.review_idx
 		     , r.member_idx
-		     , m.member_name
-		     , m.profile_img_url
+		     , COALESCE(m.member_name, '탈퇴한 회원') AS member_name
+		     , COALESCE(m.profile_img_url, '/img/profile_default.jpg') AS profile_img_url
 		     , r.store_idx
 		     , DATE(r.create_at) AS create_at
 		     , r.content
@@ -203,7 +203,7 @@
 		     , r.like_count
 		     , GROUP_CONCAT(i.image_url) AS images
 		  FROM review r
-		  JOIN member m ON m.member_idx = r.member_idx
+		  LEFT JOIN member m ON m.member_idx = r.member_idx
      LEFT JOIN image i ON i.target_idx = r.review_idx
 		                  AND i.target_type = 'imguse_05'
 		 WHERE r.store_idx = #{storeIdx}
@@ -212,19 +212,14 @@
 		HAVING images IS NOT NULL
 		</if>
 		 <choose>
-		 	<when test="sortType == 'rvs_01'">
-		 		ORDER BY r.create_at DESC
-		 	</when>
 		 	<when test="sortType == 'rvs_02'">
 		 		ORDER BY r.score DESC, r.create_at DESC
 		 	</when>
 		 	<when test="sortType == 'rvs_03'">
 		 		ORDER BY r.score ASC, r.create_at DESC
 		 	</when>
-		 	<when test="sortType == 'rvs_04'">
-		 		ORDER BY r.create_at DESC
-		 	</when>
 		 	<otherwise>
+		 		<!-- rvs_01, rvs_04, 기타 모두 최신순 -->
 		 		ORDER BY r.create_at DESC
 		 	</otherwise>
 		 </choose>
@@ -273,4 +268,30 @@
 	        ('imguse_05', #{reviewIdx}, #{img})
 	    </foreach>
 	</insert>
+	
+	<!-- 스크랩 존재 여부 확인 -->
+	<select id="checkScrapExists" resultType="int">
+		SELECT COUNT(*)
+		  FROM scrap
+		 WHERE store_idx = #{storeIdx}
+		   AND member_idx = #{memberIdx}
+	</select>
+	
+	<!-- 스크랩 추가 -->
+	<insert id="insertScrap">
+		INSERT INTO scrap(
+				    member_idx
+				  , store_idx
+				) VALUES (	
+					#{memberIdx}
+				  , #{storeIdx}
+				)
+	</insert>
+	
+	<!-- 스크랩 삭제 -->
+	<delete id="deleteScrap">
+		DELETE FROM scrap
+			  WHERE store_idx = #{storeIdx}
+			  	AND member_idx = #{memberIdx} 
+	</delete>
 </mapper>

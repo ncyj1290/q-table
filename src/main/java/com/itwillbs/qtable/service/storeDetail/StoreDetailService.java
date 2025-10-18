@@ -212,6 +212,22 @@ public class StoreDetailService {
             storeMapper.insertReviewImages(reviewIdx, imageList);
         }
     }
+	
+	// 스크랩 여부 확인 
+	public boolean isStoreScrapped(Integer storeIdx, Integer memberIdx) {
+		return storeMapper.checkScrapExists(storeIdx, memberIdx) > 0;
+	}
+
+	// 스크랩 토글
+	public int toggleScrap(Integer storeIdx, Integer memberIdx) {
+		// 스크랩 존재 여부 확인 후 삭제/추가
+		boolean isExists = storeMapper.checkScrapExists(storeIdx, memberIdx) > 0;
+
+		return isExists
+			? storeMapper.deleteScrap(storeIdx, memberIdx)   // 존재O → 삭제
+			: storeMapper.insertScrap(storeIdx, memberIdx);  // 존재X → 추가
+	}
+
 
 
 }

@@ -33,11 +33,23 @@ public class StoreDetailController {
 	
 	// 식당 상세 페이지 이동
 	@GetMapping("store_detail_main")
-	public String storeDetailMain(@RequestParam("store_idx") Integer storeIdx, Model model) {
-
+	public String storeDetailMain(
+			@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam("store_idx") Integer storeIdx,
+			Model model) {
+		
 		// 매장 기본 정보 조회
 		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
 		model.addAllAttributes(storeData);
+
+		// 스크랩 여부 조회 (로그인 한 경우만)
+		boolean isScrapped = false;
+		if (userDetails != null) {
+			Member member = userDetails.getMember();
+			Integer memberIdx = member.getMemberIdx();
+			isScrapped = storeService.isStoreScrapped(storeIdx, memberIdx);
+		}
+		model.addAttribute("isScrapped", isScrapped);
 
 		// 매장 메뉴 섹션 조회 
 		Map<String, Object> menuData = storeService.getMenuInfo(storeIdx);
@@ -78,9 +90,8 @@ public class StoreDetailController {
 			@RequestParam("store_idx") Integer storeIdx,
 			@RequestParam(value = "sort_type", defaultValue = "rvs_01") String sortType,
 			@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "size", defaultValue = "3") int size) {
+			@RequestParam(value = "size", defaultValue = "5") int size) {
 
-		
 		return storeService.getReviewsPaged(storeIdx, sortType, page, size);
 	}
 	
@@ -106,14 +117,13 @@ public class StoreDetailController {
 			@RequestParam("score") Integer score,
 			@RequestParam("content") String content,
 			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
-		
-		// 결과 보낼 맵 
+
 		Map<String, Object> result = new HashMap<>();
-		
+
 		try {
 			Member member = userDetails.getMember();
 			Integer memberIdx = member.getMemberIdx();
-			
+
 			// 이미지 업로드하고 경로 뽑아내는 작업
 			List<String> imagePaths = new ArrayList<>();
 			if (images != null && !images.isEmpty()) {
@@ -125,7 +135,7 @@ public class StoreDetailController {
 				}
 			}
 
-			// 리뷰 데이터 
+			// 리뷰 데이터
 			Map<String, Object> reviewData = new HashMap<>();
 			reviewData.put("memberIdx", memberIdx);
 			reviewData.put("storeIdx", storeIdx);
@@ -133,17 +143,56 @@ public class StoreDetailController {
 			reviewData.put("content", content);
 			reviewData.put("imagePaths", imagePaths);
 			log.info(imagePaths.toString());
-			
+
 			storeService.insertReview(reviewData);
-			
-			result.put("success", "성공ㄱㄷㄴ");
-			
+
+			result.put("success", true);
+			result.put("message", "리뷰가 등록되었습니다.");
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.put("error", e.getMessage());
+			result.put("success", false);
+			result.put("message", e.getMessage());
 		}
-		
-		
+
 		return result;
+	}
+
+	// 스크랩 토글 API
+	@PostMapping("/api/storeDetail/scrap/toggle")
+	@ResponseBody
+	public Map<String, Object> toggleScrap(
+			@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam("store_idx") Integer storeIdx) {
+
+		Map<String, Object> res = new HashMap<>();
+		// 비로그인 시 처리
+		if (userDetails == null) {
+			res.put("success", false);
+			res.put("message", "로그인이 필요한 서비스입니다.");
+			return res;
+		}
+
+		Member member = userDetails.getMember();
+		Integer memberIdx = member.getMemberIdx();
+
+		try {
+			// 토글 결과 여부
+			int result = storeService.toggleScrap(storeIdx, memberIdx);
+
+			if (result > 0) {
+				res.put("success", true);
+				res.put("message", "스크랩 처리가 완료되었습니다.");
+			} else {
+				res.put("success", false);
+				res.put("message", "스크랩 처리중 오류가 발생했습니다.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.put("success", false);
+			res.put("message", e.getMessage());
+		}
+
+		return res;
 	}
 }
