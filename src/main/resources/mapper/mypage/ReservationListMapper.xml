@@ -39,17 +39,38 @@
          AND 	member_idx = #{member_idx}
    </update>
 	
-	<!--스크랩 저장-->
-	<insert id="insertScrap" parameterType="map">
-  		INSERT INTO scrap ( member_idx
-  		    			  , store_idx
-  		    			  , create_at
-  		    			  )
-  		VALUES 			  ( #{member_idx}
-  		                  , #{store_idx}
-  		                  , now()
-  		                  )
+	<!-- 예약현황 스크랩 -->
+	<select id="existsScrap" resultType="int">
+	SELECT COUNT(*) 
+	  FROM scrap 
+	 WHERE member_idx = #{member_idx}
+	   AND store_idx = #{store_idx}
+	</select>
+
+	<insert id="insertScrap">
+		INSERT INTO scrap ( member_idx
+						  , store_idx
+						  , create_at
+						  ) 
+		     VALUES 		  ( #{member_idx}
+		     			  , #{store_idx}
+		     			  , #{create_at}
+		     			  )
 	</insert>
+
+	<delete id="deleteScrap">
+		DELETE 
+		  FROM scrap 
+		 WHERE member_idx = #{member_idx}
+		   AND store_idx = #{store_idx}
+	</delete>
+	
+	<select id="getScrapStoreIdsByUser" resultType="int">
+  		SELECT store_idx 
+  		  FROM scrap 
+  		 WHERE member_idx = #{memberIdx}
+	</select>
+	
 
 	
 </mapper>

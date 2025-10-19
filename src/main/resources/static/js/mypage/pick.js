@@ -52,6 +52,7 @@ window.addEventListener('load', () => {
 //		});
 //	});
 //});
+
 window.addEventListener('load', () => {
     const scrapIcons = document.querySelectorAll('.scrap-icon');
 
@@ -62,10 +63,6 @@ window.addEventListener('load', () => {
     scrapIcons.forEach(icon => {
         icon.addEventListener('click', () => {
             const storeIdx = icon.dataset.storeIdx;
-
-            const currentSrc = icon.getAttribute('src');
-            const isScrapped = currentSrc.includes('scrap_full');
-            icon.setAttribute('src', isScrapped ? '/img/scrap.png' : '/img/scrap_full.png');
 
             // 서버 전송
             fetch(`/scrap/toggle`, {

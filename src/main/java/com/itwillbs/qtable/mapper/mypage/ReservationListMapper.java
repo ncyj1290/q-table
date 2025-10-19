@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.mapper.mypage;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,16 @@ public interface ReservationListMapper {
 	int updateReservationStatus(@Param("reserve_idx") int reserve_idx,
 					            @Param("member_idx") String member_idx,
 					            @Param("reserve_result") String reserve_result);
+
+	int existsScrap(@Param("member_idx") String member_idx, @Param("store_idx") int store_idx);
+
+	void insertScrap(@Param("member_idx") String member_idx, 
+					 @Param("store_idx") int store_idx, 
+					 LocalDateTime createAt);
+
+	void deleteScrap(@Param("member_idx") String member_idx, @Param("store_idx") int store_idx);
+
+	List<Integer> getScrapStoreIdsByUser(@Param("member_idx") String member_idx);
 
 
 

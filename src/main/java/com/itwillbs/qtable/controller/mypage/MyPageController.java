@@ -1,10 +1,13 @@
 package com.itwillbs.qtable.controller.mypage;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -130,8 +133,7 @@ public class MyPageController {
 	public String reservationList(Model model, HttpServletRequest request,
 			@AuthenticationPrincipal QtableUserDetails userDetails,
 			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
-//	    Member member = userDetails.getMember();
-//	    String memberIdx = String.valueOf(member.getMemberIdx()); 
+		
 		String memberIdx = getMemberIdx(userDetails);
 		// null이거나 빈 문자열이면 기본값 할당
 		reserveResult = (reserveResult == null || reserveResult.isEmpty()) ? "rsrt_05" : reserveResult;
@@ -167,14 +169,42 @@ public class MyPageController {
 		}
 		return Collections.singletonMap("success", success);
 	}
+	
+	//예약현황에서 스크랩 저장
+	@PostMapping("/scrap/save")
+	@ResponseBody
+	public Map<String, Object> saveScrap(@AuthenticationPrincipal QtableUserDetails userDetails,
+	                                    @RequestParam("storeIdx") int storeIdx) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		String memberIdx = getMemberIdx(userDetails);
+		
+		//이미 스크랩한 가게 인지 확인 
+	    boolean alreadyScrapped = reservationService.existsByUserAndStore(memberIdx, storeIdx);
+	    LocalDateTime now = LocalDateTime.now();  // 현재 시간 가져오기
 
-//	@PostMapping("/scrap/save")
-//	@ResponseBody
-//	public ResponseEntity<?> saveScrap(@RequestParam Long storeId, @AuthenticationPrincipal QtableUserDetails userDetails) {
-//		String memberIdx = getMemberIdx(userDetails);
-//	    boolean saved = scrapService.saveScrap(username, storeId);
-//	    return ResponseEntity.ok(Map.of("success", saved));
-//	}
+	    if (alreadyScrapped) {
+	    	reservationService.saveScrap(memberIdx, storeIdx, now);
+	    	result.put("success", true);
+	    	result.put("message", "saved");
+	    } else {
+	        reservationService.deleteScrap(memberIdx, storeIdx);
+	        result.put("success", true);
+	        result.put("message", "deleted");
+	    }
+	    return result;
+	}
+	
+	@GetMapping("/mypageScrap/list")
+	@ResponseBody
+	public List<Integer> getScrapStoreIdsByUser(@AuthenticationPrincipal QtableUserDetails userDetails) {
+		String memberIdx = getMemberIdx(userDetails);
+	    List<Integer> scrapList = reservationService.getScrapStoreIdsByUser(memberIdx);
+	    return scrapList;
+	}
+
+
 
 	// q-money 금액 불러오기
 	@GetMapping("/mypage/qmoneyBalance")

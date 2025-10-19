@@ -43,7 +43,7 @@
 								<span th:text="${item.store_name}" class="store-name" ></span>
 								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
 							</div>
-						<img src="/img/scrap.png" class="scrap-icon" />
+						<img src="/img/scrap.png" class="scrap-icon" th:data-store-idx="${item['store_idx']}"/>
 						</div>
 						 	<span class="desc" th:text="${item.store_content}"></span></span>
 							<span class="desc">매장 번호:&nbsp;&nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
@@ -69,7 +69,7 @@
 						<div class="store-title">
 							<div class="name-star-group">
 								<span th:text="${item.store_name}" class="store-name"></span>
-								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
+								<span class="star" th:text="'★ ' + ${item.avgScore}"> </span>
 							</div>
 						</div>
 							<span class="desc" th:text="${item.store_content}"></span></span>

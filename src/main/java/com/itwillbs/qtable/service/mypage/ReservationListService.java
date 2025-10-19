@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.service.mypage;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.qtable.mapper.mypage.ReservationListMapper;
-import com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +33,23 @@ public class ReservationListService {
 	public boolean cancelReservation(String memberIdx, int  reserveIdx) {
 	    // 예약 상태 취소로 변경 쿼리 수행 예시
 	    int updateCount = reservationListMapper.updateReservationStatus(reserveIdx, memberIdx, "rsrt_03");
-	    System.out.println("reserveIdx = " + reserveIdx + ", memberIdx = " + memberIdx);
-
-	    System.out.println("업데이트된 행 수: " + updateCount);
 	    return updateCount > 0;
+	}
+	
+	public boolean existsByUserAndStore(String memberIdx, int storeIdx) {
+	    return reservationListMapper.existsScrap(memberIdx, storeIdx) > 0;
+	}
+
+	public void saveScrap(String memberIdx, int storeIdx, LocalDateTime createAt) {
+		reservationListMapper.insertScrap(memberIdx, storeIdx, createAt);
+	}
+
+	public void deleteScrap(String memberIdx, int storeIdx) {
+		reservationListMapper.deleteScrap(memberIdx, storeIdx);
+	}
+
+	public List<Integer> getScrapStoreIdsByUser(String memberIdx) {
+		return reservationListMapper.getScrapStoreIdsByUser(memberIdx);
 	}
 	
 	
