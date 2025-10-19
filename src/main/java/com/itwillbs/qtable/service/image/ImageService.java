@@ -17,6 +17,6 @@ public class ImageService {
 	private final ImageRepository imageRepository;
 	
 	  public List<Image> getMainImages(String targetType,  List<Integer> storeIds) {
-	        return imageRepository.findByTargetTypeAndTargetIdxInAndIsMainImageTrue(targetType, storeIds);
+	        return imageRepository.findByTargetTypeAndTargetIdxIn(targetType, storeIds);
 	    }
 }

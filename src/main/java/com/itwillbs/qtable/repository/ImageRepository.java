@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.itwillbs.qtable.entity.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Integer> {
-    List<Image> findByTargetTypeAndTargetIdxInAndIsMainImageTrue(String targetType, List<Integer> storeIds);
+    List<Image> findByTargetTypeAndTargetIdxIn(String targetType, List<Integer> storeIds);
 }
