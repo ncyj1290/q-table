@@ -8,4 +8,8 @@ import com.itwillbs.qtable.entity.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Integer> {
     List<Image> findByTargetTypeAndTargetIdxIn(String targetType, List<Integer> storeIds);
+    
+    // 매장 대표 이미지 조회(영재)
+ 	Image findByTargetTypeAndTargetIdx(String targetType, Integer targetIdx);
+
 }

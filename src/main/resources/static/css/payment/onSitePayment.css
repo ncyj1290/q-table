@@ -60,7 +60,8 @@
 .info-row .value {
 	color: var(--color-font);
 	font-size: 16px;
-	font-weight: 500;
+	font-weight: bold;
+	padding-left: 15px;
 }
 
 /* 결제 금액 입력 섹션 */
@@ -190,7 +191,7 @@
 .qmoney-label {
 	font-weight: bold;
 	color: var(--color-font);
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .qmoney-value {

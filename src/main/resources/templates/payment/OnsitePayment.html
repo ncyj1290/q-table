@@ -12,20 +12,20 @@
 		<!-- 식당 정보 섹션 -->
 		<div class="store-info-section">
 			<div class="store-image">
-				<img src="/img/test.png" alt="매장 이미지">
+				<img th:src="@{${storeImage}}" alt="매장 이미지">
 			</div>
 			<div class="store-details">
 				<div class="info-row">
 					<span class="label">매장명</span>
-					<span class="value">참잘돼지국밥</span>
+					<span class="value" th:text="${store.store_name}"></span>
 				</div>
 				<div class="info-row">
 					<span class="label">날짜</span>
-					<span class="value">2025-09-20</span>
+					<span class="value" th:text="${reservation.reserve_date}"></span>
 				</div>
 				<div class="info-row">
 					<span class="label">시간</span>
-					<span class="value">오후 5시 10분</span>
+					<span class="value" th:text="${reservation.reserve_time}"></span>
 				</div>
 			</div>
 		</div>
@@ -62,7 +62,7 @@
 				<div class="info-row">
 					<div class="top-row">
 						<span class="label">선납 예약금</span>
-						<span class="value" id="depositDisplay">- 3,000 원</span>
+						<span class="value" id="depositDisplay" th:text="'- ' + ${#numbers.formatInteger(store.deposit * reservation.person_count, 0, 'COMMA')} + ' 원'"></span>
 					</div>
 				</div>
 			</div>
@@ -81,11 +81,11 @@
 		<div class="qmoney-info-section">
 			<div class="qmoney-row">
 				<span class="qmoney-label">현재 회원님의 Q-money</span>
-				<span class="qmoney-value" id="currentQMoneyDisplay">195,000 원</span>
+				<span class="qmoney-value" id="currentQMoneyDisplay" th:text="${#numbers.formatInteger(qMoney, 0, 'COMMA')} + ' 원'"></span>
 			</div>
 			<div class="qmoney-row">
 				<span class="qmoney-label">결제 후 회원 님의 Q-money</span>
-				<span class="qmoney-value" id="afterQMoneyDisplay">195,000 원</span>
+				<span class="qmoney-value" id="afterQMoneyDisplay" th:text="${#numbers.formatInteger(qMoney, 0, 'COMMA')} + ' 원'"></span>
 			</div>
 		</div>
 
