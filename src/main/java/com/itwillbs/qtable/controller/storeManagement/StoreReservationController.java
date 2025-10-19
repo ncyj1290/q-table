@@ -85,7 +85,7 @@ public class StoreReservationController {
 		List<CommonCodeVO> resvList = storeCommonCode.selectCommonCodeForStore("reservation_result", null);
 		
 		/* 예약 날짜와 시간이 오늘 이전 + 예약 시간 + 30분 전이면  방문 완료와 노쇼는 보여주지 않음 */
-		LocalDateTime rDateTime = LocalDateTime.of(resData.getReserve_date().toLocalDate(), resData.getReserve_time().toLocalTime().minusMinutes(30));
+		LocalDateTime rDateTime = LocalDateTime.of(resData.getReserve_date().toLocalDate(), resData.getReserve_time().toLocalTime().plusMinutes(30));
 		/* 오늘 날짜 */
 		LocalDateTime today = LocalDateTime.now();
 		/* 오늘 날짜가 예약시간 이전이면 방문 완료, 노쇼 제거 */
