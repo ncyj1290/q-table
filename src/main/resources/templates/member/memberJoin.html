@@ -38,20 +38,21 @@
 						<div class="form-group">
 							<label for="userId">아이디</label>
 							<input type="text" id="userId" name="memberId" class="component-write" placeholder="아이디" autocomplete="username">
-
+							<span id="userIdMsg" class="validation-msg"></span>
 						</div>
 
 						<div class="form-group">
 							<label for="password">비밀번호</label>
 							<input type="password" id="password" name="memberPw" class="component-write"
 								placeholder="비밀번호" autocomplete="new-password">
+							<span id="uerPwMsg" class="validation-msg"></span>
 						</div>
 
 						<div class="form-group">
 							<label for="confirmPassword">비밀번호 확인</label>
 							<input type="password" id="confirmPassword" class="component-write" placeholder="비밀번호 확인"
 								autocomplete="new-password">
-
+							<span id="confirmPwMsg" class="validation-msg"></span>
 						</div>
 
 						<div class="form-group name">
@@ -80,7 +81,7 @@
 							<div class="form-group">
 								<label for="addressPostcode">주소</label>
 								<input type="text" id="addressPostcode" name="postCode" class="component-write"
-									placeholder="우편번호">
+									placeholder="우편번호" readonly>
 								<button type="button" class="positive-button custombtn" onclick="execDaumPostcode()">우편
 									번호</button>
 							</div>
@@ -111,7 +112,7 @@
 						<hr>
 
 						<div class="terms-section">
-
+						<p>이용약관</p>
 							<div class="term-item">
 								<input type="checkbox" id="selectAll" class="component-checkbox">
 								<label for="selectAll">전체동의</label>

@@ -31,11 +31,11 @@
 .signup-container {
   border: 2px solid var(--color-main);
   border-radius: 20px;
-  padding: 30px;
+  padding: 30px 30px 30px 15px;
   flex-grow: 1;
-  width: 100%;
+  width: 660px;
   display: flex;
-  justify-content: center;
+  justify-content: center;  
 }
 
 /* ---------- 공통 Form ---------- */
@@ -79,12 +79,16 @@
 #gender {
     width: 100px;
 }
-#userId,
+
 #password,
 #confirmPassword,
 #businessRegNo{
 	width: 200px;
 }
+#userId{
+	width: 150px;
+}
+
 #birthDate{
 	width: 200px;
 }
@@ -128,6 +132,7 @@
 .terms-section {
   color: var(--color-font);
   font-weight: bold;
+  width: 540px;
 }
 .term-item {
   display: flex;
@@ -210,4 +215,18 @@
 	color: #333;
 	font-size: 14px;
 	padding: 2px;
+}
+
+.validation-msg {
+  margin-left: 8px;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.validation-msg.error {
+  color: red;
+}
+
+.validation-msg.success {
+  color: green;
 }
