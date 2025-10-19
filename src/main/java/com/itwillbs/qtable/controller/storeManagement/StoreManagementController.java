@@ -39,26 +39,7 @@ public class StoreManagementController {
 		return "storeManagement/purchaseSubscribe";
 	}
 	
-	/* ================================================= */
-	/* 정산 목록 페이지 */
-	@GetMapping("/store_calculate_list")
-	public String calculateList(Model model, @AuthenticationPrincipal QtableUserDetails user) {
-		
-		/* 프로필 정보 가져와서 집어넣는건데 spData란 이름으로 모델에 집어넣게 될거임 */
-		storeDataService.injectStoreProfileByOwnerIdx(model, user.getMember().getMemberIdx());
-		
-		return "storeManagement/storeCalculateList";
-	}
 	
-	/* 정산 상세 페이지 */
-	@GetMapping("/store_calculate_detail")
-	public String calculateDetail(Model model, @AuthenticationPrincipal QtableUserDetails user) {
-		
-		/* 프로필 정보 가져와서 집어넣는건데 spData란 이름으로 모델에 집어넣게 될거임 */
-		storeDataService.injectStoreProfileByOwnerIdx(model, user.getMember().getMemberIdx());
-		
-		return "storeManagement/storeCalculateDetail";
-	}
 	
 	
 }

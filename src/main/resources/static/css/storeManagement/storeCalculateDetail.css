@@ -6,7 +6,8 @@
 }
 
 .sub-layout{
-	height: 500px !important;
+	min-height: 500px !important;
+	height: fit-content;
 }
 
 

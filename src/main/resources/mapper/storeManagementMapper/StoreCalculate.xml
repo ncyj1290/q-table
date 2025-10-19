@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreCalculate">
+
+	<!-- 정산 갯수 찾아오는 함수 -->
+	<select id="countCalculateByMemberidx">
+		select count(*)
+		from jeongsan
+		where member_idx = #{member_idx}
+	</select>
+
+	<!-- 정산 목록 불러오는 쿼리문 -->
+	<select id="selectCaculateListByMemberidx">
+		select jeongsan_idx
+			,j.member_idx
+			,j.jeongsan_amount
+			,j.calculate_result
+			,j.requested_at
+			,j.processed_at
+			,j.rejection_reason
+			,m.member_id as member_id
+			,c.code_label as result_label
+		from jeongsan j join member m 
+		on j.member_idx = m.member_idx
+		join common_code c
+		on j.calculate_result = c.code
+		where j.member_idx = #{member_idx}
+	</select>
+	
+	<!-- 정산 디테일 내용 불러오는 쿼리문 -->
+	<select id="selectCalculateDetail">
+		select jeongsan_idx
+			,j.member_idx
+			,j.jeongsan_amount
+			,j.calculate_result
+			,j.requested_at
+			,j.processed_at
+			,case
+				when j.rejection_reason is not null 
+				then j.rejection_reason
+				else '없음'
+			end	as rejection_reason
+			,m.member_id as member_id
+			,c.code_label as result_label
+			,s.store_name as store_name
+			,s.full_address as full_address
+			,s.account_number as account_number
+		from jeongsan j join member m 
+		on j.member_idx = m.member_idx
+		join common_code c
+		on j.calculate_result = c.code
+		join store s
+		on s.member_idx = m.member_idx
+		where j.jeongsan_idx = #{jeongsan_idx}
+		and j.member_idx = #{member_idx}
+	</select>
+	
+</mapper>

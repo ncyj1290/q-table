@@ -52,10 +52,17 @@
 	text-align: center;
 }
 
+/* id 라벨 */
+.label-id-size{
+	width: 150px;	
+	text-align: center;
+	
+}
+
 
 /* 날짜 라벨 */
 .label-date-size{
-	width: 100px;
+	width: 200px;
 	text-align: center;	
 }
 

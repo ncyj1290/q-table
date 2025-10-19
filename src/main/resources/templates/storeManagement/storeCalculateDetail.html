@@ -26,37 +26,45 @@
 					
 					<div class="detail-row">
 						<label class="info-label">매장 명:</label>
-						<label class="info-data-label">영재게이 삼겹살 전문점</label>
+						<label class="info-data-label" th:text="${cal.store_name}">영재게이 삼겹살 전문점</label>
 					</div>
 					
 					<div class="detail-row">
 						<label class="info-label">정산 날짜:</label>
-						<label class="info-data-label">25.09.19</label>
+						<label class="info-data-label" th:text="${cal.processed_at}">25.09.19</label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">매장 계좌번호:</label>
+						<label class="info-data-label" th:text="${cal.account_number}"></label>
+					</div>
+					
+					<div class="detail-row">
+						<label class="info-label">매장 주소:</label>
+						<label class="info-data-label" th:text="${cal.full_address}"></label>
 					</div>
 					
 					<div class="detail-row">
 						<label class="info-label">정산 금액:</label>
-						<label class="info-data-label">1,800,000,000 ₩</label>
+						<label class="info-data-label" th:text="${cal.jeongsan_amount} + ₩"></label>
 					</div>
 					
 					<div class="detail-row">
 						<label class="info-label">정산 상태: </label>
-						<label class="info-data-label">완료</label>
+						<label class="info-data-label" th:text="${cal.result_label}"></label>
 					</div>
 					
 					<br>
 					
 					<div class="detail-column">
 						<label class="info-label">반려 사유</label>
-						<div class="component-write">없음</div>
+						<div class="component-write" th:text="${cal.rejection_reason}"></div>
 					</div>
 
 					<br>
 					
-					<!-- 취소, 전송 버튼 -->
 					<div class="row-component-gap20">
-						<button class="negative-button" onclick="history.back()">취소</button>
-						<button class="positive-button" onclick="location.href='/store_calculate_list'">등록</button>
+						<button class="positive-button" onclick="history.back()">돌아가기</button>
 					</div>
 	
 				</div>
