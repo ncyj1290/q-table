@@ -205,6 +205,53 @@
 	     WHERE common_idx = #{common_idx}
     </update>
     
+    <!-- 공통 코드 그룹 select box값-->
+    <select id="findAllGroups">
+        SELECT
+            group_code,
+            group_desc
+        FROM
+            common_code_group
+        ORDER BY
+            group_code
+    </select>
+    
+    
+    <!-- 공통 코드 그룹 insert-->
+    <insert id="saveCommonCodeGroup">
+        INSERT INTO common_code_group 
+        			(
+            		group_code,
+            		group_desc,
+            		creater_idx) 
+             VALUES (
+					 #{group_code},
+            		 #{group_desc},
+            		 1)
+    </insert>
+    
+    <!-- 공통 코드 insert-->
+    <insert id="saveCommonCode">
+		INSERT INTO common_code (
+		            group_code,
+		            code,
+		            code_label,
+		            code_desc, 
+		            parent_code, 
+		            creater_idx
+		            ) VALUES
+		    <foreach collection="list" item="item" separator=",">
+		           (
+		            #{item.group_code},
+		            #{item.code},
+		            #{item.code_label},
+		            #{item.code_desc},
+		            #{item.parent_code}, 
+		            1
+		           )
+		    </foreach>
+    </insert>
+    
     <!-- 사용자 로그 리스트 조회 -->
     <select id="findUserLogList">
 	    SELECT

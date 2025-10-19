@@ -30,6 +30,7 @@ import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 import com.itwillbs.qtable.vo.admin.UserLogVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 import jakarta.transaction.Transactional;
@@ -290,6 +291,23 @@ public class AdminService {
     public Integer deleteCommonCodeById(@Param("common_idx") Integer common_idx) {
     	return adminMapper.deleteCommonCodeById(common_idx);
     }
+    
+    // 그룹 목록 조회 메소드 (새로 추가)
+    public List<CommonCodeGroupVO> findAllGroups() {
+        return adminMapper.findAllGroups();
+    }
+    
+    // 공통코드 그룹 추가
+    public void saveCommonCodeGroup(CommonCodeGroupVO CommonCodeGroupVO) {
+
+    	adminMapper.saveCommonCodeGroup(CommonCodeGroupVO);
+    }
+    
+    // 공통 코드 추가
+    public void saveCommonCode(List<CommonCodeVO> CommonCodeVO) {
+    	
+    	adminMapper.saveCommonCode(CommonCodeVO);
+	}
     
     // ----------------------- 관리자 ---------------------
     

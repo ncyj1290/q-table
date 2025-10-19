@@ -20,6 +20,7 @@ import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 import com.itwillbs.qtable.vo.admin.UserLogVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 
@@ -191,6 +192,26 @@ public class AdminApiController {
     	adminService.deleteCommonCodeById(commoncodeIdx);
     }
     
+    // 공통코드 그룹 리스트
+    @GetMapping("/api/common-code-groups")
+    public List<CommonCodeGroupVO> findAllGroups() {
+        return adminService.findAllGroups();
+    }
+    
+    // 공통코드 그룹 추가
+    @PostMapping("/api/common-code-groups")
+    public void saveCommonCodeGroup(@RequestBody CommonCodeGroupVO CommonCodeGroupVO) {
+
+    	adminService.saveCommonCodeGroup(CommonCodeGroupVO);
+    }
+    
+    // 공통코드 추가
+    @PostMapping("api/comcode/common_codes")
+    public void saveCommonCode(@RequestBody List<CommonCodeVO> CommonCodeVO) {
+
+    	adminService.saveCommonCode(CommonCodeVO);
+    }
+    
     // --------------------------- 어드민 -----------------------
     
 	// 어드민 회원 목록 리스트 조회
@@ -214,5 +235,6 @@ public class AdminApiController {
     public void deleteUserLog(@PathVariable("LogIdx") Integer LogIdx) {
     	adminService.deleteUserLog(LogIdx);
     }
+    
     
 }
