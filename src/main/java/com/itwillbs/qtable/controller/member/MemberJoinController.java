@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.qtable.entity.Member;
+import com.itwillbs.qtable.repository.UserRepository;
 import com.itwillbs.qtable.service.member.MemberJoinService;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
@@ -19,7 +21,7 @@ import lombok.extern.java.Log;
 @RequiredArgsConstructor
 public class MemberJoinController {
 	private final MemberJoinService memberJoinService;
-	
+	 private final UserRepository userRepository; 
 	@GetMapping("/member_join")
 	public String member_join(Model model) {
 	    List<CommonCodeVO> genderCodes = memberJoinService.getCodesByGroup("GENDER");
@@ -38,4 +40,11 @@ public class MemberJoinController {
 		
 		return "redirect:/login";
 	}
+	
+    @GetMapping("/checkMemberId")
+    public boolean checkMemberId(@RequestParam String memberId) {
+        boolean exists = userRepository.existsByMemberId(memberId);
+        return !exists;
+    }
+	
 }

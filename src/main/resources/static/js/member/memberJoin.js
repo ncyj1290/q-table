@@ -17,8 +17,27 @@ $(function() {
 	    return;
 	  }
 
-	  msg.text("사용 가능한 형식입니다.").removeClass("error").addClass("success");
+//	  msg.text("사용 가능한 형식입니다.").removeClass("error").addClass("success");
+	  
+	  $.ajax({
+		url:"/checkMemberId",
+		type:"GET",
+		data:{memberId:userId},
+		success:function(isAvailable){
+			if (isAvailable === true){
+				msg.text("사용 가능한 아이디입니다").removeClass("error").addClass("success");			
+			} else {
+				msg.text("이미 사용중인 아이디입니다").removeClass("error").addClass("success");
+			}
+		}
+	  });	  
 	});
+	
+	
+	
+	
+	
+	
 	//비밀번호 8~16자리 영문 숫자 특수문자 포함 해야함
 	const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
 	const uerPwMsg = $("#uerPwMsg");
