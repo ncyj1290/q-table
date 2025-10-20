@@ -1,5 +1,7 @@
 package com.itwillbs.qtable.controller.admin;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,12 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.itwillbs.qtable.service.admin.AdminService;
+import com.itwillbs.qtable.service.member.MemberJoinService;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 
 @Controller
 public class AdminController {
-	
+	 @Autowired
+	 private MemberJoinService memberJoinService;
+
 	@Autowired
 	AdminService adminService;
 	
@@ -89,13 +95,17 @@ public class AdminController {
 	
 //	관리자 계정 목록 페이지
 	@GetMapping("/admin_account")
-	public String adminAccount() {
+	public String adminAccount(Model model) {
+		List<CommonCodeVO> statusCodes = memberJoinService.getCodesByGroup("member_status");
+	    model.addAttribute("statusCodes", statusCodes);
+	    List<CommonCodeVO> memberType = memberJoinService.getCodesByGroup("member_type");
+	    model.addAttribute("memberType", memberType);
 		return "admin/adminAccount";
 	}
 	
 //	관리자 계정 추가 페이지
 	@GetMapping("/admin_commit")
-	public String adminCommit() {
+	public String adminCommit(Model model) {
 		return "admin/adminCommit";
 	}
 	

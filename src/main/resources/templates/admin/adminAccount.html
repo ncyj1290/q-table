@@ -13,15 +13,16 @@
 			<div class="table-title">관리자 목록</div>
 
 			<div class="header-actions">
-				<button class="positive-button" id="status-change-btn2">관리자 계정 생성</a>
+				<button class="positive-button" id="status-change-btn2">관리자 계정 생성</button>
 			</div>
 		</div>
 
 		<div id="admin-table" class="grid-wrapper"></div>
-		
 		<div class="modal-overlay" id="status-change-modal2">
+		<form th:action="@{/member_join_Pro}" method="post" id="signupForm">
+			<input type="hidden" id="memberType" name="memberType" th:value="${memberType[0].code}">
+			<input type="hidden" id="memberStatus" name="memberStatus" th:value="${statusCodes[0].code}">
 			<div class="modal-container">
-
 				<div class="modal-header">
 					<h2>관리자 계정 생성</h2>
 				</div>
@@ -29,11 +30,11 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label>아이디</label>
-						<input type="text" class="component-write"></input>
+						<input type="text" name="memberId" class="component-write"></input>
 					</div>
 					<div class="form-group">
 						<label>비밀번호</label>
-						<input type="text" class="component-write"></input>
+						<input type="text" name="memberPw" class="component-write"></input>
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label>
@@ -41,21 +42,22 @@
 					</div>
 					<div class="form-group">
 						<label>이메일</label>
-						<input type="text" class="component-write"></input>
+						<input type="text" name="email" class="component-write"></input>
 					</div>
 					<div class="form-group">
 						<label>이메일 인증번호</label>
 						<input type="text" class="component-write"></input>
-						<p><button class="management-button">확인</button></p>
+						<p><button type="button" class="management-button">확인</button></p>
 					</div>
 
 					<div class="modal-footer">
-						<button class="positive-button">확인</button>
-						<button class="negative-button" id="modal-close-btn2">취소</button>
+						<button type="submit" class="positive-button">확인</button>
+						<button type="button" class="negative-button" id="modal-close-btn2">취소</button>
 					</div>
 
 				</div>
 			</div>
+			</form>
 		</div>
 
 		<script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
