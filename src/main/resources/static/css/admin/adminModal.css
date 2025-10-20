@@ -52,6 +52,26 @@
   margin-bottom: 8px;
 }
 
+.component-write.email {
+  min-width: 300px !important;
+}
+.flex-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.flex-input-group input {
+    flex-grow: 1 ;
+}
+
+.management-button.custom {
+	width: 100px;
+	height: 2.5rem;
+	border-radius: 25px;
+}
+
+
 /* 읽기 전용 입력창 스타일 */
 .readonly-input {
   background-color: #f0f0f0;
