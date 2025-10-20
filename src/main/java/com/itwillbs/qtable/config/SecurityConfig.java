@@ -101,8 +101,8 @@ public class SecurityConfig {
 	            .requestMatchers(
 	                "/", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
-	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore"
-	                ,"/api/search_getSubLocation","/send","/verify","/api/search"
+	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore",
+	                "/api/search_getSubLocation","/send","/verify","/api/search","/checkMemberId"
 	            ).permitAll()
 	            
 	            .requestMatchers(
