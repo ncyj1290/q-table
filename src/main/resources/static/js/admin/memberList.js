@@ -5,6 +5,7 @@ $(function() {
 		{ name: 'No.', width: '5%' },
 		{ name: '회원 이름', width: '10%' },
 		{ name: '회원 아이디', width: '10%' },
+		{ name: '회원 타입', width: '10%' },
 		{ name: '회원 이메일', width: '15%' },
 		{ name: '가입일', width: '8%' },
 		{
@@ -42,6 +43,7 @@ $(function() {
 					index + 1,
 					member.member_name,
 					member.member_id,
+					member.member_type,
 					member.email,
 					member.signup_date ? member.signup_date.substring(0, 10) : '-',
 					member.member_status,

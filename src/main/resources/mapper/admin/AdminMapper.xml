@@ -13,9 +13,9 @@
                c.code_label AS member_status
           FROM member m
           JOIN store s ON m.member_idx = s.member_idx
-          JOIN common_code c ON m.member_status = c.code
+          LEFT JOIN common_code c ON m.member_status = c.code
          WHERE m.member_type = 'mtype_03'
-           AND c.group_code = 'member_status'
+      ORDER BY s.store_idx
     </select>
     
     <!-- 회원 / 매장 상세페이지 조회-->

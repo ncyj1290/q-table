@@ -65,7 +65,8 @@ public class AdminService {
     // 전체 회원 목록 조회
     public List<MemberListVO> memberFindAll() {
         
-        List<Member> memberList = memberRepository.findByMemberType("mtype_02");
+    	// memberType이 type1 또는 type2 와 일치하는 Member 리스트를 찾는 메소드
+        List<Member> memberList = memberRepository.findByMemberTypeOrMemberTypeOrderByMemberIdxDesc("mtype_02", "mtype_03");
 
         System.out.println("memberList : " + memberList);
 
