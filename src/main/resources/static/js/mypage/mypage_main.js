@@ -73,60 +73,6 @@ $(document).on('click', 'button[data-type="cancelBtn"]', function() {
 	});
 });
 
-//스크랩 
-$(document).on('click', '.scrap-icon', function() {
-	const $icon = $(this);
-    const storeIdx = $(this).data('storeIdx'); // 아이콘에 data-store-id 속성으로 가게 ID 저장 필요
-	console.log('data-store-idx value:', $(this).attr('data-store-idx'));
-
-  if (!storeIdx) {
-    alert('가게 정보를 찾을 수 없습니다.');
-    return;
-  }
-
-  $.ajax({
-    url: '/scrap/save',
-    type: 'POST',
-    data: { storeIdx: storeIdx },
-    success: function(resp) {
-      if (resp.success) {
-		const currentSrc = $icon.attr('src');
-        const isScrapped = currentSrc.includes('scrap_full');
-        $icon.attr('src', isScrapped ? '/img/scrap.png' : '/img/scrap_full.png');
-        alert('스크랩이 저장되었습니다.');
-      } else {
-        alert('스크랩 저장에 실패했습니다.');
-      }
-    },
-    error: function() {
-      alert('네트워크 오류가 발생했습니다.');
-    }
-  });
-});
-
-$(document).ready(function() {
-  $.ajax({
-    url: '/mypageScrap/list',
-    type: 'GET',
-    success: function(scrapList) {
-		console.log('스크랩 리스트 응답:', scrapList);
-      // scrapList는 스크랩된 가게의 ID 배열이라고 가정
-      scrapList.forEach(function(storeIdx) {
-        let $icon = $('.scrap-icon[data-store-idx="' + storeIdx + '"]');
-        if ($icon.length > 0) {
-          $icon.attr('src', '/img/scrap_full.png');
-        }
-      });
-    },
-    error: function() {
-      console.log('스크랩 상태 로드 실패');
-    }
-  });
-});
-
-
-
-
 
 
 
