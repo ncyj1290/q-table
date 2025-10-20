@@ -24,8 +24,8 @@ public class ReservationListService {
     /*방문예정 예약 리스트 조회*/
 	public List<Map<String, Object>> getUpcomingList(String memberIdx, String reserveResult) {
 		 Map<String, Object> params = new HashMap<>();
-	     params.put("member_idx", memberIdx);          // 쿼리 변수명과 동일하게
-	     params.put("reserve_result", reserveResult);  // 쿼리 변수명 그대로
+	     params.put("member_idx", memberIdx);        
+	     params.put("reserve_result", reserveResult);  
 	     List<Map<String, Object>> result = reservationListMapper.getMyReservationList(params);
 	     return result;
 	}
@@ -36,21 +36,6 @@ public class ReservationListService {
 	    return updateCount > 0;
 	}
 	
-	public boolean existsByUserAndStore(String memberIdx, int storeIdx) {
-	    return reservationListMapper.existsScrap(memberIdx, storeIdx) > 0;
-	}
-
-	public void saveScrap(String memberIdx, int storeIdx, LocalDateTime createAt) {
-		reservationListMapper.insertScrap(memberIdx, storeIdx, createAt);
-	}
-
-	public void deleteScrap(String memberIdx, int storeIdx) {
-		reservationListMapper.deleteScrap(memberIdx, storeIdx);
-	}
-
-	public List<Integer> getScrapStoreIdsByUser(String memberIdx) {
-		return reservationListMapper.getScrapStoreIdsByUser(memberIdx);
-	}
 	
 	
 }

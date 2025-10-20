@@ -70,7 +70,8 @@ public class MyPageController {
 	}
 
 	@GetMapping("/mypage_history")
-	public String mypageHistory() {
+	public String mypageHistory(@RequestParam(value="reserveResult", required=false) String reserveResult, Model model) {
+		  System.out.println("reserveResult: " + reserveResult);
 
 		return "mypage/mypageHistory";
 	}
@@ -161,40 +162,6 @@ public class MyPageController {
 			success = false;
 		}
 		return Collections.singletonMap("success", success);
-	}
-
-	// 예약현황에서 스크랩 저장
-	@PostMapping("/scrap/save")
-	@ResponseBody
-	public Map<String, Object> saveScrap(@AuthenticationPrincipal QtableUserDetails userDetails,
-			@RequestParam("storeIdx") int storeIdx) {
-
-		Map<String, Object> result = new HashMap<>();
-
-		String memberIdx = getMemberIdx(userDetails);
-
-		// 이미 스크랩한 가게 인지 확인
-		boolean alreadyScrapped = reservationService.existsByUserAndStore(memberIdx, storeIdx);
-		LocalDateTime now = LocalDateTime.now(); // 현재 시간 가져오기
-
-		if (alreadyScrapped) {
-			reservationService.saveScrap(memberIdx, storeIdx, now);
-			result.put("success", true);
-			result.put("message", "saved");
-		} else {
-			reservationService.deleteScrap(memberIdx, storeIdx);
-			result.put("success", true);
-			result.put("message", "deleted");
-		}
-		return result;
-	}
-
-	@GetMapping("/mypageScrap/list")
-	@ResponseBody
-	public List<Integer> getScrapStoreIdsByUser(@AuthenticationPrincipal QtableUserDetails userDetails) {
-		String memberIdx = getMemberIdx(userDetails);
-		List<Integer> scrapList = reservationService.getScrapStoreIdsByUser(memberIdx);
-		return scrapList;
 	}
 
 	// q-money 금액 불러오기
