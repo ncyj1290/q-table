@@ -78,25 +78,25 @@ $(function() {
 		}
 	});
 
-//	$("#email").on("keyup", function() {
-//		const email = $(this).val().trim();
-//
-//		$.ajax({
-//			url: "/checkMemberEmail",
-//			type: "GET",
-//			data: { email: email },
-//			success: function(isAvailable) {
-//				if (isAvailable === true || isAvailable === "true") {
-//					msg.text("사용 가능한 이메일입니다").removeClass("error").addClass("success");
-//					isUserIdAvailable = true;
-//				} else {
-//					msg.text("이미 사용중인 이메일입니다").removeClass("success").addClass("error");
-//					isUserIdAvailable = false;
-//				}
-//			}
-//		});
-//
-//	});
+	//	$("#email").on("keyup", function() {
+	//		const email = $(this).val().trim();
+	//
+	//		$.ajax({
+	//			url: "/checkMemberEmail",
+	//			type: "GET",
+	//			data: { email: email },
+	//			success: function(isAvailable) {
+	//				if (isAvailable === true || isAvailable === "true") {
+	//					msg.text("사용 가능한 이메일입니다").removeClass("error").addClass("success");
+	//					isUserIdAvailable = true;
+	//				} else {
+	//					msg.text("이미 사용중인 이메일입니다").removeClass("success").addClass("error");
+	//					isUserIdAvailable = false;
+	//				}
+	//			}
+	//		});
+	//
+	//	});
 
 
 
@@ -259,15 +259,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
 $(function() {
 	$("#emailsand").click(function() {
+		var $btn = $(this);
+		if ($btn.prop("disabled")) return;
+
+		// 버튼 누르자마자 비활성화
+		$btn.prop("disabled", true);
+
 		$.ajax({
 			type: "POST",
 			url: "/send",
 			data: { email: $("#email").val() },
 			success: function(result) {
-				alert(result);
+				$("#uerEmailMsg").text("인증번호가 발송되었습니다.").removeClass("error").addClass("success");
+				//버튼 누르고 1분후 다시 클릭 가능(중복으로 insert방지)
+				setTimeout(function() {
+					$btn.prop("disabled", false);
+				}, 1 * 60 * 1000);
 			},
 			error: function() {
-				alert("메일 전송 실패!");
+				$("#uerEmailMsg").text("메일 전송 실패!").removeClass("success").addClass("error");
+				$btn.prop("disabled", false);
 			}
 		});
 	});
@@ -277,20 +288,26 @@ let emailVerified = false; // 인증 여부 저장
 
 $(function() {
 	$("#verifyBtn").click(function() {
+		const email = $("#email").val();
 		$.ajax({
 			type: "POST",
 			url: "/verify",
-			data: { emailVerification: $("#emailVerification").val() },
+			data: {
+				email: email,
+				emailVerification: $("#emailVerification").val()
+			},
 			success: function(result) {
 				alert(result); // 인증 성공/실패 메시지
-				if (result.includes("인증성공")) {
+				if (result.includes("인증 성공!")) {
 					emailVerified = true; // ✅ 인증 성공 시 플래그 true
+					$("#mailAuthStatus").val(true);
 				} else {
 					emailVerified = false;
+					$("#mailAuthStatus").val(false);
 				}
 			},
 			error: function(xhr) {
-				alert("인증 실패! (" + xhr.status + ")");
+				alert("인증 실패! (" + xhr.status + "): " + xhr.responseText);
 				emailVerified = false;
 			}
 		});

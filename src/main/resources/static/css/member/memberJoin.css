@@ -230,3 +230,13 @@
 .validation-msg.success {
   color: green;
 }
+
+#uerEmailMsg{
+margin-left: 124px;
+}
+.form-group.email {
+    margin-bottom: 8px; /* 다른 폼 그룹과 달리 이메일만 5px */
+}
+.form-group.emailverify{
+    margin-top: 5px; /* 다른 폼 그룹과 달리 이메일만 5px */
+}
