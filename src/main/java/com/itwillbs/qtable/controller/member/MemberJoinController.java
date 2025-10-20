@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.repository.UserRepository;
@@ -40,11 +41,10 @@ public class MemberJoinController {
 		
 		return "redirect:/login";
 	}
-	
-    @GetMapping("/checkMemberId")
-    public boolean checkMemberId(@RequestParam String memberId) {
-        boolean exists = userRepository.existsByMemberId(memberId);
-        return !exists;
-    }
-	
+	@ResponseBody
+	@GetMapping("/checkMemberId")
+	public boolean checkMemberId(@RequestParam("memberId") String id) {
+	    boolean exists = userRepository.existsByMemberId(id);
+	    return !exists;
+	}	
 }

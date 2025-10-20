@@ -1,5 +1,5 @@
 $(function() {
-	
+	let isUserIdAvailable = false;
 	//아이디 유효성검사
 	const idRegex = /^[a-zA-Z0-9]{4,20}$/; // 영문, 숫자 4~20자
 	const msg = $("#userIdMsg");
@@ -24,15 +24,17 @@ $(function() {
 		type:"GET",
 		data:{memberId:userId},
 		success:function(isAvailable){
-			if (isAvailable === true){
-				msg.text("사용 가능한 아이디입니다").removeClass("error").addClass("success");			
+			if (isAvailable === true || isAvailable === "true"){
+				msg.text("사용 가능한 아이디입니다").removeClass("error").addClass("success");
+				isUserIdAvailable = true;			
 			} else {
-				msg.text("이미 사용중인 아이디입니다").removeClass("error").addClass("success");
+				msg.text("이미 사용중인 아이디입니다").removeClass("success").addClass("error");
+				isUserIdAvailable = false;
 			}
 		}
 	  });	  
 	});
-	
+		
 	
 	
 	
@@ -132,6 +134,11 @@ $(function() {
 		if (!email) { alert('이메일을 입력해주세요.'); return; }
 		if (!emailVerification) { alert('이메일 인증번호를 입력해주세요.'); return; }
 		// 약관 체크 확인
+		if (!isUserIdAvailable) {
+		    alert("사용할 수 없는 아이디입니다. 다른 아이디를 입력해주세요.");
+		    return;
+		}
+		
 		let allRequiredChecked = true;
 		$(".component-checkbox.required").each(function() {
 			if (!$(this).is(":checked")) {
