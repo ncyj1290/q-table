@@ -37,33 +37,40 @@
 		 where group_code = 'time';
 	</select>
 	
-<!-- select s.store_idx -->
-<!-- 	 , s.store_name -->
-<!--      , s.sido -->
-<!--      , s.sigungu -->
-<!--      , s.price_avg price -->
-<!--      , s.store_content content -->
-<!--      , s.is_24hour '24hour' -->
-<!--      , cOpen.code_label 'open_time' -->
-<!--      , cClose.code_label 'close_time' -->
-<!--      , count(r.content) reviewCnt -->
-<!--      , ROUND(sum(r.score)/count(r.review_idx),1) score -->
-<!--      , i.image_url -->
-<!--      , h.store_holiday 'holiday' -->
-<!-- from store s -->
-<!-- join common_code cOpen on s.open_time = cOpen.code 매장여는 시간  -->
-<!-- join common_code cClose on s.close_time = cClose.code 매장 닫는 시간  -->
-<!-- left outer join review r on s.store_idx = r.store_idx 리뷰수 -->
-<!-- left outer join image i on s.store_idx = i.target_idx 매장 시간  -->
-<!-- left outer join store_holiday h on s.store_idx = h.store_idx 매장 휴일  -->
-<!-- left outer join common_code cHoliday on h.store_holiday = cHoliday.code 매장 휴일  -->
-<!-- where i.target_type = 'imguse_01' -->
-<!-- and s.store_idx != 사용자가 원하는 날짜가 휴무인 매장의 idx (with 절)   -->
-<!-- and 사용자가 원하는 조건문 .... 지역(sigungu) 음식() -->
-<!-- group by s.store_idx,s.store_name, s.sido, i.image_url, sigungu,price, is_24hour, store_content, cOpen.code_label, cClose.code_label, h.store_holiday -->
-<!-- order by score desc; -->
-	
-	
+	<select id="getResult">
+		select s.store_idx
+			 , s.store_name
+		     , s.sido
+		     , s.sigungu
+		     , s.price_avg price
+		     , s.store_content content
+		     , s.is_24hour '24hour'
+		     , cOpen.code_label 'open_time'
+		     , cClose.code_label 'close_time'
+		     , count(r.content) reviewCnt
+		     , ifnull(ROUND(sum(r.score)/count(r.review_idx),1),0) score
+		     , i.image_url
+		     , group_concat(distinct(cHoliday.code_label) ORDER BY cHoliday.code) 'holiday'
+		from store s
+		join common_code cOpen on s.open_time = cOpen.code
+		join common_code cClose on s.close_time = cClose.code 
+		left outer join review r on s.store_idx = r.store_idx 
+		left outer join image i on s.store_idx = i.target_idx 
+		left outer join store_holiday h on s.store_idx = h.store_idx 
+		left outer join common_code cHoliday on h.store_holiday = cHoliday.code 
+		where i.target_type = 'imguse_01'
+		group by s.store_idx
+		       , s.store_name
+		       , s.sido
+		       , i.image_url
+		       , sigungu
+		       , price
+		       , is_24hour
+		       , store_content
+		       , cOpen.code_label
+		       , cClose.code_label
+  	    order by #{vo.sort};
+	</select>	
 	
 	
 </mapper>

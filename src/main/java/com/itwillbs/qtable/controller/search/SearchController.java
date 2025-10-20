@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.qtable.service.search.searchService;
 import com.itwillbs.qtable.service.storeManagement.StoreWriteService;
+import com.itwillbs.qtable.vo.search.searchVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -43,29 +44,21 @@ public class SearchController {
 	}
 	
 	@GetMapping("/api/search")
-	public String search(@RequestParam(value = "loc", required = false) List<String> locList,
-			@RequestParam(value = "food", required = false) List<String> foodList,
-			@RequestParam(value ="atmosphere", required = false) List<String> atmosphereList,
-			@RequestParam(value ="facility", required = false) List<String> facility,
-			@RequestParam(value ="personCnt", required = false) String personCnt,
-			@RequestParam(value ="sort", required = false) String sort,
-			@RequestParam(value ="price", required = false) List<String> price,
-			@RequestParam(value ="day", required = false) String day,
-			@RequestParam(value ="time", required = false) String time,
-			@RequestParam(value ="query", required = false) String query
-			) {
+	public String getResult(searchVO vo, Model model) {
 		
 		log.info("입력값");
-		log.info("지역" + locList);
-		log.info("음식" + foodList);
-		log.info("분위기" + atmosphereList);
-		log.info("편의시설" + facility);
-		log.info("좌석수" + personCnt);
-		log.info("가격" + price);
-		log.info("정렬" + sort);
-		log.info("날짜" + day);
-		log.info("시간" + time);
-		log.info("입력값" + query);
+		log.info("지역" + vo.getLoc());
+		log.info("음식" + vo.getFood());
+		log.info("분위기" + vo.getAtmosphere());
+		log.info("편의시설" + vo.getFacility());
+		log.info("좌석수" + vo.getPersonCnt());
+		log.info("가격" + vo.getPrice());
+		log.info("정렬" + vo.getSort());
+		log.info("날짜" + vo.getDay());
+		log.info("시간" + vo.getTime());
+		log.info("입력값" + vo.getQuery());
+		
+		model.addAttribute("storeList", searchService.getResult(vo));
 		return "search/searchResult :: searchResult";
 	}
 	

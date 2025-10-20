@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.search.searchVO;
 
 @Mapper
 public interface SearchKeywordListMapper {
@@ -15,4 +16,5 @@ public interface SearchKeywordListMapper {
 	List<Map<String,Object>> getSubLocation();
 	List<Map<String,Object>> getPerCnt();
 	List<Map<String,Object>> getTime();
+	List<Map<String,Object>> getResult(@Param("vo")searchVO vo);
 }

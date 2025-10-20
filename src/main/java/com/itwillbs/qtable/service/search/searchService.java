@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 
 import com.itwillbs.qtable.mapper.search.SearchKeywordListMapper;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.search.searchVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +37,10 @@ public class searchService {
 	}
 	public List<Map<String, Object>> getTime() {
 		return mapper.getTime();
+	}
+	
+	public List<Map<String, Object>> getResult(searchVO vo) {
+		return mapper.getResult(vo);
 	}
 	
 }
