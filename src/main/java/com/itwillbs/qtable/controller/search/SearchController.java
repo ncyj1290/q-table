@@ -43,8 +43,7 @@ public class SearchController {
 	}
 	
 	@GetMapping("/api/search")
-	@ResponseBody
-	public void search(@RequestParam(value = "loc", required = false) List<String> locList,
+	public String search(@RequestParam(value = "loc", required = false) List<String> locList,
 			@RequestParam(value = "food", required = false) List<String> foodList,
 			@RequestParam(value ="atmosphere", required = false) List<String> atmosphereList,
 			@RequestParam(value ="facility", required = false) List<String> facility,
@@ -67,6 +66,7 @@ public class SearchController {
 		log.info("날짜" + day);
 		log.info("시간" + time);
 		log.info("입력값" + query);
+		return "search/searchResult :: searchResult";
 	}
 	
 	

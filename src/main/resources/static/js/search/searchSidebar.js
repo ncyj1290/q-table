@@ -139,8 +139,12 @@ function buildUrlAndFetchData() {
 	$.ajax({
 		url:finalUrl,
 		type:"get",
-		success:function() {
-			alert('호출성공')
+		dataType:"html",
+		success:function(res) {
+			$('.content').empty();
+			$('.filter').show();
+			alert('호출성공');
+			$('.content').append(res);
 		},
 		error: function(error) {
 			console.log(error);
@@ -156,11 +160,14 @@ function updateQueryForSidebar(el) {
 	// 모달에서 선택된 키워드는 ㄲㅈ 
 	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
 	if(isModalEvent) return;
+	
+	
 	console.log('사이드바에서 선택된 이벤트 ');
 	console.log(el);
 	const price = $('#price-slider')[0].noUiSlider.get(true);
 	const atmosphere = $(el).data('atmosphere');
 	const facility = $(el).data('facility');
+	
 	if(price) {
 		searchState.price = price;
 	}
@@ -332,47 +339,70 @@ function reset(el) {
 	const isPrice = $(el).closest('.top').hasClass('price');
 	const isLocation = $(el).closest('.parent').hasClass('locReset');
 	const isFood = $(el).closest('.parent').hasClass('foodReset');
+	const isFacility = $(el).closest('.parent').hasClass('facility');
+	const isAtmosphere = $(el).closest('.parent').hasClass('atmosphere');
+	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
 	
-	//사이드바에서 초기화 눌렀을때 초기화 되지 말아야할 부분
-	if(isNoReset) {
-		//사이드바에서 지역, 음식 부분 초기화 버튼 클릭시 동작 
-		const parentEl = $(el).closest('section.part').find('.keywords');
-		parentEl.empty();
-		parentEl.append(`<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>`);
-		$(el).closest('section.part').find('.select').hide();
-		
-		//사이드바에서 초기화 누르면 모달에서 키워드, 선택된 목록에도 반영하기
-		if(isLocation) {
-			$('.location').removeClass('active');
-			$('.selectedKeywords').find('.location').detach();
-			// filterState에 반영 로직 
-			filterState.location.code = [];
-			filterState.location.code_label = [];
-		} 
-		if(isFood) {
-			$('.food').removeClass('active');
-			$('.selectedKeywords').find('.food').detach();	
-			// filterState에 반영 로직
-			filterState.food.code = [];
-			filterState.food.code_label = [];
+	// ================================
+	//   사이드바 부분 
+	// ================================
+	if(!isModalEvent) { // 사이드바 부분
+		if(isNoReset) {//지역 음식 부분만 구분 
+			
+			//사이드바에서 지역, 음식 부분 초기화 버튼 클릭시 동작 
+			const parentEl = $(el).closest('section.part').find('.keywords');
+			parentEl.empty();
+			parentEl.append(`<span class="dashed-box show-modal">+ 키워드를 선택해주세요</span>`);
+			$(el).closest('section.part').find('.select').hide();
+			
+			//사이드바에서 초기화 누르면 모달에서 키워드, 선택된 목록에도 반영하기
+			if(isLocation) {
+				$('.location').removeClass('active');
+				$('.selectedKeywords').find('.location').detach();
+				// filterState에 반영 로직 
+				filterState.location.code = [];
+				filterState.location.code_label = [];
+				//검색 조건 초기화 
+				searchState.loc = [];	
+			} 
+			if(isFood) {
+				$('.food').removeClass('active');
+				$('.selectedKeywords').find('.food').detach();	
+				// filterState에 반영 로직
+				filterState.food.code = [];
+				filterState.food.code_label = [];
+				//검색 조건 초기화 
+				searchState.food = [];
+			}
+			return;	
 		}
-		return;	
-	}
-	//사이드바에서 가격 부분 리셋 
-	if(isPrice) $('#price-slider')[0].noUiSlider.reset();
+		//사이드바에서 가격 부분 리셋 
+		if(isPrice) {
+			$('#price-slider')[0].noUiSlider.reset();
+			searchState.price = null;
+		}
+		if(isAtmosphere) searchState.atmosphere = [];
+		if(isFacility) searchState.facility = [];	
+	}		
+	// ================================
+	//    모달 부분 
+	// ================================
 	
-	// 모달에서 지역 대분류는 리셋방지하고 그외 액티브 효과 없애기 
-	$(el).closest('.parent').find('.keyword:not(.no-outline)').removeClass('active');
-	//모달에서 초기화 버튼 눌렀을때, 선택된 목록들, 임시 보관소에서도 초기화 시키기 
-	if(isLocation) {
-		$('.selectedKeywords').find('.location').detach();
-		tempFilterState.location.code = [];
-		tempFilterState.location.code_label = [];		
-	}
-	if(isFood) {
-		$('.selectedKeywords').find('.food').detach();
-		tempFilterState.food.code = [];
-		tempFilterState.food.code_label = [];
+	
+	if(isModalEvent) {
+		// 모달에서 지역 대분류는 리셋방지하고 그외 액티브 효과 없애기 
+		$(el).closest('.parent').find('.keyword:not(.no-outline)').removeClass('active');
+		//모달에서 초기화 버튼 눌렀을때, 선택된 목록들, 임시 보관소에서도 초기화 시키기 
+		if(isLocation) {
+			$('.selectedKeywords').find('.location').detach();
+			tempFilterState.location.code = [];
+			tempFilterState.location.code_label = [];		
+		}
+		if(isFood) {
+			$('.selectedKeywords').find('.food').detach();
+			tempFilterState.food.code = [];
+			tempFilterState.food.code_label = [];
+		}
 	}
 }
 

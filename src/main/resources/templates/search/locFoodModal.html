@@ -24,7 +24,7 @@
 	 							 th:data-loclarge="${locLarge.code}"
 	 							 th:style="${state.index == 0} ? 'display: flex;' : 'display: none;'">
 	 							<th:block th:each="locSub, state :${locSubList}">
-	 							<span th:if="${state.index == 0}" class="keyword location" th:data-loc-food="${locLarge.code}" th:text="|${locLarge.code_label} 전체|"></span>
+<!-- 	 							<span th:if="${state.index == 0}" class="keyword location" th:data-loc-food="${locLarge.code}" th:text="|${locLarge.code_label} 전체|"></span> -->
 	 							<span th:if="${locLarge.code == locSub.parent_code}"
 	 								  th:text="${locSub.code_label}"
 	 								  class="keyword location" th:data-loc-food="${locSub.code}"></span>
