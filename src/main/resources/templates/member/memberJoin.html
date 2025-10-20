@@ -22,6 +22,8 @@
 			<form th:action="@{/member_join_Pro}" method="post" id="signupForm">
 				<input type="hidden" id="memberType" name="memberType" th:value="${memberType[1].code}">
 				<input type="hidden" id="memberStatus" name="memberStatus" th:value="${statusCodes[0].code}">
+				<input type="hidden" id="mailAuthStatus" name="mailAuthStatus" value="false">
+				
 				<input type="hidden" name="profileImgUrl" value="/img/profile.png">
 				<div class="signup-tabs">
 					<button type="button" id="personalBtn">개인 회원가입</button>
@@ -97,14 +99,13 @@
 									placeholder="상세주소">
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group email">
 							<label for="email">이메일</label>
-							<input type="email" id="email" name="email" class="component-write">
-							<button type="button" id="emailsand" class="positive-button custombtn">인증번호</button><br>
-							<span id="uerEmailMsg" class="validation-msg"></span>
+							<input type="email" id="email" name="email" class="component-write" placeholder="인증번호를 입력해주세요">							
+							<button type="button" id="emailsand" class="positive-button custombtn">인증번호</button>
 						</div>
-
-						<div class="form-group">
+						<span id="uerEmailMsg" class="validation-msg"></span>
+						<div class="form-group emailverify">
 							<label for="emailVerification">이메일 인증번호</label>
 							<input type="text" id="emailVerification" class="component-write">
 							<button type="button" id="verifyBtn" class="positive-button custombtn">확인</button>

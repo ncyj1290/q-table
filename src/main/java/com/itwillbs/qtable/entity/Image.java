@@ -20,13 +20,13 @@ public class Image {
 	@Column(name= "image_idx")
 	private Integer imageIdx;
 	
-	@Column(name= "target_type", nullable = false)
+	@Column(name= "target_type", nullable = false, length = 30 )
 	private String targetType;
 	
 	@Column(name= "target_idx", nullable = false)
 	private Integer targetIdx;
 	
-	@Column(name= "image_url", nullable = false)
+	@Column(name= "image_url", nullable = false , length = 255)
 	private String imageUrl;
 	
 	@Column(name= "is_main_image", nullable = false)
