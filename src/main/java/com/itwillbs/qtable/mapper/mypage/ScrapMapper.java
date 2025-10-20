@@ -1,11 +1,10 @@
 package com.itwillbs.qtable.mapper.mypage;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import com.itwillbs.qtable.vo.myPage.ScrapVO;
 
 @Mapper
 public interface ScrapMapper {
@@ -20,6 +19,7 @@ public interface ScrapMapper {
     int existsScrap(@Param("memberIdx") int memberIdx, @Param("storeIdx") int storeIdx);
 
     // 스크랩 목록 조회
-    List<ScrapVO> selectScrapList(@Param("memberIdx") int memberIdx);
+    List<Map<String, Object>> selectScrapList(@Param("member_idx") int memberIdx);
+
 
 }

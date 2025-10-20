@@ -64,19 +64,39 @@ window.addEventListener('load', () => {
         icon.addEventListener('click', () => {
             const storeIdx = icon.dataset.storeIdx;
 
+            if (!storeIdx) {
+                console.error("storeIdx가 정의되지 않았습니다.");
+                return;
+            }
+
+            // 현재 상태 확인
+            const currentSrc = icon.getAttribute('src');
+            const isScrapped = currentSrc.includes('scrap_full');
+
             // 서버 전송
-            fetch(`/scrap/toggle`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    [csrfHeader]: csrfToken // CSRF 토큰 헤더 추가
-                },
-                body: `storeIdx=${storeIdx}` // POST body로 전달
+         fetch('/scrap/toggle', {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/x-www-form-urlencoded',
+                 [csrfHeader]: csrfToken
+             },
+             body: `storeIdx=${storeIdx}`
+         })
+            .then(res => {
+                if (!res.ok) throw new Error("서버 요청 실패");
+                return res.json();
             })
-            .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                if (data.status === 'success') {
+                    // 서버 응답 성공 시 아이콘 상태 변경
+                    icon.setAttribute('src', isScrapped ? '/img/scrap.png' : '/img/scrap_full.png');
+                } else {
+                    console.error("스크랩 토글 실패");
+                }
+            })
             .catch(err => console.error(err));
         });
     });
 });
+
 

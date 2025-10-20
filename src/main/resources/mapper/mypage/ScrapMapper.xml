@@ -5,6 +5,30 @@
 
 <mapper namespace="com.itwillbs.qtable.mapper.mypage.ScrapMapper">
 
+	<!-- 스크랩 목록 조회 -->
+    <select id="selectScrapList" resultType="map">
+        SELECT
+              s.store_idx,
+              s.store_name,
+              s.store_content,
+              s.store_phone,
+              s.full_address,
+              (SELECT image_url
+                 FROM image
+                WHERE target_type = 'imguse_01'
+                  AND target_idx = s.store_idx
+                LIMIT 1) AS store_img,
+              (SELECT ROUND(AVG(r.score), 2)
+                 FROM review r
+                WHERE r.store_idx = s.store_idx) AS avgScore,
+              sc.create_at AS scrap_dt
+        FROM scrap sc
+            JOIN store s ON sc.store_idx = s.store_idx
+        WHERE sc.member_idx = #{member_idx}
+        ORDER BY sc.create_at DESC
+    </select>
+	
+
     <insert id="insertScrap">
         INSERT INTO scrap (member_idx, store_idx, create_at)
         VALUES (#{memberIdx}, #{storeIdx}, NOW())
@@ -21,14 +45,6 @@
         FROM scrap 
         WHERE member_idx = #{memberIdx}
         AND store_idx = #{storeIdx}
-    </select>
-
-    <select id="selectScrapList" resultType="com.itwillbs.qtable.vo.myPage.ScrapVO">
-        SELECT s.*
-        FROM scrap sc
-        JOIN store s ON sc.store_idx = s.store_idx
-        WHERE sc.member_idx = #{memberIdx}
-        ORDER BY sc.create_at DESC
     </select>
 
 </mapper>
