@@ -214,39 +214,41 @@ $(function() {
 	
 	// 리뷰 작성
 	function writeReview(){
-		
+
 		const formData = new FormData();
-		
+
 		formData.append("store_idx", storeIdx);
 		formData.append("score", selectedRating);
 		formData.append("content", $('#reviewText').val());
-		
+
 		// 이미지 추가
 	    selectedFiles.forEach(file => {
 	        formData.append('images', file);
 	    });
-		
-		
+
+
 		$.ajax({
 			url: '/api/storeDetail/reviews',
 			type: 'POST',
 			data: formData,
 			processData: false,
 			contentType: false,
-			success: function(){
-				alert('리뷰가 등록되었습니다.');
-				
-				// 모당창 숨기기
-				$reviewModal.hide();
-				
-				// 모달창 초기화
-				resetModal();
-				
-				// 리뷰 목록 새로고침
-                reviewPagination.loadPage(1);
+			success: function(response){
+				handleAjaxSuccess(response, function() {
+					alert('리뷰가 등록되었습니다.');
+
+					// 모달창 숨기기
+					$reviewModal.hide();
+
+					// 모달창 초기화
+					resetModal();
+
+					// 리뷰 목록 새로고침
+	                reviewPagination.loadPage(1);
+				}, '리뷰 등록에 실패했습니다.');
 			},
-			error: function(res){
-				console.log(res.errer);
+			error: function(xhr){
+				handleAjaxError(xhr, '리뷰 등록 중 오류가 발생했습니다.');
 			}
 		})
 	}
@@ -265,28 +267,25 @@ $(function() {
 		$.ajax({
 			url: '/api/storeDetail/reviews/' + reviewIdx + '/like',
 			type: 'POST',
-			success: function(res) {
-				if (res.success) {
+			success: function(response) {
+				handleAjaxSuccess(response, function(res) {
 					// 좋아요 상태 토글
 					$btn.toggleClass('liked');
 
 					// 좋아요 수 업데이트
 					const $likeCount = $btn.find('.like-count');
 					$likeCount.text(res.likeCount);
-					
+
 					// 아이콘 애니메이션
 					const $icon = $btn.find('i');
 					$icon.addClass('animate-heart');
 					setTimeout(() => {
 						$icon.removeClass('animate-heart');
 					}, 300);
-				} else {
-					alert(res.message || '좋아요 처리 중 오류가 발생했습니다.');
-				}
+				}, '좋아요 처리 중 오류가 발생했습니다.');
 			},
 			error: function(xhr) {
-				console.log("에러: ", xhr);
-				alert('좋아요 처리 중 오류가 발생했습니다.');
+				handleAjaxError(xhr, '좋아요 처리 중 오류가 발생했습니다.');
 			}
 		});
 	}

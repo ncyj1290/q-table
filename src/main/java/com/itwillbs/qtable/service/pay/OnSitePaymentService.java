@@ -78,36 +78,45 @@ public class OnSitePaymentService {
 	// 현장 결제 처리
 	@Transactional
 	public void processOnSitePayment(Integer memberIdx, Integer storeIdx, Integer amount) {
-		// 고객 조회 
-		Member customer = memberRepository.findById(memberIdx).orElseThrow();
-		
+		// 고객 조회
+		Member customer = memberRepository.findById(memberIdx)
+			.orElseThrow(() -> new RuntimeException("회원 정보를 찾을 수 없습니다."));
+
 		// 매장 회원 고객 조회
-		Store store = storeRepository.findById(storeIdx).orElseThrow();
-		Member owner = memberRepository.findById(store.getMemberIdx()).orElseThrow();
+		Store store = storeRepository.findById(storeIdx)
+			.orElseThrow(() -> new RuntimeException("매장 정보를 찾을 수 없습니다."));
+		Member owner = memberRepository.findById(store.getMemberIdx())
+			.orElseThrow(() -> new RuntimeException("매장 소유자 정보를 찾을 수 없습니다."));
+
+		// 큐머니 잔액 확인
+		if (customer.getQMoney() < amount) {
+			throw new RuntimeException("큐머니 잔액이 부족합니다.");
+		}
 
 		// 큐머니 차감/적립
 		customer.setQMoney(customer.getQMoney() - amount);
 		owner.setQMoney(owner.getQMoney() + amount);
-		
+
 		// 결제 내역 저장
 		Payment payment = Payment.builder()
 				.memberIdx(memberIdx)
 				.paymentAmount(amount)
 				.payStatus("pyst_01") // 결제 성공
-				.payType("pyus_03") // 현장 결제
 				.payWay("pywy_01") // 큐머니 결제
+				.payType("pyus_03") // 현장 결제
 				.payReference("pyref_01") // 매장
 				.referenceIdx(store.getStoreIdx())
 				.paymentDate(LocalDateTime.now())
 				.build();
-		
+
 		// 예약 상태 변경
-		Reservation reservation = 
-				reservationRepository.findByMemberIdxAndStoreIdxAndReserveDate(memberIdx, store.getStoreIdx(), LocalDate.now()).orElseThrow();
-		
+		Reservation reservation = reservationRepository
+			.findByMemberIdxAndStoreIdxAndReserveDate(memberIdx, store.getStoreIdx(), LocalDate.now())
+			.orElseThrow(() -> new RuntimeException("오늘 예약 정보를 찾을 수 없습니다."));
+
 		reservation.setReserveResult("rsrt_01"); // 방문완료
-		
-		// 결제 내역 db 저장 
+
+		// 결제 내역 db 저장
 		paymentRepository.save(payment);
 	}
 

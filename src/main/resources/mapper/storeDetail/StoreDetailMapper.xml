@@ -105,7 +105,7 @@
 	</select>
 	
 	<!-- 메뉴 개수 조회 -->
-	<select id="getMenuCount">
+	<select id="getMenuCount" resultType="int">
 		SELECT count(*)
 		  FROM menu
 		 WHERE store_idx = #{storeIdx}
@@ -121,13 +121,13 @@
 	</select>
 	
 	<!-- 식자재 조회 -->
-	<select id="getIngredients">
-		SELECT 
+	<select id="getIngredients" resultType="map">
+		SELECT
 			   ingredients_name
 			 , ingredients_origin
-			 , allergy	 
+			 , allergy
 		  FROM ingredients
-		 WHERE store_idx = #{storeIdx} 
+		 WHERE store_idx = #{storeIdx}
 	</select>
 	
 	<!-- 리뷰 별점 정보 조회 -->
@@ -284,11 +284,11 @@
 	</insert>
 	
 	<!-- 리뷰 좋아요 존재 여부 확인 -->
-	<select id="checkReviewLikeExists">
+	<select id="checkReviewLikeExists" resultType="int">
 		SELECT COUNT(*)
 		  FROM review_like
 		 WHERE review_idx = #{reviewIdx}
-		   AND member_idx = #{memberIdx}	
+		   AND member_idx = #{memberIdx}
 	</select>
 	
 	<!-- 리뷰 좋아요 삭제 -->
@@ -310,7 +310,7 @@
 	</insert>
 	
 	<!-- 리뷰 좋아요 개수 조회 -->
-	<select id="getReviewLikeCount">
+	<select id="getReviewLikeCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM review_like
 		 WHERE review_idx = #{reviewIdx}

@@ -63,23 +63,24 @@ public class OnSitePaymentController {
 			  @RequestParam("store_idx") Integer storeIdx,
 	          @RequestParam("amount") Integer amount,
 	          @AuthenticationPrincipal QtableUserDetails userDetails) {
-		
-		Map<String, Object> result = new HashMap<>();
-		
-		
+
+		Map<String, Object> response = new HashMap<>();
+
+
 		try {
 			Member member = userDetails.getMember();
-			
+
 			// 결제 처리 (고객/매장 qMoney 차감/증가 + 결제 기록)
 			onSitePaymentService.processOnSitePayment(member.getMemberIdx(), storeIdx, amount);
-			
-			result.put("success", true);
-			result.put("message", "결제가 완료되었습니다.");
+
+			response.put("success", true);
+			response.put("message", "결제가 완료되었습니다.");
 		} catch (Exception e) {
-			result.put("success", false);
-			result.put("message", "결제 처리 중 오류가 발생하였습니다.");
+			e.printStackTrace();
+			response.put("success", false);
+			response.put("message", e.getMessage());  // Service에서 던진 메시지 전달
 		}
-		
-		return result; 
+
+		return response;
 	}
 }

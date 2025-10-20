@@ -126,7 +126,7 @@ public class StoreDetailController {
 			@RequestParam("content") String content,
 			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
 
-		Map<String, Object> result = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 
 		try {
 			Member member = userDetails.getMember();
@@ -154,16 +154,16 @@ public class StoreDetailController {
 
 			storeService.insertReview(reviewData);
 
-			result.put("success", true);
-			result.put("message", "리뷰가 등록되었습니다.");
+			response.put("success", true);
+			response.put("message", "리뷰가 등록되었습니다.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			result.put("success", false);
-			result.put("message", e.getMessage());
+			response.put("success", false);
+			response.put("message", e.getMessage());
 		}
 
-		return result;
+		return response;
 	}
 
 	// 스크랩 토글 API
@@ -173,35 +173,30 @@ public class StoreDetailController {
 			@AuthenticationPrincipal QtableUserDetails userDetails,
 			@RequestParam("store_idx") Integer storeIdx) {
 
-		Map<String, Object> res = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 		// 비로그인 시 처리
 		if (userDetails == null) {
-			res.put("success", false);
-			res.put("message", "로그인이 필요한 서비스입니다.");
-			return res;
+			response.put("success", false);
+			response.put("message", "로그인이 필요한 서비스입니다.");
+			return response;
 		}
 
 		Member member = userDetails.getMember();
 		Integer memberIdx = member.getMemberIdx();
 
 		try {
-			// 토글 결과 여부
-			int result = storeService.toggleScrap(storeIdx, memberIdx);
+			// 스크랩 토글 처리
+			storeService.toggleScrap(storeIdx, memberIdx);
 
-			if (result > 0) {
-				res.put("success", true);
-				res.put("message", "스크랩 처리가 완료되었습니다.");
-			} else {
-				res.put("success", false);
-				res.put("message", "스크랩 처리중 오류가 발생했습니다.");
-			}
+			response.put("success", true);
+			response.put("message", "스크랩 처리가 완료되었습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
-			res.put("success", false);
-			res.put("message", e.getMessage());
+			response.put("success", false);
+			response.put("message", e.getMessage());  
 		}
 
-		return res;
+		return response;
 	}
 	
 	// 리뷰 좋아요 토글
@@ -211,13 +206,13 @@ public class StoreDetailController {
 			@PathVariable("reviewIdx") Integer reviewIdx,
 			@AuthenticationPrincipal QtableUserDetails userDetails) {
 
-		Map<String, Object> res = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 
 		// 비로그인 시 처리
 		if (userDetails == null) {
-			res.put("success", false);
-			res.put("message", "로그인이 필요한 서비스입니다.");
-			return res;
+			response.put("success", false);
+			response.put("message", "로그인이 필요한 서비스입니다.");
+			return response;
 		}
 
 		Member member = userDetails.getMember();
@@ -227,15 +222,15 @@ public class StoreDetailController {
 			// 좋아요 토글 처리 (좋아요 수 반환)
 			int likeCount = storeService.toggleReviewLike(reviewIdx, memberIdx);
 
-			res.put("success", true);
-			res.put("likeCount", likeCount);
+			response.put("success", true);
+			response.put("likeCount", likeCount);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			res.put("success", false);
-			res.put("message", "좋아요 처리 중 오류가 발생했습니다.");
+			response.put("success", false);
+			response.put("message", e.getMessage());  // Service에서 던진 메시지 전달
 		}
 
-		return res;
+		return response;
 	}
 }

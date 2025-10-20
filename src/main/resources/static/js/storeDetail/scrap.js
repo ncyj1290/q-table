@@ -27,24 +27,21 @@ $(function() {
 			url: '/api/storeDetail/scrap/toggle',
 			type: 'POST',
 			data: {store_idx : storeIdx},
-			success: function(res){
-				if (res.success) {
+			success: function(response){
+				handleAjaxSuccess(response, function() {
 					const newScrapped = !isScrapped;
 					updateScrapUI(newScrapped);
 					$scrapBtn.data('scrapped', newScrapped);
-					
+
 					const message = newScrapped ? '스크랩에 추가되었습니다.' : '스크랩이 해제되었습니다.';
-					showNotification(message);	
-				} else {
-					alert(res.message || '스크랩 처리에 실패했습니다.');
-				}
+					showNotification(message);
+				}, '스크랩 처리에 실패했습니다.');
 			},
 			error: function(xhr){
-				console.log(xhr);
-				alert('스크랩 처리 중 오류가 발생했습니다.');
+				handleAjaxError(xhr, '스크랩 처리 중 오류가 발생했습니다.');
 			}
 		});
-		
+
 	}
 
 	// 스크랩 UI 업데이트

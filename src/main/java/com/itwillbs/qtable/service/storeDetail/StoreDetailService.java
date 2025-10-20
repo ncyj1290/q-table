@@ -219,13 +219,17 @@ public class StoreDetailService {
 	}
 
 	// 스크랩 토글
-	public int toggleScrap(Integer storeIdx, Integer memberIdx) {
+	public void toggleScrap(Integer storeIdx, Integer memberIdx) {
 		// 스크랩 존재 여부 확인 후 삭제/추가
 		boolean isExists = storeMapper.checkScrapExists(storeIdx, memberIdx) > 0;
 
-		return isExists
+		int result = isExists
 			? storeMapper.deleteScrap(storeIdx, memberIdx)   // 존재O → 삭제
 			: storeMapper.insertScrap(storeIdx, memberIdx);  // 존재X → 추가
+
+		if (result == 0) {
+			throw new RuntimeException("스크랩 처리 중 오류가 발생했습니다.");
+		}
 	}
 	
 	// 리뷰 좋아요 토글

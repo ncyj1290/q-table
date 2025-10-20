@@ -132,16 +132,14 @@ $(function() {
 				store_idx: storeIdx,
 				amount: calculatedData.finalAmount
 			},
-			success: function(res) {
-				if (res.success) {
+			success: function(response) {
+				handleAjaxSuccess(response, function(res) {
 					alert(res.message + '\n결제 내역 페이지로 이동합니다.');
 					location.href = '/mypage_payment';
-				} else {
-					alert(res.message);
-				}
+				}, '결제에 실패했습니다.');
 			},
 			error: function(xhr) {
-				console.error("실패:", xhr);
+				handleAjaxError(xhr, '결제 처리 중 오류가 발생했습니다.');
 			}
 		});
 	}

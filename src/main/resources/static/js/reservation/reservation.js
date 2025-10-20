@@ -134,20 +134,13 @@ $(function() {
 			contentType: 'application/json',
 			data: JSON.stringify(reservationData),
 			success: function(response) {
-				if (response && response.success) {
+				handleAjaxSuccess(response, function() {
 					alert('예약이 완료되었습니다');
 					location.href = '/reservation_list';
-				} else {
-					const errorMsg = response && response.message ? response.message : '예약에 실패하였습니다.';
-					alert(errorMsg);
-				}
+				}, '예약에 실패하였습니다.');
 			},
 			error: function(xhr) {
-				console.error('예약 실패:', xhr);
-				const errorMsg = xhr.responseJSON && xhr.responseJSON.message
-					? xhr.responseJSON.message
-					: '예약에 실패하였습니다.';
-				alert(errorMsg);
+				handleAjaxError(xhr, '예약 처리 중 오류가 발생했습니다.');
 			}
 		});
 	}
