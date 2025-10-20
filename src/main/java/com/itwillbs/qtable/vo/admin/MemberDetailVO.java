@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.itwillbs.qtable.config.MaskingUtils;
 import com.itwillbs.qtable.entity.Member; 
 
 @Data
@@ -22,7 +24,8 @@ public class MemberDetailVO {
     private String email;
     private LocalDateTime signup_date;
     private String business_reg_no;
-    private String member_status;
+    private String member_status;      // 코드 값
+    private String member_status_name; // 코드 라벨
     private String leave_reason;
     private LocalDateTime leave_at;
     private boolean mail_auth_status;
@@ -74,5 +77,22 @@ public class MemberDetailVO {
         this.marketing_agreed = entity.isMarketingAgreed();
         this.q_money = entity.getQMoney();
         this.no_show_count = entity.getNoShowCount();
+        
     }
+    
+    
+ // 마스킹 로직을 적용하는 별도 메소드 (Service에서 호출)
+    public void applyMasking() {
+        if ("mstat_02".equals(this.member_status) &&
+            this.leave_at != null &&
+            this.leave_at.isAfter(LocalDateTime.now().minusMonths(3)))
+        {
+            this.member_name = MaskingUtils.maskName(this.member_name); // // 별도 MaskingUtils 유틸리티 클래스로 분리
+            this.email = MaskingUtils.maskEmail(this.email);
+            this.address = "탈퇴 회원 주소";
+            this.address_detail = "";
+            this.birth = null;
+            this.post_code = "*****";
+        }
+    }	
 }

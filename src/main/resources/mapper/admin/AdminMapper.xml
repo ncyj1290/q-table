@@ -2,6 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwillbs.qtable.mapper.admin.AdminMapper">
 
+
+	<!-- 관리자 메인화면 일주일간 신규 회원 -->
+	<select id="countNewMembers">
+		SELECT COUNT(*)
+		  FROM member
+		 WHERE member_type = 'mtype_02'
+	       AND signup_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+	</select>
+	
+	<!-- 관리자 메인화면 일주일간 신규 매장회원 -->
+	<select id="countNewStoreMembers">
+		SELECT COUNT(*)
+		  FROM member
+		 WHERE member_type = 'mtype_03'
+	       AND signup_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+	</select>
+	
+	<!-- 관리자 메인화면 1일 신규 입점 신청-->
+	<select id="countNewStoreEntry">
+		SELECT COUNT(*)
+		  FROM store
+	  	 WHERE store_status = 'srst_02'
+	  	   AND applied_at >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+	</select>
+
 	<!-- 매장 회원 목록 리스트 조회 -->
     <select id="findStoreMembers">
         SELECT
@@ -26,6 +51,7 @@
         	   m.birth,
         	   m.address,
         	   m.address_detail,
+        	   m.post_code,
         	   m.member_name,
         	   m.email,
        	       m.signup_date,
@@ -33,7 +59,8 @@
        	       m.leave_at,
        	       m.member_type,
        	       m.business_reg_no,
-        	   c.code_label AS member_status,
+        	   m.member_status,
+               c.code_label AS member_status_name,
         	   s.store_name,
         	   s.store_seat,
         	   s.deposit,

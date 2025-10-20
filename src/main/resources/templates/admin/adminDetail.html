@@ -34,6 +34,11 @@
 										<input type="text" class="component-write" readonly
 											th:value="${member.address} + ' ' +  ${member.address_detail}">
 									</div>
+									<div class="detail-item">
+										<label>우편번호</label>
+										<input type="text" class="component-write" readonly
+											th:value="${member.post_code}">
+									</div>
 									<div class="detail-item full-width">
 										<label>이메일</label>
 										<input type="text" class="component-write" readonly th:value="${member.email}">
@@ -56,7 +61,7 @@
 									<div class="detail-item">
 										<label>회원상태</label>
 										<input type="text" class="component-write" readonly
-											th:value="${member.member_status}">
+											th:value="${member.member_status_name}">
 									</div>
 								</div>
 							</div>

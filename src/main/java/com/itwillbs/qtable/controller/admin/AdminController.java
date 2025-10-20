@@ -13,7 +13,9 @@ import com.itwillbs.qtable.service.member.MemberJoinService;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
+import lombok.extern.java.Log;
 
+@Log
 @Controller
 public class AdminController {
 	 @Autowired
@@ -24,7 +26,16 @@ public class AdminController {
 	
 //	어드민 메인페이지
 	@GetMapping("/admin_main")
-	public String adminMain() {
+	public String adminMain(Model model) {
+		
+		int memberCount = adminService.countNewMembers(); // 신규회원 count
+		int storeMemberCount = adminService.countNewStoreMembers(); // 신규 매장회원 count
+		int storeEntryCount = adminService.countNewStoreEntry(); // 신규 매장 입점 count
+		
+		model.addAttribute("memberCount", memberCount);
+		model.addAttribute("storeMemberCount", storeMemberCount);
+		model.addAttribute("storeEntryCount", storeEntryCount);
+		
 		return "admin/adminMain";
 	}
 	

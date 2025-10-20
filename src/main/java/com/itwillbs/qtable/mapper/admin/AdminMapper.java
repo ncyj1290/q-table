@@ -2,6 +2,7 @@ package com.itwillbs.qtable.mapper.admin;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,6 +18,15 @@ import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 @Mapper
 public interface AdminMapper {
+	
+	// 관리자 메인화면 일주일간 신규 회원
+	int countNewMembers();
+	
+	// 관리자 메인화면 일주일간 신규 매장회원
+	int countNewStoreMembers();
+	
+	// 관리자 메인화면 1일 신규 입점 신청
+	int countNewStoreEntry();
 	
 	// 매장 회원 목록 리스트 조회
 	List<StoreListVO> findStoreMembers();

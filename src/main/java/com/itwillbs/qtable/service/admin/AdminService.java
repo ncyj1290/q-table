@@ -1,6 +1,7 @@
 package com.itwillbs.qtable.service.admin;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.qtable.config.MaskingUtils;
 import com.itwillbs.qtable.entity.Jeongsan;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.entity.Store;
@@ -61,19 +63,54 @@ public class AdminService {
 	
 	@Autowired
 	private StoreData storedata;
+	
+	// 관리자 메인화면 일주일간 신규 회원
+	public int countNewMembers() {
+		return adminMapper.countNewMembers();
+	}
+	
+	// 관리자 메인화면 일주일간 신규 매장회원
+	public int countNewStoreMembers() {
+		return adminMapper.countNewStoreMembers();
+	}
+	
+	// 관리자 메인화면 1일 신규 입점 신청
+	public int countNewStoreEntry() {
+		return adminMapper.countNewStoreEntry();
+	}
 
     // 전체 회원 목록 조회
     public List<MemberListVO> memberFindAll() {
-        
-    	// memberType이 type1 또는 type2 와 일치하는 Member 리스트를 찾는 메소드
-        List<Member> memberList = memberRepository.findByMemberTypeOrMemberTypeOrderByMemberIdxDesc("mtype_02", "mtype_03");
+    	
+    	// 조회할 회원 타입 지정
+        String type1 = "mtype_02"; // 일반회원
+        String type2 = "mtype_03"; // 매장관리자
+
+        // member_type이 type1 또는 type2 와 일치하는 member 리스트 + member_idx 내림차순
+        List<Member> memberList = memberRepository.findByMemberTypeOrMemberTypeOrderByMemberIdxDesc(type1, type2);
 
         System.out.println("memberList : " + memberList);
 
-        // Entity -> VO 변환 로직
-        return memberList.stream()
-                .map(entity -> new MemberListVO(entity, entity.getMemberIdx()))
-                .collect(Collectors.toList());
+        List<MemberListVO> memberVos = new ArrayList<>();
+
+        for (Member entity : memberList) {
+            MemberListVO vo = new MemberListVO(entity, entity.getMemberIdx()); 
+
+            // --- 마스킹 로직 ---
+            // 탈퇴 상태이고, 탈퇴일 존재하며, 3개월 이내일 때
+            if ("mstat_02".equals(entity.getMemberStatus()) &&
+                entity.getLeaveAt() != null &&
+                entity.getLeaveAt().isAfter(LocalDateTime.now().minusMonths(3)))
+            {
+                vo.setMember_name(MaskingUtils.maskName(entity.getMemberName())); // 별도의 MaskingUtils 클래스로 분리
+                vo.setEmail(MaskingUtils.maskEmail(entity.getEmail()));
+            }
+            // --- 마스킹 로직 끝 ---
+
+            memberVos.add(vo);
+        }
+
+        return memberVos;
     }
 
 	// 회원 상세정보 조회
@@ -85,8 +122,29 @@ public class AdminService {
 		return new MemberDetailVO(memberEntity);
 	}
 	
-    public MemberDetailVO findMemberDetail(Integer member_idx) {
-        return adminMapper.findMemberDetail(member_idx);
+	public MemberDetailVO findMemberDetail(Integer member_idx) {
+		
+		MemberDetailVO vo = adminMapper.findMemberDetail(member_idx);
+
+        if (vo != null) {
+            // -- 마스킹 로직
+            // 탈퇴 상태이고, 탈퇴일 존재하며, 3개월 이내일 때
+             if ("mstat_02".equals(vo.getMember_status()) && // 코드 값 필드 사용
+                 vo.getLeave_at() != null &&
+                 vo.getLeave_at().isAfter(LocalDateTime.now().minusMonths(3)))
+             {
+                 vo.setMember_name(MaskingUtils.maskName(vo.getMember_name())); // 별도 MaskingUtils 유틸리티 클래스로 분리
+                 vo.setEmail(MaskingUtils.maskEmail(vo.getEmail()));
+                 vo.setAddress("탈퇴 회원 주소");
+                 vo.setAddress_detail("");
+                 vo.setBirth(null);
+                 vo.setPost_code("*****");
+                 vo.setStore_name("탈퇴한 매장명");
+                 vo.setAccount_number("탈퇴 회원 계좌번호");
+                 vo.setBusiness_reg_no("탈퇴한 사업자등록번호");
+             }
+        }
+        return vo;
     }
 	
     // member_idx로 매장 상세 정보를 조회
@@ -106,16 +164,16 @@ public class AdminService {
 		String newStatus = MemberUpdateVO.getMember_status();
 
 		member.setMemberStatus(newStatus);
-		member.setLeaveAt(LocalDateTime.now()); // 처리 시각 기록
 
 		// member_status가 정상인지 확인
-		if ("mstat_01".equals(newStatus)) {
+		if ("mstat_02".equals(newStatus)) {
 			// 정상일 경우, 탈퇴 사유를 null
-			member.setLeaveReason(null);
-			member.setLeaveAt(null);
+			member.setLeaveReason(MemberUpdateVO.getLeave_reason());
+			member.setLeaveAt(LocalDateTime.now());
 		} else {
 			// 탈퇴일 경우 탈퇴 사유를 저장
-			member.setLeaveReason(MemberUpdateVO.getLeave_reason());
+			member.setLeaveReason(null);
+			member.setLeaveAt(null);
 		}
 
 	}

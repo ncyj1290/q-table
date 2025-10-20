@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,5 +19,8 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
     List<Member> findByMemberTypeOrMemberTypeOrderByMemberIdxDesc(String type1, String type2);
 
 	//사용자 로그인할때 필요함(덕교)
-	Optional<Member> findByMemberId(String memberId) ; 
+	Optional<Member> findByMemberId(String memberId) ;
+	
+	// 스케줄러 회원 3개월 이상 지났을시 삭제하는 메서드
+	List<Member> findByMemberStatusAndLeaveAtBefore(String memberStatus, LocalDateTime leaveAt);
 }
