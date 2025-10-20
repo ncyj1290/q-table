@@ -1,3 +1,40 @@
+/* 전체 오버레이 */
+#app-loader{
+  position: fixed; inset: 0;       /* top/right/bottom/left:0 */
+  display: none;                   /* 기본 숨김 */
+  place-items: center;             /* 가운데 정렬 (grid) */
+  background: rgba(255,255,255,.35);  /* 필요 없으면 transparent */
+  backdrop-filter: blur(2px) saturate(1.1);
+  z-index: 9999;
+}
+#app-loader.show{ display: grid; }
+
+/* 스크롤 잠금 */
+body.no-scroll{ overflow: hidden; }
+
+/* 로더(빛이 도는 링) */
+.loader{
+  --size:64px; --clr:#F68686; --thick:6px; --speed:1s;
+  width:var(--size); aspect-ratio:1; border-radius:50%;
+  background: conic-gradient(
+    from 0turn,
+    rgba(246,134,134,1) 0 10%,
+    rgba(246,134,134,.6) 10% 20%,
+    rgba(246,134,134,.25) 20% 35%,
+    rgba(246,134,134,0) 35% 100%
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(50% - var(--thick)),
+                                               #000 calc(50% - var(--thick) + 1px));
+          mask: radial-gradient(farthest-side, transparent calc(50% - var(--thick)),
+                                               #000 calc(50% - var(--thick) + 1px));
+  filter: drop-shadow(0 0 6px rgba(246,134,134,.65));
+  animation: spin var(--speed) linear infinite;
+}
+@keyframes spin{ to{ transform: rotate(1turn); } }
+
+
+
+
 /* ================================================= */
 /* Root Layout */
 .root-layout{

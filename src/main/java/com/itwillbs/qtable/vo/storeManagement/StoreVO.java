@@ -1,6 +1,7 @@
 package com.itwillbs.qtable.vo.storeManagement;
 
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -74,4 +75,10 @@ public class StoreVO {
 	private MultipartFile menu_board_picture;
 	/* 메뉴판 사진 경로 */
 	private String menu_board_url;
+	
+	/* ================================= */
+	/* 부가사항 - 큐머니 */
+	private int q_money;
+	
+	
 }

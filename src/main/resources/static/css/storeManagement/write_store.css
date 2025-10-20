@@ -102,10 +102,9 @@ textarea.component-write{
 }
 
 /* 이 속성 떄문에 검색창 이미지 깨짐 */
-span{
+form .span{
 	font-size: 12px;
 	max-width: 500px;
-	
 }
 
 .positive-button{

@@ -1,4 +1,9 @@
 <div th:fragment="storeProfile" class="store-profile-layout">
+	
+	<!-- Loading Spinner -->
+	<div id="app-loader" aria-hidden="true">
+	  <div class="loader"></div>
+	</div>
 
 	<input type="hidden" id="store_idx" th:value="${spData.store_idx}" th:if="${spData != null}">
 	
@@ -20,6 +25,9 @@
 	
 	<!-- 매장 등록 안됐을때 출력하는 안내문구 -->
 	<b th:if="${spData == null}" class="no-store-label">매장이 등록되지 않았습니다.</b>
+	
+	<!-- 맴버쉽 관련 정보 -->
+	
 	
 	<!-- 매장 관리자 페이지 카테고리(사이드바) -->
 	<div th:replace="storeManagement/storeManagementSideBar :: storeManagementSideBar"></div>

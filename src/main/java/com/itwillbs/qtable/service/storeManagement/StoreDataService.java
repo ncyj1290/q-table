@@ -1,5 +1,7 @@
 package com.itwillbs.qtable.service.storeManagement;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,15 @@ public class StoreDataService {
 	public void injectStoreProfileByOwnerIdx(Model model, int member_idx) {
 		/* 스토어 기본(프로필) 정보고 spData라는 이름으로 들어감 */
 		StoreVO spData = storeData.selectStoreProfileByOwnerIdx(member_idx);
+		System.out.println("Check SPDATA: " + spData.toString());
+		
+		/* Expired 인지 아닌지 계산 및 반영 */
+//		LocalDateTime endDate = spData.getSubscribe_end().toLocalDateTime();
+//		LocalDateTime today = LocalDateTime.now();
+//
+//		spData.set_expired_subscribe(!today.isBefore(endDate));
+//		System.out.println("Is Expired: " + spData.is_expired_subscribe());
+
 		model.addAttribute("spData", spData);
 	}
 	

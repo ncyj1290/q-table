@@ -23,6 +23,20 @@
 		and img.target_type = 'imguse_01'
 	</select>
 	
+	<!-- 사용자 QMONEY 들고오기 -->
+	<select id="selectQmoneyByMemberidx">
+		select q_money 
+		from member
+		where member_idx = #{member_idx}
+	</select>
+	
+	<!-- QMONEY 갱신(감소) -->
+	<update id="reduceUserQMoney">
+		update member
+		set q_money = q_money - #{cost}
+		where member_idx = #{member_idx}
+	</update>
+	
 	<!-- 회원 idx로 store_idx 찾는 쿼리문 ㄴ-->
 	<select id="selectStoreIdxByOwnerIdx">
 		select store_idx 
@@ -201,5 +215,15 @@
 		where target_idx = #{store_idx}
 		and target_type = #{target_type}
 	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

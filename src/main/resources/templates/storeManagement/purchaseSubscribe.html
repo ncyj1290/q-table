@@ -4,6 +4,8 @@
 	    <title>구독권 구매 페이지</title>
 	    <link rel="stylesheet" th:href="@{/css/storeManagement/commonStoreManagement.css}">
 		<link rel="stylesheet" th:href="@{/css/storeManagement/purchaseSubscribe.css}">
+		<script th:src="@{/js/storeManagement/purchaseSubscribe.js}"></script>
+		
 	</head>
 	
 	<body>
@@ -27,36 +29,28 @@
 					<div style="color: var(--color-main); margin-left: 150px;">남은 구독일: <b>100 Day</b></div> 
 					
 					<!-- 구매 가능한 구독권 출력 -->
-					<!-- 90일 -->
-					<div class="row-component">
+					<div class="row-component" th:each="sUnit, i : ${mUnitList}" th:switch="${sUnit.code}">
+						
 						<div class="subscribe-layout">
 							<img src="icons/icon_subscribe.png" class="subscribe-icon-size">
 							
-							<label class="subscribe-label-size"><b>90일 구독권</b></label>
-							<label class="subscribe-label-size"><b>가격:500,000₩</b></label>
+							<label class="subscribe-label-size"><b th:text="|${sUnit.code_label} 일 구독권|" class="subscribe-date"></b></label>
+							
+							<label class="subscribe-label-size" th:case="'msdu_01'"><b>500,000 큐머니</b></label>
+							<label class="subscribe-label-size" th:case="'msdu_02'"><b>800,000 큐머니</b></label>
+							<label class="subscribe-label-size" th:case="'msdu_03'"><b>1,000,000 큐머니</b></label>
 						</div>	
+						
 					</div>
 					
-					<!-- 180일 -->
-					<div class="row-component">
-						<div class="subscribe-layout">
-							<img src="icons/icon_subscribe.png" class="subscribe-icon-size">
-							
-							<label class="subscribe-label-size"><b>180일 구독권</b></label>
-							<label class="subscribe-label-size"><b>가격:800,000₩</b></label>
-						</div>	
+					<br>
+					
+					<div id="choice_info" style="color: var(--color-main); margin-left: 150px;">선택된 구독권이 존재하지 않습니다</div> 
+					
+					<div class="row-component-gap20">
+						<button class="positive-button purchase-button">구매</button>
 					</div>
-							
-					<!-- 365일 -->			
-					<div class="row-component">
-						<div class="subscribe-layout">
-							<img src="icons/icon_subscribe.png" class="subscribe-icon-size">
-							
-							<label class="subscribe-label-size"><b>365일 구독권</b></label>
-							<label class="subscribe-label-size"><b>가격:1,000,000₩</b></label>
-						</div>	
-					</div>
-				
+					
 				</div>
 				<!-- 메인 컨텐츠 Layout End -->
 				
