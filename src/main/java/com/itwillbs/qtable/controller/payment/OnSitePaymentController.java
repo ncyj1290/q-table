@@ -3,13 +3,11 @@ package com.itwillbs.qtable.controller.payment;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -65,13 +63,22 @@ public class OnSitePaymentController {
 			  @RequestParam("store_idx") Integer storeIdx,
 	          @RequestParam("amount") Integer amount,
 	          @AuthenticationPrincipal QtableUserDetails userDetails) {
-		Member member = userDetails.getMember();
 		
 		Map<String, Object> result = new HashMap<>();
 		
-		log.info("store_idx "  + storeIdx);
-		log.info("member_name "  + member.getMemberName());
-		log.info("amount "  + amount);
+		
+		try {
+			Member member = userDetails.getMember();
+			
+			// 결제 처리 (고객/매장 qMoney 차감/증가 + 결제 기록)
+			onSitePaymentService.processOnSitePayment(member.getMemberIdx(), storeIdx, amount);
+			
+			result.put("success", true);
+			result.put("message", "결제가 완료되었습니다.");
+		} catch (Exception e) {
+			result.put("success", false);
+			result.put("message", "결제 처리 중 오류가 발생하였습니다.");
+		}
 		
 		return result; 
 	}

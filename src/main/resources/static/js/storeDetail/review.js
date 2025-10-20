@@ -89,6 +89,13 @@ $(function() {
 		writeReview();
 	});
 
+	// 리뷰 좋아요 토글 
+	$('#reviews-list').on('click', '.review-like-btn', function() {
+		const $btn = $(this);
+		const reviewIdx = $btn.data('review-idx');
+		toggleReviewLike(reviewIdx, $btn);
+	});
+
 	// ===================================
 	// 페이지네이션 초기화
 	// ===================================
@@ -105,8 +112,11 @@ $(function() {
 		pageSize: 5,  // 5개씩 렌더링
 		renderItem: function(review) {
 			const starWidth = review.score * 20;
+			const isLiked = review.is_liked ? 'liked' : '';
+			const likeCount = review.like_count || 0;
+
 			let html = `
-				<div class="review-item">
+				<div class="review-item" data-review-idx="${review.review_idx}">
 					<div class="review-header">
 						<div class="reviewer-info">
 							<div class="reviewer-avatar">
@@ -139,7 +149,17 @@ $(function() {
 				html += '</div>';
 			}
 
-			html += '</div>'; // review-item 종료
+			// 좋아요 버튼 추가 (하단)
+			html += `
+				<div class="review-footer">
+					<button class="review-like-btn ${isLiked}" data-review-idx="${review.review_idx}">
+						<i class="far fa-heart"></i>
+						<span class="like-count">${likeCount}</span>
+					</button>
+				</div>
+			`;
+
+			html += '</div>'; 
 			return html;
 		},
 		emptyMessage: `
@@ -238,5 +258,36 @@ $(function() {
 	    $('#reviewText').val('');
 	    $imagePreview.empty();
 	    displayStars(0);
+	}
+
+	// 리뷰 좋아요 토글
+	function toggleReviewLike(reviewIdx, $btn) {
+		$.ajax({
+			url: '/api/storeDetail/reviews/' + reviewIdx + '/like',
+			type: 'POST',
+			success: function(res) {
+				if (res.success) {
+					// 좋아요 상태 토글
+					$btn.toggleClass('liked');
+
+					// 좋아요 수 업데이트
+					const $likeCount = $btn.find('.like-count');
+					$likeCount.text(res.likeCount);
+					
+					// 아이콘 애니메이션
+					const $icon = $btn.find('i');
+					$icon.addClass('animate-heart');
+					setTimeout(() => {
+						$icon.removeClass('animate-heart');
+					}, 300);
+				} else {
+					alert(res.message || '좋아요 처리 중 오류가 발생했습니다.');
+				}
+			},
+			error: function(xhr) {
+				console.log("에러: ", xhr);
+				alert('좋아요 처리 중 오류가 발생했습니다.');
+			}
+		});
 	}
 });

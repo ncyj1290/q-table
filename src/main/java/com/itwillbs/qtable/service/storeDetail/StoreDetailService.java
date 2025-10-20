@@ -172,9 +172,9 @@ public class StoreDetailService {
 	}
 
 	// 리뷰 페이지네이션 조회
-	public PageResponse<Map<String, Object>> getReviewsPaged(Integer storeIdx, String sortType, int page, int size) {
+	public PageResponse<Map<String, Object>> getReviewsPaged(Integer storeIdx, String sortType, int page, int size, Integer memberIdx) {
 		int offset = PageResponse.getOffset(page, size); // offset 계산
-		List<Map<String, Object>> reviews = storeMapper.getReview(storeIdx, sortType, offset, size); // 리뷰 데이터 조회
+		List<Map<String, Object>> reviews = storeMapper.getReview(storeIdx, sortType, offset, size, memberIdx); // 리뷰 데이터 조회
 		int totalCount = storeMapper.getReviewCount(storeIdx, sortType); // 전체 개수 조회
 
 		return new PageResponse<>(reviews, page, size, totalCount);
@@ -227,7 +227,22 @@ public class StoreDetailService {
 			? storeMapper.deleteScrap(storeIdx, memberIdx)   // 존재O → 삭제
 			: storeMapper.insertScrap(storeIdx, memberIdx);  // 존재X → 추가
 	}
+	
+	// 리뷰 좋아요 토글
+	@Transactional
+	public int toggleReviewLike(Integer reviewIdx, Integer memberIdx) {
+		// 기존 좋아요 확인
+		boolean isLiked = storeMapper.checkReviewLikeExists(reviewIdx, memberIdx) > 0;
 
+		if (isLiked) {
+			// 좋아요 취소
+			storeMapper.deleteReviewLike(reviewIdx, memberIdx);
+		} else {
+			// 좋아요 추가
+			storeMapper.insertReviewLike(reviewIdx, memberIdx);
+		}
 
-
+		// 좋아요 수 반환 
+		return storeMapper.getReviewLikeCount(reviewIdx);
+	}
 }

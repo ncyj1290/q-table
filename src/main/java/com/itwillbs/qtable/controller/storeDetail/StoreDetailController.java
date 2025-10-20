@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -90,9 +91,16 @@ public class StoreDetailController {
 			@RequestParam("store_idx") Integer storeIdx,
 			@RequestParam(value = "sort_type", defaultValue = "rvs_01") String sortType,
 			@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "size", defaultValue = "5") int size) {
+			@RequestParam(value = "size", defaultValue = "5") int size,
+			@AuthenticationPrincipal QtableUserDetails userDetails) {
 
-		return storeService.getReviewsPaged(storeIdx, sortType, page, size);
+		// 로그인한 사용자의 memberIdx 가져오기
+		Integer memberIdx = null;
+		if (userDetails != null) {
+			memberIdx = userDetails.getMember().getMemberIdx();
+		}
+
+		return storeService.getReviewsPaged(storeIdx, sortType, page, size, memberIdx);
 	}
 	
 	
@@ -191,6 +199,41 @@ public class StoreDetailController {
 			e.printStackTrace();
 			res.put("success", false);
 			res.put("message", e.getMessage());
+		}
+
+		return res;
+	}
+	
+	// 리뷰 좋아요 토글
+	@PostMapping("/api/storeDetail/reviews/{reviewIdx}/like")
+	@ResponseBody
+	public Map<String, Object> toggleReviewLike(
+			@PathVariable("reviewIdx") Integer reviewIdx,
+			@AuthenticationPrincipal QtableUserDetails userDetails) {
+
+		Map<String, Object> res = new HashMap<>();
+
+		// 비로그인 시 처리
+		if (userDetails == null) {
+			res.put("success", false);
+			res.put("message", "로그인이 필요한 서비스입니다.");
+			return res;
+		}
+
+		Member member = userDetails.getMember();
+		Integer memberIdx = member.getMemberIdx();
+
+		try {
+			// 좋아요 토글 처리 (좋아요 수 반환)
+			int likeCount = storeService.toggleReviewLike(reviewIdx, memberIdx);
+
+			res.put("success", true);
+			res.put("likeCount", likeCount);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.put("success", false);
+			res.put("message", "좋아요 처리 중 오류가 발생했습니다.");
 		}
 
 		return res;

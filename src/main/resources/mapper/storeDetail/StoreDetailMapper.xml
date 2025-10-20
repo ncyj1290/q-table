@@ -200,32 +200,46 @@
 		     , DATE(r.create_at) AS create_at
 		     , r.content
 		     , r.score
-		     , r.like_count
-		     , GROUP_CONCAT(i.image_url) AS images
-		  FROM review r
-		  LEFT JOIN member m ON m.member_idx = r.member_idx
-     LEFT JOIN image i ON i.target_idx = r.review_idx
-		                  AND i.target_type = 'imguse_05'
-		 WHERE r.store_idx = #{storeIdx}
-		 GROUP BY r.review_idx
+		     , COUNT(DISTINCT rl.review_like_idx) AS like_count
+		     , <if test="memberIdx != null">
+		        SUM(CASE WHEN rl.member_idx = #{memberIdx} THEN 1 ELSE 0 END) > 0 AS is_liked
+		       </if>
+		       <if test="memberIdx == null">
+		        FALSE AS is_liked
+		       </if>
+		     , GROUP_CONCAT(DISTINCT i.image_url) AS images
+		FROM review r
+		LEFT JOIN member m ON m.member_idx = r.member_idx
+		LEFT JOIN image i 
+		       ON i.target_idx = r.review_idx
+		      AND i.target_type = 'imguse_05'
+		LEFT JOIN review_like rl 
+		       ON rl.review_idx = r.review_idx
+		WHERE r.store_idx = #{storeIdx}
+		GROUP BY r.review_idx
+	
 		<if test="sortType == 'rvs_04'">
-		HAVING images IS NOT NULL
+			HAVING images IS NOT NULL
 		</if>
-		 <choose>
-		 	<when test="sortType == 'rvs_02'">
-		 		ORDER BY r.score DESC, r.create_at DESC
-		 	</when>
-		 	<when test="sortType == 'rvs_03'">
-		 		ORDER BY r.score ASC, r.create_at DESC
-		 	</when>
-		 	<otherwise>
-		 		<!-- rvs_01, rvs_04, 기타 모두 최신순 -->
-		 		ORDER BY r.create_at DESC
-		 	</otherwise>
-		 </choose>
-		 <if test="offset != null and size != null">
-		 LIMIT #{offset}, #{size}
-		 </if>
+	
+		<choose>
+			<when test="sortType == 'rvs_02'">
+				ORDER BY r.score DESC, r.create_at DESC
+			</when>
+			<when test="sortType == 'rvs_03'">
+				ORDER BY r.score ASC, r.create_at DESC
+			</when>
+			<when test="sortType == 'rvs_05'">
+				ORDER BY like_count DESC, r.create_at DESC
+			</when>
+			<otherwise>
+				ORDER BY r.create_at DESC
+			</otherwise>
+		</choose>
+	
+		<if test="offset != null and size != null">
+			LIMIT #{offset}, #{size}
+		</if>
 	</select>
 
 
@@ -268,6 +282,39 @@
 	        ('imguse_05', #{reviewIdx}, #{img})
 	    </foreach>
 	</insert>
+	
+	<!-- 리뷰 좋아요 존재 여부 확인 -->
+	<select id="checkReviewLikeExists">
+		SELECT COUNT(*)
+		  FROM review_like
+		 WHERE review_idx = #{reviewIdx}
+		   AND member_idx = #{memberIdx}	
+	</select>
+	
+	<!-- 리뷰 좋아요 삭제 -->
+	<delete id="deleteReviewLike">
+		DELETE FROM review_like
+	     WHERE review_idx = #{reviewIdx}
+	       AND member_idx = #{memberIdx} 
+	</delete>
+	
+	<!-- 리뷰 좋아요 추가 -->
+	<insert id="insertReviewLike">
+		INSERT INTO review_like(
+					review_idx	
+				  , member_idx
+				) VALUES (
+				    #{reviewIdx}
+				  , #{memberIdx}  
+				)
+	</insert>
+	
+	<!-- 리뷰 좋아요 개수 조회 -->
+	<select id="getReviewLikeCount">
+		SELECT COUNT(*)
+		  FROM review_like
+		 WHERE review_idx = #{reviewIdx}
+	</select>
 	
 	<!-- 스크랩 존재 여부 확인 -->
 	<select id="checkScrapExists" resultType="int">

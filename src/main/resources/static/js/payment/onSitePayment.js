@@ -132,8 +132,13 @@ $(function() {
 				store_idx: storeIdx,
 				amount: calculatedData.finalAmount
 			},
-			success: function() {
-				alert('결제가 완료되었습니다');
+			success: function(res) {
+				if (res.success) {
+					alert(res.message + '\n결제 내역 페이지로 이동합니다.');
+					location.href = '/mypage_payment';
+				} else {
+					alert(res.message);
+				}
 			},
 			error: function(xhr) {
 				console.error("실패:", xhr);

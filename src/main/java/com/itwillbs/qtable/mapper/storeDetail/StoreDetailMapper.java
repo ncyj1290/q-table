@@ -55,7 +55,7 @@ public interface StoreDetailMapper {
 	List<String> getTimeCodesBetween(@Param("openTime") String openTime, @Param("closeTime") String closeTime);
 
 	// 매장 리뷰 조회
-	List<Map<String, Object>> getReview(@Param("storeIdx") Integer storeIdx, @Param("sortType") String sortType, @Param("offset") Integer offset, @Param("size") Integer size);
+	List<Map<String, Object>> getReview(@Param("storeIdx") Integer storeIdx, @Param("sortType") String sortType, @Param("offset") Integer offset, @Param("size") Integer size, @Param("memberIdx") Integer memberIdx);
 
 	// 리뷰 정렬 옵션 공통코드 조회
 	List<Map<String, Object>> getReviewSortOptions();
@@ -77,8 +77,17 @@ public interface StoreDetailMapper {
 	
 	// 스크랩 삭제
 	int deleteScrap(@Param("storeIdx") Integer storeIdx, @Param("memberIdx") Integer memberIdx);
+	
+	// 리뷰 좋아요 존재 여부 확인
+	int checkReviewLikeExists(@Param("reviewIdx") Integer reviewIdx, @Param("memberIdx") Integer memberIdx);
 
-
-
+	// 리뷰 좋아요 삭제
+	void deleteReviewLike(@Param("reviewIdx") Integer reviewIdx, @Param("memberIdx") Integer memberIdx);
+	
+	// 리뷰 좋아요 추가
+	void insertReviewLike(@Param("reviewIdx") Integer reviewIdx, @Param("memberIdx") Integer memberIdx);
+	
+	// 리뷰 좋아요 개수 조회
+	int getReviewLikeCount(Integer reviewIdx);
 
 }

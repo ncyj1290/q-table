@@ -22,9 +22,11 @@ import com.itwillbs.qtable.repository.StoreRepository;
 import com.itwillbs.qtable.vo.storeManagement.ReservationVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
 @Service
 @RequiredArgsConstructor
+@Log
 public class OnSitePaymentService {
 
 	private final PaymentRepository paymentRepository;
@@ -76,11 +78,37 @@ public class OnSitePaymentService {
 	// 현장 결제 처리
 	@Transactional
 	public void processOnSitePayment(Integer memberIdx, Integer storeIdx, Integer amount) {
-		// 1. 고객 조회 및 큐머니 잔액 확인
+		// 고객 조회 
+		Member customer = memberRepository.findById(memberIdx).orElseThrow();
+		
+		// 매장 회원 고객 조회
+		Store store = storeRepository.findById(storeIdx).orElseThrow();
+		Member owner = memberRepository.findById(store.getMemberIdx()).orElseThrow();
 
-		// 2. 큐머니 차감/적립
-
-		// 3. 결제 내역 저장
+		// 큐머니 차감/적립
+		customer.setQMoney(customer.getQMoney() - amount);
+		owner.setQMoney(owner.getQMoney() + amount);
+		
+		// 결제 내역 저장
+		Payment payment = Payment.builder()
+				.memberIdx(memberIdx)
+				.paymentAmount(amount)
+				.payStatus("pyst_01") // 결제 성공
+				.payType("pyus_03") // 현장 결제
+				.payWay("pywy_01") // 큐머니 결제
+				.payReference("pyref_01") // 매장
+				.referenceIdx(store.getStoreIdx())
+				.paymentDate(LocalDateTime.now())
+				.build();
+		
+		// 예약 상태 변경
+		Reservation reservation = 
+				reservationRepository.findByMemberIdxAndStoreIdxAndReserveDate(memberIdx, store.getStoreIdx(), LocalDate.now()).orElseThrow();
+		
+		reservation.setReserveResult("rsrt_01"); // 방문완료
+		
+		// 결제 내역 db 저장 
+		paymentRepository.save(payment);
 	}
 
 }
