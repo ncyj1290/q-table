@@ -38,28 +38,38 @@
 	</select>
 	
 	<select id="getResult">
-		select s.store_idx
+		WITH user_scrap AS (
+			SELECT store_idx 
+			  FROM scrap 
+		     WHERE member_idx = #{vo.member_idx} 
+		)
+		SELECT s.store_idx
 			 , s.store_name
 		     , s.sido
 		     , s.sigungu
 		     , s.price_avg price
 		     , s.store_content content
-		     , s.is_24hour '24hour'
+		     , s.is_24hour
+		     , s.is_accept
 		     , cOpen.code_label 'open_time'
 		     , cClose.code_label 'close_time'
-		     , count(r.content) reviewCnt
-		     , ifnull(ROUND(sum(r.score)/count(r.review_idx),1),0) score
+		     , COUNT(r.content) reviewCnt
+		     , IFNULL(ROUND(SUM(r.score)/COUNT(r.review_idx),1),0) score
 		     , i.image_url
-		     , group_concat(distinct(cHoliday.code_label) ORDER BY cHoliday.code) 'holiday'
-		from store s
-		join common_code cOpen on s.open_time = cOpen.code
-		join common_code cClose on s.close_time = cClose.code 
-		left outer join review r on s.store_idx = r.store_idx 
-		left outer join image i on s.store_idx = i.target_idx 
-		left outer join store_holiday h on s.store_idx = h.store_idx 
-		left outer join common_code cHoliday on h.store_holiday = cHoliday.code 
-		where i.target_type = 'imguse_01'
-		group by s.store_idx
+		     , GROUP_CONCAT(distinct(cHoliday.code_label) ORDER BY cHoliday.code) 'holiday'
+			 , CASE WHEN us.store_idx is not null then 1 
+                    ELSE 0
+			      END AS is_scrapped
+		FROM store s
+		JOIN common_code cOpen ON s.open_time = cOpen.code
+		JOIN common_code cClose ON s.close_time = cClose.code 
+		LEFT OUTER JOIN review r ON s.store_idx = r.store_idx 
+		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx 
+		LEFT OUTER JOIN store_holiday h ON s.store_idx = h.store_idx 
+		LEFT OUTER JOIN common_code cHoliday ON h.store_holiday = cHoliday.code 
+		LEFT OUTER JOIN user_scrap us ON s.store_idx = us.store_idx
+		WHERE i.target_type = 'imguse_01'
+		GROUP BY s.store_idx
 		       , s.store_name
 		       , s.sido
 		       , i.image_url
@@ -69,7 +79,7 @@
 		       , store_content
 		       , cOpen.code_label
 		       , cClose.code_label
-  	    order by #{vo.sort};
+  	    ORDER BY ${vo.sort};
 	</select>	
 	
 	

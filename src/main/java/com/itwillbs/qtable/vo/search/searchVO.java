@@ -17,4 +17,5 @@ public class searchVO {
 	private String day;
 	private String time;
 	private String query;
+	private Integer member_idx;
 }

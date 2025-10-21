@@ -1,5 +1,8 @@
 package com.itwillbs.qtable.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.qtable.exception.AccountRestoreRequiredException;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -152,12 +157,37 @@ public class SecurityConfig {
 		        )
 				//403에러 페이지 처리, 추후 세부 구현 예정 
 				.exceptionHandling(exception -> exception
-		            .accessDeniedPage("/error/denied") // 접근 거부 시 이동할 페이지 지정
-//					.accessDeniedHandler(accessDeniedHandler)
+		            .accessDeniedPage("/error/denied") // 1. 인가 실패(403) 시 이동할 페이지
+                    // 2. 인증 실패(401) 시 처리할 핸들러
+                    .authenticationEntryPoint((request, response, authException) -> {
+                        String requestedWith = request.getHeader("X-Requested-with");
+
+                        // AJAX 요청인지 확인
+                        if ("XMLHttpRequest".equals(requestedWith)) {
+                        	ObjectMapper objectMapper = new ObjectMapper();
+
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+
+                            // Map 객체를 사용하여 응답 데이터 생성
+                            Map<String, Object> responseData = new HashMap<>();
+                            responseData.put("error", "Unauthorized");
+                            responseData.put("message", "로그인이 필요합니다 \n로그인 페이지로 이동하시겠습니까?");
+                            responseData.put("redirectUrl", "/login");
+                            
+                            // ObjectMapper를 사용해 Map을 JSON 문자열로 변환하고 응답에 쓴다.
+                            String jsonResponse = objectMapper.writeValueAsString(responseData);
+                            response.getWriter().write(jsonResponse);
+                        } else {
+                            // AJAX 요청이 아니면 로그인 페이지로 리다이렉트 (기본 동작)
+                            response.sendRedirect("/login");
+                        }
+                    })
 			    )
 				.userDetailsService(qtableUserDetailsService) //커스텀한 객체로 사용하기
 				.build();
-		 		// 더 해야하는거:  에러컨트롤러, 소셜로그인, 로그인(회원가입) 암호화, + jwt? 
+		 		// 더 해야하는거:  jwt? 
 	}
 	
 	@Bean

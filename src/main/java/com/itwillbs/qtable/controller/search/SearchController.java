@@ -2,7 +2,9 @@ package com.itwillbs.qtable.controller.search;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.service.search.searchService;
 import com.itwillbs.qtable.service.storeManagement.StoreWriteService;
 import com.itwillbs.qtable.vo.search.searchVO;
@@ -44,7 +47,9 @@ public class SearchController {
 	}
 	
 	@GetMapping("/api/search")
-	public String getResult(searchVO vo, Model model) {
+	public String getResult(searchVO vo
+			, Model model
+			, @AuthenticationPrincipal QtableUserDetails details) {
 		
 		log.info("입력값");
 		log.info("지역" + vo.getLoc());
@@ -58,6 +63,12 @@ public class SearchController {
 		log.info("시간" + vo.getTime());
 		log.info("입력값" + vo.getQuery());
 		
+		Integer memberIdx = Optional.ofNullable(details)
+					                .map(d -> d.getMember())       
+					                .map(m -> m.getMemberIdx())    
+					                .orElse(null);                 
+		if (memberIdx == null) log.info("비회원입니다");
+		vo.setMember_idx(memberIdx);
 		model.addAttribute("storeList", searchService.getResult(vo));
 		return "search/searchResult :: searchResult";
 	}
