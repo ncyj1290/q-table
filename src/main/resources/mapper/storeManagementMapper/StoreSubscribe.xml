@@ -6,7 +6,10 @@
 <mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreSubscribe">
 	
 	<!-- 새로운 구독권 삽입 -->
-	<insert id="insertNewSubscribe">
+	<insert id="insertNewSubscribe"
+		useGeneratedKeys="true"
+		keyProperty="subscribe_idx"
+	>
 		insert into subscribe(
 			member_idx
 			,subscribe_start
@@ -17,6 +20,35 @@
 			,#{subscribe_end}
 		)
 	</insert>
+	
+	<!-- 새 결제 기록 삽입 -->
+	<insert id="insertNewPaylog"
+		useGeneratedKeys="true"
+		keyProperty="payment_idx"
+	>
+		insert into payment(
+			<if test="reference_idx != null">
+				reference_idx,
+			</if>
+			payment_amount
+			,pay_way
+			,pay_type
+			,pay_status
+			,pay_reference
+			,member_idx
+		)values(
+			<if test="reference_idx != null">
+				#{reference_idx},
+			</if>
+			#{payment_amount}
+			,'pywy_01'
+			,'pyus_05'
+			,'pyst_01'
+			,'pyref_03'
+			,#{member_idx}
+		)
+	</insert>
+	
 	
 	<!-- 구독권 찾아오는 쿼리문 -->
 	<select id="selectSubscribe">
