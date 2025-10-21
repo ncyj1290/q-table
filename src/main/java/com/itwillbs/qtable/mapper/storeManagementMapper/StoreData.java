@@ -16,13 +16,7 @@ public interface StoreData {
 
 	/* 매장 프로필 정보들 들고오는 쿼리문 */
 	StoreVO selectStoreProfileByOwnerIdx(@Param("member_idx") int member_idx);
-	
-	/* 사용자 QMONEY 들고오기 */
-	int selectQmoneyByMemberidx(@Param("member_idx") int member_idx);
-	
-	/* QMONEY 갱신(감소) */
-	int reduceUserQMoney(@Param("member_idx") int member_idx, @Param("cost") int cost);
-	
+
 	/* 회원 idx로 매장 idx 찾는 쿼리문 */
 	int selectStoreIdxByOwnerIdx(@Param("member_idx") int member_idx);
 	

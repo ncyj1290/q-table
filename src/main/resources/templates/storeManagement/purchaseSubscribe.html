@@ -26,7 +26,7 @@
 						<h3>구독권 구매</h3>	
 					</div>
 					
-					<div style="color: var(--color-main); margin-left: 150px;">남은 구독일: <b>100 Day</b></div> 
+					<div style="color: var(--color-main); margin-left: 150px;">구독 만기일: <b th:text="${subscribe != null ? #dates.format(subscribe.subscribe_end, 'yyyy-MM-dd HH:mm') : '구독권을 구매하지 않으셨습니다.'}">100 Day</b></div> 
 					
 					<!-- 구매 가능한 구독권 출력 -->
 					<div class="row-component" th:each="sUnit, i : ${mUnitList}" th:switch="${sUnit.code}">
@@ -36,9 +36,9 @@
 							
 							<label class="subscribe-label-size"><b th:text="|${sUnit.code_label} 일 구독권|" class="subscribe-date"></b></label>
 							
-							<label class="subscribe-label-size" th:case="'msdu_01'"><b>500,000 큐머니</b></label>
-							<label class="subscribe-label-size" th:case="'msdu_02'"><b>800,000 큐머니</b></label>
-							<label class="subscribe-label-size" th:case="'msdu_03'"><b>1,000,000 큐머니</b></label>
+							<label class="subscribe-label-size data-info" th:data-date="90" th:data-price="500000" th:case="'msdu_01'"><b>500,000 큐머니</b></label>
+							<label class="subscribe-label-size data-info" th:data-date="180" th:data-price="800000" th:case="'msdu_02'"><b>800,000 큐머니</b></label>
+							<label class="subscribe-label-size data-info" th:data-date="365" th:data-price="1000000" th:case="'msdu_03'"><b>1,000,000 큐머니</b></label>
 						</div>	
 						
 					</div>

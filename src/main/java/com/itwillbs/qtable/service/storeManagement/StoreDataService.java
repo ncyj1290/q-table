@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
+import com.itwillbs.qtable.mapper.storeManagementMapper.StoreSubscribe;
 import com.itwillbs.qtable.vo.storeManagement.StoreIngredient;
 import com.itwillbs.qtable.vo.storeManagement.StoreMenu;
 import com.itwillbs.qtable.vo.storeManagement.StorePicture;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
+import com.itwillbs.qtable.vo.storeManagement.SubscribeVO;
 
 /* 매장 정보 관련 데이터 불러오거나 관리하는 뭐 그런 종류의 서비스 */
 @Service
@@ -22,18 +24,18 @@ public class StoreDataService {
 	@Autowired
 	StoreData storeData;
 
+	@Autowired
+	StoreSubscribeService storeSubscribeService;
+	
 	/* 매장 프로필에 사용될 기본 정보같은거 불러와서 모델에 처박는 서비스 */
 	public void injectStoreProfileByOwnerIdx(Model model, int member_idx) {
+		
+		SubscribeVO subscribe = storeSubscribeService.selectSubscribe(member_idx);
+		if(subscribe.getSubscribe_end() != null) model.addAttribute("subscribe", subscribe);
+		
 		/* 스토어 기본(프로필) 정보고 spData라는 이름으로 들어감 */
 		StoreVO spData = storeData.selectStoreProfileByOwnerIdx(member_idx);
 		System.out.println("Check SPDATA: " + spData.toString());
-		
-		/* Expired 인지 아닌지 계산 및 반영 */
-//		LocalDateTime endDate = spData.getSubscribe_end().toLocalDateTime();
-//		LocalDateTime today = LocalDateTime.now();
-//
-//		spData.set_expired_subscribe(!today.isBefore(endDate));
-//		System.out.println("Is Expired: " + spData.is_expired_subscribe());
 
 		model.addAttribute("spData", spData);
 	}
@@ -47,6 +49,7 @@ public class StoreDataService {
 		return storeData.selectAcceptStatus(store_idx);
 	}
 	
+
 	/* 매장의 모든 정보 (메뉴, 식자재 등) 긁어오는거 */
 	@Transactional
 	public StoreVO selectAllStoreData(int member_idx){
