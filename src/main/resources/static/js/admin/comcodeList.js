@@ -101,6 +101,10 @@ $(function() {
 					    <input type="text" class="component-write" id="modal-code-desc" value="${CommonCodeVO.code_desc}">
 					</div>
 					<div class="form-group">
+					    <label>순서</label>
+					    <input type="text" class="component-write" id="modal-code-index" value="${CommonCodeVO.code_index}">
+					</div>
+					<div class="form-group">
 					    <label>사용 여부</label>
 					    <div class="radio-group-inline">
 							<input type="radio" id="modal-using-status-true" name="modal_using_status" value="true">
@@ -116,6 +120,7 @@ $(function() {
 						code: $('#modal-code').val(),
 						code_label: $('#modal-code-label').val(),
 						code_desc: $('#modal-code-desc').val(),
+						code_index: $('#modal-code-index').val(),
 						using_status: $('input[name="modal_using_status"]:checked').val()
 					};
 

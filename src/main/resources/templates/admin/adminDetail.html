@@ -3,6 +3,10 @@
 
 <head>
 	<title>회원 / 매장 상세페이지</title>
+	<!-- css -->
+	<link rel="stylesheet" th:href="@{/css/storeDetail/storeDetail.css}">
+	<!-- js -->
+	<script th:src="@{/js/storeDetail/storeImage.js}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -66,34 +70,23 @@
 								</div>
 							</div>
 							<div class="detail-grid" th:if="${member.member_type == 'mtype_03'}">
+								<label>매장 이미지</label>
 								<div class="store-image-container">
-								    <!-- 이미지 슬라이더 -->
-								    <div class="store-image-slider">
-								        <img th:each="img, iterStat : ${store_images}"
-								             th:src="@{${img}}"
-								             th:class="${iterStat.index == 0} ? 'slider-image active' : 'slider-image'"
-								             th:data-index="${iterStat.index}"
-								             alt="매장 이미지">
-								    </div>
+									<!-- 이미지 슬라이더 -->
+									<div class="store-image-slider">
+										<img th:each="img, iterStat : ${store_images}" th:src="@{${img}}"
+											th:class="${iterStat.index == 0} ? 'slider-image active' : 'slider-image'"
+											th:data-index="${iterStat.index}" alt="매장 이미지">
+									</div>
 
-								    <!-- 좌우 버튼 -->
-								    <div class="image-nav">
-								        <button class="nav-button prev-button">◀</button>
-								        <button class="nav-button next-button">▶</button>
-								    </div>
+									<!-- 좌우 버튼 -->
+									<div class="image-nav">
+										<button class="nav-button prev-button">◀</button>
+										<button class="nav-button next-button">▶</button>
+									</div>
 
-								    <!-- 모든 사진 보기 버튼 -->
-								    <div class="image-label view-all-images">모든 사진 보기</div>
-								</div>
-							</div>
-							<div class="detail-grid" th:if="${member.member_type == 'mtype_03'}">
-								<div class="detail-item2">
-									<label>매장 사진 파일</label>
-									<input type="text" class="component-write" readonly value="store_image.jpg">
-								</div>
-								<div class="detail-item2">
-									<label>매장 사진 파일</label>
-									<input type="text" class="component-write" readonly value="store_image.jpg">
+									<!-- 모든 사진 보기 버튼 -->
+									<div class="image-label view-all-images">모든 사진 보기</div>
 								</div>
 							</div>
 						</div>
@@ -122,7 +115,8 @@
 									</div>
 									<div class="detail-item">
 										<label>예약금</label>
-										<input type="text" class="component-write" readonly th:value="${member.deposit}">
+										<input type="text" class="component-write" readonly
+											th:value="${member.deposit}">
 									</div>
 									<div class="detail-item">
 										<label>매장 운영시간</label>
@@ -140,6 +134,19 @@
 					</div>
 				</div>
 			</section>
+
+			<!-- 모든 이미지 보기 모달 -->
+			<div id="allImagesModal" class="all-images-modal">
+				<div class="modal-content">
+					<span class="close-modal">&times;</span>
+					<h2 class="modal-title">매장 사진</h2>
+					<div class="images-grid">
+						<div class="grid-image" th:each="img : ${store_images}">
+							<img th:src="@{${img}}" alt="매장 이미지">
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<script>
@@ -147,6 +154,7 @@
 				$('body').addClass('detail-page-layout');
 			});
 		</script>
+		<div th:replace="~{storeDetail/fragments/reviewModal :: reviewModal}"></div>
 
 	</th:block>
 </body>

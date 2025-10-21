@@ -207,7 +207,8 @@
 	           c.code,
 	           c.code_label,
 	           c.code_desc,
-	           c.using_status
+	           c.using_status,
+	           c.code_index
 	      FROM common_code c 
 	 LEFT JOIN common_code_group g ON c.group_code = g.group_code
     </select>
@@ -221,7 +222,8 @@
 	           c.code,
 	           c.code_label,
 	           c.code_desc,
-	           c.using_status
+	           c.using_status,
+	           c.code_index
 	      FROM common_code c 
 	 LEFT JOIN common_code_group g ON c.group_code = g.group_code
 	     WHERE c.common_idx = #{common_idx}
@@ -240,7 +242,8 @@
 	       SET code = #{CommonCodeVO.code},
 	           code_label = #{CommonCodeVO.code_label},
 	           code_desc = #{CommonCodeVO.code_desc},
-	           using_status = #{CommonCodeVO.using_status}
+	           using_status = #{CommonCodeVO.using_status},
+	           code_index = #{CommonCodeVO.code_index}
 	     WHERE common_idx = #{common_idx}
     </update>
     
@@ -276,7 +279,8 @@
 		            code,
 		            code_label,
 		            code_desc, 
-		            parent_code, 
+		            parent_code,
+		            code_index, 
 		            creater_idx
 		            ) VALUES
 		    <foreach collection="list" item="item" separator=",">
@@ -285,7 +289,8 @@
 		            #{item.code},
 		            #{item.code_label},
 		            #{item.code_desc},
-		            #{item.parent_code}, 
+		            #{item.parent_code},
+		            #{item.code_index}, 
 		            1
 		           )
 		    </foreach>
@@ -304,6 +309,11 @@
 	  ORDER BY l.log_idx desc
     </select>
 
+	<select id="getStoreIdxByMemberIdx" resultType="Integer">
+	    SELECT store_idx
+	    FROM store
+	    WHERE member_idx = #{member_idx}
+	</select>
     
     
 </mapper>
