@@ -15,18 +15,21 @@ public class ScrapService {
 
 	private final ScrapMapper scrapMapper;
 
-    // 스크랩 토글
-    public void toggleScrap(int memberIdx, int storeIdx) {
-        if (scrapMapper.existsScrap(memberIdx, storeIdx) > 0) {
-            scrapMapper.deleteScrap(memberIdx, storeIdx);
-        } else {
-            scrapMapper.insertScrap(memberIdx, storeIdx);
-        }
-    }
+	public boolean toggleScrap(int memberIdx, int storeIdx) {
+	    if (scrapMapper.existsScrap(memberIdx, storeIdx) > 0) {
+	        scrapMapper.deleteScrap(memberIdx, storeIdx);
+	        return false; 
+	    } else {
+	        scrapMapper.insertScrap(memberIdx, storeIdx);
+	        return true; 
+	    }
+	}
+
 
     // 스크랩 목록 조회
     public List<Map<String, Object>> getScrapList(int memberIdx) {
         return scrapMapper.selectScrapList(memberIdx);
     }
+    
 	
 }

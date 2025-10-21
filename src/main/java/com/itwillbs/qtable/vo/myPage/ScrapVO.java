@@ -19,4 +19,6 @@ public class ScrapVO {
     private String full_address;
     private String image_url; 
     private Double avgScore;   
+    private boolean scrapped;
+
 }
