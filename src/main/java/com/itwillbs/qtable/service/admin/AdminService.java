@@ -89,23 +89,13 @@ public class AdminService {
         // member_type이 type1 또는 type2 와 일치하는 member 리스트 + member_idx 내림차순
         List<Member> memberList = memberRepository.findByMemberTypeOrMemberTypeOrderByMemberIdxDesc(type1, type2);
 
-        System.out.println("memberList : " + memberList);
-
         List<MemberListVO> memberVos = new ArrayList<>();
-
+        
+        // 가져온 엔티티 리스트를 순회하며 VO로 변환
         for (Member entity : memberList) {
-            MemberListVO vo = new MemberListVO(entity, entity.getMemberIdx()); 
-
-            // --- 마스킹 로직 ---
-            // 탈퇴 상태이고, 탈퇴일 존재하며, 3개월 이내일 때
-            if ("mstat_02".equals(entity.getMemberStatus()) &&
-                entity.getLeaveAt() != null &&
-                entity.getLeaveAt().isAfter(LocalDateTime.now().minusMonths(3)))
-            {
-                vo.setMember_name(MaskingUtils.maskName(entity.getMemberName())); // 별도의 MaskingUtils 클래스로 분리
-                vo.setEmail(MaskingUtils.maskEmail(entity.getEmail()));
-            }
-            // --- 마스킹 로직 끝 ---
+            MemberListVO vo = new MemberListVO(entity, entity.getMemberIdx());
+            // 마스킹 전용 메서드 (MemberListVO)
+            vo.applyMasking();
 
             memberVos.add(vo);
         }
@@ -125,24 +115,10 @@ public class AdminService {
 	public MemberDetailVO findMemberDetail(Integer member_idx) {
 		
 		MemberDetailVO vo = adminMapper.findMemberDetail(member_idx);
-
+		
+		// MemberDetailVO에 마스킹 함수
         if (vo != null) {
-            // -- 마스킹 로직
-            // 탈퇴 상태이고, 탈퇴일 존재하며, 3개월 이내일 때
-             if ("mstat_02".equals(vo.getMember_status()) && // 코드 값 필드 사용
-                 vo.getLeave_at() != null &&
-                 vo.getLeave_at().isAfter(LocalDateTime.now().minusMonths(3)))
-             {
-                 vo.setMember_name(MaskingUtils.maskName(vo.getMember_name())); // 별도 MaskingUtils 유틸리티 클래스로 분리
-                 vo.setEmail(MaskingUtils.maskEmail(vo.getEmail()));
-                 vo.setAddress("탈퇴 회원 주소");
-                 vo.setAddress_detail("");
-                 vo.setBirth(null);
-                 vo.setPost_code("*****");
-                 vo.setStore_name("탈퇴한 매장명");
-                 vo.setAccount_number("탈퇴 회원 계좌번호");
-                 vo.setBusiness_reg_no("탈퇴한 사업자등록번호");
-             }
+        	vo.applyMasking();
         }
         return vo;
     }
@@ -189,7 +165,15 @@ public class AdminService {
     
     // 매장 회원 목록 리스트 조회
     public List<StoreListVO> findStoreMembers() {
-        return adminMapper.findStoreMembers();
+    	
+        List<StoreListVO> storeMemberList = adminMapper.findStoreMembers();
+        
+        // 리스트를 순회하며 마스킹 조건을 확인하고 적용
+        for (StoreListVO vo : storeMemberList) {
+        	// 마스킹 전용 메서드 (StoreListVO)
+        	vo.applyMasking();
+        }
+        return storeMemberList;
     }
     
     // 매장 입점 신청 목록 리스트 조회
@@ -222,6 +206,7 @@ public class AdminService {
 		
     }
     
+    // 매장 삭제
     @Transactional
     public void deleteStoreMember(Integer member_idx) {
     	
@@ -259,12 +244,28 @@ public class AdminService {
     
     // 회원 결제 목록 리스트 조회
     public List<PaymentListVO> findPaymentListMembers() {
-        return adminMapper.findPaymentListMembers();
+    	
+        List<PaymentListVO> paymentList = adminMapper.findPaymentListMembers();
+        
+        // 리스트를 순회하며 마스킹 조건을 확인하고 적용
+        for (PaymentListVO vo : paymentList) {
+        	// 마스킹 전용 메서드 (PaymentListVO)
+        	vo.applyMasking();
+        }
+        return paymentList;
     }
     
     // 매장 결제 목록 리스트 조회
     public List<PaymentListVO> findPaymentListStores() {
-        return adminMapper.findPaymentListStores();
+    	
+        List<PaymentListVO> paymentStoreList = adminMapper.findPaymentListStores();
+        
+        // 리스트를 순회하며 마스킹 조건을 확인하고 적용
+        for (PaymentListVO vo : paymentStoreList) {
+        	// 마스킹 전용 메서드 (PaymentListVO)
+        	vo.applyMasking();
+        }
+        return paymentStoreList;
     }
     
 	// 결제 삭제 이벤트
@@ -278,7 +279,14 @@ public class AdminService {
     
     // 매장 정산 목록 리스트 조회
     public List<JeongsanListVO> findJeongsanList() {
-        return adminMapper.findJeongsanList();
+        List<JeongsanListVO> JeongsanList = adminMapper.findJeongsanList();
+        
+        // 리스트를 순회하며 마스킹 조건을 확인하고 적용
+        for (JeongsanListVO vo : JeongsanList) {
+        	// 마스킹 전용 메서드 (JeongsanListVO)
+        	vo.applyMasking();
+        }
+        return JeongsanList;
     }
     
     // 정산 상세 정보 조회
@@ -331,7 +339,7 @@ public class AdminService {
     // ---------------------- 공통코드 ----------------------
     
     // 공통 코드 목록 리스트
-    public List<CommonCodeVO>findCommonCodeList() {
+    public List<CommonCodeVO> findCommonCodeList() {
     	return adminMapper.findCommonCodeList();
     }
     
@@ -373,16 +381,25 @@ public class AdminService {
     // 관리자 회원 목록 조회
     public List<MemberListVO> adminMemberFindAll() {
         
-        List<Member> memberList = memberRepository.findByMemberType("mtype_01");
+    	// 조회할 회원 타입 지정
+        String type1 = "mtype_01"; // 관리자
 
-        System.out.println("memberList : " + memberList);
+        // member_type이 type1 일치하는 member 리스트 + member_idx 내림차순
+        List<Member> memberList = memberRepository.findByMemberType(type1);
 
-        // Entity -> VO 변환 로직
-        return memberList.stream()
-                .map(entity -> new MemberListVO(entity, entity.getMemberIdx()))
-                .collect(Collectors.toList());
+        List<MemberListVO> memberVos = new ArrayList<>();
+        
+        // 가져온 엔티티 리스트를 순회하며 VO로 변환
+        for (Member entity : memberList) {
+            MemberListVO vo = new MemberListVO(entity, entity.getMemberIdx());
+            // 마스킹 전용 메서드 (MemberListVO)
+            vo.applyMasking();
+
+            memberVos.add(vo);
+        }
+
+        return memberVos;
     }
-    
     // ------------------- 유저 로그인 로그 ---------------------
     
     // 유저 로그인 로그 목록 조회

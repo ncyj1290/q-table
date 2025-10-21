@@ -1,15 +1,19 @@
 package com.itwillbs.qtable.controller.admin;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itwillbs.qtable.service.StoreService;
 import com.itwillbs.qtable.service.admin.AdminService;
 import com.itwillbs.qtable.service.member.MemberJoinService;
+import com.itwillbs.qtable.service.storeDetail.StoreDetailService;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
@@ -18,11 +22,15 @@ import lombok.extern.java.Log;
 @Log
 @Controller
 public class AdminController {
-	 @Autowired
-	 private MemberJoinService memberJoinService;
+	
+	@Autowired
+	private MemberJoinService memberJoinService;
 
 	@Autowired
-	AdminService adminService;
+	private AdminService adminService;
+	
+	@Autowired
+	private StoreDetailService StoreDetailService;
 	
 //	어드민 메인페이지
 	@GetMapping("/admin_main")
@@ -53,11 +61,19 @@ public class AdminController {
 	
 //	매장 회원관리 페이지
     @GetMapping("/admin_detail/{member_idx}")
-    public String adminDetail(@PathVariable("member_idx") Integer member_idx, Model model) {
+    public String adminDetail(@PathVariable("member_idx") Integer member_idx,			
+    						  @RequestParam("store_idx") Integer storeIdx,
+    						  Model model) {
     	
+    	// 회원 기본 정보 조회
     	MemberDetailVO memberDetailVO = adminService.findMemberDetail(member_idx);
     	
+		// 매장 기본 정보 조회
+		Map<String, Object> storeData = StoreDetailService.getStoreInfo(storeIdx);
+		
+    	
     	model.addAttribute("member", memberDetailVO);
+    	model.addAllAttributes(storeData);
     	
 		return "admin/adminDetail";
 	}

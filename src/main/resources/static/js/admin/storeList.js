@@ -1,6 +1,7 @@
 $(function() {
 	// Grid.js 컬럼
     const storeColumns = [
+		{ name: 'store_idx', hidden: true },
 		{ name: 'member_idx', hidden: true },
 		{ name: 'No.', width: '5%' },
 		{ name: '매장 이름', width: '13%' },
@@ -19,13 +20,13 @@ $(function() {
             width: '300px',
             formatter: (cell, row) => {
 				
-				// row.cells 배열에서 필요한 데이터를 먼저 꺼내서 변수에 담아야 합니다.
-				const member_idx = row.cells[0].data; // 'No.' 컬럼
-				const member_id = row.cells[2].data;  // '매장 아이디' 컬럼
+				const store_idx = row.cells[0].data;
+				const member_idx = row.cells[1].data;
+				const member_id = row.cells[4].data;
 				
 				const detail_button = `<a href="/admin_detail/${member_idx}" class="management-button">상세보기</a>`;
 				const status_button = `<button class="management-button status-change-btn" data-idx="${member_idx}" data-id="${member_id}">상태변경</button>`;
-				const review_button = `<a href="/store_detail_main" class="management-button">리뷰보기</a>`;
+				const review_button = `<a href="/store_detail_main?store_idx=${store_idx}" class="management-button">리뷰보기</a>`;
 				const delete_button = `<button class="management-button delete-btn" data-idx="${member_idx}" data-id="${member_id}">삭제</button>`;
                 return gridjs.html(detail_button + status_button + review_button + delete_button);
             }
@@ -40,13 +41,14 @@ $(function() {
 			// Grid.js 형식
 			const formatted_data = response.map((store, index) => {
 				return [
+					store.store_idx,
 					store.member_idx,
 					index + 1,
 					store.store_name,
 					store.member_id,
 					store.email,
 					store.signup_date ? store.signup_date.substring(0, 10) : '-',
-					store.member_status,
+					store.member_status_name,
 					null
 				];
 			});
