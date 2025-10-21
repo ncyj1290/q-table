@@ -1,22 +1,16 @@
 package com.itwillbs.qtable.controller.mypage;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,7 +22,6 @@ import com.itwillbs.qtable.service.mypage.ReservationListService;
 import com.itwillbs.qtable.service.mypage.ReviewService;
 import com.itwillbs.qtable.service.mypage.ScrapService;
 import com.itwillbs.qtable.service.pay.KakaoPayService;
-import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -212,6 +205,28 @@ public class MyPageController {
 		Map<String, Object> result = Map.of("balance", totalQmoney);
 		return result;
 	}
+	
+	// 닉네임 변경
+	@PostMapping("/UpdateNickname")
+	@ResponseBody
+	public Map<String, Object> updateNickname(@RequestParam String newNickname, 
+	                                          @AuthenticationPrincipal QtableUserDetails userDetails) {
+	    Map<String, Object> response = new HashMap<>();
+	    String currentUserId = userDetails.getUsername();
+
+	    if(passwordService.isNicknameDuplicate(newNickname)) {
+	        response.put("success", false);
+	        response.put("message", "이미 사용 중인 닉네임입니다.");
+	        return response;
+	    }
+
+	    boolean result = passwordService.updateNickname(currentUserId, newNickname);
+	    response.put("success", result);
+	    if(!result) response.put("message", "닉네임 변경에 실패했습니다.");
+	    return response;
+	}
+
+
 
 	// 현재 비밀번호
 	@PostMapping("/CheckCurrentPassword")

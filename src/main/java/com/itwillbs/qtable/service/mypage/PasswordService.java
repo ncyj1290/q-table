@@ -24,4 +24,16 @@ public class PasswordService {
         int updateCount = passwordMapper.updatePassword(memberIdx, encodedNewPass);
         return updateCount > 0;
     }
+    
+    // 닉네임 중복 확인
+    public boolean isNicknameDuplicate(String nickname) {
+        return passwordMapper.countNickname(nickname) > 0;
+    }
+
+    // 닉네임 업데이트
+    public boolean updateNickname(String userId, String newNickname) {
+        int updatedRows = passwordMapper.updateNickname(userId, newNickname);
+        return updatedRows > 0;
+    }
+    
 }

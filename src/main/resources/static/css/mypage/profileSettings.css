@@ -156,6 +156,11 @@
 	margin-left: 203px;
 }
 
+.negative-button.selected {
+    background-color: var(--color-sub);
+    color: white;
+    border-color: var(--color-sub);
+}
 
 
 

@@ -24,8 +24,9 @@
 					<input type="file" id="fileInput" accept="image/*" style="display:none">
 					<div class="profile-right">
 						<div class="profile-nickname">
-							<input type="text" class="component-write write" th:value="${#authentication.principal.member.memberName}">
-							<button class="positive-button">변경</button>
+							<input type="text" id="input_nickname" class="component-write write" th:value="${#authentication.principal.member.memberName}">
+							<span id="span_nickname"></span>
+							<button class="positive-button" id="nickname_button">변경</button>
 						</div>
 					</div>
 				</div>
@@ -69,7 +70,7 @@
 				<!-- 취향 영역 -->
 				<h3 class="food-title">나의 음식 취향</h3>
 				<div class="food-prefs-wrapper">
-					<div class="food-prefs">
+					<div class="food-prefs" id="selected">
 						<span class="negative-button">한식</span>
 						<span class="negative-button">중식</span>
 						<span class="negative-button">양식</span>
