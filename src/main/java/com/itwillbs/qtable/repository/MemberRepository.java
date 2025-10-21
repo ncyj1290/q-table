@@ -23,4 +23,8 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	
 	// 스케줄러 회원 3개월 이상 지났을시 삭제하는 메서드
 	List<Member> findByMemberStatusAndLeaveAtBefore(String memberStatus, LocalDateTime leaveAt);
+	// 맴버 이메일 중복 체크 exists 
+	boolean existsByEmail(String email);
+	
+	
 }

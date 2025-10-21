@@ -41,6 +41,13 @@ public class MemberJoinController {
 		
 		return "redirect:/login";
 	}
+	@PostMapping("/member_join_Pro_admin")
+	public String member_join_Pro_admin(Member member) {
+
+	    memberJoinService.save(member); 
+
+	    return "redirect:/admin_account"; 
+	}
 	@ResponseBody
 	@GetMapping("/checkMemberId")
 	public boolean checkMemberId(@RequestParam("memberId") String id) {

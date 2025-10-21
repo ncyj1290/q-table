@@ -3,6 +3,7 @@
 
 <head>
 	<title>관리자 회원 관리</title>
+	<script th:src="@{/js/admin/adminAccount.js}"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -19,9 +20,10 @@
 
 		<div id="admin-table" class="grid-wrapper"></div>
 		<div class="modal-overlay" id="status-change-modal2">
-		<form th:action="@{/member_join_Pro}" method="post" id="signupForm">
+		<form th:action="@{/member_join_Pro_admin}" method="post" id="signupForm">
 			<input type="hidden" id="memberType" name="memberType" th:value="${memberType[0].code}">
 			<input type="hidden" id="memberStatus" name="memberStatus" th:value="${statusCodes[0].code}">
+			<input type="hidden" name="profileImgUrl" value="/img/profile.png">
 			<div class="modal-container">
 				<div class="modal-header">
 					<h2>관리자 계정 생성</h2>
@@ -29,34 +31,43 @@
 
 				<div class="modal-body">
 					<div class="form-group">
-						<label>아이디</label>
-						<input type="text" name="memberId" class="component-write"></input>
+						<label for="userName">이름</label>
+						<input type="text" id="userName" name="memberName" class="component-write"></input>
+						<span class="validation-msg name"></span>
 					</div>
 					<div class="form-group">
-						<label>비밀번호</label>
-						<input type="text" name="memberPw" class="component-write"></input>
+						<label for="userId">아이디</label>
+						<input type="text" id="userId" name="memberId" class="component-write"></input>
+						<span id="userIdMsg" class="validation-msg"></span>
+					</div>
+					<div class="form-group">
+						<label for="password">비밀번호</label>
+						<input type="password" id="password" name="memberPw" class="component-write"></input>
+						<span id="uerPwMsg" class="validation-msg"></span>
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label>
-						<input type="text" class="component-write"></input>
+						<input type="password" id="confirmPassword" class="component-write"></input>
+						<span id="confirmPwMsg" class="validation-msg"></span>
 					</div>
 					<div class="form-group">
 					    <label>이메일</label>
 					    <div class="flex-input-group">
-					        <input type="text" name="email" class="component-write email"></input>
-					        <button type="button" class="management-button custom">인증번호</button>
+					        <input type="text" id="email" name="email" class="component-write email"></input>
+					        <button type="button" id="emailsand" class="management-button custom">인증번호</button>
 					    </div>
+							<span id="uerEmailMsg" class="validation-msg"></span>
 					</div>
 					<div class="form-group">
-					    <label>이메일 인증번호</label>
+					    <label for="emailVerification">이메일 인증번호</label>
 						<div class="flex-input-group">
-					        <input type="text" class="component-write email"/>
-					        <button type="button" class="management-button custom">확인</button>
+					        <input type="text" id="emailVerification" class="component-write email"/>
+					        <button type="button" id="verifyBtn" class="management-button custom">확인</button>
 					    </div>
 					</div>					
 					<div class="modal-footer">
 						<button type="submit" class="positive-button">확인</button>
-						<button type="button" class="negative-button" id="modal-close-btn2">취소</button>
+						<button type="button"  class="negative-button" id="modal-close-btn2">취소</button>
 					</div>
 				</div>
 			</div>

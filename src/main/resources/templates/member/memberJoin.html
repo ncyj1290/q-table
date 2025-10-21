@@ -10,6 +10,7 @@
 	    /*]]>*/
 	</script>
 	<script th:src="@{/js/member/memberJoin.js}"></script>
+	<script th:src="@{/js/common/consentText.js}"></script>
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
@@ -125,20 +126,20 @@
 								<label for="termsOfService">이용약관 동의(필수)</label>
 								<button type="button" class="view-details">자세히 보기</button>
 							</div>
-							<p class="agree">이용약관 어쩌구 </p>
+							<p class="agree" id="termsofuse"></p>
 							<div class="term-item">
 								<input type="checkbox" id="privacyPolicy" class="component-checkbox required">
 								<label for="privacyPolicy">개인정보 처리 방침(필수)</label>
 								<button type="button" class="view-details">자세히 보기</button>
 							</div>
-							<p class="agree">개인정보 처리방침 어쩌구 </p>
+							<p class="agree"id="privacyText"></p>
 							<div class="term-item">
 								<input type="checkbox" id="marketingConsent" name="marketingAgreed"
 									class="component-checkbox">
 								<label for="marketingConsent">마케팅 동의(선택)</label>
 								<button type="button" class="view-details">자세히 보기</button>
 							</div>
-							<p class="agree">마케팅 어쩌구 </p>
+							<p class="agree" id="marketingText"></p>
 						</div>
 
 					</div>
