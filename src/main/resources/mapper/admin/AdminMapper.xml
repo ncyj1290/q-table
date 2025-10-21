@@ -30,12 +30,15 @@
 	<!-- 매장 회원 목록 리스트 조회 -->
     <select id="findStoreMembers">
         SELECT
+        	   s.store_idx,
                m.member_idx,
                s.store_name,
                m.member_id,
                m.email,
                m.signup_date,
-               c.code_label AS member_status
+               m.leave_at,
+        	   m.member_status,
+               c.code_label AS member_status_name
           FROM member m
           JOIN store s ON m.member_idx = s.member_idx
           LEFT JOIN common_code c ON m.member_status = c.code
@@ -99,6 +102,8 @@
 	           m.member_idx,
 	           m.member_id,
 	           m.member_name,
+	           m.member_status,
+	           m.leave_at,
 	           p.payment_amount,
 	           p.payment_date,
 	           c.code_label AS pay_status,
@@ -119,6 +124,8 @@
 	           s.store_name,
 	           m.member_id,
 	           m.member_name,
+	           m.member_status,
+	           m.leave_at,
 	           p.payment_amount,
 	           p.payment_date,
 	           c.code_label AS pay_status,
@@ -145,7 +152,9 @@
 		       j.processed_at,
 		       s.store_name,
 		       s.account_number,
-		       m.member_id
+		       m.member_id,
+		       m.member_status,
+		       m.leave_at
 		  FROM jeongsan j 
 	 LEFT JOIN member m ON j.member_idx = m.member_idx
 	 LEFT JOIN store s ON j.member_idx = s.member_idx
@@ -184,9 +193,9 @@
 		       m.member_idx,
 		       m.member_id,
 		       DATEDIFF(subscribe_end, CURDATE()) AS remaining_days
-		  FROM subscribe ss 
-	 LEFT JOIN store s ON ss.store_idx = s.store_idx
-	 LEFT JOIN member m ON m.member_idx = s.member_idx;
+		  FROM subscribe ss
+     LEFT JOIN member m ON m.member_idx = ss.member_idx 
+	 LEFT JOIN store s ON ss.member_idx = s.store_idx
     </select>
     
     <!-- 공통 코드 리스트 -->
@@ -197,7 +206,9 @@
 	           g.group_desc,
 	           c.code,
 	           c.code_label,
-	           c.code_desc
+	           c.code_desc,
+	           c.using_status,
+	           c.code_index
 	      FROM common_code c 
 	 LEFT JOIN common_code_group g ON c.group_code = g.group_code
     </select>
@@ -210,7 +221,9 @@
 	           g.group_desc,
 	           c.code,
 	           c.code_label,
-	           c.code_desc
+	           c.code_desc,
+	           c.using_status,
+	           c.code_index
 	      FROM common_code c 
 	 LEFT JOIN common_code_group g ON c.group_code = g.group_code
 	     WHERE c.common_idx = #{common_idx}
@@ -228,7 +241,9 @@
 		UPDATE common_code
 	       SET code = #{CommonCodeVO.code},
 	           code_label = #{CommonCodeVO.code_label},
-	           code_desc = #{CommonCodeVO.code_desc}
+	           code_desc = #{CommonCodeVO.code_desc},
+	           using_status = #{CommonCodeVO.using_status},
+	           code_index = #{CommonCodeVO.code_index}
 	     WHERE common_idx = #{common_idx}
     </update>
     
@@ -264,7 +279,8 @@
 		            code,
 		            code_label,
 		            code_desc, 
-		            parent_code, 
+		            parent_code,
+		            code_index, 
 		            creater_idx
 		            ) VALUES
 		    <foreach collection="list" item="item" separator=",">
@@ -273,7 +289,8 @@
 		            #{item.code},
 		            #{item.code_label},
 		            #{item.code_desc},
-		            #{item.parent_code}, 
+		            #{item.parent_code},
+		            #{item.code_index}, 
 		            1
 		           )
 		    </foreach>
@@ -292,6 +309,11 @@
 	  ORDER BY l.log_idx desc
     </select>
 
+	<select id="getStoreIdxByMemberIdx" resultType="Integer">
+	    SELECT store_idx
+	    FROM store
+	    WHERE member_idx = #{member_idx}
+	</select>
     
     
 </mapper>

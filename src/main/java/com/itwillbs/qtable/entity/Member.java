@@ -84,8 +84,9 @@ public class Member {
     @Column(name = "marketing_agreed")
     private boolean marketingAgreed;
     
-    @Column(name = "q_money")
-    private int qMoney;
+    @Column(name = "q_money" ,insertable = true)
+    @Builder.Default
+    private int qMoney = 5000;
     
     @Column(name = "no_show_count")
     private int noShowCount;

@@ -2,6 +2,7 @@ package com.itwillbs.qtable.vo.admin;
 
 import java.time.LocalDateTime;
 
+import com.itwillbs.qtable.config.MaskingUtils;
 import com.itwillbs.qtable.entity.Jeongsan;
 
 import lombok.Data;
@@ -23,6 +24,8 @@ public class JeongsanListVO {
 	private String rejection_reason;
 	private String account_number;
 	private String bank_code;
+	private String member_status;
+	private LocalDateTime leave_at;
 	
 	public JeongsanListVO(Jeongsan entity) {
 		this.jeongsan_idx = entity.getJeongsanIdx();
@@ -32,6 +35,17 @@ public class JeongsanListVO {
 		this.requested_at = entity.getRequestedAt();
 		this.processed_at = entity.getProcessedAt();
 		this.rejection_reason = entity.getRejectionReason();
+	}
+	
+	public void applyMasking() {
+        // 탈퇴 상태이고, 탈퇴일이 존재하며, 3개월 이내일 때
+        if ("mstat_02".equals(this.member_status) &&
+            this.leave_at != null &&
+            this.leave_at.isAfter(LocalDateTime.now().minusMonths(3))) 
+        {
+            this.account_number = ("*****");
+            this.bank_code = ("*****");
+        }
 	}
 	
 	

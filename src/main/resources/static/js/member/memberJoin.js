@@ -258,32 +258,38 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 $(function() {
-	$("#emailsand").click(function() {
-		var $btn = $(this);
-		if ($btn.prop("disabled")) return;
+    $("#emailsand").click(function() {
+        var $btn = $(this);
+        if ($btn.prop("disabled")) return;
 
-		// 버튼 누르자마자 비활성화
-		$btn.prop("disabled", true);
+        $btn.prop("disabled", true);
 
-		$.ajax({
-			type: "POST",
-			url: "/send",
-			data: { email: $("#email").val() },
-			success: function(result) {
-				$("#uerEmailMsg").text("인증번호가 발송되었습니다.").removeClass("error").addClass("success");
-				//버튼 누르고 1분후 다시 클릭 가능(중복으로 insert방지)
-				setTimeout(function() {
-					$btn.prop("disabled", false);
-				}, 1 * 60 * 1000);
-			},
-			error: function() {
-				$("#uerEmailMsg").text("메일 전송 실패!").removeClass("success").addClass("error");
-				$btn.prop("disabled", false);
-			}
-		});
-	});
+        $.ajax({
+            type: "POST",
+            url: "/send",
+            data: { email: $("#email").val() },
+            success: function(result) {
+                $("#uerEmailMsg")
+                    .text(result)
+                    .removeClass("error")
+                    .addClass("success");
+
+                // 버튼 10초 후 다시 클릭 가능 (서버에서 호출하는중에 중복클릭 방지)
+                setTimeout(function() {
+                    $btn.prop("disabled", false);
+                }, 1 * 10 * 1000);
+            },
+            error: function(xhr) {
+                $("#uerEmailMsg")
+                    .text(xhr.responseText) // 서버에서 반환한 에러 메시지 표시
+                    .removeClass("success")
+                    .addClass("error");
+
+                $btn.prop("disabled", false);
+            }
+        });
+    });
 });
-
 let emailVerified = false; // 인증 여부 저장
 
 $(function() {

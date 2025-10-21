@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreSubscribe">
+	
+	<!-- 새로운 구독권 삽입 -->
+	<insert id="insertNewSubscribe"
+		useGeneratedKeys="true"
+		keyProperty="subscribe_idx"
+	>
+		insert into subscribe(
+			member_idx
+			,subscribe_start
+			,subscribe_end
+		)values(
+			#{member_idx}
+			,#{subscribe_start}
+			,#{subscribe_end}
+		)
+	</insert>
+	
+	<!-- 새 결제 기록 삽입 -->
+	<insert id="insertNewPaylog"
+		useGeneratedKeys="true"
+		keyProperty="payment_idx"
+	>
+		insert into payment(
+			<if test="reference_idx != null">
+				reference_idx,
+			</if>
+			payment_amount
+			,pay_way
+			,pay_type
+			,pay_status
+			,pay_reference
+			,member_idx
+		)values(
+			<if test="reference_idx != null">
+				#{reference_idx},
+			</if>
+			#{payment_amount}
+			,'pywy_01'
+			,'pyus_05'
+			,'pyst_01'
+			,'pyref_03'
+			,#{member_idx}
+		)
+	</insert>
+	
+	
+	<!-- 구독권 찾아오는 쿼리문 -->
+	<select id="selectSubscribe">
+		select subscribe_idx
+			,member_idx
+			,subscribe_start
+			,subscribe_end
+		from subscribe
+		where member_idx = #{member_idx}
+	</select>
+	
+	<!-- 구독 유무 확인 -->
+	<select id="checkSubscribe">
+		select count(*)
+		from subscribe
+		where member_idx = #{member_idx}
+	</select>
+	
+	<!-- 사용자 QMONEY 들고오기 -->
+	<select id="selectQmoneyByMemberidx">
+		select q_money 
+		from member
+		where member_idx = #{member_idx}
+	</select>
+	
+	<!-- QMONEY 갱신(감소) -->
+	<update id="reduceUserQMoney">
+		update member
+		set q_money = q_money - #{cost}
+		where member_idx = #{member_idx}
+	</update>
+
+	<!-- 기존 구독권 갱신 -->
+	<update id="updateSubscribe">
+		update subscribe
+		set subscribe_end = #{subscribe_end}
+		where subscribe_idx = #{subscribe_idx}
+		and member_idx = #{member_idx}
+	</update>
+
+</mapper>

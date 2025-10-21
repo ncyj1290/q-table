@@ -42,6 +42,7 @@ $(function() {
 	                <td><input type="text" placeholder="코드 라벨"></td>
 					<td><input type="text" placeholder="코드 설명"></td>
 	                <td><input type="text" placeholder="부모코드 ID"></td>
+					<td><input type="text" placeholder="순서"></td>
 	                <td><button class="negative-button">삭제</button></td> </tr>
 	        `;
 	        $('.editable-table tbody').append(newRowHtml);
@@ -94,7 +95,8 @@ $(function() {
 			            code: inputs.eq(0).val(),              // 코드 명
 			            code_label: inputs.eq(1).val(),        // 코드 라벨
 						code_desc: inputs.eq(2).val(),        // 코드 설명
-			            parent_code: inputs.eq(3).val() || null // 부모코드 ID
+			            parent_code: inputs.eq(3).val() || null, // 부모코드 ID
+						code_index: inputs.eq(4).val()
 			        };
 			        
 			        // 유효성 검사

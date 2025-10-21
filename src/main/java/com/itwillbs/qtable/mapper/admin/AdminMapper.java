@@ -75,5 +75,7 @@ public interface AdminMapper {
     
     // 회원 로그 목록 리스트 조회
     List<UserLogVO> findUserLogList();
+    
+    Integer getStoreIdxByMemberIdx(Integer member_idx); // 반환 타입 Integer
 	
 }

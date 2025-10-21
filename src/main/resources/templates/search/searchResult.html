@@ -8,7 +8,7 @@
 				<div class="result-text-area-top">
 					<div class="store-name-scrap">
 						<span class="store-name" th:text="${store.store_name}">가게 이름</span>
-						<img src="/img/scrap.png" class="scrap">
+						<img th:src="${store.is_scrapped} ? @{/img/scrap_full.png} : @{/img/scrap.png}" class="scrap" th:data-idx="${store.store_idx}">
 					</div>
 					<div class="rating-loc"> 
 						<span class="star">★</span> 
@@ -18,8 +18,8 @@
 					</div>
 					<div class="date">
 						<i class="bi bi-clock-fill"></i> 
-						<span>평일</span> · 
-						<span th:text="|${store.open_time} ~ ${store.close_time}|">16:00 ~ 02:00</span>
+						<span th:text="|${store.holiday} 휴무|">평일</span> · 
+						<span th:text="${store.is_24hour} ? 24시간 : |${store.open_time} ~ ${store.close_time}|">16:00 ~ 02:00</span>
 					</div>
 					<div class="payment">
 						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
@@ -47,10 +47,11 @@
 				</div>
 			</div>
 			<div class="img-area">
-				<img th:src="@{store.image_url}">
+				<img th:src="@{${store.image_url}}">
 			</div>
 		</div>
-		<a class="positive-button" th:href="@{store_detail_main(store_idx=${store.store_idx})}">예약하러 가기</a>
+		<a th:if="${store.is_accept}" class="positive-button" th:href="@{store_detail_main(store_idx=${store.store_idx})}">예약하러 가기</a>
+		<a th:unless="${store.is_accept}" class="negative-button" th:text="|현재 예약이 불가합니다 식당으로 문의 바랍니다|"></a>
 	</div>
 	<div class="no-result" th:if="${storeList.isEmpty()}"> <!-- th:if="${모델값.isEmpty()}" -->
 		<img src="img/Q_money_norice.png" alt="큐머니아이콘">

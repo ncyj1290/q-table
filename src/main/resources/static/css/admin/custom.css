@@ -327,6 +327,7 @@ body.detail-page-layout .page-container {
     width: 25rem;
     height: 2.5rem;
     padding-left: 10px;
+	margin-bottom: 3px;
 }
 
 .wide-input-page-wrapper .component-write {

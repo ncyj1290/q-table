@@ -381,8 +381,19 @@ function reset(el) {
 			$('#price-slider')[0].noUiSlider.reset();
 			searchState.price = null;
 		}
-		if(isAtmosphere) searchState.atmosphere = [];
-		if(isFacility) searchState.facility = [];	
+		if (isAtmosphere) { // isAtmosphere가 jQuery 객체라면 if (isAtmosphere.length > 0) 권장
+		    searchState.atmosphere = [];
+		    $(el).closest('.parent').find('.keyword').each(function() {
+				console.log('분우기ㅣ111')
+		        $(this).removeClass('active');
+		    });
+		}
+		if(isFacility) {
+			searchState.facility = [];	
+			$(el).closest('.parent').find('.keyword').each(function() {
+		        $(this).removeClass('active');
+		    });
+		}
 	}		
 	// ================================
 	//    모달 부분 
