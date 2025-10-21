@@ -31,19 +31,18 @@
 			<div class="review-item">
 				<div class="review-info">
 					<div class="store-title">
-						<div class="name-star-group">
-							<span class="store-name">야끼니꾸 서면점</span>
-							<span class="star">★ 4.8(647)</span>
+						<div class="name-star-group" th:each="review : ${myReviews}">
+							<span class="store-name" th:text="${review.store_name}"></span>
+							<span class="star" th:text="${review.avgScore}"></span>
 						</div>
 					</div>
 					<div class="review-image-row">
 						<img src="/img/review_photo.jpg" class="review-img" />
 						<img src="/img/review_photo2.jpg" class="review-img" />
 					</div>
-					<span class="content"> 너무 맛있어요!</span>
-					<span class="content"> 천상의 맛. 다음에 또 방문할게요</span>
+					<span class="content" th:text="${review.content}"></span>
 					<div class="date-row">
-						<span class="date">2025.09.21</span>
+						<span class="date" th:text="${review.create_at}"></span>
 						<div class="review-buttons">
 							<button class="negative-button" data-type="deleteBtn">삭제</button>
 							<button class="positive-button" data-type="editBtn">수정</button>
