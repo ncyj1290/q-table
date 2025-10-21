@@ -21,43 +21,48 @@
 		<div th:replace="mypage/mypageNav :: mainnav"></div>
 		<div style="display: flex; align-items: center;">
 			<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
-			<span class="history-label"  >방문 내역</span>
+			<span class="history-label">방문 내역</span>
 		</div>
 
-	<div id="reservationContent"></div>
+		<div id="reservationContent"></div>
+		<div id="reservationContent"></div>
+					<div class="reservation-empty-content">
+						<div class="reserve-text">방문한 매장이 없어요</div>
+						<div class="reserve-text">맛집을 찾으러 가볼까요?</div>
+						<a th:href="@{/search}">
+							<button class="positive-button"
+							style="width: 180px; height: 50px; font-size: 25px; border-radius: 10px; justify-content: center; margin-top: 10px;">맛집 찾아보기</button>
+						</a>
+					</div>
 		<div class="visit-list">
-			<th:block th:fragment="listFragment">
-				<div class="tab-content visit-item" id="rsrt">
-					<div class="reservation-item" th:each="item : ${upcomingList}">
-						<img th:src="@{${item.store_img}}" class="store-img" />
-						<div class="visit-info">
-							<div class="store-title">
-								<div class="name-star-group">
-									<span th:text="${item.store_name}" class="store-name"></span> <span
-										th:text="'★ ' + ${item.avgScore}" class="star"></span>
-								</div>
-								<img src="/img/scrap.png" class="scrap-icon" />
+				<div class="reservation-item" th:each="item : ${upcomingList}">
+			<div class="visit-item" id="rsrt">
+					<img th:src="@{${item.store_img}}" class="store-img" />
+					<div class="visit-info">
+						<div class="store-title">
+							<div class="name-star-group">
+								<span th:text="${item.store_name}" class="store-name"></span> <span
+									th:text="'★ ' + ${item.avgScore}" class="star"></span>
 							</div>
-							<span class="desc" th:text="${item.store_content}"></span></span> <span
-								class="desc">매장 번호:&nbsp;&nbsp;<span class="desc"
-								th:text="${item.store_phone}"></span></span> <span class="desc">매장
-								주소:&nbsp;&nbsp;<span class="desc" th:text="${item.full_address}"></span>
-							</span> <span class="date" th:text="${item.reserve_dt}"></span></span>
-							<div class="visit-buttons">
-								<button class="positive-button" style="margin-right: 10px;"
-									data-type="reviewBtn">리뷰 작성</button>
-								<button class="positive-button" data-type="revisitBtn">재방문
-									하기</button>
-							</div>
+							<img src="/img/scrap.png" class="scrap-icon"
+								th:attr="data-store-idx=${item['store_idx']}" />
+						</div>
+							<span class="desc">매장 번호 | &nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
+							<span class="desc">매장 주소 | &nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
+							<span class="desc">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}">> </span></span>
+						 	<span class="date" th:text="${item.store_content}"></span></span>
+						<div class="visit-buttons">
+							<button class="positive-button" style="margin-right: 10px;" data-type="reviewBtn">리뷰
+								작성</button>
+							<button class="positive-button" data-type="revisitBtn">재방문
+								하기</button>
 						</div>
 					</div>
 				</div>
-
-				<!-- 반복 -->
+			</div>
+			<div th:replace="mypage/pick :: mainnav"></div>
 		</div>
-		<div th:replace="mypage/pick :: mainnav"></div>
 	</div>
-
 </body>
 
 </html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.qtable.mapper.mypage.ReviewMapper">
+
+<!--	<select id="selectReviewsByMember" resultType="map">-->
+<!--		SELECT-->
+<!--		r.review_idx,-->
+<!--		r.content,-->
+<!--		r.score,-->
+<!--		r.created_at,-->
+<!--		s.store_name,-->
+<!--		s.store_img-->
+<!--		FROM review r-->
+<!--		JOIN store s ON r.store_idx = s.store_idx-->
+<!--		WHERE r.member_idx = #{member_idx}-->
+<!--		ORDER BY r.created_at DESC-->
+<!--	</select>-->
+
+
+</mapper>

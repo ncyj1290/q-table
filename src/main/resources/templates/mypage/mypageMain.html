@@ -47,8 +47,10 @@
 							</div>
 							<img src="/img/scrap_full.png" class="scrap-icon" />
 						</div>
-						<span class="desc" th:text="${item.store_content}"></span>
-						<span class="date" th:text="${item.reserve_dt}"></span>
+							<span class="desc">매장 번호 | &nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
+							<span class="desc">매장 주소 | &nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
+							<span class="desc">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}">> </span></span>
+						 	<span class="date" th:text="${item.store_content}"></span></span>
 						<div class="reservation-buttons">
 							<button class="positive-button " style="width: 130px;" data-type="rebookBtn">재예약 하기</button>
 						</div>

@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
+import com.itwillbs.qtable.service.member.MemberService;
+import com.itwillbs.qtable.service.mypage.PasswordService;
 import com.itwillbs.qtable.service.mypage.ReservationListService;
+import com.itwillbs.qtable.service.mypage.ReviewService;
 import com.itwillbs.qtable.service.mypage.ScrapService;
 import com.itwillbs.qtable.service.pay.KakaoPayService;
 import com.itwillbs.qtable.service.storeManagement.StoreDataService;
@@ -35,45 +39,23 @@ import lombok.extern.java.Log;
 public class MyPageController {
 
 	private final KakaoPayService kakaoPayService;
+
 	private final ReservationListService reservationService;
+
 	private final ScrapService scrapService;
+
+	private final ReviewService reviewService;
+
+	private final MemberService memberService;
+
+	private final PasswordEncoder passwordEncoder;
+
+	private final PasswordService passwordService;
 
 	@GetMapping("/mypage_main")
 	public String mypageMain() {
 
 		return "mypage/mypageMain";
-	}
-
-	@GetMapping("/mypage_review")
-	public String mypageReview() {
-
-		return "mypage/mypageReview";
-	}
-
-	@GetMapping("/mypage_scrap")
-	public String mypageScrap(@AuthenticationPrincipal QtableUserDetails qtable, Model model) {
-		int memberIdx = qtable.getMember().getMemberIdx();
-		List<Map<String, Object>> list = scrapService.getScrapList(memberIdx);
-		System.out.println(list);
-		model.addAttribute("upcomingList", list);
-		return "mypage/mypageScrap";
-	}
-
-	// 스크랩 추가/해제
-	@PostMapping("/scrap/toggle")
-	@ResponseBody
-	public Map<String, Object> toggleScrap(@RequestParam("storeIdx") int storeIdx,
-			@AuthenticationPrincipal QtableUserDetails qtable) {
-		int memberIdx = qtable.getMember().getMemberIdx();
-		scrapService.toggleScrap(memberIdx, storeIdx);
-		return Map.of("status", "success");
-	}
-
-	@GetMapping("/mypage_history")
-	public String mypageHistory(@RequestParam(value="reserveResult", required=false) String reserveResult, Model model) {
-		  System.out.println("reserveResult: " + reserveResult);
-
-		return "mypage/mypageHistory";
 	}
 
 	@GetMapping("/mypage_payment")
@@ -116,10 +98,64 @@ public class MyPageController {
 		return "mypage/profileSettings";
 	}
 
+	@GetMapping("/password")
+	public String password() {
+
+		return "mypage/password";
+	}
+
 	private String getMemberIdx(QtableUserDetails userDetails) {
 		Member member = userDetails.getMember();
 		return String.valueOf(member.getMemberIdx());
 		// String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨
+	}
+
+	// 리뷰 가져오기
+	@GetMapping("/mypage_review")
+	public String mypageReview(@AuthenticationPrincipal QtableUserDetails userDetails, Model model) {
+		String memberIdx = getMemberIdx(userDetails);
+		List<Map<String, Object>> myReviews = reviewService.getMyReviews(memberIdx);
+		model.addAttribute("myReviews", myReviews);
+
+		return "mypage/mypageReview";
+	}
+
+	// 스크랩 불러오기
+	@GetMapping("/mypage_scrap")
+	public String mypageScrap(@AuthenticationPrincipal QtableUserDetails qtable, Model model) {
+		int memberIdx = qtable.getMember().getMemberIdx();
+		List<Map<String, Object>> list = scrapService.getScrapList(memberIdx);
+		System.out.println(list);
+		model.addAttribute("upcomingList", list);
+		return "mypage/mypageScrap";
+	}
+
+	// 스크랩 추가/해제
+	@PostMapping("/scrap/toggle")
+	@ResponseBody
+	public Map<String, Object> toggleScrap(@RequestParam("storeIdx") int storeIdx,
+			@AuthenticationPrincipal QtableUserDetails qtable) {
+		int memberIdx = qtable.getMember().getMemberIdx();
+		scrapService.toggleScrap(memberIdx, storeIdx);
+		return Map.of("status", "success");
+	}
+
+	// 방문내역 불러오기
+	@GetMapping("/mypage_history")
+	public String mypageHistory(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
+			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
+		System.out.println("reserveResult 파라미터 값: " + reserveResult);
+		String memberIdx = getMemberIdx(userDetails);
+
+		// 방문완료만 필터
+		if (reserveResult == null || reserveResult.isEmpty()) {
+			reserveResult = "rsrt_01";
+		}
+
+		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
+		model.addAttribute("upcomingList", upcomingList);
+
+		return "mypage/mypageHistory";
 	}
 
 	// 예약&취소 조회
@@ -145,7 +181,7 @@ public class MyPageController {
 		return (upcomingList != null && !upcomingList.isEmpty()) ? "mypage/reservationList" : "mypage/mypageMain";
 	}
 
-	// 예약취소
+	// 예약취소 업데이트
 	@PostMapping("/reservation_cancel")
 	@ResponseBody
 	public Map<String, Object> reservationCancel(@RequestParam("reserveIdx") int reserveIdx,
@@ -177,4 +213,40 @@ public class MyPageController {
 		return result;
 	}
 
+	// 현재 비밀번호
+	@PostMapping("/CheckCurrentPassword")
+	@ResponseBody
+	public Map<String, Object> checkCurrentPassword(@RequestParam("current_pass") String currentPass,
+			@AuthenticationPrincipal QtableUserDetails userDetails) {
+		boolean isValid = false;
+
+		// 저장된 해시 비밀번호 불러오기
+		String storedHashedPassword = userDetails.getMember().getMemberPw();
+
+		// 비밀번호 비교 (BCrypt 사용 시)
+		isValid = passwordEncoder.matches(currentPass, storedHashedPassword);
+
+		return Map.of("isValid", isValid);
+	}
+
+	// 새로운 비밀번호
+	@PostMapping("/UpdatePassword")
+	@ResponseBody
+	public Map<String, Object> updatePassword(@RequestParam("current_pass") String currentPass,
+			@RequestParam("new_pass") String newPass, @AuthenticationPrincipal QtableUserDetails userDetails) {
+		try {
+			String storedHashedPassword = userDetails.getMember().getMemberPw();
+
+			if (!passwordEncoder.matches(currentPass, storedHashedPassword)) {
+				return Map.of("success", false, "message", "현재 비밀번호가 올바르지 않습니다.");
+			}
+
+			// 새 비밀번호 해시화 후 저장
+			passwordService.updatePassword(userDetails.getMember().getMemberIdx(), newPass);
+
+			return Map.of("success", true);
+		} catch (Exception e) {
+			return Map.of("success", false, "message", "비밀번호 변경 중 오류가 발생했습니다.");
+		}
+	}
 }

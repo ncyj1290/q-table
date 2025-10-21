@@ -1,17 +1,6 @@
 let currentStat = "rsrt_05";  // 기본 예약상태 초기값 할당
-document.addEventListener('DOMContentLoaded', () => {
-	const historyLink = document.querySelector('a#nav-history');
-	if (!historyLink) return;
 
-	historyLink.addEventListener('click', (e) => {
 
-		showTab('rsrt', historyLink, 'rsrt_01', () => {
-			console.log("클릭!");
-			// Ajax 완료 콜백 함수 (showTab 호출 시 콜백 전달 필요)
-//			window.location.href = historyLink.href;
-		});
-	});
-});
 function showTab(tabId, element, reserveResult) {	
 	console.log("showTab 실행중!", tabId, reserveResult);
 	
@@ -88,4 +77,7 @@ $(document).on('click', 'button[data-type="cancelBtn"]', function() {
 		}
 	});
 });
+
+
+
 

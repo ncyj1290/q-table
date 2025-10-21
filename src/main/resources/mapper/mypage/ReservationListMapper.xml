@@ -31,6 +31,7 @@
 	 ORDER BY 	rv.created_at DESC
 	</select>	
 	
+	
 	<!-- 예약 상태 업데이트 -->
    <update id="updateReservationStatus">
    	  UPDATE 	reservation
