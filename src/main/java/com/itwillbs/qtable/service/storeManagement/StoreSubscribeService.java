@@ -19,6 +19,11 @@ public class StoreSubscribeService {
 	@Autowired
 	StoreSubscribe storeSubscribe;
 	
+	/* 구독권 있나 없나 확인하는 서비스 */
+	public int checkSubscribe(int member_idx) {
+		return storeSubscribe.checkSubscribe(member_idx);
+	}
+	
 	/* 구독권 정보 가져오는 서비스 */
 	public SubscribeVO selectSubscribe(int member_idx) {
 		return storeSubscribe.selectSubscribe(member_idx);

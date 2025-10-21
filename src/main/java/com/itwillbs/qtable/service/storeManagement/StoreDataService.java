@@ -30,8 +30,11 @@ public class StoreDataService {
 	/* 매장 프로필에 사용될 기본 정보같은거 불러와서 모델에 처박는 서비스 */
 	public void injectStoreProfileByOwnerIdx(Model model, int member_idx) {
 		
-		SubscribeVO subscribe = storeSubscribeService.selectSubscribe(member_idx);
-		if(subscribe.getSubscribe_end() != null) model.addAttribute("subscribe", subscribe);
+		/* 구독권 있으면 이 정보도 일단 집어넣게 함 */
+		if(storeSubscribeService.checkSubscribe(member_idx) == 1) {
+			SubscribeVO subscribe = storeSubscribeService.selectSubscribe(member_idx);
+			model.addAttribute("subscribe", subscribe);
+		}
 		
 		/* 스토어 기본(프로필) 정보고 spData라는 이름으로 들어감 */
 		StoreVO spData = storeData.selectStoreProfileByOwnerIdx(member_idx);
