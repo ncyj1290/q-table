@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itwillbs.qtable.entity.EmailVerification;
 import com.itwillbs.qtable.repository.EmailVerificationRepository;
+import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.service.email.EmailService;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,23 +22,44 @@ import lombok.RequiredArgsConstructor;
 public class EmailController {
 
 	private final EmailService emailService;
+	private final MemberRepository memberRepository;
 	private final EmailVerificationRepository emailVerificationRepository;
+	
 
-	@PostMapping("/send")
-	public String sendMail(@RequestParam("email") String email, HttpSession session) {
-		String authCode = emailService.sendSimpleEmail(email);
-		EmailVerification verification = new EmailVerification();
-		verification.setEmail(email);
-		verification.setVerification_code(authCode);
-		verification.setCreateAt(LocalDateTime.now());
-		verification.setExpiresAt(LocalDateTime.now().plusMinutes(5));
-		emailVerificationRepository.save(verification);
-		System.out.println("이메일 인증번호: " + authCode);
-		System.out.println("받은 이메일: " + email);
-		System.out.println("현재시간: " + LocalDateTime.now());
-		System.out.println("만료시간: " + verification.getExpiresAt());
-		return "메일 발송 완료!";
-	}
+	 // 이메일 인증번호 발송
+    @PostMapping("/send")
+    public ResponseEntity<String> sendMail(@RequestParam("email") String email) {
+
+        // 이미 가입된 이메일 체크
+        boolean exists = memberRepository.existsByEmail(email);
+        if (exists) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("이미 가입된 이메일입니다.");
+        }
+
+        // 인증번호 생성 및 이메일 발송
+        String authCode;
+        try {
+            authCode = emailService.sendHtmlEmail(email);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("메일 발송 실패!");
+        }
+
+        // 인증번호 DB 저장
+        EmailVerification verification = new EmailVerification();
+        verification.setEmail(email);
+        verification.setVerification_code(authCode);
+        verification.setCreateAt(LocalDateTime.now());
+        verification.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+        emailVerificationRepository.save(verification);
+
+        //  콘솔 로그 (디버깅용)
+        System.out.println("이메일: " + email + ", 인증번호: " + authCode +
+                           ", 만료: " + verification.getExpiresAt());
+
+        return ResponseEntity.ok("인증번호가 발송되었습니다. 인증 유효기간은 5분입니다.");
+    }
 
 	@PostMapping("/verify")
 	public ResponseEntity<String> verify(@RequestParam("email") String email,

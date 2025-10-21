@@ -12,7 +12,7 @@ public class EmailTestRunner implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		 emailService.sendSimpleEmail(
+		 emailService.sendHtmlEmail(
 		            "tmddyd6004@gmail.com"
 		        );	
 	}

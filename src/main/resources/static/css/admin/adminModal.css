@@ -43,9 +43,11 @@
 
 /* 모달 바디 */
 .modal-body .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 2px;
 }
 
+
+/*(승용)모달창 라벨 좌우로 */
 .modal-body .form-group label {
   display: block;
   font-weight: bold;
@@ -69,6 +71,28 @@
 	width: 100px;
 	height: 2.5rem;
 	border-radius: 25px;
+}
+
+.validation-msg.error {
+  color: red;
+}
+
+.validation-msg.success {
+  color: green;
+}
+
+.validation-msg{
+	display: block;
+	height: 20px;
+	margin-bottom: 3px;
+	margin-left: 15px;
+}
+
+.validation-msg.name{
+	display: block;
+	height: 10px;
+	margin-bottom: 3px;
+	
 }
 
 
