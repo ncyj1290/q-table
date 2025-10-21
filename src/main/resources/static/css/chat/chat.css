@@ -127,8 +127,8 @@
 }
 
 .chat-messages-area {
-    background-image: url('/img/Q-table_logo.png');
-    background-size: 70% 100%;
+    background-image: url('/img/logo.png');
+    background-size: 50% 25%;
     background-repeat: no-repeat;
     background-color: rgba(255, 255, 255, 0.6); /* 흰색+투명 덮기 */
     background-blend-mode: lighten; /* or overlay / multiply 등 시도 가능 */

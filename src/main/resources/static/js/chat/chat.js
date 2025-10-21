@@ -8,6 +8,10 @@ const MAX_IMAGES = 3;
 let currentRoomId = null;
 let selectedImages = [];
 
+// WebSocket 관련 변수
+let stompClient = null;  // STOMP 클라이언트
+let currentSubscription = null;  // 현재 구독 객체
+
 $(function() {
 	const $messageInput = $('.chat-message-input');
 	const $sendButton = $('.positive-button');
@@ -23,7 +27,10 @@ $(function() {
 	// ===================================
 	// 이벤트 리스너
 	// ===================================
-
+	
+	// 페이지 로드 시 WebSocket 연결
+	connectWebSocket();
+	
 	// 페이지 로드 시 스크롤 맨 아래로
 	scrollToBottom();
 
@@ -97,7 +104,86 @@ $(function() {
 	// 함수 정의
 	// ===================================
 
-	// 현재 시간 가져오기 (HH:MM 형식)
+	// WebSocket 연결
+	function connectWebSocket() {
+		// SockJS와 STOMP를 사용하여 WebSocket 연결
+		const socket = new SockJS('/ws-chat');
+		stompClient = Stomp.over(socket);
+		// 로그 끄기 키려면 주석  
+		stompClient.debug = null;
+
+		// 연결 성공 시 콜백
+		stompClient.connect({}, function() {
+			console.log('WebSocket 연결 성공');
+		}, function(error) {
+			// 연결 실패 시 콜백
+			console.error('WebSocket 연결 실패:', error);
+			// 5초 후 재연결 시도
+			setTimeout(connectWebSocket, 5000);
+		});
+	}
+
+	// 채팅방 구독
+	function subscribeToRoom(roomIdx) {
+		// 이전 구독이 있으면 해제
+		if (currentSubscription) {
+			currentSubscription.unsubscribe();
+		}
+
+		// 새로운 채팅방 구독
+		currentSubscription = stompClient.subscribe('/topic/chat/' + roomIdx, function(message) {
+			// 메시지 수신 시 화면에 표시
+//			const chatMessage = JSON.parse(message.body);
+//			displayReceivedMessage(chatMessage);
+		});
+
+//		console.log('채팅방 구독:', roomIdx);
+	}
+
+	// 수신한 메시지를 화면에 표시
+	function displayReceivedMessage(chatMessage) {
+		let messageHtml = '';
+
+		// 시간 포맷팅 
+		const time = new Date(chatMessage.timestamp).toLocaleTimeString('ko-KR', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false 
+		});
+
+		// 메시지 타입에 따라 다르게 표시
+		if (chatMessage.type === 'ENTER' || chatMessage.type === 'LEAVE') {
+			// 입장/퇴장 메시지
+			// TODO 페이지 입장/이동 시 ? 아니면 채팅방 나가기 버튼 구현 ? 
+			messageHtml = `
+				<div class="date-divider">
+					<span>${chatMessage.message}</span>
+				</div>
+			`;
+		} else {
+			// 일반 메시지
+			// TODO: 현재 로그인한 사용자 ID와 비교하여 sent/received 구분
+			// 일단 임시로 received로 표시
+			messageHtml = `
+				<div class="message-container received">
+					<div class="message-profile">
+						<div class="profile-image"></div>
+					</div>
+					<div class="message-content">
+						<div class="message-area">
+							<p>${chatMessage.message}</p>
+						</div>
+						<div class="message-time">${time}</div>
+					</div>
+				</div>
+			`;
+		}
+
+		$messagesArea.append(messageHtml);
+		scrollToBottom();
+	}
+
+	// 현재 시간 가져오기 
 	function getCurrentTime() {
 		const now = new Date();
 		const hours = String(now.getHours()).padStart(2, '0');
@@ -120,7 +206,19 @@ $(function() {
 		// 메시지와 이미지 둘 다 없으면 리턴
 		if (message.trim() === '' && selectedImages.length === 0) return;
 
-		// 이미지가 있으면 이미지 메시지 먼저 추가
+		// 현재 채팅방이 선택되지 않았으면 리턴
+		if (!currentRoomId) {
+			alert('채팅방을 선택해주세요.');
+			return;
+		}
+
+		// WebSocket이 연결되지 않았으면 리턴
+		if (!stompClient || !stompClient.connected) {
+			alert('연결 중입니다. 잠시 후 다시 시도해주세요.');
+			return;
+		}
+
+		// 이미지가 있으면 이미지 메시지 먼저 추가 (임시 - 추후 파일 업로드 구현 필요)
 		if (selectedImages.length > 0) {
 			selectedImages.forEach(function(file) {
 				const reader = new FileReader();
@@ -143,25 +241,36 @@ $(function() {
 			clearAllPreviews();
 		}
 
-		// 텍스트 메시지가 있으면 나중에 추가
+		// 텍스트 메시지가 있으면 WebSocket으로 전송 (TODO:하드코딩중)
 		if (message.trim() !== '') {
-			setTimeout(function() {
-				let messageHtml = `
-					<div class="message-container sent">
-						<div class="message-content">
-							<div class="message-time">${getCurrentTime()}</div>
-							<div class="message-area">
-								<p>${message}</p>
-							</div>
+			// 채팅 메시지 객체 생성
+			const chatMessage = {
+				type: 'TALK',
+				roomIdx: currentRoomId,
+				senderIdx: 1,  // TODO: 실제 로그인한 사용자 IDX로 변경
+				senderName: '테스트이름',  // TODO: 실제 로그인한 사용자 이름으로 변경
+				message: message
+			};
+
+			// WebSocket으로 메시지 전송
+			stompClient.send('/app/chat/send', {}, JSON.stringify(chatMessage));
+			
+			// 내가 보낸 메시지 화면에 표시
+			let messageHtml = `
+				<div class="message-container sent">
+					<div class="message-content">
+						<div class="message-time">${getCurrentTime()}</div>
+						<div class="message-area">
+							<p>${message}</p>
 						</div>
 					</div>
-				`;
-				$messagesArea.append(messageHtml);
-				scrollToBottom();
-			}, 100);
-		}
+				</div>
+			`;
+			$messagesArea.append(messageHtml);
+			scrollToBottom();
 
-		$messageInput.val('');
+			$messageInput.val('');
+		}
 	}
 
 	// 이미지 미리보기 표시 (여러 개)
@@ -241,6 +350,11 @@ $(function() {
 		// 채팅방 헤더 이름 변경
 		let roomName = $('.chat-room-item[data-room-id="' + roomId + '"]').find('.chat-room-name').text();
 		$('.chat-content-header h3').text(roomName);
+
+		// WebSocket이 연결되어 있으면 채팅방 구독
+		if (stompClient && stompClient.connected) {
+			subscribeToRoom(roomId);
+		}
 
 		// 메시지 목록 로드 (백엔드 구현 들어가면 추가 예정)
 		// TODO: loadMessages(roomId);
