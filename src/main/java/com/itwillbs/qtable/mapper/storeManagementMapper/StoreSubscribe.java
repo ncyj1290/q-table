@@ -3,6 +3,7 @@ package com.itwillbs.qtable.mapper.storeManagementMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.itwillbs.qtable.service.storeManagement.PaymentVO;
 import com.itwillbs.qtable.vo.storeManagement.SubscribeVO;
 
 
@@ -13,6 +14,9 @@ public interface StoreSubscribe {
 	/* 구독정보 찾아오는 쿼리문 */
 	SubscribeVO selectSubscribe(@Param("member_idx") int member_idx);
 	
+	/* 구매 기록 남기는 쿼리문 */
+	int insertNewPaylog(PaymentVO paymentVo);
+		
 	/* 구독권 있나 확인하는 쿼리문 */
 	int checkSubscribe(@Param("member_idx") int member_idx);
 	

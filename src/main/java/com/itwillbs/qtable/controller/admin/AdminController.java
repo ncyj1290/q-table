@@ -61,15 +61,14 @@ public class AdminController {
 	
 //	매장 회원관리 페이지
     @GetMapping("/admin_detail/{member_idx}")
-    public String adminDetail(@PathVariable("member_idx") Integer member_idx,			
-    						  @RequestParam("store_idx") Integer storeIdx,
+    public String adminDetail(@PathVariable("member_idx") Integer member_idx,		
     						  Model model) {
     	
     	// 회원 기본 정보 조회
     	MemberDetailVO memberDetailVO = adminService.findMemberDetail(member_idx);
     	
 		// 매장 기본 정보 조회
-		Map<String, Object> storeData = StoreDetailService.getStoreInfo(storeIdx);
+		Map<String, Object> storeData = adminService.getStoreInfoByMemberIdx(member_idx);
 		
     	
     	model.addAttribute("member", memberDetailVO);

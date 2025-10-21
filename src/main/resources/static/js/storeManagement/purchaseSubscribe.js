@@ -49,18 +49,16 @@ $(function(){
 				
 				success: function(res){
 					hideLoader();
-					
-					console.log("Check Return: " + res.bool);
-					console.log("Check Return: " + res.msg);
 					alert(res.msg);
-					
 					location.href="store_management_main";
 				},
 				
 				error: function(){
+					hideLoader();
 					alert("결제 도중 문제가 발생했습니다. 잠시 후 다시 이용해주세요.");
 					localtion.reload(true);
-				}
+				},
+	
 			});	
 		}
 	});

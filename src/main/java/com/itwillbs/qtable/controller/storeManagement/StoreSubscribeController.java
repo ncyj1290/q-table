@@ -18,7 +18,6 @@ import com.itwillbs.qtable.mapper.storeManagementMapper.StoreCommonCode;
 import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import com.itwillbs.qtable.service.storeManagement.StoreSubscribeService;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
-import com.itwillbs.qtable.vo.storeManagement.SubscribeVO;
 
 /* 맴버쉽 구매 페이지 관련 컨트롤러 */
 @Controller
