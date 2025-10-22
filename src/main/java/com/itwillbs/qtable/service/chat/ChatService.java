@@ -43,5 +43,10 @@ public class ChatService {
 	public List<Map<String, Object>> getChatRoomList(Integer memberIdx) {
 		return chatMapper.getChatRoomListByMember(memberIdx);
 	}
-	
+
+	// 특정 채팅방의 메시지 목록 조회
+	public List<Map<String, Object>> getChatMessages(Integer roomIdx) {
+		return chatMapper.getChatMessagesByRoomIdx(roomIdx);
+	}
+
 }

@@ -95,11 +95,11 @@ public class SecurityConfig {
 	            
 	            // 3. 인가된 사용자(로그인한 모든 사용자)만 접근 가능한 경로는 여기에 추가
 	            .requestMatchers(
-	                "/chat", "/on_site_payment", "/reservation", "/mypage_main",
+	                "/chat", "/api/chat/**", "/on_site_payment", "/reservation", "/mypage_main",
 	                "/mypage_review", "/mypage_scrap", "/mypage_history",
 	                "/reservation_list", "/reservation_cancel", "/qmoney_charge",
 	                "/setting", "/card_edit", "/member_delete**", "/profile_settings",
-	                "/api/member_delete_social", "/ws-chat", "/ws-chat/**"
+	                "/api/member_delete_social"
 	            ).authenticated()
 	
 	            // 4.그 외 모든 비로그인까지 모두 허용되는 경로는 여기에 추가 
@@ -107,7 +107,8 @@ public class SecurityConfig {
 	                "/", "/find_account**", "/member_join**", "/terms_of_use",
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
 	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore",
-	                "/api/search_getSubLocation","/send","/verify","/api/search", "/checkMemberId","/checkBusinessNo"
+	                "/api/search_getSubLocation","/send","/verify","/api/search", "/checkMemberId","/checkBusinessNo",
+	                "/ws-chat/**"
 	            ).permitAll()
 	            
 	            .requestMatchers(

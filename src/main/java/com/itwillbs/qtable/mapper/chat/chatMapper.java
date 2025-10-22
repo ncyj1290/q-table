@@ -17,4 +17,7 @@ public interface chatMapper {
 
 	// 사용자의 모든 채팅방 목록 조회
 	public List<Map<String, Object>> getChatRoomListByMember(@Param("memberIdx") Integer memberIdx);
+
+	// 특정 채팅방의 메시지 목록 조회 (채팅방 인덱스 기준)
+	public List<Map<String, Object>> getChatMessagesByRoomIdx(@Param("roomIdx") Integer roomIdx);
 }
