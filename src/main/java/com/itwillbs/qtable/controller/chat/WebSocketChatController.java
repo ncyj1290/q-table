@@ -1,10 +1,13 @@
 package com.itwillbs.qtable.controller.chat;
 
+import com.itwillbs.qtable.config.QtableUserDetails;
+import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.vo.chat.ChatMessageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
@@ -28,7 +31,14 @@ public class WebSocketChatController {
 	 * @param message 전송된 채팅 메시지
 	 */
 	@MessageMapping("/chat/send")
-	public void sendMessage(@Payload ChatMessageVO message) {
+	public void sendMessage(@Payload ChatMessageVO message, Authentication authentication) {
+
+		QtableUserDetails userDetails = (QtableUserDetails) authentication.getPrincipal();
+		Member member = userDetails.getMember();
+		Integer senderIdx = member.getMemberIdx();
+		message.setSenderIdx(senderIdx);
+		message.setSenderName(member.getMemberName());
+		
 		// 메시지 전송 시간 설정
 		message.setTimestamp(LocalDateTime.now());
 

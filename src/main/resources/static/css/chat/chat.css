@@ -37,9 +37,14 @@
 }
 
 .chat-room-list {
-	height: 400px;
+	height: 100%;
 	overflow-y: auto;
+	max-height: 585px;
 }
+
+.chat-room-list::-webkit-scrollbar {
+	display: none;
+} 
 
 .chat-room-item {
 	display: flex;
@@ -128,11 +133,11 @@
 
 .chat-messages-area {
     background-image: url('/img/logo.png');
-    background-size: 50% 25%;
+    background-size: 50%;
     background-repeat: no-repeat;
     background-color: rgba(255, 255, 255, 0.6); /* 흰색+투명 덮기 */
     background-blend-mode: lighten; /* or overlay / multiply 등 시도 가능 */
-    background-position: 100px;
+    background-position: 200px;
     flex: 1;
     padding: 20px;
     overflow-y: scroll;

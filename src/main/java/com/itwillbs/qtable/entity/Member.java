@@ -99,4 +99,7 @@ public class Member {
     
     @Column(name = "social_id")
     private String socialId;
+    
+    @Column(name = "nickname")
+    private String nickName;
 }

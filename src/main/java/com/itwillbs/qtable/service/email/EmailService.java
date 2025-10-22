@@ -19,8 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class EmailService {
 	private final JavaMailSender mailSender;
 
-	public String sendHtmlEmail(String to) throws MessagingException{
-		String authCode = AuthUtil.generateAuthCode();
+	public void sendHtmlEmail(String to,String authCode) throws MessagingException{
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		try {
@@ -32,7 +31,7 @@ public class EmailService {
 		helper.setTo(to);
 		helper.setSubject("[Q-Table] 가입인증 메일");
 		String htmlContent = "<div style=\"width: 400px; margin: 0 auto; padding: 20px; "
-        + "border: 1px solid #FABFBF; border-radius: 10px;, sans-serif;\">"
+        + "border: 1px solid #FABFBF; border-radius: 10px; sans-serif;\">"
         + "<h2 style=\"color: #333; text-align: center;\">[Q-Table] 이메일 인증</h2>"
         + "<p style=\"font-size: 16px; color: #555;\">아래 인증번호를 입력해주세요.</p>"
         + "<p style=\"font-size: 24px; font-weight: bold; text-align: center; "
@@ -43,7 +42,6 @@ public class EmailService {
 		helper.setText(htmlContent, true);
 		mailSender.send(message);
 		
-		return authCode;
 	}
 	
     

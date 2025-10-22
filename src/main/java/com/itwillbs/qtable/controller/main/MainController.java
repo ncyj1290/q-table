@@ -1,6 +1,5 @@
 package com.itwillbs.qtable.controller.main;
 
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,28 +20,32 @@ import lombok.RequiredArgsConstructor;
 public class MainController {
 	private final StoreService storeService;
 	private final ImageService imageService;
-	
-	
+
 	@GetMapping("/")
 	public String home(Model model) {
-	    List<Store> stores = storeService.getAllStores();
+		List<Store> stores = storeService.getAllStores();
 
-	    // 1. 스토어 idx 리스트 수집
-	    List<Integer> storeIdx = stores.stream()
-	                                   .map(Store::getStoreIdx)
-	                                   .toList();
+		// 1. 스토어 idx 리스트 수집
+		List<Integer> storeIdx = stores.stream().map(Store::getStoreIdx).toList();
 
-	    // 2. 한 번의 쿼리로 모든 메인 이미지 조회
-	    List<Image> mainImages = imageService.getMainImages("imguse_01", storeIdx);
+		// storeIdx에 해당하는 매장의 프로필 이미지(imguse_01)를 모두 조회
+		List<Image> mainImages = imageService.getMainImages("imguse_01", storeIdx);
+//		List<Image> localImages = imageService.getLocalImages("imguse_06", storeIdx);
 
-	    // 3. StoreIdx 기준 Map 생성 (value 타입 Image로)
-	    Map<Integer, Image> imageMap = mainImages.stream()
-	                                             .collect(Collectors.toMap(Image::getTargetIdx, img -> img));
+		// 3. StoreIdx 기준 Map 생성 (value 타입 Image로)
+		Map<Integer, Image> imageMap = mainImages.stream().collect(Collectors.toMap(Image::getTargetIdx, img -> img));
 
-	    // 4. Store에 이미지 세팅
-	    stores.forEach(store -> store.setMainImage(imageMap.get(store.getStoreIdx())));
+		// 4. Store에 이미지 세팅
+		stores.forEach(store -> store.setMainImage(imageMap.get(store.getStoreIdx())));
 
-	    model.addAttribute("stores", stores);
-	    return "index"; 
+		// 전체 stores 리스트에서 Sido가 "부산"인 매장만 필터링하여 busanStores 리스트에 저장
+		List<Store> busanStores = stores.stream().filter(s -> "부산".equals(s.getSido())).toList();
+		List<Store> seoulStores = stores.stream().filter(s -> "서울".equals(s.getSido())).toList();
+
+		// 6. 모델에 추가
+		model.addAttribute("stores", stores);
+		model.addAttribute("busanStores", busanStores);
+		model.addAttribute("seoulStores", seoulStores);
+		return "index";
 	}
 }

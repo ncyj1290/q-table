@@ -18,7 +18,7 @@
 					</div>
 					<div class="date">
 						<i class="bi bi-clock-fill"></i> 
-						<span th:text="|${store.holiday} 휴무|">평일</span> · 
+						<span th:text="${store.holiday.isEmpty()} ? 매일 : |${store.holiday} 휴무|">평일</span> · 
 						<span th:text="${store.is_24hour} ? 24시간 : |${store.open_time} ~ ${store.close_time}|">16:00 ~ 02:00</span>
 					</div>
 					<div class="payment">

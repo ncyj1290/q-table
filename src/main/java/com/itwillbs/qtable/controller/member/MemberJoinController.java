@@ -37,12 +37,24 @@ public class MemberJoinController {
 	@PostMapping("/member_join_Pro")
 	public String member_join_Pro(Member member) {
 		
+		// 닉네임이 비어있으면 랜덤 닉네임 생성 및 세팅
+	    if (member.getNickName() == null || member.getNickName().isEmpty()) {
+	        String randomNick = memberJoinService.generateRandomNickname(); // 서비스에 생성 메서드 만들기
+	        member.setNickName(randomNick);
+	    }
+		
 		memberJoinService.save(member);
 		
 		return "redirect:/login";
 	}
 	@PostMapping("/member_join_Pro_admin")
 	public String member_join_Pro_admin(Member member) {
+
+		//랜덤 닉네임 생성
+		if (member.getNickName() == null || member.getNickName().isEmpty()) {
+			String randomNick = memberJoinService.generateRandomNickname();
+			member.setNickName(randomNick);
+		}
 
 	    memberJoinService.save(member); 
 
@@ -53,5 +65,11 @@ public class MemberJoinController {
 	public boolean checkMemberId(@RequestParam("memberId") String id) {
 	    boolean exists = userRepository.existsByMemberId(id);
 	    return !exists;
+	}	
+	@ResponseBody
+	@GetMapping("/checkBusinessNo")
+	public boolean checkBusinessNo(@RequestParam("businessRegNo") String businessRegNo) {
+		boolean exists = userRepository.existsByBusinessRegNo(businessRegNo);
+		return !exists;
 	}	
 }

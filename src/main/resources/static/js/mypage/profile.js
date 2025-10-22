@@ -10,10 +10,28 @@ profileImage.addEventListener('click', function() {
 fileInput.addEventListener('change', function(event) {
   const reader = new FileReader();
   reader.onload = function(e) {
-    profileImage.src = e.target.result; // 이미지 변경
+    profileImage.src = e.target.result;
   };
   if (event.target.files[0]) {
     reader.readAsDataURL(event.target.files[0]);
+
+    // 파일 서버로 전송
+    const formData = new FormData();
+    formData.append('profileImage', event.target.files[0]);
+
+    $.ajax({
+      url: '/uploadProfileImage',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function() {
+        alert('이미지가 성공적으로 저장되었습니다.');
+      },
+      error: function() {
+        alert('이미지 저장에 실패했습니다.');
+      }
+    });
   }
 });
 
