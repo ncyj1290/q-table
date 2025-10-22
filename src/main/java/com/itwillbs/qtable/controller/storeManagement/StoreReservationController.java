@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreCommonCode;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreReservation;
+import com.itwillbs.qtable.service.storeManagement.QrService;
 import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import com.itwillbs.qtable.service.storeManagement.StoreReservationService;
 import com.itwillbs.qtable.util.PagingHandler;
@@ -28,6 +29,10 @@ import com.itwillbs.qtable.vo.storeManagement.StoreVO;
 
 @Controller
 public class StoreReservationController {
+	
+	/* Just For Test */
+	@Autowired
+	QrService qrService;
 	
 	@Autowired
 	StoreDataService storeDataService;
@@ -51,7 +56,12 @@ public class StoreReservationController {
 		StoreVO sData = (StoreVO) model.getAttribute("spData");
 		
 		int storeIdx = sData.getStore_idx();
-
+		
+		/* Test URL FOR Create QR => 현장 결제 URL */
+		String url = qrService.buildUrl(storeIdx);
+		System.out.println("Check QR URL: " + url);
+		/* ============================================ */
+		
 		/* 예약 리스트 가져오는 부분 + 페이지네이션*/
 		PageVO pageVo = PagingHandler.pageHandler(pageNum, () -> storeReservationService.countReservationByStoreIdx(storeIdx, filter));
 		List<ReservationVO> reservationList = storeReservationService.selectReservationByStoreIdx(storeIdx, pageVo.getStartRow(), pageVo.getListLimit(), filter);
