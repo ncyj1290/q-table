@@ -54,4 +54,10 @@ public class MemberJoinController {
 	    boolean exists = userRepository.existsByMemberId(id);
 	    return !exists;
 	}	
+	@ResponseBody
+	@GetMapping("/checkBusinessNo")
+	public boolean checkBusinessNo(@RequestParam("businessRegNo") String businessRegNo) {
+		boolean exists = userRepository.existsByBusinessRegNo(businessRegNo);
+		return !exists;
+	}	
 }

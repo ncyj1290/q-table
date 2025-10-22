@@ -90,7 +90,7 @@ public class Store {
     private LocalDateTime appliedAt;
     
     
-    //뷰ㅇ
+    //뷰
     @Transient
     private Image mainImage;
 

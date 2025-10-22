@@ -36,16 +36,15 @@ public class EmailController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                  .body("이미 가입된 이메일입니다.");
         }
+        String authCode = AuthUtil.generateAuthCode();
 
         // 인증번호 생성 및 이메일 발송
-        String authCode;
         try {
-            authCode = emailService.sendHtmlEmail(email);
+             emailService.sendHtmlEmail(email,authCode);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body("메일 발송 실패!");
         }
-
         // 인증번호 DB 저장
         EmailVerification verification = new EmailVerification();
         verification.setEmail(email);

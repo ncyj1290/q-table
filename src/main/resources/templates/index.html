@@ -21,24 +21,37 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list restaurant-list">
-					<div th:each="restaurant, iterStat : ${stores}" th:if="${iterStat.index < 10}" class="card">
-						<a th:href="@{/store_detail_main(store_idx=${restaurant.storeIdx})}" 
-						   style="text-decoration: none; color: inherit;">
+
+					<!-- 0~9까지 숫자 반복해서 10개 카드 자리 확보 -->
+					<div th:each="i : ${#numbers.sequence(0,9)}" class="card">
+
+						<!-- 실제 레스토랑 데이터가 있는 경우 -->
+						<a th:if="${i < stores.size()}" th:href="@{/store_detail_main(store_idx=${stores[i].storeIdx})}"
+							style="text-decoration: none; color: inherit;">
 							<div class="card-image">
-								<img th:if="${restaurant.mainImage != null}" 
-								        th:src="@{${restaurant.mainImage.imageUrl}}" 
-								        alt="메인 이미지" 
-								        style="width:100%; height:100px;">
-								   <span th:if="${restaurant.mainImage == null}">이미지 없음</span>
+								<img th:if="${stores[i].mainImage != null}" th:src="@{${stores[i].mainImage.imageUrl}}"
+									alt="메인 이미지" style="width:100%; height:100px;">
+								<span th:if="${stores[i].mainImage == null}">이미지 없음</span>
 							</div>
 							<div class="card-info">
-								<h4 th:text="${restaurant.storeName}">식당이름</h4>
-								<p th:text="'예약금: ' + ${restaurant.deposit} + 원">예약금</p>
-								<p th:text="'위치: ' + ${restaurant.fullAddress}">위치</p>
-								<p th:text="'영업시간: ' + ${restaurant.openTime} + ' ~ ' + ${restaurant.closeTime}">영업시간
-								</p>
+								<h4 th:text="${stores[i].storeName}">식당이름</h4>
+								<p th:text="'예약금: ' + ${stores[i].deposit} + '원'">예약금</p>
+								<p th:text="'위치: ' + ${stores[i].fullAddress}">위치</p>
+								<p th:text="'영업시간: ' + ${stores[i].openTime} + ' ~ ' + ${stores[i].closeTime}">영업시간</p>
 							</div>
 						</a>
+
+						<!-- 데이터가 없는 경우 빈 카드 -->
+						<div th:if="${i >= stores.size()}">
+							<div class="card-image" style="background:#f0f0f0; height:100px;"></div>
+							<div class="card-info">
+								<h4 style="color: #aaa;">식당 없음</h4>
+								<p>예약금: -</p>
+								<p>위치: -</p>
+								<p>영업시간: -</p>
+							</div>
+						</div>
+
 					</div>
 				</div>
 				<button class="scroll-btn right"></button>
@@ -49,16 +62,66 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list location-list">
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Gyeongbokgung.png" alt="종로구">
+							<span class="overlay-text">종로</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Myeongdong.png" alt="중구">
+							<span class="overlay-text">명동</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Haeundae.png" alt="해운대구">
+							<span class="overlay-text">해운대</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Hongdae.png" alt="마포구">
+							<span class="overlay-text">홍대</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Gwangalli.png" alt="수영구">
+							<span class="overlay-text">광안리</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/jeju.png" alt="제주시">
+							<span class="overlay-text">제주</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Cheonan.png" alt="천안시">
+							<span class="overlay-text">천안</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Incheon.png" alt="연수구">
+							<span class="overlay-text">인천</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Odongdo.png" alt="여수시">
+							<span class="overlay-text">여수</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-image">
+							<img src="/img/local/Namsan.png" alt="용산구">
+							<span class="overlay-text">용산구</span>
+						</div>
+					</div>
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
@@ -70,16 +133,39 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list restaurant-list">
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
+					<!-- 0~9까지 숫자 반복해서 10개 카드 자리 확보 -->
+					<div th:each="i : ${#numbers.sequence(0,9)}" class="card">
+						<!-- 실제 서울 레스토랑 데이터가 있는 경우 -->
+						<a th:if="${i < seoulStores.size()}"
+							th:href="@{/store_detail_main(store_idx=${seoulStores[i].storeIdx})}"
+							style="text-decoration: none; color: inherit;">
+							<div class="card-image">
+								<img th:if="${seoulStores[i].mainImage != null}"
+									th:src="@{${seoulStores[i].mainImage.imageUrl}}" alt="메인 이미지"
+									style="width:100%; height:100px;">
+								<span th:if="${seoulStores[i].mainImage == null}">이미지 없음</span>
+							</div>
+							<div class="card-info">
+								<h4 th:text="${seoulStores[i].storeName}">식당이름</h4>
+								<p th:text="'예약금: ' + ${seoulStores[i].deposit} + '원'">예약금</p>
+								<p th:text="'위치: ' + ${seoulStores[i].fullAddress}">위치</p>
+								<p th:text="'영업시간: ' + ${seoulStores[i].openTime} + ' ~ ' + ${seoulStores[i].closeTime}">영업시간</p>
+							</div>
+						</a>
+
+						<!-- 데이터가 없는 경우 빈 카드 -->
+						<div th:if="${i >= seoulStores.size()}">
+							<div class="card-image" style="background:#f0f0f0; height:100px;"></div>
+							<div class="card-info">
+								<h4 style="color: #aaa;">식당 없음</h4>
+								<p>예약금: -</p>
+								<p>위치: -</p>
+								<p>영업시간: -</p>
+							</div>
+						</div>
+
+					</div>
+
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
@@ -89,16 +175,41 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list restaurant-list">
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
-					<div class="card"></div>
+
+					<!-- 0~9까지 숫자 반복해서 10개 카드 자리 확보 -->
+					<div th:each="i : ${#numbers.sequence(0,9)}" class="card">
+
+						<!-- 실제 부산 레스토랑 데이터가 있는 경우 -->
+						<a th:if="${i < busanStores.size()}"
+							th:href="@{/store_detail_main(store_idx=${busanStores[i].storeIdx})}"
+							style="text-decoration: none; color: inherit;">
+							<div class="card-image">
+								<img th:if="${busanStores[i].mainImage != null}"
+									th:src="@{${busanStores[i].mainImage.imageUrl}}" alt="메인 이미지"
+									style="width:100%; height:100px;">
+								<span th:if="${busanStores[i].mainImage == null}">이미지 없음</span>
+							</div>
+							<div class="card-info">
+								<h4 th:text="${busanStores[i].storeName}">식당이름</h4>
+								<p th:text="'예약금: ' + ${busanStores[i].deposit} + '원'">예약금</p>
+								<p th:text="'위치: ' + ${busanStores[i].fullAddress}">위치</p>
+								<p th:text="'영업시간: ' + ${busanStores[i].openTime} + ' ~ ' + ${busanStores[i].closeTime}">영업시간</p>
+							</div>
+						</a>
+
+						<!-- 데이터가 없는 경우 빈 카드 -->
+						<div th:if="${i >= busanStores.size()}">
+							<div class="card-image" style="background:#f0f0f0; height:100px;"></div>
+							<div class="card-info">
+								<h4 style="color: #aaa;">식당 없음</h4>
+								<p>예약금: -</p>
+								<p>위치: -</p>
+								<p>영업시간: -</p>
+							</div>
+						</div>
+
+					</div>
+
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>

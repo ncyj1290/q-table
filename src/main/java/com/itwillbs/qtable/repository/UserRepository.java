@@ -6,4 +6,6 @@ import com.itwillbs.qtable.entity.Member;
 
 public interface UserRepository extends JpaRepository<Member, Long> {
 	 boolean existsByMemberId(String memberId);
+	 
+	 boolean existsByBusinessRegNo(String businessRegNo);
 }
