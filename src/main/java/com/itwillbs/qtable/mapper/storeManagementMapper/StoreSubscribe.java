@@ -16,6 +16,9 @@ public interface StoreSubscribe {
 	
 	/* 구매 기록 남기는 쿼리문 */
 	int insertNewPaylog(PaymentVO paymentVo);
+	
+	/* 만료된 구독권 삭제 쿼리문 */
+	int deleteExpiredSubscribe();
 		
 	/* 구독권 있나 확인하는 쿼리문 */
 	int checkSubscribe(@Param("member_idx") int member_idx);

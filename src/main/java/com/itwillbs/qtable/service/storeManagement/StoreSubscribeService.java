@@ -37,6 +37,12 @@ public class StoreSubscribeService {
 		return storeSubscribe.selectQmoneyByMemberidx(member_idx);
 	}
 	
+	/* 만료된 구독권 삭제 하는 서비스 */
+	public int deleteExpiredSubscribe() {
+		return storeSubscribe.deleteExpiredSubscribe();
+	}
+	
+	
 	/* 구독권 구매 처리 서비스 */
 	@Transactional
 	public boolean purchaseSubscribe(int member_idx, int cost, int plusDate) {

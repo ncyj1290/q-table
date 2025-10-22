@@ -49,6 +49,12 @@
 		)
 	</insert>
 	
+	<!-- 만료된 구독권 삭제 -->
+	<delete id="deleteExpiredSubscribe">
+		delete from subscribe
+		<!-- subscribe_end <= current_timestamp -->
+		where subscribe_end &lt;= current_timestamp
+	</delete>
 	
 	<!-- 구독권 찾아오는 쿼리문 -->
 	<select id="selectSubscribe">
