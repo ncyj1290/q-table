@@ -17,8 +17,14 @@ public class ReviewService {
 	@Autowired
     private ReviewMapper reviewMapper;
 
-    public List<Map<String, Object>> getMyReviews(String memberIdx) {
+    public List<Map<String, Object>> selectReviewsByMember(String memberIdx) {
+    	List<Map<String, Object>> reviews = reviewMapper.selectReviewsByMember(memberIdx);
         return reviewMapper.selectReviewsByMember(memberIdx);
     }
+
+    public void deleteReview(int reviewIdx, String memberIdx) {
+        reviewMapper.deleteReview(reviewIdx, memberIdx);
+    }
+
 
 }

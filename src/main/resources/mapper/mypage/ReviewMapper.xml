@@ -4,25 +4,36 @@
 	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.itwillbs.qtable.mapper.mypage.ReviewMapper">
-
+	
+<!--	리뷰 불러오기-->
 	<select id="selectReviewsByMember" resultType="map">
 		SELECT
-		r.review_idx,
-		r.content,
-		r.create_at,
-		s.store_name,
-		 (SELECT image_url
-				     FROM image
-				    WHERE target_type = 'imguse_01'
-				      AND target_idx = s.store_idx LIMIT 1) AS store_img,
-				  (SELECT ROUND(AVG(r.score), 2) 
-				     FROM review r 
-				    WHERE r.store_idx = s.store_idx) AS avgScore
-		FROM review r
-		JOIN store s ON r.store_idx = s.store_idx
-		WHERE r.member_idx = #{member_idx}
-		ORDER BY r.create_at DESC
+				 r.review_idx
+			   , r.content
+			   , r.create_at
+			   , s.store_name
+			   , 
+	   (SELECT 	 CONCAT('[', GROUP_CONCAT(JSON_QUOTE(i.image_url) ORDER BY i.image_idx ASC), ']')
+          FROM 	 image i
+     	 WHERE 	 i.target_type = 'imguse_05' 
+      	   AND 	 i.target_idx = r.review_idx) AS review_img,
+	   (SELECT 	 ROUND(AVG(r2.score), 2) 
+	      FROM 	 review r2 
+	     WHERE 	 r2.store_idx = s.store_idx) AS avgScore
+		  FROM 	 review r
+		  JOIN 	 store s 
+		    ON 	 r.store_idx = s.store_idx
+		 WHERE 	 r.member_idx = #{member_idx}
+	  ORDER BY 	 r.create_at DESC
+
 	</select>
 
+	<delete id="deleteReview">
+	  	DELETE FROM review
+	  	 WHERE review_idx = #{review_idx}
+	       AND member_idx = #{member_idx}
+	</delete>
+
+	
 
 </mapper>

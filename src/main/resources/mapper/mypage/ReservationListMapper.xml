@@ -8,36 +8,37 @@
 	<!--예약 관련 select-->
 	<select id="getMyReservationList" resultType="map">
 		SELECT
-				  s.store_idx
-				, s.store_name
-				, s.store_content
-				, s.store_phone
-				, s.full_address
-				, rv.reserve_idx
-				, (SELECT image_url
-				     FROM image
-				    WHERE target_type = 'imguse_01'
-				      AND target_idx = s.store_idx LIMIT 1) AS store_img,
-				  (SELECT ROUND(AVG(r.score), 2) 
-				     FROM review r 
-				    WHERE r.store_idx = s.store_idx) AS avgScore,
-				   CONCAT(rv.reserve_date, ' ', rv.reserve_time) AS reserve_dt
-		 FROM 	reservation rv
-				JOIN store s ON rv.store_idx = s.store_idx
-		WHERE 	rv.member_idx = #{member_idx}
+				 s.store_idx
+			   , s.store_name
+			   , s.store_content
+			   , s.store_phone
+		       , s.full_address
+		       , rv.reserve_idx
+		       , 
+	   (SELECT 	 image_url
+		  FROM   image
+	     WHERE   target_type = 'imguse_01'
+	       AND   target_idx = s.store_idx LIMIT 1) AS store_img,
+	   (SELECT   ROUND(AVG(r.score), 2) 
+	      FROM   review r 
+	     WHERE   r.store_idx = s.store_idx) AS avgScore,
+	   			 CONCAT(rv.reserve_date, ' ', rv.reserve_time) AS reserve_dt
+		  FROM 	 reservation rv
+				 JOIN store s ON rv.store_idx = s.store_idx
+		 WHERE 	 rv.member_idx = #{member_idx}
 	<if test="reserve_result != null and reserve_result != ''">
-    	  AND 	rv.reserve_result = #{reserve_result}
+    	   AND 	 rv.reserve_result = #{reserve_result}
     </if>
-	 ORDER BY 	rv.created_at DESC
+	  ORDER BY 	 rv.created_at DESC
 	</select>	
 	
 	
 	<!-- 예약 상태 업데이트 -->
    <update id="updateReservationStatus">
-   	  UPDATE 	reservation
-    	 SET 	reserve_result = #{reserve_result}
-       WHERE 	reserve_idx = #{reserve_idx}
-         AND 	member_idx = #{member_idx}
+   	  UPDATE reservation
+    	 SET reserve_result = #{reserve_result}
+       WHERE reserve_idx = #{reserve_idx}
+         AND member_idx = #{member_idx}
    </update>
 	
 	

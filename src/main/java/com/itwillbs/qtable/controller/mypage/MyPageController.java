@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.controller.mypage;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.service.member.MemberService;
@@ -105,20 +110,48 @@ public class MyPageController {
 
 	// 리뷰 가져오기
 	@GetMapping("/mypage_review")
-	public String mypageReview(@AuthenticationPrincipal QtableUserDetails userDetails, Model model) {
+	public String mypageReview(@AuthenticationPrincipal QtableUserDetails userDetails, Model model) throws Exception {
 		String memberIdx = getMemberIdx(userDetails);
-		List<Map<String, Object>> myReviews = reviewService.getMyReviews(memberIdx);
-		model.addAttribute("myReviews", myReviews);
+		List<Map<String, Object>> myReviews = reviewService.selectReviewsByMember(memberIdx);
+		
+		// 이미지 다중선택
+		//JSON 문자열을 List로 변환하는 데 사용하는 Jackson 라이브러리의 객체
+	    ObjectMapper mapper = new ObjectMapper();
 
+	    // 각 리뷰를 순회하며 review_img(JSON 문자열)를 List<String>으로 파싱해서 imgList라는 키로 저장
+	    for (Map<String, Object> review : myReviews) {
+	        // review_img 컬럼: 이미지 여러 개가 JSON 배열(String)로 되어 있다
+	        String jsonArr = (String) review.get("review_img");
+	        // JSON이 null이 아니고 빈 값도 아니라면 파싱
+	        if (jsonArr != null && !jsonArr.isEmpty()) {
+	            // JSON 문자열을 실제 List<String>으로 변환
+	            List<String> imgList = mapper.readValue(jsonArr, new TypeReference<List<String>>(){});
+	            review.put("imgList", imgList);
+	        } else {
+	            // 이미지가 없는 경우 빈 리스트 추가
+	            review.put("imgList", new ArrayList<>());
+	        }
+	    }
+		model.addAttribute("myReviews", myReviews);
 		return "mypage/mypageReview";
 	}
-
+	
+	//리뷰 삭제
+	@PostMapping("/delect_review")
+	@ResponseBody
+	public String deleteReview(@AuthenticationPrincipal QtableUserDetails userDetails, 
+							   @RequestParam("reviewIdx") int reviewIdx ) {
+		 System.out.println("리뷰 삭제 시도: reviewIdx=" + reviewIdx + ", memberIdx=" + getMemberIdx(userDetails));
+	    reviewService.deleteReview(reviewIdx, getMemberIdx(userDetails));
+	    return "success";
+	}
+	
+	
 	// 스크랩 불러오기
 	@GetMapping("/mypage_scrap")
 	public String mypageScrap(@AuthenticationPrincipal QtableUserDetails qtable, Model model) {
 		int memberIdx = qtable.getMember().getMemberIdx();
 		List<Map<String, Object>> list = scrapService.getScrapList(memberIdx);
-		System.out.println(list);
 		model.addAttribute("upcomingList", list);
 		return "mypage/mypageScrap";
 	}
@@ -136,8 +169,7 @@ public class MyPageController {
 	// 방문내역 불러오기
 	@GetMapping("/mypage_history")
 	public String mypageHistory(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
-			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
-		System.out.println("reserveResult 파라미터 값: " + reserveResult);
+								@RequestParam(value = "reserveResult", required = false) String reserveResult) {
 		String memberIdx = getMemberIdx(userDetails);
 
 		// 방문완료만 필터

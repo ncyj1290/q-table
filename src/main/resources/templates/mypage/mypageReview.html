@@ -8,6 +8,7 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageReview.css}">
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
+	<script th:src="@{/js/mypage/review.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>review</title>
 </head>
@@ -21,36 +22,32 @@
 			<span class="review-label">리뷰</span>
 		</div>
 
-		
-<!--			<div class="reservation-empty-content">-->
-<!--				<div class="reserve-text">작성한 리뷰가 없어요</div>-->
-<!--			</div>-->
-
 		<div class="review-list">
-
-			<div class="review-item">
+			<div class="review-item" th:each="review : ${myReviews}">
 				<div class="review-info">
 					<div class="store-title">
-						<div class="name-star-group" th:each="review : ${myReviews}">
+						<div class="name-star-group">
 							<span class="store-name" th:text="${review.store_name}"></span>
-							<span class="star" th:text="${review.avgScore}"></span>
+							<span class="star" th:text="'★' + ${review.avgScore}"></span>
 						</div>
 					</div>
-					<div class="review-image-row">
-						<img src="/img/review_photo.jpg" class="review-img" />
-						<img src="/img/review_photo2.jpg" class="review-img" />
+					<div class="review-image-row" >
+						<img th:each="img : ${review.imgList}" th:src="${img}" alt="리뷰사진" class="review-img" />
 					</div>
 					<span class="content" th:text="${review.content}"></span>
 					<div class="date-row">
 						<span class="date" th:text="${review.create_at}"></span>
 						<div class="review-buttons">
-							<button class="negative-button" data-type="deleteBtn">삭제</button>
+							<button class="negative-button" data-type="deleteBtn" th:data-review-idx="${review.review_idx}">삭제</button>
 							<button class="positive-button" data-type="editBtn">수정</button>
 						</div>
 					</div>
 				</div>
 			</div>
-
+		</div>
+		
+		<div class="reservation-empty-content" th:if="${#lists.isEmpty(myReviews)}">
+			<div class="reserve-text">작성한 리뷰가 없어요</div>
 		</div>
 	</div>
 

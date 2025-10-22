@@ -12,6 +12,7 @@ $(function() {
 	const $starElements = $('.star');
 	const $reviewImages = $('#reviewImages');
 	const $imagePreview = $('#imagePreview');
+	const $mypageReview = $('.visit-buttons .positive-button.review');
 
 	// URL에서 store_idx 가져오기
 	const urlParams = new URLSearchParams(window.location.search);
@@ -25,7 +26,10 @@ $(function() {
 	$reviewButton.on('click', function() {
 		$reviewModal.show();
 	});
-
+	
+	$mypageReview.on('click', function() {
+			$reviewModal.show();
+		});
 	// 모달 닫기 - X 버튼
 	$reviewModal.on('click', '.close', function() {
 		$reviewModal.hide();

@@ -9,5 +9,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ReviewMapper {
 	
-	List<Map<String, Object>> selectReviewsByMember(@Param("member_idx") String memberIdx);
+	List<Map<String, Object>> selectReviewsByMember(@Param("member_idx") String member_idx);
+
+	void deleteReview(@Param("review_idx") int review_idx, @Param("member_idx") String member_idx);
 }
