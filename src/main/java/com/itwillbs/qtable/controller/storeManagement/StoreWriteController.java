@@ -72,6 +72,8 @@ public class StoreWriteController {
 		storeWriteService.selectAllCommonCodeForStore(model);
 		
 		StoreVO sData = storeDataService.selectAllStoreData(user.getMember().getMemberIdx());
+		sData.setStore_phone(sData.getStore_phone().replace("-", "").trim());
+		
 		model.addAttribute("sData", sData);
 		
 		return "storeManagement/modifyStore";

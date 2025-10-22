@@ -27,7 +27,8 @@ $(function() {
 	/* 숫자가 아닌 문자 제거 함수 */
 	function onlyNumHandler($el){
 		let inputVal =  $el.val();
-		$el.val(inputVal.replace(/[^-0-9]/g, ""));
+//		$el.val(inputVal.replace(/[^-0-9]/g, ""));
+		$el.val(inputVal.replace(/\D/g, ""));
 	}
 	
 	
@@ -71,7 +72,6 @@ $(function() {
 	/* ==================================== */
 	/* 숫자 제외 입력 거부 */
 	$("#store_phone").on("keyup", function(){
-		checkPhoneNum();
 		onlyNumHandler($(this));
 	});
 	
@@ -365,21 +365,9 @@ $(function() {
 	
 	/* 매장 메뉴판 이미지 이름 표시 */
 	$(document).on('change', '.menu-board-layout input[type="file"]', function () {
-		
 		const file = this.files && this.files[0];
 		const $row = $(this).closest('.menu-board-layout');
-//		const $img = $row.find('img.store-profile');
 		const $name = $row.find('.menu-board-name');
-		
-//		if (!file) { 
-//			$img.attr('src', DEFAULT_IMG);
-//			return;
-//		}
-//		
-//		 const url = URL.createObjectURL(file);
-//			$img.attr('src', url).one('load', function () {
-//			URL.revokeObjectURL(url);
-//		});
 		
 		if ($name.length) $name.text(file.name);
 	});
@@ -391,12 +379,9 @@ $(function() {
 	/* ==================================== */
 	/* Submit */
 	$("#submit_bt").on("click", function(){
-		
-		/* 빈칸 검사 -> 필요시 그냥 주석해서 비활성화 */
-//		if(!checkInputNull()){
-//			return false;
-//		}
 
+		if(!checkInputNull() || !checkPhoneNum()) return false;
+		
 		/* 빈 칸 없으면 저장 진행 */
 		reindexSP();
 		reindexMenu();
@@ -410,9 +395,9 @@ $(function() {
 	/* 검사 로직 모음 */
 	/* ==================================== */
 	/* 임시 검사 버튼 */
-//	$("#test_bt").on("click", function(){
-//		checkBasicData();
-//	});
+	$("#test_bt").on("click", function(){
+		checkPhoneNum();
+	});
 	
 	/* 입력란 공백 검사 */
 	function checkInputNull(){
@@ -441,18 +426,21 @@ $(function() {
 	/* 휴대전화 번호 글자 길이 */
 	function checkPhoneNum(){
 		
-		let phoneNum = $("#store_phone").val()
+		const phoneRegex =  /^01[016-9]\d{8}$/;
 		
-		console.log(phoneNum.length);
+		let $phone = $("#store_phone");
+		let phoneNum = $phone.val()
+		let result = true;
 		
+		if(!phoneRegex.test(phoneNum)){
+			$phone.focus();
+			alert("휴대폰 번호 11자리를 올바르게 작성했는지 확인하세요!");
+			result = false;
+		}	
 		
+		console.log("Check Phone Num Regex Result: " + result);
+		return result;
 	}
-	
-	
-	
-	
-	
-	
 	/* ==================================== */
 
 });

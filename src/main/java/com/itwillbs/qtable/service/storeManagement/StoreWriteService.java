@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.reactive.TransactionSynchronizationManager;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,6 +97,9 @@ public class StoreWriteService {
 		String postCode = storeVO.getPost_code();
 		String address = storeVO.getAddress();
 		String addDetail = storeVO.getAddress_detail();
+		
+		/* 전화 번호에 (-) 추가 */
+		storeVO.setStore_phone(storeVO.getStore_phone().replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3"));
 		
 		String[] addressDiv = address.split(" ");
 		
