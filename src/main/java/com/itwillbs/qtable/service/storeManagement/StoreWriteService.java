@@ -229,6 +229,9 @@ public class StoreWriteService {
 		String address = storeVO.getAddress();
 		String addDetail = storeVO.getAddress_detail();
 		
+		/* 전화 번호에 (-) 추가 */
+		storeVO.setStore_phone(storeVO.getStore_phone().replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3"));
+		
 		String[] addressDiv = address.split(" ");
 		
 		System.out.println("Check Address Div: " + addressDiv.toString());
