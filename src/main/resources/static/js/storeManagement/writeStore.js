@@ -71,6 +71,7 @@ $(function() {
 	/* ==================================== */
 	/* 숫자 제외 입력 거부 */
 	$("#store_phone").on("keyup", function(){
+		checkPhoneNum();
 		onlyNumHandler($(this));
 	});
 	
@@ -436,6 +437,21 @@ $(function() {
 		/* 검사 통과 시 true 반환 */
 		return true
 	}
+	
+	/* 휴대전화 번호 글자 길이 */
+	function checkPhoneNum(){
+		
+		let phoneNum = $("#store_phone").val()
+		
+		console.log(phoneNum.length);
+		
+		
+	}
+	
+	
+	
+	
+	
 	
 	/* ==================================== */
 

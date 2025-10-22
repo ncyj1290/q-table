@@ -38,7 +38,6 @@ public class StoreDataService {
 		
 		/* 스토어 기본(프로필) 정보고 spData라는 이름으로 들어감 */
 		StoreVO spData = storeData.selectStoreProfileByOwnerIdx(member_idx);
-		System.out.println("Check SPDATA: " + spData.toString());
 
 		model.addAttribute("spData", spData);
 	}
