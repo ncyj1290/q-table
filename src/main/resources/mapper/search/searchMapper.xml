@@ -4,9 +4,15 @@
 	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.itwillbs.qtable.mapper.search.SearchKeywordListMapper">
-	<select id="selectSeatCntPriceRange">
+	<!-- 자주 사용하는 구문은 sql 선언  -->
+	<sql id="selectCommonCode">
 		SELECT * 
 		  FROM common_code
+	</sql>
+	
+	<!-- 사용할 쿼리문들 -->
+	<select id="selectSeatCntPriceRange">
+		<include refid="selectCommonCode"></include>
 		 WHERE group_code = #{group_code}
 	</select>
 	
@@ -18,22 +24,19 @@
 	</select>
 	
 	<select id="getSubLocation">
-		SELECT * 
-		  FROM common_code
+		<include refid="selectCommonCode"></include>
 		 WHERE group_code = 'location'
 		   and parent_code is not null 
 	  ORDER BY common_idx;
 	</select>
 	
 	<select id="getPerCnt">
-		select * 
-		  from common_code
+		<include refid="selectCommonCode"></include>
 		 where group_code = 'person_count';
 	</select>
 	
 	<select id="getTime">
-		select * 
-		  from common_code
+		<include refid="selectCommonCode"></include>
 		 where group_code = 'time';
 	</select>
 	
@@ -56,19 +59,59 @@
 		     , COUNT(r.content) reviewCnt
 		     , IFNULL(ROUND(SUM(r.score)/COUNT(r.review_idx),1),0) score
 		     , i.image_url
-		     , GROUP_CONCAT(distinct(cHoliday.code_label) ORDER BY cHoliday.code) 'holiday'
-			 , CASE WHEN us.store_idx is not null then 1 
+    		 , IFNULL(GROUP_CONCAT(DISTINCT(cHoliday.code_label) ORDER BY cHoliday.code), '') 'holiday'
+			 , CASE WHEN us.store_idx IS NOT NULL THEN 1 
                     ELSE 0
 			      END AS is_scrapped
 		FROM store s
-		JOIN common_code cOpen ON s.open_time = cOpen.code
-		JOIN common_code cClose ON s.close_time = cClose.code 
+		LEFT OUTER JOIN common_code cOpen ON s.open_time = cOpen.code
+		LEFT OUTER JOIN common_code cClose ON s.close_time = cClose.code 
 		LEFT OUTER JOIN review r ON s.store_idx = r.store_idx 
 		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx 
 		LEFT OUTER JOIN store_holiday h ON s.store_idx = h.store_idx 
 		LEFT OUTER JOIN common_code cHoliday ON h.store_holiday = cHoliday.code 
 		LEFT OUTER JOIN user_scrap us ON s.store_idx = us.store_idx
+		left outer join store_category sc on s.store_idx = sc.store_idx
+		left outer join store_atmosphere st on s.store_idx = st.store_idx
+		left outer join store_amenity sa on s.store_idx = sa.store_idx
 		WHERE i.target_type = 'imguse_01'
+		<if test="vo.loc != null">
+		    AND
+		    <foreach collection="vo.loc" item="locItem" open="(" separator="OR" close=")">
+		        (s.sigungu LIKE CONCAT('%', #{locItem}, '%') OR s.sido LIKE CONCAT('%', #{locItem}, '%'))
+		    </foreach>
+		</if>
+		<if test="vo.food != null">
+		    AND sc.store_category IN
+		    <foreach collection="vo.food" item="foodItem" open="(" separator="," close=")">
+		        #{foodItem}
+		    </foreach>
+		</if>
+		<if test="vo.atmosphere != null">
+		    and st.store_atmosphere in
+		    <foreach collection="vo.atmosphere" item="atmoItem" open="(" separator="," close=")">
+		        #{atmoItem}
+		    </foreach>
+		</if>
+		<if test="vo.facility != null">
+		    and sa.store_amenity in
+		    <foreach collection="vo.facility" item="facilityItem" open="(" separator="," close=")">
+		        #{facilityItem}
+		    </foreach>
+		</if>
+		<if test="vo.price != null">
+		    AND s.price_avg BETWEEN #{vo.price[0]} AND #{vo.price[1]}
+		</if>
+		<if test="vo.personCnt != null">
+			and s.store_seat >= #{vo.personCnt}
+		</if>
+<!-- 		and not EXISTS (SELECT 1   -->
+<!-- 					  FROM store_holiday sh -->
+<!-- 					 WHERE sh.store_idx = s.store_idx -->
+<!-- 					   AND sh.store_holiday in('srhd_01', 'srhd_02'))  -->
+		and (select code_label 
+			  from common_code 
+		     where code = 'time_40') between cOpen.code_label and cClose.code_label
 		GROUP BY s.store_idx
 		       , s.store_name
 		       , s.sido
