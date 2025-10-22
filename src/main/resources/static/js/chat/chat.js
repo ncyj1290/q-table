@@ -7,6 +7,7 @@ const MAX_IMAGES = 3;
 // 일반 변수
 let currentRoomId = null;
 let selectedImages = [];
+let currentUserIdx = null;  // 현재 로그인한 사용자 ID
 
 // WebSocket 관련 변수
 let stompClient = null;  // STOMP 클라이언트
@@ -27,6 +28,14 @@ $(function() {
 	// ===================================
 	// 이벤트 리스너
 	// ===================================
+
+	// 현재 사용자 ID 초기화 
+	const userIdElement = $('[data-current-user-idx]');
+	if (userIdElement.length > 0) {
+		currentUserIdx = parseInt(userIdElement.data('current-user-idx'));
+	}
+	
+	console.log(currentUserIdx);
 	
 	// 페이지 로드 시 WebSocket 연결
 	connectWebSocket();
@@ -133,50 +142,66 @@ $(function() {
 		// 새로운 채팅방 구독
 		currentSubscription = stompClient.subscribe('/topic/chat/' + roomIdx, function(message) {
 			// 메시지 수신 시 화면에 표시
-//			const chatMessage = JSON.parse(message.body);
-//			displayReceivedMessage(chatMessage);
+			const chatMessage = JSON.parse(message.body);
+			displayReceivedMessage(chatMessage);
 		});
 
-//		console.log('채팅방 구독:', roomIdx);
+		console.log('채팅방 구독:', roomIdx);
 	}
 
 	// 수신한 메시지를 화면에 표시
 	function displayReceivedMessage(chatMessage) {
 		let messageHtml = '';
 
-		// 시간 포맷팅 
+		// 시간 포맷팅
 		const time = new Date(chatMessage.timestamp).toLocaleTimeString('ko-KR', {
 			hour: '2-digit',
 			minute: '2-digit',
-			hour12: false 
+			hour12: false
 		});
 
 		// 메시지 타입에 따라 다르게 표시
 		if (chatMessage.type === 'ENTER' || chatMessage.type === 'LEAVE') {
 			// 입장/퇴장 메시지
-			// TODO 페이지 입장/이동 시 ? 아니면 채팅방 나가기 버튼 구현 ? 
 			messageHtml = `
 				<div class="date-divider">
 					<span>${chatMessage.message}</span>
 				</div>
 			`;
 		} else {
-			// 일반 메시지
-			// TODO: 현재 로그인한 사용자 ID와 비교하여 sent/received 구분
-			// 일단 임시로 received로 표시
-			messageHtml = `
-				<div class="message-container received">
-					<div class="message-profile">
-						<div class="profile-image"></div>
-					</div>
-					<div class="message-content">
-						<div class="message-area">
-							<p>${chatMessage.message}</p>
+			// 일반 메시지 - 발신자와 수신자 구분
+			const isSentByCurrentUser = chatMessage.senderIdx === currentUserIdx;
+			const messageContainerClass = isSentByCurrentUser ? 'sent' : 'received';
+
+			if (isSentByCurrentUser) {
+				// 내가 보낸 메시지
+				messageHtml = `
+					<div class="message-container ${messageContainerClass}">
+						<div class="message-content">
+							<div class="message-time">${time}</div>
+							<div class="message-area">
+								<p>${chatMessage.message}</p>
+							</div>
 						</div>
-						<div class="message-time">${time}</div>
 					</div>
-				</div>
-			`;
+				`;
+			} else {
+				// 다른 사람이 보낸 메시지
+				messageHtml = `
+					<div class="message-container ${messageContainerClass}">
+						<div class="message-profile">
+							<div class="profile-image"></div>
+							<span class="sender-name">${chatMessage.senderName}</span>
+						</div>
+						<div class="message-content">
+							<div class="message-area">
+								<p>${chatMessage.message}</p>
+							</div>
+							<div class="message-time">${time}</div>
+						</div>
+					</div>
+				`;
+			}
 		}
 
 		$messagesArea.append(messageHtml);
@@ -241,34 +266,20 @@ $(function() {
 			clearAllPreviews();
 		}
 
-		// 텍스트 메시지가 있으면 WebSocket으로 전송 (TODO:하드코딩중)
+		// 텍스트 메시지가 있으면 WebSocket으로 전송
 		if (message.trim() !== '') {
 			// 채팅 메시지 객체 생성
 			const chatMessage = {
 				type: 'TALK',
 				roomIdx: currentRoomId,
-				senderIdx: 1,  // TODO: 실제 로그인한 사용자 IDX로 변경
-				senderName: '테스트이름',  // TODO: 실제 로그인한 사용자 이름으로 변경
 				message: message
 			};
 
 			// WebSocket으로 메시지 전송
+			// 서버에서 브로드캐스트될 메시지를 수신해서 displayReceivedMessage로 표시됨
 			stompClient.send('/app/chat/send', {}, JSON.stringify(chatMessage));
-			
-			// 내가 보낸 메시지 화면에 표시
-			let messageHtml = `
-				<div class="message-container sent">
-					<div class="message-content">
-						<div class="message-time">${getCurrentTime()}</div>
-						<div class="message-area">
-							<p>${message}</p>
-						</div>
-					</div>
-				</div>
-			`;
-			$messagesArea.append(messageHtml);
-			scrollToBottom();
 
+			// 입력 필드 비우기
 			$messageInput.val('');
 		}
 	}

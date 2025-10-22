@@ -1,7 +1,10 @@
 package com.itwillbs.qtable.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -22,7 +25,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws-chat")  // WebSocket 접속 주소: ws://localhost:8080/ws-chat
 				.setAllowedOriginPatterns("*")  // 모든 Origin 허용 (개발용, 배포 시 수정 필요)
-				.withSockJS();  // SockJS 지원 (WebSocket 미지원 브라우저 대비)
+				.withSockJS()  // SockJS 지원 (WebSocket 미지원 브라우저 대비)
+				.setWebSocketEnabled(true)  // WebSocket 활성화
+				.setSessionCookieNeeded(true);  // 세션 쿠키 사용 (인증된 사용자용)
 	}
 
 	/**

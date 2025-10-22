@@ -99,7 +99,7 @@ public class SecurityConfig {
 	                "/mypage_review", "/mypage_scrap", "/mypage_history",
 	                "/reservation_list", "/reservation_cancel", "/qmoney_charge",
 	                "/setting", "/card_edit", "/member_delete**", "/profile_settings",
-	                "/api/member_delete_social"
+	                "/api/member_delete_social", "/ws-chat", "/ws-chat/**"
 	            ).authenticated()
 	
 	            // 4.그 외 모든 비로그인까지 모두 허용되는 경로는 여기에 추가 

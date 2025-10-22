@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.qtable.mapper.chat.chatMapper">
+	<insert id="insertChatRoom">
+		INSERT INTO chat_room (
+			   room_type
+			 , member_idx
+			 , store_idx
+	    ) VALUES (  
+			   #{roomType}
+			 , #{memberIdx}
+			 , #{storeIdx}
+		)
+	</insert>
+
+	<select id="getChatRoomByMemberAndStore" resultType="map">
+		SELECT
+			   room_idx
+			 , room_type
+			 , member_idx
+			 , store_idx
+		  FROM chat_room
+		 WHERE member_idx = #{memberIdx}
+		   AND store_idx = #{storeIdx}
+		 LIMIT 1
+	</select>
+
+	<!-- 사용자의 모든 채팅방 목록 조회 (매장 정보 포함) -->
+	<select id="getChatRoomListByMember" resultType="map">
+		SELECT
+			   cr.room_idx
+			 , cr.room_type
+			 , cr.member_idx
+			 , cr.store_idx
+			 , s.store_name
+			 , s.qr_code
+			 , cr.updated_at
+		  FROM chat_room cr
+		  LEFT JOIN store s ON cr.store_idx = s.store_idx
+		 WHERE cr.member_idx = #{memberIdx}
+		 ORDER BY cr.updated_at DESC
+	</select>
+
+</mapper>

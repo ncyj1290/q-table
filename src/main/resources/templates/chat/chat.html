@@ -9,6 +9,9 @@
 </head>
 <body>
 <div layout:fragment="Content">
+	<!-- 현재 사용자 ID (JavaScript에서 사용) -->
+	<div th:if="${#authentication != null}" th:data-current-user-idx="${#authentication.principal.member.memberIdx}" style="display: none;"></div>
+
 	<!-- 페이지 헤더 텍스트 -->
 	<div class="chat-page-header">
 		<h1>Q-Talk</h1>
@@ -23,47 +26,30 @@
 			<div class="chat-search-section">
 				<input type="text" class="component-write" placeholder="메시지 검색">
 			</div>
-			
+
 			<!-- 채팅방 리스트 영역 -->
-			<div class="chat-room-list">
-				<div class="chat-room-item" data-room-id="1">
-					<div class="chat-room-profile">
+			<div class="chat-room-list" id="chatRoomList">
+				<th:block th:if="${chatRoomList != null and chatRoomList.size() > 0}">
+					<th:block th:each="room : ${chatRoomList}">
+						<div class="chat-room-item" th:data-room-id="${room.room_idx}" th:data-store-id="${room.store_idx}">
+							<div class="chat-room-profile">
+							</div>
+							<div class="chat-room-info">
+								<div class="chat-room-name" th:text="${room.store_name != null ? room.store_name : '알 수 없는 매장'}">매장명</div>
+								<div class="chat-room-last-message">마지막 대화내용...</div>
+							</div>
+							<div class="chat-room-badge">
+								<span class="unread-count">0</span>
+							</div>
+						</div>
+						<div class="horizontal-line"></div>
+					</th:block>
+				</th:block>
+				<th:block th:if="${chatRoomList == null or chatRoomList.size() == 0}">
+					<div style="padding: 20px; text-align: center; color: #999;">
+						채팅방이 없습니다.
 					</div>
-					<div class="chat-room-info">
-						<div class="chat-room-name">관리자</div>
-						<div class="chat-room-last-message">마지막 대화내용...</div>
-					</div>
-					<div class="chat-room-badge">
-						<span class="unread-count">5</span>
-					</div>
-				</div>
-
-				<div class="horizontal-line"></div>
-
-				<div class="chat-room-item" data-room-id="2">
-					<div class="chat-room-profile">
-					</div>
-					<div class="chat-room-info">
-						<div class="chat-room-name">매장1</div>
-						<div class="chat-room-last-message">마지막 대화내용...</div>
-					</div>
-					<div class="chat-room-badge">
-					</div>
-				</div>
-
-				<div class="horizontal-line"></div>
-
-				<div class="chat-room-item" data-room-id="3">
-					<div class="chat-room-profile">
-					</div>
-					<div class="chat-room-info">
-						<div class="chat-room-name">매장2</div>
-						<div class="chat-room-last-message">마지막 대화내용...</div>
-					</div>
-					<div class="chat-room-badge">
-						<span class="unread-count">1</span>
-					</div>
-				</div>
+				</th:block>
 			</div>
 		</div>
 		
@@ -94,26 +80,6 @@
 				</div>
 				
 				<!-- 보낸 메시지 -->
-				<div class="message-container sent">
-					<div class="message-content">
-						<div class="message-time">17:00</div>
-						<div class="message-area">
-							<p>대화대화대화대화대화대화대화대화대화</p>
-							<p>대화대화대화대화대화대화대화대화대화</p>
-							<p>대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화</p>
-						</div>
-					</div>
-				</div>
-				<div class="message-container sent">
-					<div class="message-content">
-						<div class="message-time">17:00</div>
-						<div class="message-area">
-							<p>대화대화대화대화대화대화대화대화대화</p>
-							<p>대화대화대화대화대화대화대화대화대화</p>
-							<p>대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화</p>
-						</div>
-					</div>
-				</div>
 				<div class="message-container sent">
 					<div class="message-content">
 						<div class="message-time">17:00</div>
