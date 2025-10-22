@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.mapper.memberjoin.memerjoin;
 import com.itwillbs.qtable.repository.MemberRepository;
+import com.itwillbs.qtable.repository.UserRepository;
+import com.itwillbs.qtable.service.mypage.PasswordService;
+import com.itwillbs.qtable.service.mypage.RandomNickname;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,24 @@ public class MemberJoinService {
     private final memerjoin commonCodeMapper;
     
     private final PasswordEncoder passwordEncoder;
-		
+	
+    private final RandomNickname randomNickname;
+    private final PasswordService passwordService;
+    private final UserRepository userRepository;
+
+    // 랜덤 닉네임 생성
+    public String generateRandomNickname() {
+        String randomNick = randomNickname.generate();
+        while (passwordService.isNicknameDuplicate(randomNick)) {
+            randomNick = randomNickname.generate();
+        }
+        return randomNick;
+    }
+
+    // 랜덤 닉네임 생성
+    public void saves(Member member) {
+        userRepository.save(member);
+    }
 	
     public List<CommonCodeVO> getAllCodes() {
         return commonCodeMapper.selectAllCodes();

@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.repository.MemberRepository;
+import com.itwillbs.qtable.service.mypage.PasswordService;
+import com.itwillbs.qtable.service.mypage.RandomNickname;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -30,6 +32,10 @@ public class MemberService {
 	@Value("${kakao.unlink-uri}")
 	private String kakaoUnlink; 
     private final RestTemplate restTemplate = new RestTemplate(); 
+    
+    private final RandomNickname randomNickname;
+    private final PasswordService passwordService;
+    private final MemberRepository memberRepository;
     
 	@Transactional 
 	public void updateMemStatus(String accessToken) {
@@ -56,5 +62,17 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 회원을 찾을 수 없습니다."));
 		member.setMemberStatus("mstat_01");
 	}
+	
+	// 랜덤 닉네임 생성
+	public Member registerNewMember(Member member) {
+        if (member.getNickName() == null || member.getNickName().isEmpty()) {
+            String randomNick = randomNickname.generate();
+            while (passwordService.isNicknameDuplicate(randomNick)) {
+                randomNick = randomNickname.generate();
+            }
+            member.setNickName(randomNick);
+        }
+        return memberRepository.save(member);
+    }
 	
 }

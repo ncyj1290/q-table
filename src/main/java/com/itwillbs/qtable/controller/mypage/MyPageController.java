@@ -5,18 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
-import com.itwillbs.qtable.service.member.MemberService;
 import com.itwillbs.qtable.service.mypage.PasswordService;
 import com.itwillbs.qtable.service.mypage.ReservationListService;
 import com.itwillbs.qtable.service.mypage.ReviewService;
@@ -38,8 +41,6 @@ public class MyPageController {
 	private final ScrapService scrapService;
 
 	private final ReviewService reviewService;
-
-	private final MemberService memberService;
 
 	private final PasswordEncoder passwordEncoder;
 
@@ -205,28 +206,66 @@ public class MyPageController {
 		Map<String, Object> result = Map.of("balance", totalQmoney);
 		return result;
 	}
-	
-	// 닉네임 변경
-	@PostMapping("/UpdateNickname")
+
+	// 닉네임 중복 체크
+	@GetMapping("/checkNickname")
 	@ResponseBody
-	public Map<String, Object> updateNickname(@RequestParam String newNickname, 
+	public Map<String, Object> checkNicknameForProfile(@RequestParam("nickname") String nickname) {
+	    Map<String, Object> response = new HashMap<>();
+	    boolean isDuplicate = passwordService.isNicknameDuplicate(nickname);
+
+	    if (isDuplicate) {
+	        response.put("dupResult", true);
+	        response.put("text", "이미 사용 중인 닉네임입니다.");
+	        response.put("color", "red");
+	    } else {
+	        response.put("dupResult", false);
+	        response.put("text", "사용 가능한 닉네임입니다.");
+	        response.put("color", "green");
+	    }
+
+	    return response;
+	}
+
+	// 닉네임 변경
+	@PostMapping("/updateNickname")
+	@ResponseBody
+	public Map<String, Object> updateNickname(@RequestParam("nickname") String newNickname,
 	                                          @AuthenticationPrincipal QtableUserDetails userDetails) {
 	    Map<String, Object> response = new HashMap<>();
-	    String currentUserId = userDetails.getUsername();
+	    int memberIdx = userDetails.getMember().getMemberIdx();
 
-	    if(passwordService.isNicknameDuplicate(newNickname)) {
+	    if (passwordService.isNicknameDuplicate(newNickname)) {
 	        response.put("success", false);
 	        response.put("message", "이미 사용 중인 닉네임입니다.");
 	        return response;
 	    }
 
-	    boolean result = passwordService.updateNickname(currentUserId, newNickname);
+	    boolean result = passwordService.updateNickname(memberIdx, newNickname);
 	    response.put("success", result);
-	    if(!result) response.put("message", "닉네임 변경에 실패했습니다.");
+
+	    if (result) {
+	        // 닉네임 변경 성공 시 인증 객체도 갱신
+	        userDetails.getMember().setNickName(newNickname);
+
+	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	        SecurityContextHolder.getContext().setAuthentication(
+	            new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), authentication.getAuthorities())
+	        );
+	    } else {
+	        response.put("message", "닉네임 변경에 실패했습니다.");
+	    }
+
 	    return response;
 	}
 
-
+	// 닉네임 자동 주입
+	@GetMapping("/admin/fillEmptyNicknames")
+	@ResponseBody
+	public String fillEmptyNicknamesManually() {
+	    passwordService.fillEmptyNicknames();
+	    return "빈 닉네임 자동 생성 완료";
+	}
 
 	// 현재 비밀번호
 	@PostMapping("/CheckCurrentPassword")
@@ -264,4 +303,25 @@ public class MyPageController {
 			return Map.of("success", false, "message", "비밀번호 변경 중 오류가 발생했습니다.");
 		}
 	}
+
+	// 음식 취향
+	@PostMapping("/mypage/foodPref")
+	@ResponseBody
+	public String saveFoodPreference(@AuthenticationPrincipal QtableUserDetails qtable,
+			@RequestBody List<String> foodPrefs) {
+		int memberIdx = qtable.getMember().getMemberIdx();
+		passwordService.saveFoodPrefs(memberIdx, foodPrefs);
+		return "success";
+	}
+	
+	// 음식 취향
+	@GetMapping("/mypage/foodPref")
+	@ResponseBody
+	public List<String> getFoodPreference(@AuthenticationPrincipal QtableUserDetails qtable) {
+		int memberIdx = qtable.getMember().getMemberIdx();
+		return passwordService.getFoodPrefs(memberIdx);
+	}
+	
+	
+
 }

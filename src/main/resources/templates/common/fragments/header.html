@@ -51,11 +51,11 @@
 					         <div class="header-profile-info" onclick="location.href='/reservation_list'">
 								<img th:src="${#authentication.principal.member.profileImgUrl}" alt="프로필 사진" class="header-profile-img">
 					             <div class="user-details">
-					                 <div class="user-name"><span sec:authentication="principal.member.memberName"></span>님</div>
+					                 <span th:text="${#authentication.principal.member.nickName} + '님'"></span>
 					                 <div class="user-email"><span sec:authentication="principal.member.email"></span></div>
 					             </div>
 					         </div>
-
+ 
 					         <!-- 메뉴 항목 -->
 					         <a th:href="@{/profile_settings}">프로필 편집</a>
 					         <a th:href="@{/reservation_list}">예약현황</a>

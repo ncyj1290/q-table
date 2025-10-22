@@ -19,15 +19,16 @@
 				<!-- 프로필 영역 -->
 				<div class="profile-image">
 					<!-- 기본 프로필 -->
-					<img src="/img/profile.png" id="profileImage" alt="프로필 사진" />
+					<img th:src="${#authentication.principal.member.profileImgUrl}" alt="프로필 사진" id="profileImage">
 					<!-- 숨겨진 파일 입력 -->
 					<input type="file" id="fileInput" accept="image/*" style="display:none">
 					<div class="profile-right">
 						<div class="profile-nickname">
-							<input type="text" id="input_nickname" class="component-write write" th:value="${#authentication.principal.member.memberName}">
-							<span id="span_nickname"></span>
+							<input type="text" id="input_nickname" class="component-write write"
+								th:value="${#authentication.principal.member.nickName}" style="width: auto;">
 							<button class="positive-button" id="nickname_button">변경</button>
 						</div>
+						<span id="span_nickname" style="margin-left: 10px;"></span>
 					</div>
 				</div>
 
@@ -35,32 +36,37 @@
 					<div class="profile-fields">
 						<div class="profile-field">
 							<label>아이디</label>
-							<input type="text" class="component-write write" th:value="${#authentication.principal.member.memberId}" disabled>
+							<input type="text" class="component-write write"
+								th:value="${#authentication.principal.member.memberId}" disabled>
 						</div>
 						<div class="profile-field">
 							<label>비밀번호</label>
-							<input type="password" class="component-write write" th:value="${#authentication.principal.member.memberPw}" disabled>
+							<input type="password" class="component-write write"
+								th:value="${#authentication.principal.member.memberPw}" disabled>
 							<a href="password">
 								<button class="positive-button">변경</button>
 							</a>
 						</div>
 						<div class="profile-field">
 							<label>이름</label>
-							<input type="text" class="component-write write" th:value="${#authentication.principal.member.memberName}" disabled>
+							<input type="text" class="component-write write"
+								th:value="${#authentication.principal.member.memberName}" disabled>
 						</div>
 						<div class="profile-field">
 							<label>이메일</label>
-							<input type="text" class="component-write write" th:value="${#authentication.principal.member.Email}" disabled>
+							<input type="text" class="component-write write"
+								th:value="${#authentication.principal.member.Email}" disabled>
 						</div>
 						<div class="profile-field">
 							<label>주소</label>
-							<input type="text" class="component-write write" th:value="${#authentication.principal.member.Address}" disabled>
-							<button class="positive-button">변경</button>
+							<input type="text" class="component-write write"
+								th:value="${#authentication.principal.member.Address}" disabled>
+<!--							<button class="positive-button">변경</button>-->
 						</div>
-<!--						<div class="profile-field">-->
-<!--							<label>전화번호</label>-->
-<!--							<input type="text" class="component-write write" disabled>-->
-<!--						</div>-->
+						<!--						<div class="profile-field">-->
+						<!--							<label>전화번호</label>-->
+						<!--							<input type="text" class="component-write write" disabled>-->
+						<!--						</div>-->
 					</div>
 				</div>
 

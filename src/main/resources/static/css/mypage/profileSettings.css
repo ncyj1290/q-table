@@ -157,9 +157,9 @@
 }
 
 .negative-button.selected {
-    background-color: var(--color-sub);
+    background-color: var(--color-main);
     color: white;
-    border-color: var(--color-sub);
+    border-color: var(--color-main);
 }
 
 
