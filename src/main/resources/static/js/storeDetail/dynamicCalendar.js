@@ -18,6 +18,7 @@ let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
 let selectedDate = null;  // 선택된 날짜 (YYYY-MM-DD 형식)
+let currentReserveIdx = null;  // 예약 번호 (마이페이지 예약 변경용)
 
 // 예약 가능 기간 계산
 const today = new Date();
@@ -37,6 +38,9 @@ $(function() {
 	const holidayNames = holidaysData.split(',').map(name => name.trim()).filter(name => name);
 	// 한글로 된 요일을 숫자로 변환 
 	closedDays = holidayNames.map(name => DAY_NAME_TO_NUMBER[name]).filter(num => num !== undefined);
+
+	// 예약 번호 설정 (마이페이지용)
+	currentReserveIdx = $calendarContainer.closest('[data-reserve-idx]').data('reserve-idx');
 
 	const $calendarTitle = $('.calendar-title');
 	const $calendarDays = $('.calendar-days');
@@ -102,7 +106,7 @@ $(function() {
 		updateTimeOptions(selectedDate);
 	});
 
-	// 예약하기 버튼 클릭
+	// 예약하기 버튼 클릭 (마이페이지 재사용 가능하게 수정)
 	$('#reservation-submit-btn').on('click', function() {
 		// 날짜 선택 확인
 		if (!selectedDate) {
@@ -124,17 +128,34 @@ $(function() {
 			return;
 		}
 
-		// URL에서 store_idx 가져오기
-		const urlParams = new URLSearchParams(location.search);
-		const storeIdx = urlParams.get('store_idx');
+		// store_idx 가져오기: 마이페이지는 .calendar-container.data('store-idx'), 식당상세는 URL 파라미터
+		let storeIdx = $('.calendar-container').data('store-idx');
+
+		if (!storeIdx) {
+			const urlParams = new URLSearchParams(location.search);
+			storeIdx = urlParams.get('store_idx');
+		}
 
 		if (!storeIdx) {
 			alert('잘못된 접근입니다.');
 			return;
 		}
-
-		// URL 파라미터로 예약 페이지 이동
-		location.href = `/reservation?store_idx=${storeIdx}&reserve_date=${selectedDate}&reserve_time=${time}&person_count=${personCount}`;
+		
+		// 마이페이지에서만 예약번호 존재
+		console.log("storeIdx : " + storeIdx);
+		console.log("resIdx : " + currentReserveIdx);
+		if (currentReserveIdx) {
+			// 마이페이지: 기존 예약 변경
+			debugger;
+			
+			// location.href = `/reservation?store_idx=${storeIdx}&reserve_idx=${currentReserveIdx}&reserve_date=${selectedDate}&reserve_time=${time}&person_count=${personCount}`;
+			// 마이페이지에서 예약 누르면 예약번호 존재
+			// 예약번호 존재 유무로 수정 로직 짜시면 될거같습니다 . 기본 메서드 재활용가능할거같은데 안되면 하나 만드셔도 될거같아요 
+		} else {
+			// 식상상세: 새로운 예약 생성
+			debugger;
+			location.href = `/reservation?store_idx=${storeIdx}&reserve_date=${selectedDate}&reserve_time=${time}&person_count=${personCount}`;
+		}
 	});
 
 	// 초기 달력 생성

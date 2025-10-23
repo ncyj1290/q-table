@@ -20,4 +20,10 @@ public interface chatMapper {
 
 	// 특정 채팅방의 메시지 목록 조회 (채팅방 인덱스 기준)
 	public List<Map<String, Object>> getChatMessagesByRoomIdx(@Param("roomIdx") Integer roomIdx);
+	
+	// 마지막 대화내용 조회
+	public String getLastMessage(Integer chatRoomIdx);
+
+	// 메시지 저장
+	public int insertChat(Map<String, Object> params);
 }

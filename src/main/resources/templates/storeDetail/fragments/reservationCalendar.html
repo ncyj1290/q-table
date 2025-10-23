@@ -1,5 +1,5 @@
 <div th:fragment="reservationCalendar" xmlns:th="http://www.thymeleaf.org">
-    <div class="calendar-container" th:attr="data-holidays=${#strings.listJoin(holiday, ',')}">
+    <div class="calendar-container" th:attr="data-holidays=${#strings.listJoin(holiday, ',')}, data-store-idx=${storeIdx}">
         <div class="calendar-header">
             <button class="calendar-nav-btn">◀</button>
             <div class="calendar-title">2024년 9월</div>

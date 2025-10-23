@@ -27,8 +27,8 @@ public class ChatApiController {
 	private final ChatService chatService;
 	
 	// 채팅방 생성 또는 기존 채팅방 반환
-	@PostMapping("/room/create")
-	public Map<String, Object> createChatRoom(
+	@PostMapping("/room/insert")
+	public Map<String, Object> insertChatRoom(
 			@RequestParam("store_idx") Integer storeIdx,
 			@AuthenticationPrincipal QtableUserDetails userDetails) {
 
@@ -38,7 +38,7 @@ public class ChatApiController {
 		Map<String, Object> response = new HashMap<>();
 
 		try {
-			Map<String, Object> chatRoom = chatService.createOrGetChatRoom(memberIdx, storeIdx);
+			Map<String, Object> chatRoom = chatService.insertOrGetChatRoom(memberIdx, storeIdx);
 			response.put("success", true);
 			response.put("chatRoom", chatRoom);
 
@@ -67,6 +67,28 @@ public class ChatApiController {
 			e.printStackTrace();
 			response.put("success", false);
 			response.put("message", "메시지 조회에 실패했습니다.");
+		}
+
+		return response;
+	}
+	
+	// 메시지 db 저장
+	@PostMapping("/message/insert")
+	public Map<String, Object> insertMessage(
+			@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam("msg") String msg,
+			@RequestParam("room_id") Integer roomId){
+
+		Member member = userDetails.getMember();
+		Integer memberIdx = member.getMemberIdx();
+
+		Map<String, Object> response = new HashMap<>();
+		log.info("msg = " + msg);
+		log.info("roomId = " + roomId);
+		try {
+			chatService.insertChat(msg, memberIdx, roomId);
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
 		return response;

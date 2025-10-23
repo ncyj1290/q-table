@@ -279,6 +279,9 @@ $(function() {
 			// 서버에서 브로드캐스트될 메시지를 수신해서 displayReceivedMessage로 표시됨
 			stompClient.send('/app/chat/send', {}, JSON.stringify(chatMessage));
 
+			// DB에 메시지 저장
+			saveMessage(message, currentRoomId);
+
 			// 입력 필드 비우기
 			$messageInput.val('');
 		}
@@ -453,5 +456,23 @@ $(function() {
 		}
 
 		$messagesArea.append(messageHtml);
+	}
+	
+	// 메시지 DB 저장
+	function saveMessage(message, roomId) {
+		$.ajax({
+			url: '/api/chat/message/insert',
+			type: 'POST',
+			data: {
+				msg: message,
+				room_id: roomId
+			},
+			success: function(response) {
+				console.log('메시지 저장 성공');
+			},
+			error: function(xhr) {
+				console.error('메시지 저장 실패:', xhr);
+			}
+		});
 	}
 });

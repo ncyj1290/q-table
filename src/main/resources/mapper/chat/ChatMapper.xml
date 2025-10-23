@@ -58,4 +58,28 @@
 		 WHERE c.room_idx = #{roomIdx}
 		 ORDER BY c.created_at ASC
 	</select>
+	
+	<!-- 마지막 대화 -->
+	<select id="getLastMessage">
+		SELECT
+			   message_content
+		  FROM chat
+		 WHERE room_idx = #{chatRoomIdx}
+	  ORDER BY created_at DESC
+		 LIMIT 1
+	</select>
+
+	<!-- 메시지 저장 -->
+	<insert id="insertChat">
+		INSERT INTO chat (
+			   room_idx
+			 , sender_idx
+			 , message_content
+		) VALUES (
+			   #{roomIdx}
+			 , #{senderIdx}
+			 , #{messageContent}
+		)
+	</insert>
+
 </mapper>
