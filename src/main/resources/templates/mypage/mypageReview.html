@@ -8,7 +8,7 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageReview.css}">
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
-	<script th:src="@{/js/mypage/review.js}" defer></script>
+	<script th:src="@{/js/mypage/mypageReview.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>review</title>
 </head>
@@ -39,7 +39,7 @@
 						<span class="date" th:text="${review.create_at}"></span>
 						<div class="review-buttons">
 							<button class="negative-button" data-type="deleteBtn" th:data-review-idx="${review.review_idx}">삭제</button>
-							<button class="positive-button" data-type="editBtn">수정</button>
+							<button class="positive-button" data-type="editBtn" th:data-review-idx="${review.review_idx}">수정</button>
 						</div>
 					</div>
 				</div>

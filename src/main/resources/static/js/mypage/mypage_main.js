@@ -81,3 +81,52 @@ $(document).on('click', 'button[data-type="cancelBtn"]', function() {
 
 
 
+
+
+/// changeBtn 클릭 → store_idx 읽어서 서버에 fragment 요청, 응답을 모달에 삽입
+$(document).on('click', '[data-type="changeBtn"]', function() {
+  const storeIdx = $(this).data('store-idx');
+  if (!storeIdx) {
+    alert("가게 정보가 없습니다.");
+    return;
+  }
+  $.ajax({
+    url: `/reserv_change?store_idx=${storeIdx}`,
+    type: 'GET',
+    success: function(fragmentHtml) {
+      $('#calendarModal .mypage-calendar-wrapper').html(fragmentHtml);
+      $('#calendarModal').show();
+      if(window.initCalendarInModal) { initCalendarInModal(); }
+    },
+    error: function() {
+      alert("달력 정보를 불러올 수 없습니다.");
+    }
+  });
+});
+
+// 모달 닫기
+$(document).on('click', '#closeCalendarModal', function() {
+  $('#calendarModal').hide();
+});
+
+// fragment 삽입 후 달력 로직 전부 이 함수에서!
+function initCalendarInModal() {
+  const $calendarContainer = $('#calendarModal .calendar-container');
+  const $calendarTitle = $('#calendarModal .calendar-title');
+  const $calendarDays = $('#calendarModal .calendar-days');
+  const $calendarNavBtns = $('#calendarModal .calendar-nav-btn');
+  const DAY_NAME_TO_NUMBER = {'일':0,'월':1,'화':2,'수':3,'목':4,'금':5,'토':6};
+  let closedDays = [];
+  var holidaysData = $calendarContainer.attr('data-holidays') || "";
+  // 기타 달력 변수 선언 및 예약 기능 JS 그대로 복사
+  // holidaysData, day/month/year, generateCalendar, 이벤트 핸들러 등 전부 이 안에 선언/실행!
+}
+
+
+
+
+
+
+
+
+

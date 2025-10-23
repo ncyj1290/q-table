@@ -31,7 +31,7 @@ $(function() {
 
 	// 리뷰 작성 모달 열기 (마이페이지)
 	$mypageReview.on('click', function() {
-		currentStoreIdx = $(this).data('store-idx');  // 버버튼의 data-store-idx 사용
+		currentStoreIdx = $(this).data('store-idx');  // 버튼의 data-store-idx 사용
 		$reviewModal.show();
 	});
 	// 모달 닫기 - X 버튼
