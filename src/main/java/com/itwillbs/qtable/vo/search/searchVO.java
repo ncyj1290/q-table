@@ -17,5 +17,6 @@ public class searchVO {
 	private String day;
 	private String time;
 	private String query;
+	private List<String> keywords;
 	private Integer member_idx;
 }

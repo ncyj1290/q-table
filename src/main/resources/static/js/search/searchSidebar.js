@@ -134,7 +134,7 @@ function buildUrlAndFetchData() {
 
     const baseUrl = "/api/search";
     const finalUrl = `${baseUrl}?${params.toString()}`;
-
+	const displayUrl = `/search?${params.toString()}`;
     console.log("🚀 최종 생성된 URL:", finalUrl);
 	$.ajax({
 		url:finalUrl,
@@ -145,6 +145,7 @@ function buildUrlAndFetchData() {
 			$('.filter').show();
 			alert('호출성공');
 			$('.content').append(res);
+//			history.pushState(null, '', displayUrl)
 		},
 		error: function(error) {
 			console.log(error);
@@ -279,9 +280,6 @@ function keywordUpdate(el) {
 	const code_label = $(el).text(); //선택한 키워드의 label, code 
 	const code = $(el).data('loc-food'); //선택한 키워드의 code 
 	const keywordClass = $(el).attr('class').split(' ')[1]; //keyword food or location 클래스
-	console.log(code_label)
-	console.log(code)
-	console.log(keywordClass)
 	
 	//사이드바에서 선택한 것이 아닌 모달에서 선택된것만 반영되게함
 	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
@@ -486,10 +484,10 @@ function priceUpdate(el) {
 	let isActive = $(el).hasClass('active');
 	if(!isPrice) return;
 	if($(el).hasClass(0) && isActive) $('#price-slider')[0].noUiSlider.set([0,10]);
-	if($(el).hasClass(10) && isActive) $('#price-slider')[0].noUiSlider.set([10,20]);
-	if($(el).hasClass(20) && isActive) $('#price-slider')[0].noUiSlider.set([20,30]);
-	if($(el).hasClass(30) && isActive) $('#price-slider')[0].noUiSlider.set([30,40]);
-	if($(el).hasClass(40) && isActive) $('#price-slider')[0].noUiSlider.set([40,40]);
+	if($(el).hasClass(100000) && isActive) $('#price-slider')[0].noUiSlider.set([10,20]);
+	if($(el).hasClass(200000) && isActive) $('#price-slider')[0].noUiSlider.set([20,30]);
+	if($(el).hasClass(300000) && isActive) $('#price-slider')[0].noUiSlider.set([30,40]);
+	if($(el).hasClass(400000) && isActive) $('#price-slider')[0].noUiSlider.set([40,40]);
 	if(!isActive) $('#price-slider')[0].noUiSlider.set([0,40]);
 }
 
@@ -513,19 +511,21 @@ function initializePriceSlider() {
 	// 2. noUiSlider를 생성합니다.
 	// noUiSlider는 순수 DOM 엘리먼트를 필요로 하므로, jQuery 객체에서 [0]을 사용해 DOM 엘리먼트를 추출합니다.
 	noUiSlider.create($priceSlider[0], {
-	    start: [0, 40],
+	    start: [0, 400000],
 	    connect: true,
-	    step: 1,
+	    step: 10000,
 	    range: {
 	        'min': 0,
-	        'max': 40
+	        'max': 400000
 	    },
-	    format: {
+		format: {
+	        // [수정] 값을 10000으로 나눠서 표시
 	        to: function(value) {
-	            return Math.round(value) + '만원';
+	            return Math.round(value / 10000) + '만원'; 
 	        },
+	        // [수정] 표시된 값에서 10000을 곱해서 내부 값으로 변환
 	        from: function(value) {
-	            return Number(value.replace('만원', ''));
+	            return Number(value.replace('만원', '')) * 10000;
 	        }
 	    }
 	});
@@ -536,11 +536,11 @@ function initializePriceSlider() {
 	    values[0] == '40만원' && values[1] == '40만원' ? $sliderValues.html(values[0]+ '이상')
 													 : $sliderValues.html(values.join(' ~ '));
 	 //키워드랑 슬라이드 값이랑 동기화 시키기 
-		if (cValues[0] == 0 && cValues[1] == 10) priceToggle(cValues[0]);
-		else if (cValues[0] == 10 && cValues[1] == 20) priceToggle(cValues[0]);
-		else if (cValues[0] == 20 && cValues[1] == 30) priceToggle(cValues[0]);
-		else if (cValues[0] == 30 && cValues[1] == 40) priceToggle(cValues[0]);
-		else if (cValues[0] == 40 && cValues[1] == 40) priceToggle(cValues[0]);
+		if (cValues[0] == 0 && cValues[1] == 100000) priceToggle(cValues[0]);
+		else if (cValues[0] == 100000 && cValues[1] == 200000) priceToggle(cValues[0]);
+		else if (cValues[0] == 200000 && cValues[1] == 300000) priceToggle(cValues[0]);
+		else if (cValues[0] == 300000 && cValues[1] == 400000) priceToggle(cValues[0]);
+		else if (cValues[0] == 400000 && cValues[1] == 400000) priceToggle(cValues[0]);
 		else $('.priceKeyword').removeClass('active');
 	});
 	
