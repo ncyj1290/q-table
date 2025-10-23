@@ -17,5 +17,7 @@ public class StoreService {
 	  public List<Store> getAllStores() {
 	        return storeRepository.findAll();
 	    }
-	
+	    public List<Store> getStoresOrderByAvgRating() {
+	        return storeRepository.findAllOrderByAvgRatingDescNative();
+	    }
 }
