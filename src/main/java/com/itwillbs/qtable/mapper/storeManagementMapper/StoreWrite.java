@@ -1,11 +1,7 @@
 package com.itwillbs.qtable.mapper.storeManagementMapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.storeManagement.StoreIngredient;
 import com.itwillbs.qtable.vo.storeManagement.StoreMenu;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
@@ -15,6 +11,9 @@ public interface StoreWrite {
 	
 	/* 매장 등록 */
 	int insertNewStore(StoreVO storeVO);
+	
+	/* QR 코드 업데이트 */
+	int updateStoreQrPath(StoreVO storeVO);
 	
 	/* 휴일 등록 */
 	int insertNewHoliday(@Param("store_idx") int store_idx, @Param("store_holiday") String store_holiday);

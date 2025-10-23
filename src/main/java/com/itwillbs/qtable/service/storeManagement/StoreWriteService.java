@@ -33,6 +33,9 @@ public class StoreWriteService {
 	@Autowired
 	FileUploadService fileUploadService;
 	
+	@Autowired
+	QrService qrService;
+	
 	/* 매장 관련 공통코드 모두 불러와서 모델에 넣는 함수 -> 그냥 여기 다 모아버리겠음. */
 	public void selectAllCommonCodeForStore(Model model) {
 		
@@ -208,6 +211,12 @@ public class StoreWriteService {
 		
 		/* imguse_04 -> 메뉴판 사진 */
 		storeWrite.insertNewImage("imguse_04", storeIdx, storeVO.getMenu_board_url());
+		
+		/* QR 생성 */
+		String url = qrService.buildUrl(storeIdx);
+		String qrPath = qrService.generateQRCode(url, storeIdx);
+		storeVO.setQr_code(qrPath);
+		storeWrite.updateStoreQrPath(storeVO);
 	}
 	
 	/* ------------------------------------------------------------------------------------ */

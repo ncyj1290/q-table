@@ -54,6 +54,13 @@
 		)
 	</insert>
 	
+	<update id="updateStoreQrPath">
+		update store
+		set qr_code = #{qr_code}
+		where store_idx = #{store_idx}
+	</update>
+	
+	
 	<!-- 휴일 등록 -->
 	<insert id="insertNewHoliday">
 		insert into store_holiday(

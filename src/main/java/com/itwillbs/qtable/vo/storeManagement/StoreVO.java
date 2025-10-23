@@ -22,6 +22,9 @@ public class StoreVO {
 	private String account_number;
 	private String bank_code;
 	
+	/* QR CODE 주소 */
+	private String qr_code;
+	
 	private String store_seat;
 	private String deposit;
 	private String store_content;
