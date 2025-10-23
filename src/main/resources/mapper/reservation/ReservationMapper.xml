@@ -55,6 +55,18 @@
 		)
 	</insert>
 
+	<!-- 예약 수정 -->
+	<update id="updateReservation">
+		UPDATE reservation
+		   SET reserve_date = #{reserve_date}
+		     , reserve_time = #{reserve_time}
+		     , person_count = #{person_count}
+		     , requirement = #{requirement}
+		     , allergy = #{allergy}
+		 WHERE reserve_idx = #{reserve_idx}
+		   AND member_idx = #{member_idx}
+	</update>
+
 	<!-- 회원 큐머니 차감 -->
 	<update id="updateMemberQMoney">
 		UPDATE member

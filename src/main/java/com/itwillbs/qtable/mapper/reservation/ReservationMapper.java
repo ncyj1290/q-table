@@ -14,6 +14,9 @@ public interface ReservationMapper {
 	// 예약 등록
 	int insertReservation(Map<String, Object> reservationData);
 
+	// 예약 수정
+	int updateReservation(Map<String, Object> reservationData);
+
 	// 예약금 차감 
 	int updateMemberQMoney(@Param("memberIdx") Integer memberIdx, @Param("amount") Integer amount);
 
