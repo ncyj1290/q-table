@@ -1,7 +1,6 @@
 package com.itwillbs.qtable.service.storeManagement;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.google.zxing.WriterException;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
-import com.itwillbs.qtable.mapper.storeManagementMapper.StoreSubscribe;
+import com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite;
 import com.itwillbs.qtable.vo.storeManagement.StoreIngredient;
 import com.itwillbs.qtable.vo.storeManagement.StoreMenu;
 import com.itwillbs.qtable.vo.storeManagement.StorePicture;
@@ -27,6 +27,12 @@ public class StoreDataService {
 	@Autowired
 	StoreSubscribeService storeSubscribeService;
 	
+	@Autowired
+	QrService qrService;
+	
+	@Autowired
+	StoreWrite storeWrite;
+	
 	/* 매장 프로필에 사용될 기본 정보같은거 불러와서 모델에 처박는 서비스 */
 	public void injectStoreProfileByOwnerIdx(Model model, int member_idx) {
 		
@@ -40,6 +46,31 @@ public class StoreDataService {
 		StoreVO spData = storeData.selectStoreProfileByOwnerIdx(member_idx);
 
 		model.addAttribute("spData", spData);
+	}
+	
+	/* QR 없는 상점 가져오기 */
+	public List<StoreVO> selectNullQrStore(){
+		return storeData.selectNullQrStore();
+	}
+	
+	/* QR 없는 상점 QR 추가 */
+	@Transactional
+	public void updateQrCodeForNullStore() throws WriterException, IOException {
+		
+		List<StoreVO> sList = storeData.selectNullQrStore();
+		
+		System.out.println(sList.toString());
+		
+		for(StoreVO s : sList) {
+			
+			int storeIdx = s.getStore_idx();
+			
+			/* QR 생성 */
+			String url = qrService.buildUrl(storeIdx);
+			String qrPath = qrService.generateQRCode(url, storeIdx);
+			s.setQr_code(qrPath);
+			storeWrite.updateStoreQrPath(s);
+		}
 	}
 	
 	/* 예약 받기 상태 토글 후 결과 반환 서비스 */
