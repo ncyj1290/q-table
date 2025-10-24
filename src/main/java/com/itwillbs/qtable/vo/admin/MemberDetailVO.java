@@ -93,6 +93,8 @@ public class MemberDetailVO {
             this.address_detail = "";
             this.birth = null;
             this.post_code = "*****";
+            this.business_reg_no = "*****";
+            this.account_number = "*****";
         }
     }	
 }

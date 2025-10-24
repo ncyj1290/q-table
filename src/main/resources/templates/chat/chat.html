@@ -35,14 +35,15 @@
 							<div class="chat-room-profile">
 							</div>
 							<div class="chat-room-info">
-								<div class="chat-room-name" th:text="${room.store_name != null ? room.store_name : '알 수 없는 매장'}">매장명</div>
+								<div class="chat-room-name" th:text="${room.opposite_name != null ? room.opposite_name : '알 수 없는 사용자'}">상대방</div>
 								<div class="chat-room-last-message" th:text="${room.lastMsg != null ? room.lastMsg : ''}"></div>
 							</div>
 							<div class="chat-room-badge">
-								<span class="unread-count">0</span>
+								<span class="unread-count" th:text="${room.unreadCount != null ? room.unreadCount : 0}" th:style="${(room.unreadCount == null or room.unreadCount == 0) ? 'display:none' : ''}"></span>
 							</div>
-						</div>
 						<div class="horizontal-line"></div>
+						</div>
+						
 					</th:block>
 				</th:block>
 				<th:block th:if="${chatRoomList == null or chatRoomList.size() == 0}">
@@ -56,41 +57,15 @@
 		<!-- 우측 대화창 영역 -->
 		<div class="chat-content-area">
 			<div class="chat-content-header">
-				<h3>매장 1</h3>
+				<h3>Q-Talk</h3>
 			</div>
 			<div class="chat-messages-area">
-	
-
-				<!-- 받은 메시지 -->
-				<div class="message-container received">
-					<div class="message-profile">
-						<div class="profile-image"></div>
-					</div>
-					<div class="message-content">
-						<div class="message-area">
-							<p>대화내화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대.</p>
-						</div>
-						<div class="message-time">17:00</div>
-					</div>
+				<!-- 초기 상태: 채팅방 선택 유도 -->
+				<div class="empty-state">
+					<i class="fas fa-comments"></i>
+					<h2>채팅방을 선택해주세요</h2>
+					<p>좌측 채팅방 목록에서 대화를 시작하세요</p>
 				</div>
-
-				<!-- 날짜 구분선 -->
-				<div class="date-divider">
-					<span>2025년 10월 6일 일요일</span>
-				</div>
-				
-				<!-- 보낸 메시지 -->
-				<div class="message-container sent">
-					<div class="message-content">
-						<div class="message-time">17:00</div>
-						<div class="message-area">
-							<p>대화대화대화대화대화대화대화대화대화</p>
-							<p>대화대화대화대화대화대화대화대화대화</p>
-							<p>대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화대화</p>
-						</div>
-					</div>
-				</div>
-
 			</div>
 
 			<!-- 이미지 미리보기 영역 -->

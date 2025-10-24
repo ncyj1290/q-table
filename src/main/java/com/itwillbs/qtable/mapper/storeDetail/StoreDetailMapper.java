@@ -9,6 +9,9 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface StoreDetailMapper {
 
+	// 매장의 owner(member_idx) 조회
+	Integer getStoreMemberIdx(Integer storeIdx);
+
 	// 매장 기본 정보 조회
 	Map<String, Object> getStoreBasicInfo(Integer storeIdx);
 	

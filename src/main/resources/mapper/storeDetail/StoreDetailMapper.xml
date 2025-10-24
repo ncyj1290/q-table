@@ -3,6 +3,13 @@
 
 <mapper namespace="com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper">
 
+	<!-- 매장의 owner(member_idx) 조회 -->
+	<select id="getStoreMemberIdx" resultType="int">
+		SELECT member_idx
+		  FROM store
+		 WHERE store_idx = #{storeIdx}
+	</select>
+
 	<!-- 매장 기본 정보 조회 -->
 	<select id="getStoreBasicInfo" resultType="map">
 		SELECT

@@ -25,7 +25,7 @@
 		 LIMIT 1
 	</select>
 
-	<!-- 사용자의 모든 채팅방 목록 조회 (매장 정보 포함) -->
+	<!-- 사용자의 모든 채팅방 목록 조회 (상대방 정보 포함) -->
 	<select id="getChatRoomListByMember" resultType="map">
 		SELECT
 			   cr.room_idx
@@ -35,8 +35,15 @@
 			 , s.store_name
 			 , s.qr_code
 			 , cr.updated_at
+			 , CASE
+			     WHEN cr.member_idx = #{memberIdx} THEN s.store_name
+			     ELSE m.member_name
+			   END AS opposite_name
+			 , m.member_name
+			 , m.member_idx AS opposite_member_idx
 		  FROM chat_room cr
 		  LEFT JOIN store s ON cr.store_idx = s.store_idx
+		  LEFT JOIN member m ON cr.member_idx = m.member_idx
 		 WHERE cr.member_idx = #{memberIdx}
 		    OR cr.store_idx IN (SELECT store_idx FROM store WHERE member_idx = #{memberIdx})
 		 ORDER BY cr.updated_at DESC
@@ -75,11 +82,41 @@
 			   room_idx
 			 , sender_idx
 			 , message_content
+			 , is_read
 		) VALUES (
 			   #{roomIdx}
 			 , #{senderIdx}
 			 , #{messageContent}
+			 , FALSE
 		)
 	</insert>
-
+	
+	
+	<!-- 모든 채팅방별 읽지않은 메시지 수 조회 -->
+	<select id="getUnreadCountByRoom" resultType="map">
+		SELECT 
+			   c.room_idx
+			 , COUNT(c.chat_idx) AS unread_count
+		  FROM chat c
+		 WHERE c.room_idx IN (
+		 	   SELECT room_idx
+		 	     FROM chat_room
+		 	    WHERE member_idx = #{memberIdx}
+		 	       OR store_idx IN (
+		 	       	  SELECT store_idx FROM store WHERE member_idx = #{memberIdx}
+		 	       )
+		 )
+		 AND c.is_read = FALSE
+		 AND c.sender_idx != #{memberIdx}
+	GROUP BY c.room_idx
+	</select>
+	
+	<!-- 채팅방의 읽지 않은 메시지 모두 읽음으로 수정 -->
+	<update id="updateMessagesAsRead">
+		UPDATE chat
+		   SET is_read = TRUE
+		 WHERE room_idx = #{roomIdx}
+		   AND is_read = FALSE
+		   AND sender_idx != #{memberIdx}
+	</update>
 </mapper>

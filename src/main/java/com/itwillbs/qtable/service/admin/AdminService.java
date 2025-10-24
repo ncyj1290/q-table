@@ -10,9 +10,12 @@ import java.util.stream.Stream;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.qtable.config.MaskingUtils;
+import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Jeongsan;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.entity.Store;
@@ -355,7 +358,11 @@ public class AdminService {
 	// 공통 코드 업데이트
 	@Transactional
 	public void updateCommonCode(Integer common_idx, CommonCodeVO CommonCodeVO) {
-		adminMapper.updateCommonCode(common_idx, CommonCodeVO);
+		
+		int currentAdminIdx = getCurrentAdminIdx();
+		LocalDateTime now = LocalDateTime.now();
+		
+		adminMapper.updateCommonCode(common_idx, CommonCodeVO, currentAdminIdx, now);
 	}
 
 	// 공통 코드 삭제
@@ -370,12 +377,27 @@ public class AdminService {
 
 	// 공통코드 그룹 추가
 	public void saveCommonCodeGroup(CommonCodeGroupVO CommonCodeGroupVO) {
+		
+		int currentAdminIdx = getCurrentAdminIdx();
+		
+		CommonCodeGroupVO.setCreater_idx(currentAdminIdx);
+		
+		
+		System.out.println("@#%@#%@#%#@%#@%#@%@#%#@%");
+		System.out.println("CommonCodeGroupVO : " + CommonCodeGroupVO);
 
 		adminMapper.saveCommonCodeGroup(CommonCodeGroupVO);
 	}
 
 	// 공통 코드 추가
 	public void saveCommonCode(List<CommonCodeVO> CommonCodeVO) {
+		
+		int currentAdminIdx = getCurrentAdminIdx();
+		
+		for (CommonCodeVO vo : CommonCodeVO) {
+            // 각 VO에 생성자 ID 설정
+            vo.setCreater_idx(currentAdminIdx);
+        }
 
 		adminMapper.saveCommonCode(CommonCodeVO);
 	}
@@ -447,5 +469,22 @@ public class AdminService {
 
 		return result;
 	}
+	
+	
+	
+	
+	
+	// --- 현재 관리자 ID를 가져오는 메서드
+    private int getCurrentAdminIdx() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        System.out.println("authentication : " + authentication);
+        
+     // 인증 정보가 있고, Principal이 QtableUserDetails 타입이면 idx 반환
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof QtableUserDetails) {
+            return ((QtableUserDetails) authentication.getPrincipal()).getMemberIdx();
+        }
+        return 0; // 또는 예외 처리
+    }
 
 }

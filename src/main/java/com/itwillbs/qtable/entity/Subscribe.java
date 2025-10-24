@@ -21,8 +21,8 @@ public class Subscribe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer subscribeIdx;
 
-    @Column(name = "store_idx")
-    private Integer storeIdx;
+    @Column(name = "member_idx")
+    private Integer memberIdx;
 
     @Column(name = "subscribe_start")
     private LocalDate subscribeStart;
