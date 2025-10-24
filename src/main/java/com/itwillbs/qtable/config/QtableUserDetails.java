@@ -38,6 +38,11 @@ public class QtableUserDetails implements UserDetails, OAuth2User{
 		return member.getMemberId();
 	}
 	
+	// getMemberIdx() 추가
+    public Integer getMemberIdx() {
+        return member.getMemberIdx();
+    }
+	
 	public Member getMember() {
         return member;
     }

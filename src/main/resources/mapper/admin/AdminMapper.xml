@@ -194,8 +194,8 @@
 		       m.member_id,
 		       DATEDIFF(subscribe_end, CURDATE()) AS remaining_days
 		  FROM subscribe ss
-     LEFT JOIN member m ON m.member_idx = ss.member_idx 
-	 LEFT JOIN store s ON ss.member_idx = s.store_idx
+     LEFT JOIN member m ON ss.member_idx = m.member_idx 
+	 LEFT JOIN store s ON m.member_idx = s.member_idx
     </select>
     
     <!-- 공통 코드 리스트 -->
@@ -243,7 +243,9 @@
 	           code_label = #{CommonCodeVO.code_label},
 	           code_desc = #{CommonCodeVO.code_desc},
 	           using_status = #{CommonCodeVO.using_status},
-	           code_index = #{CommonCodeVO.code_index}
+	           code_index = #{CommonCodeVO.code_index},
+	           updater_idx = #{updater_idx},
+        	   update_date = #{update_date}
 	     WHERE common_idx = #{common_idx}
     </update>
     
@@ -269,7 +271,7 @@
              VALUES (
 					 #{group_code},
             		 #{group_desc},
-            		 1)
+            		 #{creater_idx})
     </insert>
     
     <!-- 공통 코드 insert-->
@@ -291,7 +293,7 @@
 		            #{item.code_desc},
 		            #{item.parent_code},
 		            #{item.code_index}, 
-		            1
+		            #{item.creater_idx}
 		           )
 		    </foreach>
     </insert>
@@ -311,8 +313,8 @@
 
 	<select id="getStoreIdxByMemberIdx" resultType="Integer">
 	    SELECT store_idx
-	    FROM store
-	    WHERE member_idx = #{member_idx}
+	      FROM store
+	     WHERE member_idx = #{member_idx}
 	</select>
     
     

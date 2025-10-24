@@ -1,6 +1,7 @@
 package com.itwillbs.qtable.mapper.admin;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +63,10 @@ public interface AdminMapper {
 	Integer deleteCommonCodeById(@Param("common_idx") Integer common_idx);
 	
 	// 공통 코드 수정
-    void updateCommonCode(@Param("common_idx") Integer common_idx, @Param("CommonCodeVO") CommonCodeVO CommonCodeVO);
+    void updateCommonCode(@Param("common_idx") Integer common_idx, 
+    					  @Param("CommonCodeVO") CommonCodeVO CommonCodeVO,
+					      @Param("updater_idx") Integer updater_idx,
+					      @Param("update_date") LocalDateTime update_date);
     
     // 공통 코드 그룹 리스트
     List<CommonCodeGroupVO> findAllGroups();
