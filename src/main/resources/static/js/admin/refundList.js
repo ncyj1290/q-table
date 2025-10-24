@@ -59,8 +59,8 @@ $(function() {
 					jeongsan.jeongsan_amount + " 원",
 					jeongsan.account_number,
 					jeongsan.bank_code,
-					jeongsan.requested_at.replace('T', ' '),
-					jeongsan.processed_at.replace('T', ' '),
+					jeongsan.requested_at,
+					jeongsan.processed_at,
 					jeongsan.calculate_result,
 					null
 				];
