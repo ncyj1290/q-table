@@ -8,6 +8,8 @@ const MAX_IMAGES = 3;
 let currentRoomId = null;
 let selectedImages = [];
 let currentUserIdx = null;  // 현재 로그인한 사용자 ID
+let currentOppositeIdx = null;  // 현재 채팅방의 상대방 ID
+let currentOppositeName = null;  // 현재 채팅방의 상대방 이름
 
 // WebSocket 관련 변수
 let stompClient = null;  // STOMP 클라이언트
@@ -34,8 +36,6 @@ $(function() {
 	if (userIdElement.length > 0) {
 		currentUserIdx = parseInt(userIdElement.data('current-user-idx'));
 	}
-	
-	console.log(currentUserIdx);
 	
 	// 페이지 로드 시 WebSocket 연결
 	connectWebSocket();
@@ -118,17 +118,46 @@ $(function() {
 		// SockJS와 STOMP를 사용하여 WebSocket 연결
 		const socket = new SockJS('/ws-chat');
 		stompClient = Stomp.over(socket);
-		// 로그 끄기 키려면 주석  
+		// 로그 끄기 키려면 주석
 		stompClient.debug = null;
 
 		// 연결 성공 시 콜백
 		stompClient.connect({}, function() {
 			console.log('WebSocket 연결 성공');
+
+			// 모든 사용자의 개인 채널 구독 (읽지 않은 메시지 카운트 업데이트용)
+			subscribeToUserChannel();
 		}, function(error) {
 			// 연결 실패 시 콜백
 			console.error('WebSocket 연결 실패:', error);
 			// 5초 후 재연결 시도
 			setTimeout(connectWebSocket, 5000);
+		});
+	}
+
+	// 사용자 개인 채널 구독 (미읽음 카운트 업데이트용)
+	function subscribeToUserChannel() {
+		stompClient.subscribe('/topic/chat-broadcast', function(message) {
+			const chatMessage = JSON.parse(message.body);
+
+			// 자신이 보낸 메시지는 제외
+			if (chatMessage.senderIdx === currentUserIdx) {
+				return;
+			}
+
+			// 현재 보지 않는 채팅방의 메시지만 unread-count 증가
+			if (chatMessage.roomIdx !== currentRoomId) {
+				let unreadBadge = $('.chat-room-item[data-room-id="' + chatMessage.roomIdx + '"]').find('.unread-count');
+				let currentCount = parseInt(unreadBadge.text()) || 0;
+				let newCount = currentCount + 1;
+				console.log(newCount);
+				// 미읽음 수가 0이면 배지 숨김, 아니면 표시
+				if (newCount > 0) {
+					unreadBadge.text(newCount).show();
+				} else {
+					unreadBadge.hide();
+				}
+			}
 		});
 	}
 
@@ -145,8 +174,7 @@ $(function() {
 			const chatMessage = JSON.parse(message.body);
 			displayReceivedMessage(chatMessage);
 		});
-
-		console.log('채팅방 구독:', roomIdx);
+		
 	}
 
 	// 수신한 메시지를 화면에 표시
@@ -191,7 +219,7 @@ $(function() {
 					<div class="message-container ${messageContainerClass}">
 						<div class="message-profile">
 							<div class="profile-image"></div>
-							<span class="sender-name">${chatMessage.senderName}</span>
+							<span class="sender-name">${currentOppositeName || chatMessage.senderName}</span>
 						</div>
 						<div class="message-content">
 							<div class="message-area">
@@ -356,14 +384,21 @@ $(function() {
 		$('.chat-room-item').removeClass('active');
 
 		// 선택된 채팅방에 active 클래스 추가
-		$('.chat-room-item[data-room-id="' + roomId + '"]').addClass('active');
+		const $selectedRoom = $('.chat-room-item[data-room-id="' + roomId + '"]');
+		$selectedRoom.addClass('active');
 
 		// 현재 채팅방 ID 저장
 		currentRoomId = roomId;
 
+		// 상대방 정보 저장 (opposite_name은 이미 opposite_name 데이터 속성으로 저장)
+		currentOppositeName = $selectedRoom.find('.chat-room-name').text();
+
+		// 데이터 속성에서 opposite_member_idx 가져오기 (필요시)
+		let $roomItem = $('.chat-room-item[data-room-id="' + roomId + '"]');
+		currentOppositeIdx = $roomItem.data('opposite-idx') || null;
+
 		// 채팅방 헤더 이름 변경
-		let roomName = $('.chat-room-item[data-room-id="' + roomId + '"]').find('.chat-room-name').text();
-		$('.chat-content-header h3').text(roomName);
+		$('.chat-content-header h3').text(currentOppositeName);
 
 		// WebSocket이 연결되어 있으면 채팅방 구독
 		if (stompClient && stompClient.connected) {
@@ -373,8 +408,11 @@ $(function() {
 		// 메시지 목록 로드
 		loadMessages(roomId);
 
-		// 읽지 않은 메시지 수 업데이트 (0으로)
-		let unreadBadge = $('.chat-room-item[data-room-id="' + roomId + '"]').find('.unread-count');
+		// 채팅방의 메시지들을 읽음으로 표시
+		markMessagesAsRead(roomId);
+
+		// 읽지 않은 메시지 수 업데이트 (배지 숨김)
+		let unreadBadge = $selectedRoom.find('.unread-count');
 		unreadBadge.text('0').hide();
 
 		scrollToBottom();
@@ -396,6 +434,15 @@ $(function() {
 						response.messages.forEach(function(msg) {
 							displayLoadedMessage(msg);
 						});
+					} else {
+						// 메시지가 없으면 empty-state 표시
+						$messagesArea.html(`
+							<div class="empty-state">
+								<i class="fas fa-comments"></i>
+								<h2>아직 메시지가 없습니다</h2>
+								<p>대화를 시작해보세요</p>
+							</div>
+						`);
 					}
 
 					// 스크롤 맨 아래로
@@ -468,10 +515,23 @@ $(function() {
 				room_id: roomId
 			},
 			success: function(response) {
-				console.log('메시지 저장 성공');
 			},
 			error: function(xhr) {
 				console.error('메시지 저장 실패:', xhr);
+			}
+		});
+	}
+
+	// 채팅방 메시지 읽음 처리
+	function markMessagesAsRead(roomIdx) {
+		$.ajax({
+			url: '/api/chat/mark-as-read',
+			type: 'POST',
+			data: { room_idx: roomIdx },
+			success: function(response) {
+			},
+			error: function(xhr) {
+				console.error('메시지 읽음 처리 실패:', xhr);
 			}
 		});
 	}
