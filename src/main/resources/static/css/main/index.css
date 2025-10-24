@@ -1,7 +1,10 @@
 .horizontal-line {
 	background-color: #ddd !important;
 }
-
+.main-container {
+width: 100%;
+max-width: none; /* 부모 max-width 제한 제거 */
+}
 /* 공통 카드 스타일 */
 .card-list {
     display: flex;
@@ -11,6 +14,30 @@
     padding-bottom: 10px;       /* 스크롤바 여백 */
     width: 100%;
 }
+
+
+.header{
+	max-width: none !important;
+	min-width: 1900px !important;
+	
+}
+
+/* 스크롤 시 drop 클래스 */
+.header.drop {
+    position: fixed; /* 상단 고정 */
+    transform: translateX(-50%); /* 중앙 정렬 */
+    animation: dropHeader 0.3s forwards;
+}
+
+@keyframes dropHeader {
+  0% {
+    top: -5rem;
+  }
+  100% {
+    top: 0;
+  }
+}
+
 
 .card-list::-webkit-scrollbar {
     height: 8px;
@@ -36,26 +63,35 @@
     width: 100%;
     height: 130px;   /* 카드 높이 고정 */
     overflow: hidden;
+	border-radius: 10px;
 	position: relative;
 }
 
 .card-image img {
     width: 100%;
     height: 100%;
+	border-radius: 10px;
     object-fit: cover; /*화면에 꽉차게 대신 세로 높이 고정이라 비율에맞게 이미지 잘릴수도있음*/
     object-position: center;
     display: block;
 }
 .overlay-text {
 	position: absolute;
-	top:7px;
-	left: 7px;
+	top:10px;
+	left: 12px;
 	color: #fff;
 	font-size: 17px;
 	font-weight: bold;
 	text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
 }
 
+.no_image{
+	position: absolute;
+	top:50px;
+	left: 50px;	
+	color: gray;
+	font-weight: bold;
+}
 .card-info {
     height: 50%;
     padding: 10px;
@@ -87,7 +123,7 @@
     height: 100px;       /* 높이 작게 */
 }
 .alllocation-list .card {
-    min-width: 330px;
+    min-width: 350px;
     height: 200px;       /* 높이 작게 */
 }
 .restaurant-section:last-of-type .alllocation-list {
@@ -100,13 +136,9 @@
     overflow-x: hidden;         /* 좌우 영역 넘치면 숨김 */
     padding: 20px;
 }
-/*.header {*/
-	
-/*	border-bottom: 0.5px solid #ddd;*/
-/*}*/
 
 .section h5 {
-    margin: 0 0 2vh 0;
+    margin: 0 0 2vh 20%;
     padding: 0;
 }
 
@@ -215,4 +247,39 @@
     padding: 0 !important;
     width: 100%;
     box-sizing: border-box;
+}
+
+.star-container {
+    display: flex;
+    align-items: center;  /* 수직 가운데 정렬 */
+    gap: 3px;             /* 별점과 리뷰 수 간격 */
+}
+
+.star-wrapper {
+    display: inline-block;
+    font-size: 17px;       /* 별 크기 */
+    position: relative;
+    color: #ddd;           /* 회색 배경 별 */
+}
+
+.stars {
+    position: relative;
+    display: inline-block;
+}
+
+/* 노란색 채움 */
+.stars::before {
+    content: '★★★★★';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--star-percent); /* 퍼센트로 채움 */
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--color-star);
+}
+
+.review-count {
+	font-size: 13px !important;
+	color: #555;
 }

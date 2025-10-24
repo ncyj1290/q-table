@@ -89,6 +89,11 @@ public class Store {
     @Column(name = "applied_at")
     private LocalDateTime appliedAt;
     
+    @Transient
+    private double avgScore;
+    
+    @Transient
+    private Integer reviewCount;
     
     //뷰
     @Transient

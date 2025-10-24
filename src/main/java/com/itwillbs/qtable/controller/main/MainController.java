@@ -14,6 +14,7 @@ import com.itwillbs.qtable.service.StoreService;
 import com.itwillbs.qtable.service.image.ImageService;
 import com.itwillbs.qtable.service.member.MemberJoinService;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.search.searchVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +25,7 @@ public class MainController {
 	private final ImageService imageService;
 	private final MemberJoinService memberJoinService;
 	@GetMapping("/")
-	public String home(Model model) {
+	public String home(Model model,searchVO searchVO) {
 		List<Store> stores = storeService.getStoresOrderByAvgRating();
 
 		// 1. 스토어 idx 리스트 수집
@@ -47,7 +48,7 @@ public class MainController {
 		
 		// 그룹 코드("time")를 기준으로 공통 코드를 조회하는 기능 
 		List<CommonCodeVO> timeCodes  = memberJoinService.getCodesByGroup("time");
-		
+		// 인기 지역 조회
 		
 		// 6. 모델에 추가
 		model.addAttribute("stores", stores);

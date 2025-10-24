@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	console.log('작동확인');
     $('.restaurant-wrapper').each(function() {
         const $wrapper = $(this);
         const restaurantList = $wrapper.find('.card-list')[0]; // DOM 요소
@@ -48,3 +49,34 @@ $(document).ready(function() {
     });
 		
 });
+
+window.addEventListener("DOMContentLoaded", function() {
+    let header = document.querySelector(".header");
+    let headerHeight = header.offsetHeight; // DOM이 로드된 후에 가져오기
+
+    window.addEventListener("scroll", function() {
+        if (window.scrollY >= headerHeight) {
+            header.classList.add("drop");
+        } else {
+            header.classList.remove("drop");
+        }
+    });
+});
+
+
+//$(document).on('click', '.card-image', function() {
+//    const loc = $(this).data('loc');   
+//    const code = $(this).data('code');
+//
+//    console.log('클릭한 카드 지역:', loc, 'code:', code);
+//
+//    // 세션스토리지에 저장 (JSON.stringify 사용)
+//    const locObj = {
+//        code: code,
+//        code_label: loc
+//    };
+//    sessionStorage.setItem('searchLoc', JSON.stringify(locObj));
+//
+//    // search 페이지로 이동
+//    window.location.href = '/search';
+//});
