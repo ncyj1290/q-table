@@ -14,6 +14,7 @@ const MONTHS = [
 // 재사용 가능한 달력 초기화 함수
 // ===================================
 function initCalendar(containerSelector) {
+	
 	const $calendarContainer = $(containerSelector + ' .calendar-container');
 	const $calendarTitle = $(containerSelector + ' .calendar-title');
 	const $calendarDays = $(containerSelector + ' .calendar-days');
@@ -39,8 +40,7 @@ function initCalendar(containerSelector) {
 	// ===================================
 	// 휴일 데이터 로드 
 	// ===================================
-	const holidaysData = $calendarContainer.attr('data-holidays');
-
+	const holidaysData = $calendarContainer.attr('data-holidays')|| '';
 	// 문자열을 배열로 변환 + 공백제거  
 	const holidayNames = holidaysData.split(',').map(name => name.trim()).filter(name => name);
 	// 한글로 된 요일을 숫자로 변환 

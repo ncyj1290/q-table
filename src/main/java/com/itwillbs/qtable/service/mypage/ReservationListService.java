@@ -27,7 +27,6 @@ public class ReservationListService {
 	     params.put("member_idx", memberIdx);        
 	     params.put("reserve_result", reserveResult);  
 	     List<Map<String, Object>> result = reservationListMapper.getMyReservationList(params);
-	     System.out.println("result 값이 있나 " + result);
 	     return result;
 	}
 
