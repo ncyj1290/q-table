@@ -84,17 +84,22 @@
 }
 
 .header {
+
     display: flex;
     justify-content: space-between; /* 로고 - 검색창 - 로그인 버튼 균등 배치 */
     align-items: center;
     padding: 5px 15px;
     background: #fff;
-    width: 100%;
-    max-width: 1400px;
-    min-width: 1400px;
+	min-width: 1400px;
+	max-width: 1400px;  /* 기존 최대 너비 유지 */
+	margin: 0 auto;     /* 중앙 정렬 */
     box-sizing: border-box;
     margin: 0 auto;
+	
+	position: static;
+	z-index: 20; /* 배너 위로 올라오도록 */
 }
+
 
 .horizontal-line{
 	width: 100%;

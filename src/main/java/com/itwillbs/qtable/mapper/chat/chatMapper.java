@@ -26,4 +26,11 @@ public interface chatMapper {
 
 	// 메시지 저장
 	public int insertChat(Map<String, Object> params);
+	
+	// 사용자의 모든 채팅방별 읽지 않은 메시지 수 조회
+	public List<Map<String, Object>> getUnreadCountByRoom(Integer memberIdx);
+	
+	// 채팅방의 읽지 않은 메시지 모두 읽음으로 수정 
+	public void updateMessagesAsRead(@Param("memberIdx") Integer memberIdx, @Param("roomIdx") Integer roomIdx);
+	
 }

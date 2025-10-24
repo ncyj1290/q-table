@@ -1,8 +1,6 @@
 let currentStat = "rsrt_05";  // 기본 예약상태 초기값 할당
 
-
 function showTab(tabId, element, reserveResult) {	
-	console.log("showTab 실행중!", tabId, reserveResult);
 	
 	// 모든 탭 내용 숨기기
 	document.querySelectorAll(".tab-content").forEach(c => c.style.display = "none");
@@ -17,7 +15,6 @@ function showTab(tabId, element, reserveResult) {
 	element.classList.add("active");
 
 	currentStat = reserveResult;  // 현재 상태 갱신
-	console.log("보낼 상태:", currentStat);
 	//예약&취소 조회 
 	$.ajax({
 		url: "/reservation_list",
@@ -65,9 +62,10 @@ $(document).on('click', 'button[data-type="cancelBtn"]', function() {
 		success: function(resp) {
 			console.log(reserveIdx);
 			if (resp.success) {
-				showTab('cancel', document.querySelector('#cancelTabLabel'), 'rsrt_03');
-				fetchCanceledReservations();
-				console.log('응답:', resp);
+				const cancelTabLabel = document.querySelector('.reserve-label[data-tab="cancel"]');
+				    showTab('cancel', cancelTabLabel, 'rsrt_03');
+				    fetchCanceledReservations();
+				    console.log('응답:', resp);
 			} else {
 				alert('예약 취소에 실패했습니다.');
 			}
@@ -78,49 +76,47 @@ $(document).on('click', 'button[data-type="cancelBtn"]', function() {
 	});
 });
 
+// 예약변경 모달을 연 후, 프래그먼트 html이 동적으로 삽입된 이후 실행!
+document.body.addEventListener('click', async (e) => {
+	const btn = e.target.closest('.positive-button');
+	if (!btn) return;
+	const type = btn.getAttribute('data-type');
+	const storeIdx = btn.getAttribute('data-store-idx');
+	console.log('storeIdx:', storeIdx, 'type:', type);
+	if (type === 'changeBtn' || type === 'revisitBtn' || type === 'rebookBtn') {
+		const response = await fetch(`/reserv_change?store_idx=${storeIdx}`);
+		if (response.ok) {
+			const html = await response.text();
+			document.getElementById('mypage-calendar-wrapper').innerHTML = html;
+			initCalendar('#mypage-calendarModal');
+			document.getElementById('mypage-calendarModal').style.display = 'block';
 
-
-
-
-
-/// changeBtn 클릭 → store_idx 읽어서 서버에 fragment 요청, 응답을 모달에 삽입
-$(document).on('click', '[data-type="changeBtn"]', function() {
-  const storeIdx = $(this).data('store-idx');
-  if (!storeIdx) {
-    alert("가게 정보가 없습니다.");
-    return;
-  }
-  $.ajax({
-    url: `/reserv_change?store_idx=${storeIdx}`,
-    type: 'GET',
-    success: function(fragmentHtml) {
-      $('#calendarModal .mypage-calendar-wrapper').html(fragmentHtml);
-      $('#calendarModal').show();
-      if(window.initCalendarInModal) { initCalendarInModal(); }
-    },
-    error: function() {
-      alert("달력 정보를 불러올 수 없습니다.");
-    }
-  });
+		}
+	}
 });
 
-// 모달 닫기
-$(document).on('click', '#closeCalendarModal', function() {
-  $('#calendarModal').hide();
+document.getElementById('mypage-closeCalendarModal').addEventListener('click', () => {
+  document.getElementById('mypage-calendarModal').style.display = 'none';
 });
 
-// fragment 삽입 후 달력 로직 전부 이 함수에서!
-function initCalendarInModal() {
-  const $calendarContainer = $('#calendarModal .calendar-container');
-  const $calendarTitle = $('#calendarModal .calendar-title');
-  const $calendarDays = $('#calendarModal .calendar-days');
-  const $calendarNavBtns = $('#calendarModal .calendar-nav-btn');
-  const DAY_NAME_TO_NUMBER = {'일':0,'월':1,'화':2,'수':3,'목':4,'금':5,'토':6};
-  let closedDays = [];
-  var holidaysData = $calendarContainer.attr('data-holidays') || "";
-  // 기타 달력 변수 선언 및 예약 기능 JS 그대로 복사
-  // holidaysData, day/month/year, generateCalendar, 이벤트 핸들러 등 전부 이 안에 선언/실행!
-}
+//function updateReservationAjax(reservationData) {
+//    $.ajax({
+//        url: '/reservation_update',
+//        type: 'POST',
+//        contentType: 'application/json',
+//        data: JSON.stringify(reservationData),
+//        success: function(response) {
+//            if(response.success) {
+//                alert('예약이 성공적으로 변경되었습니다.');
+//                // 모달 닫기, 화면 갱신 등 후처리 추가 가능
+//            } else {
+//                alert(response.message || '예약 변경에 실패했습니다.');
+//            }
+//        },
+//        error: function() {
+//            alert('서버 통신 중 오류가 발생했습니다.');
+//        }
+//}
 
 
 

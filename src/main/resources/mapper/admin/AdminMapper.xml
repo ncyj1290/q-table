@@ -38,7 +38,8 @@
                m.signup_date,
                m.leave_at,
         	   m.member_status,
-               c.code_label AS member_status_name
+               c.code_label AS member_status_name,
+               m.q_money
           FROM member m
           JOIN store s ON m.member_idx = s.member_idx
           LEFT JOIN common_code c ON m.member_status = c.code
@@ -161,6 +162,7 @@
 	 LEFT JOIN common_code c ON j.calculate_result = c.code
 	 LEFT JOIN common_code c1 ON s.bank_code = c1.code
 		 WHERE member_type = "mtype_03"
+	  ORDER BY j.jeongsan_idx DESC
     </select>
     
     <!-- 매장 정산 상세 내용 -->
@@ -316,6 +318,14 @@
 	      FROM store
 	     WHERE member_idx = #{member_idx}
 	</select>
+	
+	
+	<!-- 정산시 q머니 업데이트 로직 -->
+	<update id="updateQMoney">
+        UPDATE member
+        SET q_money = #{q_money}
+        WHERE member_idx = #{member_idx}
+    </update>
     
     
 </mapper>

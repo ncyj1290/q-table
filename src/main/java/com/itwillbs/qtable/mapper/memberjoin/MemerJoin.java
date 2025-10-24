@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 @Mapper
-public interface memerjoin {
+public interface MemerJoin {
     @Select("SELECT * FROM common_code")
     List<CommonCodeVO> selectAllCodes();
 

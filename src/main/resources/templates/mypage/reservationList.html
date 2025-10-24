@@ -12,9 +12,8 @@
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
-	<script th:src="@{/js/storeDetail/dynamicCalendar.js}"></script>
-	<script th:src="@{/js/common/pagination.js}"></script>
-
+	<script th:src="@{/js/storeDetail/dynamicCalendar.js}" defer></script>
+	<script th:src="@{/js/common/pagination.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>예약 현황</title>
 </head>
@@ -28,9 +27,9 @@
 		<div style="display: flex; align-items: center;">
 			<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
 			<div class="reservation-header">
-				<span class="reserve-label active" onclick="showTab('visit', this, 'rsrt_05')">방문예정</span>
+				<span class="reserve-label active" data-tab="visit" onclick="showTab('visit', this, 'rsrt_05')">방문예정</span>
 				<span class="reserve-label">|</span>
-				<span class="reserve-label " onclick="showTab('cancel', this, 'rsrt_03')">취소</span>
+				<span class="reserve-label " data-tab="cancel" onclick="showTab('cancel', this, 'rsrt_03')">취소</span>
 			</div>
 		</div>
 
@@ -39,7 +38,7 @@
 		<div class="reservation-list">
 			<!-- 방문예정 탭 -->
 			<th:block th:fragment="listFragment">
-				<div id="visit" class="tab-content">
+				<div id="visit" class="tab-content visit">
 					<div class="reservation-item" th:each="item : ${upcomingList}">
 						<img th:src="@{${item.store_img}}" class="store-img" />
 						<div class="reservation-info">
@@ -61,7 +60,8 @@
 							<div class="reservation-buttons">
 								<button class="negative-button" style="margin-right: 10px;" data-type="cancelBtn"
 									th:data-reserve-idx="${item['reserve_idx']}">예약 취소</button>
-								<button class="positive-button" data-type="changeBtn"  th:attr="data-store-idx=${item.store_idx}">예약 변경</button>
+								<button class="positive-button" data-type="changeBtn"
+									th:data-store-idx="${item.store_idx}">예약 변경</button>
 
 							</div>
 						</div>
@@ -71,7 +71,7 @@
 
 			<!-- 취소 탭 -->
 			<th:block th:fragment="listFragment">
-				<div id="cancel" class="tab-content" style="display:none;">
+				<div id="cancel" class="tab-content cancel" style="display:none;">
 					<div class="reservation-item" th:each="item : ${upcomingList}">
 						<img th:src="@{${item.store_img}}" class="store-img" />
 						<div class="reservation-info">
@@ -89,7 +89,7 @@
 								</span></span>
 							<span class="date" th:text="${item.store_content}"></span></span>
 							<div class="reservation-buttons">
-								<button class="positive-button " style="width: 130px;" data-type="rebookBtn">재예약
+								<button class="positive-button " style="width: 130px;" data-type="rebookBtn" th:data-store-idx="${item.store_idx}">재예약
 									하기</button>
 							</div>
 						</div>
@@ -98,15 +98,16 @@
 			</th:block>
 
 			<!--			모달영역-->
-			<div id="calendarModal" class="modal" style="display:none;">
-				<div class="modal-content">
-					<span class="close" id="closeCalendarModal">&times;</span>
-					<div class="mypage-calendar-wrapper">
+			<div id="mypage-calendarModal" class="mypage-modal" style="display:none;">
+				<div class="mypage-modal-content">
+					<span class="close" id="mypage-closeCalendarModal">&times;</span>
+					<div id="mypage-calendar-wrapper"
+						th:with="holiday=${holiday}, availableTimes=${availableTimes}, storeIdx=${storeIdx}">
 						<div th:replace="~{storeDetail/fragments/reservationCalendar :: reservationCalendar}"></div>
 					</div>
 				</div>
 			</div>
-
+			
 			<div th:replace="mypage/pick :: mainnav"></div>
 		</div>
 	</div>

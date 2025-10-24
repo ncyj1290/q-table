@@ -25,6 +25,7 @@ public class StoreListVO {
 	private LocalDate processed_at;
 	private LocalDate applied_at;
 	private LocalDateTime leave_at;
+	private int q_money;
 	
 	public void applyMasking() {
         // 탈퇴 상태이고, 탈퇴일이 존재하며, 3개월 이내일 때

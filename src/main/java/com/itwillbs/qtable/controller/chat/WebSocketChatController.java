@@ -59,7 +59,7 @@ public class WebSocketChatController {
 		// /topic/chat/{roomIdx} 를 구독한 클라이언트들이 받음
 		messagingTemplate.convertAndSend("/topic/chat/" + message.getRoomIdx(), message);
 
-		// TODO: 나중에 DB에 메시지 저장하는 로직 추가 예정
-		// chatService.saveMessage(message);
+		// 모든 사용자의 개인 채널에도 전송 (읽지 않은 메시지 카운트 업데이트용)
+		messagingTemplate.convertAndSend("/topic/chat-broadcast", message);
 	}
 }

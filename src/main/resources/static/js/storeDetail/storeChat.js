@@ -19,10 +19,13 @@ $(function() {
 			type : 'POST',
 			data : {store_idx : storeIdx},
 			success : function(res){
-				console.log(res);
-				location.href = '/chat';
+				if (res.success) {
+					console.log(res);
+					location.href = '/chat';
+				} else {
+					alert(res.message);
+				}
 			}
-			
 		})
 	});
 	// ===================================

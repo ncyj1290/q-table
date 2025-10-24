@@ -81,5 +81,8 @@ public interface AdminMapper {
     List<UserLogVO> findUserLogList();
     
     Integer getStoreIdxByMemberIdx(Integer member_idx); // 반환 타입 Integer
+    
+    // 정산시 q머니 업데이트 로직
+    int updateQMoney(@Param("member_idx") int member_idx, @Param("q_money") int q_money);
 	
 }

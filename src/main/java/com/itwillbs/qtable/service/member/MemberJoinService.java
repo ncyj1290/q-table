@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.itwillbs.qtable.entity.Member;
-import com.itwillbs.qtable.mapper.memberjoin.memerjoin;
+import com.itwillbs.qtable.mapper.memberjoin.MemerJoin;
 import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.repository.UserRepository;
 import com.itwillbs.qtable.service.mypage.PasswordService;
@@ -24,7 +24,7 @@ import lombok.extern.java.Log;
 public class MemberJoinService {
 	
 	private final MemberRepository memberRepository;
-    private final memerjoin commonCodeMapper;
+    private final MemerJoin commonCodeMapper;
     
     private final PasswordEncoder passwordEncoder;
 	
