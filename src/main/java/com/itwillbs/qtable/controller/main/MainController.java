@@ -30,7 +30,7 @@ public class MainController {
 
 		// storeIdx에 해당하는 매장의 프로필 이미지(imguse_01)를 모두 조회
 		List<Image> mainImages = imageService.getMainImages("imguse_01", storeIdx);
-//		List<Image> localImages = imageService.getLocalImages("imguse_06", storeIdx);
+		// List<Image> localImages = imageService.getLocalImages("imguse_06", storeIdx);
 
 		// 3. StoreIdx 기준 Map 생성 (value 타입 Image로)
 		Map<Integer, Image> imageMap = mainImages.stream().collect(Collectors.toMap(Image::getTargetIdx, img -> img));
