@@ -7,17 +7,19 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageHistory.css}">
-	<link rel="stylesheet" th:href="@{/css/storeDetail/storeDetail.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageCalendar.css}">
+			<link rel="stylesheet" th:href="@{/css/storeDetail/storeDetail.css}">
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
 	<script th:src="@{/js/mypage/mypageReview.js}" defer></script>
 	<script th:src="@{/js/storeDetail/review.js}" defer></script>
+	<script th:src="@{/js/common/pagination.js}"></script>
+		<script th:src="@{/js/storeDetail/dynamicCalendar.js}"></script>
 	<meta charset="UTF-8">
 	<title>history</title>
 </head>
-
 <body>
 	<div layout:fragment="Content">
 		<div th:replace="mypage/profile :: mainnav"></div>
@@ -50,7 +52,7 @@
 						<div class="visit-buttons">
 							<button class="positive-button review" style="margin-right: 10px;" th:data-store-idx="${item.store_idx}">리뷰
 								작성</button>
-							<button class="positive-button" data-type="revisitBtn">재방문
+							<button class="positive-button" data-type="revisitBtn" th:data-store-idx="${item.store_idx}">재방문
 								하기</button>
 						</div>
 					</div>
@@ -62,10 +64,20 @@
 				<div class="reserve-text">맛집을 찾으러 가볼까요?</div>
 					<a th:href="@{/search}">
 						<button class="positive-button"
-							style="width: 180px; height: 50px; font-size: 25px; border-radius: 10px; justify-content: center; margin-top: 10px;">맛집
-							찾아보기</button>
+							style="width: 180px; height: 50px; font-size: 25px; border-radius: 10px; justify-content: center; margin-top: 10px;">맛집 찾아보기</button>
 					</a>
 			</div>
+			
+<!--			모달영역-->
+			<div id="mypage-calendarModal" class="mypage-modal" style="display:none;">
+							<div class="mypage-modal-content">
+								<span class="close" id="mypage-closeCalendarModal">&times;</span>
+								<div id="mypage-calendar-wrapper"
+									th:with="holiday=${holiday}, availableTimes=${availableTimes}, storeIdx=${storeIdx}">
+									<div th:replace="~{storeDetail/fragments/reservationCalendar :: reservationCalendar}"></div>
+								</div>
+							</div>
+						</div>
 			
 			<div th:replace="mypage/pick :: mainnav"></div>
 		</div>
