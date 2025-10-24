@@ -13,9 +13,11 @@ import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.service.chat.ChatService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
 @Controller
 @RequiredArgsConstructor
+@Log
 public class ChatController {
 
 	private final ChatService chatService;
@@ -30,8 +32,26 @@ public class ChatController {
 
 		// 사용자의 모든 채팅방 목록 조회
 		List<Map<String, Object>> chatRoomList = chatService.getChatRoomList(memberIdx);
-		model.addAttribute("chatRoomList", chatRoomList);
+		
+		log.info(chatRoomList.toString());
+		
+		// room은 chatRoomList의 참조객체
+		for (Map<String, Object> room : chatRoomList) {
+			// 각 채팅방 번호 조회
+			Integer chatRoomIdx = (Integer) room.get("room_idx");
+			log.info("chatRoomIdx" + chatRoomIdx);
+			
+			// 마지막 대화 내용 조회 
+			String lastMsg = chatService.getLastMessage(chatRoomIdx);
+			log.info("마지막 대화내용 : " + lastMsg);
 
+			room.put("lastMsg", lastMsg);
+		}
+		
+		log.info(chatRoomList.toString());
+		
+		model.addAttribute("chatRoomList", chatRoomList);
+		
 		return "chat/chat";
 	}
 }

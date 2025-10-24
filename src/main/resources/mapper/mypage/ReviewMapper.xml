@@ -28,11 +28,27 @@
 
 	</select>
 
+<!--	 리뷰 삭제-->
 	<delete id="deleteReview">
 	  	DELETE FROM review
 	  	 WHERE review_idx = #{review_idx}
 	       AND member_idx = #{member_idx}
 	</delete>
+	
+	<!-- 리뷰 1건 조회 -->
+    <select id="selectReviewById" resultType="map">
+        SELECT review_idx, member_idx, content, create_at
+          FROM review
+         WHERE review_idx = #{review_idx}
+    </select>
+
+    <!-- 리뷰 내용 수정 -->
+    <update id="updateReviewContent" >
+        UPDATE review
+           SET content = #{content}
+         WHERE review_idx = #{review_idx}
+           AND member_idx = #{member_idx}
+    </update>
 
 	
 

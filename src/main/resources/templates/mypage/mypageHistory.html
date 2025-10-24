@@ -12,7 +12,7 @@
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
-	<script th:src="@{/js/mypage/review.js}" defer></script>
+	<script th:src="@{/js/mypage/mypageReview.js}" defer></script>
 	<script th:src="@{/js/storeDetail/review.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>history</title>
@@ -48,7 +48,7 @@
 							<span class="desc">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}">> </span></span>
 						 	<span class="date" th:text="${item.store_content}"></span></span>
 						<div class="visit-buttons">
-							<button class="positive-button review" style="margin-right: 10px;" data-type="reviewBtn">리뷰
+							<button class="positive-button review" style="margin-right: 10px;" th:data-store-idx="${item.store_idx}">리뷰
 								작성</button>
 							<button class="positive-button" data-type="revisitBtn">재방문
 								하기</button>

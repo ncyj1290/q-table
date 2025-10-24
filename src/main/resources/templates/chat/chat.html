@@ -36,7 +36,7 @@
 							</div>
 							<div class="chat-room-info">
 								<div class="chat-room-name" th:text="${room.store_name != null ? room.store_name : '알 수 없는 매장'}">매장명</div>
-								<div class="chat-room-last-message">마지막 대화내용...</div>
+								<div class="chat-room-last-message" th:text="${room.lastMsg != null ? room.lastMsg : ''}"></div>
 							</div>
 							<div class="chat-room-badge">
 								<span class="unread-count">0</span>
@@ -106,7 +106,7 @@
 					<i class="fas fa-image attachment-icon"></i>
 					<input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
 				</div>
-				<button class="positive-button">전송</button>
+				<button class="positive-button" id="send-btn">전송</button>
 			</div>
 		</div>
 	</div>

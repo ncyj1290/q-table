@@ -279,6 +279,9 @@ $(function() {
 			// 서버에서 브로드캐스트될 메시지를 수신해서 displayReceivedMessage로 표시됨
 			stompClient.send('/app/chat/send', {}, JSON.stringify(chatMessage));
 
+			// DB에 메시지 저장
+			saveMessage(message, currentRoomId);
+
 			// 입력 필드 비우기
 			$messageInput.val('');
 		}
@@ -367,13 +370,109 @@ $(function() {
 			subscribeToRoom(roomId);
 		}
 
-		// 메시지 목록 로드 (백엔드 구현 들어가면 추가 예정)
-		// TODO: loadMessages(roomId);
+		// 메시지 목록 로드
+		loadMessages(roomId);
 
 		// 읽지 않은 메시지 수 업데이트 (0으로)
 		let unreadBadge = $('.chat-room-item[data-room-id="' + roomId + '"]').find('.unread-count');
 		unreadBadge.text('0').hide();
 
 		scrollToBottom();
+	}
+
+	// 채팅 메시지 목록 불러오기
+	function loadMessages(roomIdx) {
+		$.ajax({
+			url: '/api/chat/messages',
+			type: 'POST',
+			data: { room_idx: roomIdx },
+			success: function(response) {
+				if (response.success) {
+					// 기존 메시지 영역 비우기
+					$messagesArea.empty();
+
+					// 메시지 목록 렌더링
+					if (response.messages && response.messages.length > 0) {
+						response.messages.forEach(function(msg) {
+							displayLoadedMessage(msg);
+						});
+					}
+
+					// 스크롤 맨 아래로
+					scrollToBottom();
+				} else {
+					console.error('메시지 로드 실패:', response.message);
+				}
+			},
+			error: function(xhr) {
+				console.error('메시지 로드 에러:', xhr);
+			}
+		});
+	}
+
+	// 불러온 메시지를 화면에 표시
+	function displayLoadedMessage(msg) {
+		let messageHtml = '';
+
+		// 시간 포맷팅
+		const time = new Date(msg.created_at).toLocaleTimeString('ko-KR', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false
+		});
+
+		// 발신자와 수신자 구분
+		const isSentByCurrentUser = msg.sender_idx === currentUserIdx;
+		const messageContainerClass = isSentByCurrentUser ? 'sent' : 'received';
+
+		if (isSentByCurrentUser) {
+			// 내가 보낸 메시지
+			messageHtml = `
+				<div class="message-container ${messageContainerClass}">
+					<div class="message-content">
+						<div class="message-time">${time}</div>
+						<div class="message-area">
+							<p>${msg.message_content}</p>
+						</div>
+					</div>
+				</div>
+			`;
+		} else {
+			// 다른 사람이 보낸 메시지
+			messageHtml = `
+				<div class="message-container ${messageContainerClass}">
+					<div class="message-profile">
+						<div class="profile-image"></div>
+						<span class="sender-name">${msg.sender_name || '알 수 없음'}</span>
+					</div>
+					<div class="message-content">
+						<div class="message-area">
+							<p>${msg.message_content}</p>
+						</div>
+						<div class="message-time">${time}</div>
+					</div>
+				</div>
+			`;
+		}
+
+		$messagesArea.append(messageHtml);
+	}
+	
+	// 메시지 DB 저장
+	function saveMessage(message, roomId) {
+		$.ajax({
+			url: '/api/chat/message/insert',
+			type: 'POST',
+			data: {
+				msg: message,
+				room_id: roomId
+			},
+			success: function(response) {
+				console.log('메시지 저장 성공');
+			},
+			error: function(xhr) {
+				console.error('메시지 저장 실패:', xhr);
+			}
+		});
 	}
 });

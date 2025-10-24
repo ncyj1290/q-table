@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -17,6 +18,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker  // WebSocket 메시지 브로커 활성화
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+	@Value("${websocket.allowed-origins:*}")
+	private String allowedOrigins;
+
 	/**
 	 * STOMP 엔드포인트 등록
 	 * 클라이언트가 WebSocket에 접속할 때 사용할 주소 설정
@@ -24,10 +28,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws-chat")  // WebSocket 접속 주소: ws://localhost:8080/ws-chat
-				.setAllowedOriginPatterns("*")  // 모든 Origin 허용 (개발용, 배포 시 수정 필요)
-				.withSockJS()  // SockJS 지원 (WebSocket 미지원 브라우저 대비)
-				.setWebSocketEnabled(true)  // WebSocket 활성화
-				.setSessionCookieNeeded(true);  // 세션 쿠키 사용 (인증된 사용자용)
+				// application.properties에서 설정값 읽어오기
+				// 개발: websocket.allowed-origins=*
+				// 배포: websocket.allowed-origins=https://www.q-table.com,https://q-table.com
+				.setAllowedOriginPatterns(allowedOrigins.split(","))  // credentials 허용하려면 Patterns 사용
+				.withSockJS();  // SockJS 지원 (WebSocket 미지원 브라우저 대비)
 	}
 
 	/**

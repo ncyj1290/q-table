@@ -30,14 +30,23 @@
 							style="text-decoration: none; color: inherit;">
 							<div class="card-image">
 								<img th:if="${stores[i].mainImage != null}" th:src="@{${stores[i].mainImage.imageUrl}}"
-									alt="메인 이미지" style="width:100%; height:100px;">
+									alt="메인 이미지">
 								<span th:if="${stores[i].mainImage == null}">이미지 없음</span>
 							</div>
 							<div class="card-info">
 								<h4 th:text="${stores[i].storeName}">식당이름</h4>
 								<p th:text="'예약금: ' + ${stores[i].deposit} + '원'">예약금</p>
 								<p th:text="'위치: ' + ${stores[i].fullAddress}">위치</p>
-								<p th:text="'영업시간: ' + ${stores[i].openTime} + ' ~ ' + ${stores[i].closeTime}">영업시간</p>
+								<p>
+								    영업시간: 
+								    <span th:each="timeCode : ${timeCodes}" 
+								          th:if="${timeCode.code == stores[i].openTime}" 
+								          th:text="${timeCode.code_label}">시작시간</span>
+								    ~
+								    <span th:each="timeCode : ${timeCodes}" 
+								          th:if="${timeCode.code == stores[i].closeTime}" 
+								          th:text="${timeCode.code_label}">종료시간</span>
+								</p>
 							</div>
 						</a>
 
@@ -142,14 +151,23 @@
 							<div class="card-image">
 								<img th:if="${seoulStores[i].mainImage != null}"
 									th:src="@{${seoulStores[i].mainImage.imageUrl}}" alt="메인 이미지"
-									style="width:100%; height:100px;">
+									style="width:100%;">
 								<span th:if="${seoulStores[i].mainImage == null}">이미지 없음</span>
 							</div>
 							<div class="card-info">
 								<h4 th:text="${seoulStores[i].storeName}">식당이름</h4>
 								<p th:text="'예약금: ' + ${seoulStores[i].deposit} + '원'">예약금</p>
 								<p th:text="'위치: ' + ${seoulStores[i].fullAddress}">위치</p>
-								<p th:text="'영업시간: ' + ${seoulStores[i].openTime} + ' ~ ' + ${seoulStores[i].closeTime}">영업시간</p>
+								<p>
+								    영업시간: 
+								    <span th:each="timeCode : ${timeCodes}" 
+								          th:if="${timeCode.code == seoulStores[i].openTime}" 
+								          th:text="${timeCode.code_label}">시작시간</span>
+								    ~
+								    <span th:each="timeCode : ${timeCodes}" 
+								          th:if="${timeCode.code == seoulStores[i].closeTime}" 
+								          th:text="${timeCode.code_label}">종료시간</span>
+								</p>
 							</div>
 						</a>
 
@@ -186,14 +204,23 @@
 							<div class="card-image">
 								<img th:if="${busanStores[i].mainImage != null}"
 									th:src="@{${busanStores[i].mainImage.imageUrl}}" alt="메인 이미지"
-									style="width:100%; height:100px;">
+									style="width:100%;">
 								<span th:if="${busanStores[i].mainImage == null}">이미지 없음</span>
 							</div>
 							<div class="card-info">
 								<h4 th:text="${busanStores[i].storeName}">식당이름</h4>
 								<p th:text="'예약금: ' + ${busanStores[i].deposit} + '원'">예약금</p>
 								<p th:text="'위치: ' + ${busanStores[i].fullAddress}">위치</p>
-								<p th:text="'영업시간: ' + ${busanStores[i].openTime} + ' ~ ' + ${busanStores[i].closeTime}">영업시간</p>
+								<p>
+								    영업시간: 
+								    <span th:each="timeCode : ${timeCodes}" 
+								          th:if="${timeCode.code == busanStores[i].openTime}" 
+								          th:text="${timeCode.code_label}">시작시간</span>
+								    ~
+								    <span th:each="timeCode : ${timeCodes}" 
+								          th:if="${timeCode.code == busanStores[i].closeTime}" 
+								          th:text="${timeCode.code_label}">종료시간</span>
+								</p>
 							</div>
 						</a>
 

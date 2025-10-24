@@ -16,11 +16,19 @@
 			,sb.rejection_reason
 			,sb.processed_at
 			,sb.applied_at
+			,sb.qr_code
 			,img.image_url as store_profile_path
 		from store sb join image img
 		on img.target_idx = sb.store_idx
 		where sb.member_idx = #{member_idx}
 		and img.target_type = 'imguse_01'
+	</select>
+	
+	<!-- QR 코드 없는 Store에 QR 생성 및 삽입 -->
+	<select id="selectNullQrStore">
+		select store_idx 
+		from store
+		where qr_code is null
 	</select>
 	
 	<!-- 회원 idx로 store_idx 찾는 쿼리문 -->

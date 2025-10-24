@@ -4,33 +4,41 @@
 // 요일 이름을 숫자로 변환에 사용할 맵
 const DAY_NAME_TO_NUMBER = {'일': 0, '월': 1, '화': 2, '수': 3,'목': 4,'금': 5,'토': 6};
 
-// 휴무 요일 
-let closedDays = [];
-
 // 상수
 const MONTHS = [
 	'1월', '2월', '3월', '4월', '5월', '6월',
 	'7월', '8월', '9월', '10월', '11월', '12월'
 ];
 
-// 일반 변수
-let currentDate = new Date();
-let currentMonth = currentDate.getMonth();
-let currentYear = currentDate.getFullYear();
-let selectedDate = null;  // 선택된 날짜 (YYYY-MM-DD 형식)
+// ===================================
+// 재사용 가능한 달력 초기화 함수
+// ===================================
+function initCalendar(containerSelector) {
+	const $calendarContainer = $(containerSelector + ' .calendar-container');
+	const $calendarTitle = $(containerSelector + ' .calendar-title');
+	const $calendarDays = $(containerSelector + ' .calendar-days');
+	const $calendarNavBtns = $(containerSelector + ' .calendar-nav-btn');
 
-// 예약 가능 기간 계산
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-const maxReservationDate = new Date();
-maxReservationDate.setDate(maxReservationDate.getDate() + 60); // 오늘부터 60일 후
-maxReservationDate.setHours(23, 59, 59, 999);
+	// 휴무 요일
+	let closedDays = [];
 
-$(function() {
+	// 일반 변수
+	let currentDate = new Date();
+	let currentMonth = currentDate.getMonth();
+	let currentYear = currentDate.getFullYear();
+	let selectedDate = null;  // 선택된 날짜 (YYYY-MM-DD 형식)
+	let currentReserveIdx = null;  // 예약 번호 (마이페이지 예약 변경용)
+
+	// 예약 가능 기간 계산
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+	const maxReservationDate = new Date();
+	maxReservationDate.setDate(maxReservationDate.getDate() + 60); // 오늘부터 60일 후
+	maxReservationDate.setHours(23, 59, 59, 999);
+
 	// ===================================
 	// 휴일 데이터 로드 
 	// ===================================
-	const $calendarContainer = $('.calendar-container');
 	const holidaysData = $calendarContainer.attr('data-holidays');
 
 	// 문자열을 배열로 변환 + 공백제거  
@@ -38,115 +46,16 @@ $(function() {
 	// 한글로 된 요일을 숫자로 변환 
 	closedDays = holidayNames.map(name => DAY_NAME_TO_NUMBER[name]).filter(num => num !== undefined);
 
-	const $calendarTitle = $('.calendar-title');
-	const $calendarDays = $('.calendar-days');
-	const $calendarNavBtns = $('.calendar-nav-btn');
+	// 예약 번호 설정 (마이페이지용)
+	currentReserveIdx = $calendarContainer.closest('[data-reserve-idx]').data('reserve-idx');
 
 	// ===================================
-	// 이벤트 리스너
-	// ===================================
-
-	// 월 이동 기능
-	$calendarNavBtns.on('click', function() {
-		const isNext = $(this).text() === '▶';
-
-		if (isNext) {
-			currentMonth++;
-			if (currentMonth > 11) {
-				currentMonth = 0;
-				currentYear++;
-			}
-		} else {
-			currentMonth--;
-			if (currentMonth < 0) {
-				currentMonth = 11;
-				currentYear--;
-			}
-		}
-
-		generateCalendar(currentYear, currentMonth);
-	});
-
-	// 날짜 클릭 (이벤트 위임)
-	$calendarDays.on('click', '.calendar-day.available', function() {
-		const dateNumber = $(this).find('.date-number').text();
-
-		// 휴무일은 클릭 불가
-		if ($(this).find('.availability-mark.unavailable').length > 0) {
-			return;
-		}
-
-		// 이전/다음 달 날짜는 클릭 불가
-		if ($(this).hasClass('prev-month') || $(this).hasClass('next-month')) {
-			return;
-		}
-
-		// 지난 날짜 및 60일 이후 날짜는 클릭 불가
-		if ($(this).hasClass('past-date') || $(this).hasClass('out-of-range')) {
-			return;
-		}
-
-		// 선택된 날짜 저장 (YYYY-MM-DD 형식)
-		const year = currentYear;
-		const month = String(currentMonth + 1).padStart(2, '0');
-		const day = String(dateNumber).padStart(2, '0');
-		selectedDate = `${year}-${month}-${day}`;
-
-		// 모든 날짜에서 selected 클래스 제거
-		$calendarDays.find('.calendar-day').removeClass('selected');
-
-		// 클릭한 날짜에 selected 클래스 추가
-		$(this).addClass('selected');
-
-		// 시간 옵션 업데이트 (오늘 날짜면 지난 시간 비활성화)
-		updateTimeOptions(selectedDate);
-	});
-
-	// 예약하기 버튼 클릭
-	$('#reservation-submit-btn').on('click', function() {
-		// 날짜 선택 확인
-		if (!selectedDate) {
-			alert('날짜를 선택해주세요.');
-			return;
-		}
-
-		// 인원수 입력 확인
-		const personCount = $('#person-count').val().trim();
-		if (!personCount || personCount === '0') {
-			alert('인원수를 입력해주세요.');
-			return;
-		}
-		
-		// 시간 선택 확인
-		const time = $('#reservation-time').val();
-		if (!time) {
-			alert('시간을 선택해주세요.');
-			return;
-		}
-
-		// URL에서 store_idx 가져오기
-		const urlParams = new URLSearchParams(location.search);
-		const storeIdx = urlParams.get('store_idx');
-
-		if (!storeIdx) {
-			alert('잘못된 접근입니다.');
-			return;
-		}
-
-		// URL 파라미터로 예약 페이지 이동
-		location.href = `/reservation?store_idx=${storeIdx}&reserve_date=${selectedDate}&reserve_time=${time}&person_count=${personCount}`;
-	});
-
-	// 초기 달력 생성
-	generateCalendar(currentYear, currentMonth);
-
-	// ===================================
-	// 함수 정의
+	// 내부 함수 정의
 	// ===================================
 
 	// 시간 옵션 업데이트 (오늘 날짜면 지난 시간 비활성화)
 	function updateTimeOptions(selectedDateStr) {
-		const $timeSelect = $('#reservation-time');
+		const $timeSelect = $(containerSelector + ' #reservation-time');
 		const now = new Date();
 		const selectedDateObj = new Date(selectedDateStr);
 
@@ -165,7 +74,7 @@ $(function() {
 			$timeSelect.find('option').each(function() {
 				const optionTime = $(this).val();
 
-				// 지난 시간이면 비활성화 
+				// 지난 시간이면 비활성화
 				if (optionTime <= currentTimeStr) {
 					$(this).prop('disabled', true);
 				} else {
@@ -273,5 +182,125 @@ $(function() {
 		}
 
 		$calendarDays.html(calendarHTML);
+	}
+
+	// ===================================
+	// 이벤트 리스너
+	// ===================================
+
+	// 월 이동 기능
+	$calendarNavBtns.off('click').on('click', function() {
+		const isNext = $(this).text() === '▶';
+
+		if (isNext) {
+			currentMonth++;
+			if (currentMonth > 11) {
+				currentMonth = 0;
+				currentYear++;
+			}
+		} else {
+			currentMonth--;
+			if (currentMonth < 0) {
+				currentMonth = 11;
+				currentYear--;
+			}
+		}
+
+		generateCalendar(currentYear, currentMonth);
+	});
+
+	// 날짜 클릭 (이벤트 위임)
+	$calendarDays.off('click').on('click', '.calendar-day.available', function() {
+		const dateNumber = $(this).find('.date-number').text();
+
+		// 휴무일은 클릭 불가
+		if ($(this).find('.availability-mark.unavailable').length > 0) {
+			return;
+		}
+
+		// 이전/다음 달 날짜는 클릭 불가
+		if ($(this).hasClass('prev-month') || $(this).hasClass('next-month')) {
+			return;
+		}
+
+		// 지난 날짜 및 60일 이후 날짜는 클릭 불가
+		if ($(this).hasClass('past-date') || $(this).hasClass('out-of-range')) {
+			return;
+		}
+
+		// 선택된 날짜 저장 (YYYY-MM-DD 형식)
+		const year = currentYear;
+		const month = String(currentMonth + 1).padStart(2, '0');
+		const day = String(dateNumber).padStart(2, '0');
+		selectedDate = `${year}-${month}-${day}`;
+
+		// 모든 날짜에서 selected 클래스 제거
+		$calendarDays.find('.calendar-day').removeClass('selected');
+
+		// 클릭한 날짜에 selected 클래스 추가
+		$(this).addClass('selected');
+
+		// 시간 옵션 업데이트 (오늘 날짜면 지난 시간 비활성화)
+		updateTimeOptions(selectedDate);
+	});
+
+	// 예약하기 버튼 클릭 (마이페이지 재사용 가능하게 수정)
+	$(containerSelector + ' #reservation-submit-btn').off('click').on('click', function() {
+		// 날짜 선택 확인
+		if (!selectedDate) {
+			alert('날짜를 선택해주세요.');
+			return;
+		}
+
+		// 인원수 입력 확인
+		const personCount = $(containerSelector + ' #person-count').val().trim();
+		if (!personCount || personCount === '0') {
+			alert('인원수를 입력해주세요.');
+			return;
+		}
+
+		// 시간 선택 확인
+		const time = $(containerSelector + ' #reservation-time').val();
+		if (!time) {
+			alert('시간을 선택해주세요.');
+			return;
+		}
+
+		// store_idx 가져오기: 마이페이지는 .calendar-container.data('store-idx'), 식당상세는 URL 파라미터
+		let storeIdx = $calendarContainer.data('store-idx');
+
+		if (!storeIdx) {
+			const urlParams = new URLSearchParams(location.search);
+			storeIdx = urlParams.get('store_idx');
+		}
+
+		if (!storeIdx) {
+			alert('잘못된 접근입니다.');
+			return;
+		}
+
+		// 마이페이지에서만 예약번호 존재
+		console.log("storeIdx : " + storeIdx);
+		console.log("resIdx : " + currentReserveIdx);
+		if (currentReserveIdx) {
+			// 마이페이지: 기존 예약 변경
+			location.href = `/reservation?store_idx=${storeIdx}&reserve_idx=${currentReserveIdx}&reserve_date=${selectedDate}&reserve_time=${time}&person_count=${personCount}`;
+		} else {
+			// 식당상세: 새로운 예약 생성
+			location.href = `/reservation?store_idx=${storeIdx}&reserve_date=${selectedDate}&reserve_time=${time}&person_count=${personCount}`;
+		}
+	});
+
+	// 초기 달력 생성
+	generateCalendar(currentYear, currentMonth);
+}
+
+// ===================================
+// 페이지 로드 시 자동 초기화 (식당 상세 페이지용)
+// ===================================
+$(function() {
+	// body 요소에 달력이 있으면 자동 초기화
+	if ($('body .calendar-container').length > 0) {
+		initCalendar('body');
 	}
 });

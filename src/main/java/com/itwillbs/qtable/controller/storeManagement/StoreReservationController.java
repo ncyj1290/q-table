@@ -1,5 +1,6 @@
 package com.itwillbs.qtable.controller.storeManagement;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.zxing.WriterException;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreCommonCode;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreReservation;
@@ -49,18 +51,13 @@ public class StoreReservationController {
 	/* 예약 목록 페이지 */
 	@GetMapping("/store_reservation_list")
 	public String storeReservationList(@AuthenticationPrincipal QtableUserDetails user, Model model,
-			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, @RequestParam(required = false, name ="filter") String filter) {
+			@RequestParam(name = "pageNum", defaultValue = "1") int pageNum, @RequestParam(required = false, name ="filter") String filter) throws WriterException, IOException {
 		
 		/* 프로필 정보 가져와서 집어넣는건데 spData란 이름으로 모델에 집어넣게 될거임 */
 		storeDataService.injectStoreProfileByOwnerIdx(model, user.getMember().getMemberIdx());
 		StoreVO sData = (StoreVO) model.getAttribute("spData");
 		
 		int storeIdx = sData.getStore_idx();
-		
-		/* Test URL FOR Create QR => 현장 결제 URL */
-		String url = qrService.buildUrl(storeIdx);
-		System.out.println("Check QR URL: " + url);
-		/* ============================================ */
 		
 		/* 예약 리스트 가져오는 부분 + 페이지네이션*/
 		PageVO pageVo = PagingHandler.pageHandler(pageNum, () -> storeReservationService.countReservationByStoreIdx(storeIdx, filter));

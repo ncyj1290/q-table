@@ -5,6 +5,7 @@
 let selectedRating = 0;  // 선택된 별점 (1-5)
 let selectedFiles = [];  // 선택된 이미지 파일 배열
 let reviewPagination = null;  // 페이지네이션 인스턴스
+let currentStoreIdx = null;  // 현재 선택된 매장 IDX (마이페이지용)
 
 $(function() {
 	const $reviewButton = $('.review-controls .positive-button');
@@ -14,7 +15,7 @@ $(function() {
 	const $imagePreview = $('#imagePreview');
 	const $mypageReview = $('.visit-buttons .positive-button.review');
 
-	// URL에서 store_idx 가져오기
+	// URL에서 store_idx 가져오기 (식당상세페이지용)
 	const urlParams = new URLSearchParams(window.location.search);
 	const storeIdx = urlParams.get('store_idx');
 
@@ -22,14 +23,17 @@ $(function() {
 	// 이벤트 리스너
 	// ===================================
 
-	// 리뷰 작성 모달 열기
+	// 리뷰 작성 모달 열기 (식당상세페이지)
 	$reviewButton.on('click', function() {
+		currentStoreIdx = storeIdx;  // 식당상세페이지의 storeIdx 사용
 		$reviewModal.show();
 	});
-	
+
+	// 리뷰 작성 모달 열기 (마이페이지)
 	$mypageReview.on('click', function() {
-			$reviewModal.show();
-		});
+		currentStoreIdx = $(this).data('store-idx');  // 버튼의 data-store-idx 사용
+		$reviewModal.show();
+	});
 	// 모달 닫기 - X 버튼
 	$reviewModal.on('click', '.close', function() {
 		$reviewModal.hide();
@@ -218,12 +222,26 @@ $(function() {
 	
 	// 리뷰 작성
 	function writeReview(){
+		// store_idx 체크
+		if (!currentStoreIdx) {
+			alert('매장 정보를 찾을 수 없습니다.');
+			return;
+		}
+
+		// 별점 체크
+		if (selectedRating === 0) {
+			alert('별점을 선택해주세요.');
+			return;
+		}
+
+		// 리뷰 내용
+		const reviewContent = $('#reviewText').val().trim();
 
 		const formData = new FormData();
 
-		formData.append("store_idx", storeIdx);
+		formData.append("store_idx", currentStoreIdx);  // currentStoreIdx 사용
 		formData.append("score", selectedRating);
-		formData.append("content", $('#reviewText').val());
+		formData.append("content", reviewContent);
 
 		// 이미지 추가
 	    selectedFiles.forEach(file => {
@@ -247,8 +265,13 @@ $(function() {
 					// 모달창 초기화
 					resetModal();
 
-					// 리뷰 목록 새로고침
-	                reviewPagination.loadPage(1);
+					// 리뷰 목록 새로고침 (식당상세페이지에만 있음 - ajax페이지네이션)
+					if (reviewPagination) {
+						reviewPagination.loadPage(1);
+					} else {
+						// 마이페이지에서는 페이지 새로고침
+						location.reload();
+					}
 				}, '리뷰 등록에 실패했습니다.');
 			},
 			error: function(xhr){
@@ -261,8 +284,10 @@ $(function() {
 	function resetModal() {
 	    selectedRating = 0;
 	    selectedFiles = [];
+	    currentStoreIdx = null;  // 매장 IDX 초기화
 	    $('#reviewText').val('');
 	    $imagePreview.empty();
+	    $('#reviewImages').val('');  // 파일 input 초기화
 	    displayStars(0);
 	}
 

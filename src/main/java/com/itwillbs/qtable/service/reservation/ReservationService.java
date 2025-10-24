@@ -33,6 +33,19 @@ public class ReservationService {
 		return storeInfo;
 	}
 
+	// 예약 처리 (등록 또는 수정) + 큐머니 차감 + 결제내역
+	@Transactional
+	public Map<String, Object> processReservation(Map<String, Object> reservationData, Integer memberIdx) {
+		Integer reserveIdx = convertToInteger(reservationData.get("reserve_idx"));
+
+		// reserve_idx가 있으면 수정, 없으면 등록
+		if (reserveIdx != null) {
+			return updateReservation(reservationData, memberIdx);
+		} else {
+			return insertReservation(reservationData, memberIdx);
+		}
+	}
+
 	// 예약 등록 + 큐머니 차감 + 결제내역
 	@Transactional
 	public Map<String, Object> insertReservation(Map<String, Object> reservationData, Integer memberIdx) {
@@ -85,6 +98,31 @@ public class ReservationService {
 				memberIdx, totalAmount, null, "pyst_02"
 			);
 			throw e; // 예외 다시 던져서 예약/큐머니 차감은 롤백
+		}
+	}
+
+	// 예약 수정 (날짜/시간/인원/요청사항만 수정, 큐머니 추가 차감 없음)
+	// 예약 환불하고 다시결제 되는 로직 짜야함
+	// + 결제 기록남기기까지 
+	@Transactional
+	public Map<String, Object> updateReservation(Map<String, Object> reservationData, Integer memberIdx) {
+		try {
+			reservationData.put("member_idx", memberIdx);
+			int result = reservationMapper.updateReservation(reservationData);
+
+			if (result == 0) {
+				throw new RuntimeException("예약 정보 수정에 실패했습니다. 예약 정보를 확인해주세요.");
+			}
+
+			Integer reserveIdx = convertToInteger(reservationData.get("reserve_idx"));
+			Map<String, Object> resultMap = new HashMap<>();
+			resultMap.put("reserve_idx", reserveIdx);
+			resultMap.put("message", "예약이 성공적으로 변경되었습니다.");
+
+			return resultMap;
+
+		} catch (Exception e) {
+			throw new RuntimeException("예약 변경 중 오류가 발생했습니다: " + e.getMessage());
 		}
 	}
 

@@ -40,12 +40,37 @@
 		 where group_code = 'time';
 	</select>
 	
+	
+	
 	<select id="getResult">
-		WITH user_scrap AS (
-			SELECT store_idx 
-			  FROM scrap 
-		     WHERE member_idx = #{vo.member_idx} 
-		)
+		<trim prefix="WITH" suffixOverrides=",">
+			 user_scrap AS (
+			     SELECT store_idx 
+			       FROM scrap 
+			      WHERE member_idx = #{vo.member_idx}
+			 ),
+			 review_status as (
+			 	select store_idx
+			 	     , COUNT(review_idx) reviewCnt
+		     		 , IFNULL(ROUND(SUM(score)/COUNT(review_idx),1),0) score
+			 	  from review 
+			  group by store_idx
+			 ),
+			 holiday as (
+			 	select store_idx 
+			 	     , IFNULL(GROUP_CONCAT(DISTINCT(cHoliday.code_label) ORDER BY cHoliday.code), '') 'holiday'
+			 	  from store_holiday sh 
+			 	  join common_code cHoliday on sh.store_holiday = cHoliday.code
+			  group by store_idx 
+			 ),
+		 	<if test="vo.time != null">
+			    user_time AS (
+			      SELECT code_label 
+			        FROM common_code 
+			       WHERE code = #{vo.time}
+			    ),
+			</if>
+		</trim>
 		SELECT s.store_idx
 			 , s.store_name
 		     , s.sido
@@ -56,24 +81,23 @@
 		     , s.is_accept
 		     , cOpen.code_label 'open_time'
 		     , cClose.code_label 'close_time'
-		     , COUNT(r.content) reviewCnt
-		     , IFNULL(ROUND(SUM(r.score)/COUNT(r.review_idx),1),0) score
 		     , i.image_url
-    		 , IFNULL(GROUP_CONCAT(DISTINCT(cHoliday.code_label) ORDER BY cHoliday.code), '') 'holiday'
+		     , IFNULL(rs.reviewCnt, 0) reviewCnt  
+		     , IFNULL(rs.score, 0) score
+    		 , IFNULL(h.holiday, '') holiday
 			 , CASE WHEN us.store_idx IS NOT NULL THEN 1 
                     ELSE 0
 			      END AS is_scrapped
 		FROM store s
-		LEFT OUTER JOIN common_code cOpen ON s.open_time = cOpen.code
-		LEFT OUTER JOIN common_code cClose ON s.close_time = cClose.code 
-		LEFT OUTER JOIN review r ON s.store_idx = r.store_idx 
-		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx 
-		LEFT OUTER JOIN store_holiday h ON s.store_idx = h.store_idx 
-		LEFT OUTER JOIN common_code cHoliday ON h.store_holiday = cHoliday.code 
-		LEFT OUTER JOIN user_scrap us ON s.store_idx = us.store_idx
-		left outer join store_category sc on s.store_idx = sc.store_idx
-		left outer join store_atmosphere st on s.store_idx = st.store_idx
-		left outer join store_amenity sa on s.store_idx = sa.store_idx
+		LEFT OUTER JOIN common_code cOpen ON s.open_time = cOpen.code -- 단일행 반환 
+		LEFT OUTER JOIN common_code cClose ON s.close_time = cClose.code  -- 단일행 반환 
+		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx  -- 이미지는 단일행 
+		left outer join review_status rs on s.store_idx = rs.store_idx -- 복수행 반환 
+		left outer join holiday h on s.store_idx = h.store_idx         -- 복수행 반환 
+		LEFT OUTER JOIN user_scrap us ON s.store_idx = us.store_idx    -- 복수행 반환 
+		<if test="vo.time != null">
+			cross join user_time ut
+		</if>
 		WHERE i.target_type = 'imguse_01'
 		<if test="vo.loc != null">
 		    AND
@@ -82,47 +106,113 @@
 		    </foreach>
 		</if>
 		<if test="vo.food != null">
-		    AND sc.store_category IN
-		    <foreach collection="vo.food" item="foodItem" open="(" separator="," close=")">
-		        #{foodItem}
-		    </foreach>
+		    AND EXISTS (
+		        SELECT 1
+		        FROM store_category sc
+		        WHERE sc.store_idx = s.store_idx
+		          AND sc.store_category IN
+		            <foreach collection="vo.food" item="foodItem" open="(" separator="," close=")">
+		                #{foodItem}
+		            </foreach>
+		    )
 		</if>
 		<if test="vo.atmosphere != null">
-		    and st.store_atmosphere in
-		    <foreach collection="vo.atmosphere" item="atmoItem" open="(" separator="," close=")">
-		        #{atmoItem}
-		    </foreach>
+		    and exists ( 
+		        select 1 
+		          from store_atmosphere st 
+		         where st.store_idx = s.store_idx 
+		           and st.store_atmosphere in
+				       <foreach collection="vo.atmosphere" item="atmoItem" open="(" separator="," close=")">
+				       	#{atmoItem}
+				       </foreach>
+		    )
 		</if>
 		<if test="vo.facility != null">
-		    and sa.store_amenity in
-		    <foreach collection="vo.facility" item="facilityItem" open="(" separator="," close=")">
-		        #{facilityItem}
-		    </foreach>
+		 and exists ( 
+		        select 1 
+		          from store_amenity sa
+		         where sa.store_idx = s.store_idx 
+		    	   and sa.store_amenity in
+				    <foreach collection="vo.facility" item="facilityItem" open="(" separator="," close=")">
+				        #{facilityItem}
+				    </foreach>
+		     )
 		</if>
 		<if test="vo.price != null">
-		    AND s.price_avg BETWEEN #{vo.price[0]} AND #{vo.price[1]}
+			<choose>
+				<when test="vo.price[0] == 400000 and vo.price[1] == 400000">
+					AND s.price_avg >= #{vo.price[0]}
+	   		 	</when>
+				<otherwise>
+					AND s.price_avg BETWEEN #{vo.price[0]} AND #{vo.price[1]}
+				</otherwise>
+			</choose>
 		</if>
 		<if test="vo.personCnt != null">
 			and s.store_seat >= #{vo.personCnt}
 		</if>
-<!-- 		and not EXISTS (SELECT 1   -->
-<!-- 					  FROM store_holiday sh -->
-<!-- 					 WHERE sh.store_idx = s.store_idx -->
-<!-- 					   AND sh.store_holiday in('srhd_01', 'srhd_02'))  -->
-		and (select code_label 
-			  from common_code 
-		     where code = 'time_40') between cOpen.code_label and cClose.code_label
-		GROUP BY s.store_idx
-		       , s.store_name
-		       , s.sido
-		       , i.image_url
-		       , sigungu
-		       , price
-		       , is_24hour
-		       , store_content
-		       , cOpen.code_label
-		       , cClose.code_label
-  	    ORDER BY ${vo.sort};
+		<if test="vo.day != null">
+			AND NOT EXISTS (SELECT 1  
+							  FROM store_holiday sh
+							 WHERE sh.store_idx = s.store_idx
+							   AND sh.store_holiday = #{vo.day}) 
+		</if>
+		<if test="vo.time != null">
+		    <![CDATA[
+		        AND (
+		                s.is_24hour = 1 
+		                OR 
+		                (
+		                    (cOpen.code_label > cClose.code_label AND 
+		                        (ut.code_label  >= cOpen.code_label OR ut.code_label  <= cClose.code_label))
+		                    OR
+		                    (cOpen.code_label <= cClose.code_label AND 
+		                        (ut.code_label  >= cOpen.code_label AND ut.code_label <= cClose.code_label))
+		                )
+		            )
+		    ]]>
+		</if>
+		<if test="vo.keywords != null and !vo.keywords.isEmpty()">
+			and
+		    <foreach collection="vo.keywords" item="keyword" separator=" AND ">
+		        (
+		            MATCH(s.store_name, s.full_address, s.store_content) AGAINST(#{keyword} IN BOOLEAN MODE)
+		            OR EXISTS (
+		                SELECT 1 
+		                FROM menu m 
+		                WHERE m.store_idx = s.store_idx
+		                  AND MATCH(m.menu_name, m.menu_content) AGAINST(#{keyword} IN BOOLEAN MODE)
+		            )
+		        )
+		    </foreach>
+		</if>
+<!-- 		GROUP BY s.store_idx -->
+<!-- 		       , s.store_name -->
+<!-- 		       , s.sido -->
+<!-- 		       , i.image_url -->
+<!-- 		       , s.sigungu -->
+<!-- 		       , price -->
+<!-- 		       , is_24hour -->
+<!-- 		       , store_content -->
+<!-- 		       , cOpen.code_label -->
+<!-- 		       , cClose.code_label -->
+<!-- 		       , is_scrapped -->
+<!-- 		       , s.is_accept -->
+  	    ORDER BY 
+  	    <choose>
+            <when test="vo.sort == 'price asc'">
+                price ASC
+            </when>
+            <when test="vo.sort == 'price desc'">
+                price DESC
+            </when>
+            <when test="vo.sort == 'reviewCnt desc'">
+                reviewCnt DESC
+            </when>
+            <otherwise>
+                score DESC
+            </otherwise>
+        </choose>
 	</select>	
 	
 	

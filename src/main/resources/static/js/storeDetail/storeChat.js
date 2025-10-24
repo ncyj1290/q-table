@@ -14,9 +14,8 @@ $(function() {
 	// 이벤트 리스너
 	// ===================================
 	$chatButton.on('click', function(){
-		console.log("dd");
 		$.ajax({
-			url : '/api/chat/room/create',
+			url : '/api/chat/room/insert',
 			type : 'POST',
 			data : {store_idx : storeIdx},
 			success : function(res){

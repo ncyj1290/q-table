@@ -18,7 +18,7 @@ public class ChatService {
 	private final chatMapper chatMapper;
 
 	// 채팅방 생성 또는 채팅방 조회
-	public Map<String, Object> createOrGetChatRoom(Integer memberIdx, Integer storeIdx) {
+	public Map<String, Object> insertOrGetChatRoom(Integer memberIdx, Integer storeIdx) {
 
 		// 기존 채팅방 확인
 		Map<String, Object> existingRoom = chatMapper.getChatRoomByMemberAndStore(memberIdx, storeIdx);
@@ -43,5 +43,25 @@ public class ChatService {
 	public List<Map<String, Object>> getChatRoomList(Integer memberIdx) {
 		return chatMapper.getChatRoomListByMember(memberIdx);
 	}
+
+	// 특정 채팅방의 메시지 목록 조회
+	public List<Map<String, Object>> getChatMessages(Integer roomIdx) {
+		return chatMapper.getChatMessagesByRoomIdx(roomIdx);
+	}
 	
+	// 마지막 대화내용 조회
+	public String getLastMessage(Integer chatRoomIdx) {
+		return chatMapper.getLastMessage(chatRoomIdx);
+	}
+
+	// 메시지 저장
+	public void insertChat(String message, Integer senderIdx, Integer roomIdx) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("messageContent", message);
+		params.put("senderIdx", senderIdx);
+		params.put("roomIdx", roomIdx);
+
+		chatMapper.insertChat(params);
+	}
+
 }

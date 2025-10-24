@@ -38,7 +38,7 @@
 		</div>
 		<div class="keywords single-choice priceKeywords">
 			<span th:each="price,stat : ${priceRangeList}" th:data-price="${price.code}" 
-			th:text="${price.code_label}" th:class="|keyword priceKeyword ${stat.index * 10}|"></span>
+			th:text="${price.code_label}" th:class="|keyword priceKeyword ${stat.index * 100000}|"></span>
 		</div>
 	</section>
 	<section class="part parent atmosphere">

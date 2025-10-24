@@ -1,8 +1,10 @@
 package com.itwillbs.qtable.service.search;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -58,29 +60,19 @@ public class searchService {
 	// 검색결과 정보들 가져오기 
 	public List<Map<String, Object>> getResult(searchVO vo) {
 		
-		String rawSort = vo.getSort();
-        String safeSort; // 검증된 값을 담을 변수
-
-        // sql injection 방지용 화이트 리스트 로직 
-        switch (rawSort) {
-            case "price asc":
-                safeSort = "price asc";
-                break;
-            case "price desc":
-                safeSort = "price desc";
-                break;
-            case "score desc":
-                safeSort = "score desc";
-                break;
-            case "reviewCnt desc":
-                safeSort = "reviewCnt desc";
-                break;
-            default:
-                safeSort = "score desc"; 
-                break;
-        }
-        // 검증된 값으로 덮어쓰기
-        vo.setSort(safeSort);
+		String query = vo.getQuery(); 
+		if (query != null && !query.trim().isEmpty()) {
+		    String[] words = query.split("\\s+"); 
+		    List<String> keywords = Arrays.stream(words)
+		            .filter(word -> !word.trim().isEmpty()) 
+		            .collect(Collectors.toList());
+		    vo.setKeywords(keywords);
+		    vo.setQuery(null); 
+		} else {
+		    vo.setKeywords(null);
+		    vo.setQuery(null);
+		}
+        
 		return mapper.getResult(vo);
 	}
 	

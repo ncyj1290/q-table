@@ -31,6 +31,7 @@ public class ReservationController {
 	public String reservation(
 			@AuthenticationPrincipal QtableUserDetails userDetails,
 			@RequestParam(value = "store_idx", required = false) Integer storeIdx,
+			@RequestParam(value = "reserve_idx", required = false) Integer reserveIdx,
 			@RequestParam(value = "reserve_date", required = false) String reserveDate,
 			@RequestParam(value = "reserve_time", required = false) String reserveTime,
 			@RequestParam(value = "person_count", required = false) Integer personCount,
@@ -45,6 +46,7 @@ public class ReservationController {
 		model.addAttribute("storeInfo", storeInfo);
 		model.addAttribute("userQMoney", member.getQMoney());
 		model.addAttribute("storeIdx", storeIdx);
+		model.addAttribute("reserveIdx", reserveIdx);
 		model.addAttribute("reserveDate", reserveDate);
 		model.addAttribute("reserveTime", reserveTime);
 		model.addAttribute("personCount", personCount);
@@ -52,7 +54,7 @@ public class ReservationController {
 		return "reservation/reservation";
 	}
 
-	// 예약 전송 API
+	// 예약 전송 API (신규 예약 또는 예약 수정)
 	@PostMapping("/api/reservation/submit")
 	@ResponseBody
 	public Map<String, Object> submitReservation(@RequestBody Map<String, Object> reservationData,
@@ -65,10 +67,11 @@ public class ReservationController {
 		try {
 			Integer memberIdx = member.getMemberIdx();
 
-			Map<String, Object> result = reservationService.insertReservation(reservationData, memberIdx);
+			// processReservation이 reserve_idx 유무에 따라 INSERT/UPDATE 자동 분기
+			Map<String, Object> result = reservationService.processReservation(reservationData, memberIdx);
 
 			response.put("success", true);
-			response.put("message", "예약이 완료되었습니다.");
+			response.put("message", result.getOrDefault("message", "예약이 완료되었습니다."));
 			response.put("data", result);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,4 +1,3 @@
-
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{common/layouts/defaultLayout}">
 
@@ -7,10 +6,15 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/reservationList.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageCalendar.css}">
+	<link rel="stylesheet" th:href="@{/css/storeDetail/storeDetail.css}">
 	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
+	<script th:src="@{/js/storeDetail/dynamicCalendar.js}"></script>
+	<script th:src="@{/js/common/pagination.js}"></script>
+
 	<meta charset="UTF-8">
 	<title>예약 현황</title>
 </head>
@@ -18,7 +22,7 @@
 <body>
 	<div layout:fragment="Content">
 		<div th:replace="~{mypage/profile :: mainnav}"></div>
-		 <div th:replace="~{mypage/mypageNav :: mainnav}"></div>
+		<div th:replace="~{mypage/mypageNav :: mainnav}"></div>
 
 		<!-- 탭 메뉴 -->
 		<div style="display: flex; align-items: center;">
@@ -29,61 +33,80 @@
 				<span class="reserve-label " onclick="showTab('cancel', this, 'rsrt_03')">취소</span>
 			</div>
 		</div>
-		
+
 		<div id="reservationContent"></div>
 
 		<div class="reservation-list">
 			<!-- 방문예정 탭 -->
 			<th:block th:fragment="listFragment">
-			<div id="visit" class="tab-content">
-				<div class="reservation-item" th:each="item : ${upcomingList}">
-					<img  th:src="@{${item.store_img}}" class="store-img" />
-					<div class="reservation-info">
-						<div class="store-title">
-							<div class="name-star-group">
-								<span th:text="${item.store_name}" class="store-name" ></span>
-								<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
+				<div id="visit" class="tab-content">
+					<div class="reservation-item" th:each="item : ${upcomingList}">
+						<img th:src="@{${item.store_img}}" class="store-img" />
+						<div class="reservation-info">
+							<div class="store-title">
+								<div class="name-star-group">
+									<span th:text="${item.store_name}" class="store-name"></span>
+									<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
+								</div>
+								<img src="/img/scrap.png" class="scrap-icon"
+									th:attr="data-store-idx=${item['store_idx']}" />
 							</div>
-							<img src="/img/scrap.png" class="scrap-icon" th:attr="data-store-idx=${item['store_idx']}" />
-						</div>
-							<span class="desc">매장 번호 | &nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
-							<span class="desc">매장 주소 | &nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
-							<span class="desc">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}">> </span></span>
-						 	<span class="date" th:text="${item.store_content}"></span></span>
-						<div class="reservation-buttons">
-							<button class="negative-button" style="margin-right: 10px;" data-type="cancelBtn" 
-							th:data-reserve-idx="${item['reserve_idx']}">예약 취소</button>
-							<button class="positive-button" data-type="changeBtn">예약 변경</button>
-							
+							<span class="desc">매장 번호 | &nbsp;<span class="desc"
+									th:text="${item.store_phone}"></span></span>
+							<span class="desc">매장 주소 | &nbsp;<span class="desc"
+									th:text="${item.full_address}"></span></span>
+							<span class="desc">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}">>
+								</span></span>
+							<span class="date" th:text="${item.store_content}"></span></span>
+							<div class="reservation-buttons">
+								<button class="negative-button" style="margin-right: 10px;" data-type="cancelBtn"
+									th:data-reserve-idx="${item['reserve_idx']}">예약 취소</button>
+								<button class="positive-button" data-type="changeBtn"  th:attr="data-store-idx=${item.store_idx}">예약 변경</button>
+
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			</th:block>
 
 			<!-- 취소 탭 -->
 			<th:block th:fragment="listFragment">
-			<div id="cancel" class="tab-content" style="display:none;">
-				<div class="reservation-item" th:each="item : ${upcomingList}">
-					<img th:src="@{${item.store_img}}" class="store-img" />
-					<div class="reservation-info">
-						<div class="store-title">
-							<div class="name-star-group">
-								<span th:text="${item.store_name}" class="store-name"></span>
-								<span class="star" th:text="'★ ' + ${item.avgScore}"> </span>
+				<div id="cancel" class="tab-content" style="display:none;">
+					<div class="reservation-item" th:each="item : ${upcomingList}">
+						<img th:src="@{${item.store_img}}" class="store-img" />
+						<div class="reservation-info">
+							<div class="store-title">
+								<div class="name-star-group">
+									<span th:text="${item.store_name}" class="store-name"></span>
+									<span class="star" th:text="'★ ' + ${item.avgScore}"> </span>
+								</div>
 							</div>
-						</div>
-							<span class="desc">매장 번호 | &nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
-							<span class="desc">매장 주소 | &nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
-							<span class="desc">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}">> </span></span>
-						 	<span class="date" th:text="${item.store_content}"></span></span>
-						<div class="reservation-buttons">
-							<button class="positive-button " style="width: 130px;" data-type="rebookBtn">재예약 하기</button>
+							<span class="desc">매장 번호 | &nbsp;<span class="desc"
+									th:text="${item.store_phone}"></span></span>
+							<span class="desc">매장 주소 | &nbsp;<span class="desc"
+									th:text="${item.full_address}"></span></span>
+							<span class="desc">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}">>
+								</span></span>
+							<span class="date" th:text="${item.store_content}"></span></span>
+							<div class="reservation-buttons">
+								<button class="positive-button " style="width: 130px;" data-type="rebookBtn">재예약
+									하기</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 			</th:block>
+
+			<!--			모달영역-->
+			<div id="calendarModal" class="modal" style="display:none;">
+				<div class="modal-content">
+					<span class="close" id="closeCalendarModal">&times;</span>
+					<div class="mypage-calendar-wrapper">
+						<div th:replace="~{storeDetail/fragments/reservationCalendar :: reservationCalendar}"></div>
+					</div>
+				</div>
+			</div>
+
 			<div th:replace="mypage/pick :: mainnav"></div>
 		</div>
 	</div>

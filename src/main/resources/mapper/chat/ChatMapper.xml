@@ -38,7 +38,48 @@
 		  FROM chat_room cr
 		  LEFT JOIN store s ON cr.store_idx = s.store_idx
 		 WHERE cr.member_idx = #{memberIdx}
+		    OR cr.store_idx IN (SELECT store_idx FROM store WHERE member_idx = #{memberIdx})
 		 ORDER BY cr.updated_at DESC
 	</select>
+
+	<!-- 특정 채팅방의 메시지 목록 조회 (발신자 정보 포함) -->
+	<select id="getChatMessagesByRoomIdx" resultType="map">
+		SELECT
+			   c.chat_idx
+			 , c.room_idx
+			 , c.sender_idx
+			 , c.message_content
+			 , c.is_read
+			 , c.created_at
+			 , m.member_name AS sender_name
+			 , m.profile_img_url AS sender_profile_img
+		  FROM chat c
+		  LEFT JOIN member m ON c.sender_idx = m.member_idx
+		 WHERE c.room_idx = #{roomIdx}
+		 ORDER BY c.created_at ASC
+	</select>
+	
+	<!-- 마지막 대화 -->
+	<select id="getLastMessage">
+		SELECT
+			   message_content
+		  FROM chat
+		 WHERE room_idx = #{chatRoomIdx}
+	  ORDER BY created_at DESC
+		 LIMIT 1
+	</select>
+
+	<!-- 메시지 저장 -->
+	<insert id="insertChat">
+		INSERT INTO chat (
+			   room_idx
+			 , sender_idx
+			 , message_content
+		) VALUES (
+			   #{roomIdx}
+			 , #{senderIdx}
+			 , #{messageContent}
+		)
+	</insert>
 
 </mapper>
