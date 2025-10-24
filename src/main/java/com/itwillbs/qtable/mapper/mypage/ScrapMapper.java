@@ -20,5 +20,9 @@ public interface ScrapMapper {
 
     // 스크랩 목록 조회
     List<Map<String, Object>> selectScrapList(@Param("member_idx") int memberIdx);
+    
+    // pick
+    Map<String, Object> getStoreInfo(@Param("storeIdx") Integer storeIdx);
+
 
 }

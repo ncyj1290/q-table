@@ -68,6 +68,7 @@
   min-width: 100px;
   margin: 20px 0 10px 15%;
   gap: 0; /* 필요 시 미세 조정 */
+  cursor: pointer;
 }
 
 .profile-image img {

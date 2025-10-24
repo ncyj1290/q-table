@@ -28,4 +28,8 @@ public interface PasswordMapper {
     // 닉네임 빈 회원 idx 조회
     List<Integer> selectMembersWithEmptyNickname();
     
+    // 이미지 업로드
+    int updateProfileImage(@Param("memberIdx") int memberIdx, @Param("profileImgUrl") String profileImgUrl);
+
+    
 }

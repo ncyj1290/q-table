@@ -1,54 +1,75 @@
 <div th:fragment="mainnav">
 	<!-- 추천 가게 UI -->
+	<!--	<section class="recommend-section">-->
+	<!--		<div sec:authorize="isAuthenticated()">-->
+	<!--			<h3 th:text="${#authentication.principal.member.memberName} + '님, 이 가게는 어때요?'"></h3>-->
+	<!--		</div>-->
+	<!--		<div class="recommend-cards">-->
+	<!--			<div class="card">-->
+	<!--				<img src="img/food1.jpg" alt="간아가리">-->
+	<!--				<p class="name">간아가리</p>-->
+	<!--				<p class="rating">⭐ 3.55</p>-->
+	<!--				<p class="price">JPY 7,000</p>-->
+	<!--			</div>-->
+	<!--			<div class="card">-->
+	<!--				<img src="img/food3.jpg" alt="스시 히데타카">-->
+	<!--				<p class="name">스시 히데타카</p>-->
+	<!--				<p class="rating">⭐ 4.12</p>-->
+	<!--				<p class="price">JPY 30,000</p>-->
+	<!--			</div>-->
+	<!--			<div class="card">-->
+	<!--				<img src="img/food3.jpg" alt="스시마루야마">-->
+	<!--				<p class="name">스시마루야마</p>-->
+	<!--				<p class="rating">⭐ 3.41</p>-->
+	<!--				<p class="price">JPY 4,500</p>-->
+	<!--			</div>-->
+	<!--			<div class="card">-->
+	<!--				<img src="img/food2.jpg" alt="야키토리 무사시">-->
+	<!--				<p class="name">야키토리 무사시</p>-->
+	<!--				<p class="rating">⭐ 4.12</p>-->
+	<!--				<p class="price">JPY 5,500</p>-->
+	<!--			</div>-->
+	<!--			<div class="card">-->
+	<!--				<img src="img/food2.jpg" alt="야키토리 무사시">-->
+	<!--				<p class="name">야키토리 무사시</p>-->
+	<!--				<p class="rating">⭐ 4.12</p>-->
+	<!--				<p class="price">JPY 5,500</p>-->
+	<!--			</div>-->
+	<!--			<div class="card">-->
+	<!--				<img src="img/food2.jpg" alt="야키토리 무사시">-->
+	<!--				<p class="name">야키토리 무사시</p>-->
+	<!--				<p class="rating">⭐ 4.12</p>-->
+	<!--				<p class="price">JPY 5,500</p>-->
+	<!--			</div>-->
+	<!--			<div class="card">-->
+	<!--				<img src="img/food2.jpg" alt="야키토리 무사시">-->
+	<!--				<p class="name">야키토리 무사시</p>-->
+	<!--				<p class="rating">⭐ 4.12</p>-->
+	<!--				<p class="price">JPY 5,500</p>-->
+	<!--			</div>-->
+	<!--		</div>-->
+	<!--	</section>-->
+
 	<section class="recommend-section">
 		<div sec:authorize="isAuthenticated()">
 			<h3 th:text="${#authentication.principal.member.memberName} + '님, 이 가게는 어때요?'"></h3>
 		</div>
-		<div class="recommend-cards">
-			<div class="card">
-				<img src="img/food1.jpg" alt="간아가리">
-				<p class="name">간아가리</p>
-				<p class="rating">⭐ 3.55</p>
-				<p class="price">JPY 7,000</p>
-			</div>
-			<div class="card">
-				<img src="img/food3.jpg" alt="스시 히데타카">
-				<p class="name">스시 히데타카</p>
-				<p class="rating">⭐ 4.12</p>
-				<p class="price">JPY 30,000</p>
-			</div>
-			<div class="card">
-				<img src="img/food3.jpg" alt="스시마루야마">
-				<p class="name">스시마루야마</p>
-				<p class="rating">⭐ 3.41</p>
-				<p class="price">JPY 4,500</p>
-			</div>
-			<div class="card">
-				<img src="img/food2.jpg" alt="야키토리 무사시">
-				<p class="name">야키토리 무사시</p>
-				<p class="rating">⭐ 4.12</p>
-				<p class="price">JPY 5,500</p>
-			</div>
-			<div class="card">
-				<img src="img/food2.jpg" alt="야키토리 무사시">
-				<p class="name">야키토리 무사시</p>
-				<p class="rating">⭐ 4.12</p>
-				<p class="price">JPY 5,500</p>
-			</div>
-			<div class="card">
-				<img src="img/food2.jpg" alt="야키토리 무사시">
-				<p class="name">야키토리 무사시</p>
-				<p class="rating">⭐ 4.12</p>
-				<p class="price">JPY 5,500</p>
-			</div>
-			<div class="card">
-				<img src="img/food2.jpg" alt="야키토리 무사시">
-				<p class="name">야키토리 무사시</p>
-				<p class="rating">⭐ 4.12</p>
-				<p class="price">JPY 5,500</p>
+
+		<div th:if="${#lists.isEmpty(upcomingList)}">
+			<p>추천 가게가 없습니다.</p>
+		</div>
+
+		<div class="recommend-cards" th:if="${!#lists.isEmpty(upcomingList)}">
+			<div class="card" th:each="store : ${upcomingList}">
+				<img th:src="@{${store['imageUrl']}}" alt="가게 이미지">
+				<p class="name" th:text="${store['store_name']}"></p>
+				<p class="rating" th:text="'⭐ ' + ${store['rating']}"></p>
+				<p class="price" th:text="${store['price_avg']}"></p>
 			</div>
 		</div>
 	</section>
+
+
 
 </div>
 

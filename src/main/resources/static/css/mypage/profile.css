@@ -1,12 +1,13 @@
 @charset "UTF-8";
 
 .profile-img{
-	width: 200px;
-	height: 190px;
+	width: 170px;
+	height: 160px;
 	margin-top: -5px;
-	margin-left: -5px;
+	margin-left: 10px;
 	margin-right: -5px;
 	cursor: pointer;
+	border-radius: 100px;
 }
 
 .profile-info{
