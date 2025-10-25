@@ -104,25 +104,44 @@ let searchState = {
 	facility: [],
 	personCnt: null,
 	price: null,
-	sort : 'order by score desc',
+	sort : null,
 	day : null,
 	time : null,
 	query : null
 }
 
 function updateQueryForFilter() {
-	const filter = $('#filter').val();
-	console.log(filter);
+	const filter = $('#filter').val() == '' ? null :  $('#filter').val();
 	searchState.sort = filter;
 }
 
 function buildUrlAndFetchData() {
     const params = new URLSearchParams();
 	searchState.query = $('#query').val();
-    // 현재 저장된 모든 필터 상태를 기반으로 파라미터를 구성합니다.
+	const values = Object.values(searchState);
+	//유효성 판별 
+    const hasAnyCondition = values.some(value => {
+        if (Array.isArray(value)) {
+            return value.length > 0;
+        }
+        return value !== null && value !== ''; 
+    });
+	if(!hasAnyCondition) {
+		history.pushState(null, '', '/search');
+		searchState.sort = null;
+		console.log(searchState.sort);
+		alert('검색조건을 입력해주세요!');
+		return;
+	}
+
+	//검색조건 있으면 아래 로직 실행 
     if (searchState.price) params.set('price', searchState.price);
     if (searchState.personCnt) params.set('personCnt', searchState.personCnt);
-    if (searchState.sort) params.set('sort', searchState.sort);
+    if (searchState.sort) {
+		params.set('sort', searchState.sort);
+	} else {
+		params.set('sort', 'order by score desc'); // 정렬기능 기본값 설정 
+	}
     if (searchState.day) params.set('day', searchState.day);
     if (searchState.time) params.set('time', searchState.time);
     if (searchState.query) params.set('query', $('#query').val());
@@ -145,7 +164,7 @@ function buildUrlAndFetchData() {
 			$('.filter').show();
 			alert('호출성공');
 			$('.content').append(res);
-//			history.pushState(null, '', displayUrl)
+			history.pushState(null, '', displayUrl);
 		},
 		error: function(error) {
 			console.log(error);

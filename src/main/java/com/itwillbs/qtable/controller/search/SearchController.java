@@ -30,7 +30,9 @@ public class SearchController {
 	
 	@GetMapping("search")
 	public String search(
-			Model model) {
+			Model model,
+			searchVO vo
+			,@AuthenticationPrincipal QtableUserDetails details) {
 		
 		model.addAttribute("isSearch", true);
 		storeWriteService.selectAllCommonCodeForStore(model);
@@ -43,6 +45,19 @@ public class SearchController {
 		model.addAttribute("perCntList", perCntList);
 		List<Map<String,Object>> timeList = searchService.getTime();
 		model.addAttribute("timeList", timeList);
+		
+		if(vo.isEmpty()) {
+			model.addAttribute("storeList", new searchVO());
+			model.addAttribute("isFirst", true);
+			return "search/search";
+		}
+		Integer memberIdx = Optional.ofNullable(details)
+								.map(d -> d.getMember())       
+								.map(m -> m.getMemberIdx())    
+								.orElse(null);                 
+		if (memberIdx == null) log.info("비회원입니다");
+		vo.setMember_idx(memberIdx);
+		model.addAttribute("storeList", searchService.getResult(vo));
 		return "search/search";
 	}
 	

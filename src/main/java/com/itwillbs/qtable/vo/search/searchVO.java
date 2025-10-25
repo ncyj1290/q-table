@@ -19,4 +19,24 @@ public class searchVO {
 	private String query;
 	private List<String> keywords;
 	private Integer member_idx;
+
+	public boolean isEmpty() {
+		//하나라도 있으면 false
+		if(this.loc == null 
+			&& this.food == null
+			&& this.atmosphere == null
+			&& this.facility == null
+			&& this.personCnt == null
+			&& this.sort == null
+			&& this.price == null
+			&& this.day == null
+			&& this.query == null
+			&& this.keywords == null
+		) return true ;
+		else {
+			return false;
+		}  
+	}
+		//아무것도 없으면 true
 }
+

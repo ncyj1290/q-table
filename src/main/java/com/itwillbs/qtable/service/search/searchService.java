@@ -59,7 +59,7 @@ public class searchService {
 	
 	// 검색결과 정보들 가져오기 
 	public List<Map<String, Object>> getResult(searchVO vo) {
-		
+		System.out.println("너 왜 실행되냐");
 		String query = vo.getQuery(); 
 		if (query != null && !query.trim().isEmpty()) {
 		    String[] words = query.split("\\s+"); 
