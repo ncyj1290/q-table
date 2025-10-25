@@ -30,7 +30,7 @@ public class ChatService {
 
 		// 새 채팅방 생성
 		Map<String, Object> params = new HashMap<>();
-		params.put("roomType", "더미");
+		params.put("roomType", "room_01");
 		params.put("memberIdx", memberIdx);
 		params.put("storeIdx", storeIdx);
 
@@ -97,5 +97,21 @@ public class ChatService {
 		}
 
 		return chatRoomList;
+	}
+
+	// 관리자 채팅방 이미 있는지 조회
+	public void ensureAdminChatRoomExists(Integer memberIdx) {
+		
+		Integer result = chatMapper.getAdminChatRoomByMember(memberIdx);
+		log.info(result.toString());
+		if (result == 0) {
+			Map<String, Object> params = new HashMap<>();
+			params.put("roomType", "room_02");
+			params.put("memberIdx", memberIdx);
+			params.put("storeIdx", null);
+			
+			chatMapper.insertChatRoom(params);
+		}
+		
 	}
 }

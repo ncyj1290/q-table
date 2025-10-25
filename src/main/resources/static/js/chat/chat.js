@@ -127,6 +127,7 @@ $(function() {
 
 			// 모든 사용자의 개인 채널 구독 (읽지 않은 메시지 카운트 업데이트용)
 			subscribeToUserChannel();
+			console.log("브로드캐스트 구독");
 		}, function(error) {
 			// 연결 실패 시 콜백
 			console.error('WebSocket 연결 실패:', error);
@@ -140,8 +141,22 @@ $(function() {
 		stompClient.subscribe('/topic/chat-broadcast', function(message) {
 			const chatMessage = JSON.parse(message.body);
 
+			console.log("브로드캐스트 실행");
+
 			// 자신이 보낸 메시지는 제외
 			if (chatMessage.senderIdx === currentUserIdx) {
+				return;
+			}
+
+			// 내 채팅방 목록에 있는지 확인
+			const myRoomIds = [];
+			$('.chat-room-item').each(function() {
+				myRoomIds.push(parseInt($(this).data('room-id')));
+			});
+
+			// 내 채팅방이 아니면 무시
+			if (!myRoomIds.includes(chatMessage.roomIdx)) {
+				console.log("내 채팅방 아님 무시:", chatMessage.roomIdx);
 				return;
 			}
 

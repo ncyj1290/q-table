@@ -29,6 +29,10 @@ public class ChatController {
 
 		Member member = userDetails.getMember();
 		Integer memberIdx = member.getMemberIdx();
+		// 관리자가 아니라면 관리자 방 생성
+		if (!member.getMemberType().equals("mtype_01")) {
+			chatService.ensureAdminChatRoomExists(memberIdx);
+		}
 
 		// 사용자의 모든 채팅방 목록 조회
 		List<Map<String, Object>> chatRoomList = chatService.getChatRoomList(memberIdx);

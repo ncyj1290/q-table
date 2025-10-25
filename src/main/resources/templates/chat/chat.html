@@ -31,7 +31,10 @@
 			<div class="chat-room-list" id="chatRoomList">
 				<th:block th:if="${chatRoomList != null and chatRoomList.size() > 0}">
 					<th:block th:each="room : ${chatRoomList}">
-						<div class="chat-room-item" th:data-room-id="${room.room_idx}" th:data-store-id="${room.store_idx}">
+						<div class="chat-room-item" 
+							 th:data-room-id="${room.room_idx}" 
+							 th:data-store-id="${room.store_idx != null ? room.store_idx : ''}"
+							 th:data-opposite-idx="${room.opposite_member_idx != null ? room.opposite_member_idx : ''}">
 							<div class="chat-room-profile">
 							</div>
 							<div class="chat-room-info">
@@ -41,8 +44,8 @@
 							<div class="chat-room-badge">
 								<span class="unread-count" th:text="${room.unreadCount != null ? room.unreadCount : 0}" th:style="${(room.unreadCount == null or room.unreadCount == 0) ? 'display:none' : ''}"></span>
 							</div>
-						<div class="horizontal-line"></div>
 						</div>
+						<div class="horizontal-line"></div>
 						
 					</th:block>
 				</th:block>

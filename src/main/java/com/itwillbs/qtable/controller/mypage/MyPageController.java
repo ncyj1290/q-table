@@ -474,7 +474,7 @@ public class MyPageController {
 			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
 		String memberIdx = getMemberIdx(userDetails);
 		
-		List<Map<String, Object>> upcomingList = reservationService.getUpcomingList(memberIdx, reserveResult);
+		List<Map<String, Object>> upcomingList = reservationListervice.getUpcomingList(memberIdx, reserveResult);
 		model.addAttribute("upcomingList", upcomingList);
 		
 	    return "mypage_pick";

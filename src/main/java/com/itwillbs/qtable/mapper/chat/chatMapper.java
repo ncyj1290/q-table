@@ -33,4 +33,7 @@ public interface chatMapper {
 	// 채팅방의 읽지 않은 메시지 모두 읽음으로 수정 
 	public void updateMessagesAsRead(@Param("memberIdx") Integer memberIdx, @Param("roomIdx") Integer roomIdx);
 	
+	// 관리자 채팅방이 이미 있는지 조회
+	public Integer getAdminChatRoomByMember(Integer memberIdx);
+	
 }
