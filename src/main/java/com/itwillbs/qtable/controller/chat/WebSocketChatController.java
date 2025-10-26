@@ -38,22 +38,9 @@ public class WebSocketChatController {
 		Integer senderIdx = member.getMemberIdx();
 		message.setSenderIdx(senderIdx);
 		message.setSenderName(member.getMemberName());
-		
+
 		// 메시지 전송 시간 설정
 		message.setTimestamp(LocalDateTime.now());
-
-		// 메시지 타입에 따라 처리
-		switch (message.getType()) {
-			case ENTER:
-				message.setMessage(message.getSenderName() + "님이 입장하셨습니다.");
-				break;
-			case LEAVE:
-				message.setMessage(message.getSenderName() + "님이 퇴장하셨습니다.");
-				break;
-			case TALK:
-				// 일반 메시지는 그대로 전송
-				break;
-		}
 
 		// 해당 채팅방을 구독한 모든 클라이언트에게 메시지 전송
 		// /topic/chat/{roomIdx} 를 구독한 클라이언트들이 받음

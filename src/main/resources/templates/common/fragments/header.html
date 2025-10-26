@@ -41,7 +41,10 @@
 					     <!-- 여기는 나중에 달력이나 내용 추가 가능 -->
 					   </div>
 					 </div>
-                     <a th:href="@{/chat}"><img th:src="@{/img/header_messenger.png}" alt="메신저"></a>
+                     <a th:href="@{/chat}" class="chat-icon-wrapper">
+                        <img th:src="@{/img/header_messenger.png}" alt="메신저">
+                        <span class="header-chat-badge" id="headerChatBadge" style="display: none;"></span>
+                    </a>
 					 <!-- 프로필 드롭다운 -->
 					 <div class="profile-dropdown">
 					     <img th:src="@{/img/header_profile.png}" alt="프로필" class="profile-icon">

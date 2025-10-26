@@ -71,6 +71,16 @@
 	background-color: #e9ecef;
 	margin-right: 12px;
 	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.chat-room-profile img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .chat-room-info {
@@ -204,6 +214,20 @@
 
 .message-container.received .message-profile {
 	margin-right: 12px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+
+.sender-name {
+	font-size: 12px;
+	color: var(--color-placeholder);
+	text-align: center;
+	max-width: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .profile-image {
@@ -211,6 +235,28 @@
 	height: 40px;
 	border-radius: 50%;
 	background-color: #e9ecef;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.profile-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* 프로필 이미지가 없을 때 이름 첫 글자 표시 */
+.profile-initial {
+	font-size: 10px;
+	font-weight: bold;
+	color: var(--color-main);
+	text-transform: uppercase;
+}
+
+.chat-room-profile .profile-initial {
+	font-size: 12px;
 }
 
 .message-content {
@@ -265,6 +311,16 @@
 	font-size: 12px;
 	color: var(--color-placeholder);
 	white-space: nowrap;
+}
+
+/* 읽음 상태 표시 */
+.message-read-status {
+	font-size: 12px;
+	color: var(--color-main);
+	white-space: nowrap;
+	margin-right: 7px;
+	margin-bottom: 4px;
+	font-weight: bold; 
 }
 
 .chat-input-area i {

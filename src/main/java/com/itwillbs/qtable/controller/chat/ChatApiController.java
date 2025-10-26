@@ -3,10 +3,12 @@ package com.itwillbs.qtable.controller.chat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper;
+import com.itwillbs.qtable.service.FileUploadService;
 import com.itwillbs.qtable.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -27,6 +29,7 @@ public class ChatApiController {
 
 	private final ChatService chatService;
 	private final StoreDetailMapper storeDetailMapper;
+	private final FileUploadService fileUploadService;
 
 	// 채팅방 생성 또는 기존 채팅방 반환
 	@PostMapping("/room/insert")
@@ -123,6 +126,62 @@ public class ChatApiController {
 			e.printStackTrace();
 			response.put("success", false);
 			response.put("message", "메시지 읽음 처리 실패");
+		}
+
+		return response;
+	}
+
+	// 채팅 이미지 업로드
+	@PostMapping("/upload-image")
+	public Map<String, Object> uploadChatImage(
+			@RequestParam("image") MultipartFile image,
+			@RequestParam("room_id") Integer roomId,
+			@AuthenticationPrincipal QtableUserDetails userDetails) {
+
+		Member member = userDetails.getMember();
+		Integer memberIdx = member.getMemberIdx();
+
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			String imageUrl = fileUploadService.saveFileAndGetPath(image);
+			chatService.insertChat(imageUrl, memberIdx, roomId);
+			response.put("success", true);
+			response.put("imageUrl", imageUrl);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("success", false);
+			response.put("message", "이미지 업로드 실패");
+		}
+
+		return response;
+	}
+
+	// 전체 안읽은 메시지 수 조회
+	@PostMapping("/unread/total")
+	public Map<String, Object> getTotalUnreadCount(
+			@AuthenticationPrincipal QtableUserDetails userDetails) {
+
+		Member member = userDetails.getMember();
+		Integer memberIdx = member.getMemberIdx();
+
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			List<Map<String, Object>> unreadCounts = chatService.getUnreadCountByRoom(memberIdx);
+
+			// 모든 채팅방의 안읽은 메시지 수를 합산
+			int totalUnread = 0;
+			for (Map<String, Object> unread : unreadCounts) {
+				totalUnread += ((Number) unread.get("unread_count")).intValue();
+			}
+
+			response.put("success", true);
+			response.put("totalUnread", totalUnread);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("success", false);
+			response.put("message", "안읽은 메시지 수 조회 실패");
 		}
 
 		return response;

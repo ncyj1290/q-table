@@ -188,6 +188,30 @@
     max-width: 25px;
     max-height: 35px;
 }
+
+/* 채팅 아이콘 래퍼 */
+.chat-icon-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* 헤더 채팅 배지 */
+.header-chat-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-main);
+    color: white;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px;
+}
 /*.modal {*/
 /*  display: none;*/
 /*  position: fixed;*/

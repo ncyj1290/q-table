@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import com.itwillbs.qtable.mapper.chat.chatMapper;
 
@@ -16,6 +17,7 @@ import lombok.extern.java.Log;
 public class ChatService {
 
 	private final chatMapper chatMapper;
+	private final SimpMessageSendingOperations messagingTemplate;
 
 	// 채팅방 생성 또는 채팅방 조회
 	public Map<String, Object> insertOrGetChatRoom(Integer memberIdx, Integer storeIdx) {
@@ -57,6 +59,9 @@ public class ChatService {
 		params.put("roomIdx", roomIdx);
 
 		chatMapper.insertChat(params);
+
+		// 채팅방의 updated_at을 갱신하여 목록에서 최상위로 올림
+		chatMapper.updateChatRoomTimestamp(roomIdx);
 	}
 	
 	// 사용자의 모든 채팅방별 읽지 않은 메시지 수 조회
@@ -67,6 +72,12 @@ public class ChatService {
 	// 채팅방의 읽지 않은 메시지 모두 읽음으로 수정
 	public void updateMessagesAsRead(Integer memberIdx, Integer roomIdx) {
 		chatMapper.updateMessagesAsRead(memberIdx, roomIdx);
+
+		// 읽음 처리 이벤트 전송 (실시간 읽음 표시 업데이트용)
+		Map<String, Object> readEvent = new HashMap<>();
+		readEvent.put("roomIdx", roomIdx);
+		readEvent.put("readerIdx", memberIdx);
+		messagingTemplate.convertAndSend("/topic/chat/" + roomIdx + "/read", readEvent);
 	}
 
 	// 채팅방 목록 + 읽지 않은 메시지 수까지 한 번에 조회

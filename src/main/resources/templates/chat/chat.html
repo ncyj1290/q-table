@@ -34,7 +34,8 @@
 						<div class="chat-room-item" 
 							 th:data-room-id="${room.room_idx}" 
 							 th:data-store-id="${room.store_idx != null ? room.store_idx : ''}"
-							 th:data-opposite-idx="${room.opposite_member_idx != null ? room.opposite_member_idx : ''}">
+							 th:data-opposite-idx="${room.opposite_member_idx != null ? room.opposite_member_idx : ''}"
+							 th:data-opposite-profile-img="${room['opposite_profile_img'] != null ? room['opposite_profile_img'] : ''}">
 							<div class="chat-room-profile">
 							</div>
 							<div class="chat-room-info">
