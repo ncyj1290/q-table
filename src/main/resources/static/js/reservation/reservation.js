@@ -114,7 +114,8 @@ $(function() {
 
 	// 예약 데이터 생성
 	function createReservationData() {
-		return {
+		const reserveIdx = $('#reserveIdx').val();
+		const data = {
 			store_idx: parseInt($storeIdx.val()),
 			reserve_name: $customerName.val().trim(),
 			reserve_email: $customerEmail.val().trim(),
@@ -124,6 +125,12 @@ $(function() {
 			requirement: $specialRequest.val().trim(),
 			allergy: $allergies.val().trim()
 		};
+
+		if (reserveIdx) {
+			data.reserve_idx = parseInt(reserveIdx);
+		}
+
+		return data;
 	}
 
 	// 예약 제출
