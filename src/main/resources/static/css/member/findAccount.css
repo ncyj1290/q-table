@@ -66,6 +66,7 @@
 .find-form .verify-group {
 	display: flex;
 	gap: 10px;
+	align-items: center;
 }
 
 .find-form .email-group .component-write,
@@ -73,13 +74,11 @@
 	flex: 1;
 }
 
-.find-form .submit-area {
-	display: flex;
-	justify-content: center;
-}
-
-.find-form .submit-btn {
-	width: 150px;
+.verification-timer {
+	font-size: 16px;
+	font-weight: bold;
+	min-width: 50px;
+	text-align: center;
 }
 
 .find-main-container .horizontal-line {
@@ -88,6 +87,7 @@
 
 .result-area {
 	text-align: center;
+	display: none; /* 초기 숨김 */
 }
 
 .result-area .result-text {
@@ -98,4 +98,26 @@
 .result-area .result-id {
 	font-size: 20px;
 	font-weight: bold;
+}
+
+.result-area .result-desc {
+	font-size: 14px;
+	color: var(--color-placeholder);
+	margin-bottom: 20px;
+}
+
+.password-reset-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	width: 300px;
+	margin: 0 auto;
+}
+
+.password-reset-form .component-write {
+	width: 100%;
+}
+
+.password-reset-form .positive-button {
+	width: 100%;
 }

@@ -54,17 +54,23 @@ public class FindAccountController {
 	@PostMapping("/api/findId/email/verify")
 	public Map<String, Object> checkVerificationCode(
 			@RequestParam("user_email") String email,
-			@RequestParam("verification_code") String code
-			){
+			@RequestParam("verification_code") String code) {
+
 		Map<String, Object> response = new HashMap<>();
-		
-		 if (findAccountService.checkVerificationCode(email, code)) {
-	        response.put("success", true);
-	    } else {
-	        response.put("success", false);
-	        response.put("message", "인증번호가 일치하지 않습니다.");
-	    }
-		
+
+		try {
+			// 인증번호 검증 및 아이디 조회
+			Map<String, Object> result = findAccountService.checkVerificationCode(email, code);
+
+			// Service에서 반환한 결과를 그대로 전달
+			response.putAll(result);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("success", false);
+			response.put("message", e.getMessage());
+		}
+
 		return response;
 	}
 }

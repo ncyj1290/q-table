@@ -17,14 +17,14 @@
 		
 		<!-- 찾기 탭 영역 -->
 		<div class="find-tabs">
-			<div class="tab active">아이디 찾기</div>
-			<div class="tab">비밀번호 찾기</div>
+			<div class="tab active" data-tab="id">아이디 찾기</div>
+			<div class="tab" data-tab="pw">비밀번호 찾기</div>
 		</div>
-		
-		<!-- 메인 폼 영역 -->
+
+		<!-- 메인 폼 영역 (공통) -->
 		<div class="find-form">
 			<div class="input-area">
-				<input type="text" placeholder="이름" class="component-write" id="user-name">
+				<input type="text" placeholder="이름" class="component-write" id="first-input">
 			</div>
 			<div class="email-group">
 				<input type="text" placeholder="이메일 입력" class="component-write" id="user-email">
@@ -32,20 +32,29 @@
 			</div>
 			<div class="verify-group">
 				<input type="text" placeholder="인증번호 입력" class="component-write" id="verification-code">
+				<span class="verification-timer" id="verification-timer" style="display: none;"></span>
 				<button class="positive-button" id="check-btn">인증번호 확인</button>
 			</div>
-			<div class="submit-area">
-				<button class="positive-button submit-btn">아이디 찾기</button>
-			</div>
 		</div>
-		
+
 		<!-- 구분선 -->
 		<div class="horizontal-line"></div>
 
-		<!-- 결과 영역 -->
-		<div class="result-area">
+		<!-- 아이디 찾기 결과 영역 -->
+		<div class="result-area" id="id-result-area" style="display: none;">
 			<p class="result-text">회원님의 아이디는</p>
-			<p class="result-id">abcd12 입니다</p>
+			<p class="result-id" id="id-result-text"></p>
+		</div>
+
+		<!-- 비밀번호 찾기 결과 영역 -->
+		<div class="result-area" id="pw-result-area" style="display: none;">
+			<p class="result-text">인증이 완료되었습니다.</p>
+			<p class="result-desc">새로운 비밀번호를 입력해주세요.</p>
+			<div class="password-reset-form">
+				<input type="password" placeholder="새 비밀번호" class="component-write" id="new-password">
+				<input type="password" placeholder="비밀번호 확인" class="component-write" id="new-password-confirm">
+				<button class="positive-button" id="pw-reset-btn">비밀번호 변경</button>
+			</div>
 		</div>
 
 	</div>

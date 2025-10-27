@@ -1,6 +1,7 @@
 package com.itwillbs.qtable.service.member;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -53,16 +54,42 @@ public class FindAccountService {
 	}
 	
 	// 인증번호 확인(id)
-	public boolean checkVerificationCode(String email, String code) {
-		
+	public Map<String, Object> checkVerificationCode(String email, String code) {
+
+		Map<String, Object> result = new HashMap<>();
+
+		// 인증번호 조회
 		EmailVerification verification = emailVerificationRepository.findTopByEmailOrderByCreateAtDesc(email);
-		
-		if (verification.getVerification_code().equals(code)) {
-			Member member = memberRepository.findByEmail(email)
-					.orElseThrow(() -> new RuntimeException("해당 이메일의 회원 정보가 존재하지 않습니다."));
-		} 
-		
-		return verification.getVerification_code().equals(code);
+
+		// null 체크
+		if (verification == null) {
+			result.put("success", false);
+			result.put("message", "인증번호를 먼저 발송해주세요.");
+			return result;
+		}
+
+		// 만료 시간 검증
+		if (verification.getExpiresAt().isBefore(LocalDateTime.now())) {
+			result.put("success", false);
+			result.put("message", "인증번호가 만료되었습니다. 다시 발송해주세요.");
+			return result;
+		}
+
+		// 인증번호 일치 여부 확인
+		if (!verification.getVerification_code().equals(code)) {
+			result.put("success", false);
+			result.put("message", "인증번호가 일치하지 않습니다.");
+			return result;
+		}
+
+		// 인증 성공 - 회원 정보 조회
+		Member member = memberRepository.findByEmail(email)
+				.orElseThrow(() -> new RuntimeException("해당 이메일의 회원 정보가 존재하지 않습니다."));
+
+		result.put("success", true);
+		result.put("memberId", member.getMemberId());
+
+		return result;
 	}
 	
 	
