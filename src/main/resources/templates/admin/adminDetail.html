@@ -92,8 +92,8 @@
 						</div>
 
 						<div class="col-md-5">
-							<div class="profile-card"> <img src="/img/profile.png" alt="프로필 사진"
-									class="profile-img-large">
+							<div class="profile-card">
+								<img th:src="${member.profile_img_url}" alt="프로필 사진" class="profile-img-large">
 								<span class="profile-name-large" th:text="${member.member_name}"></span>
 							</div>
 							<div class="detail-card mt-4" th:if="${member.member_type == 'mtype_03'}">

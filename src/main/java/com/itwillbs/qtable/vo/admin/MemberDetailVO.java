@@ -32,6 +32,7 @@ public class MemberDetailVO {
     private boolean marketing_agreed;
     private int q_money;
     private int no_show_count;
+    private String profile_img_url;
     
     private Integer store_idx;
     private String store_name;

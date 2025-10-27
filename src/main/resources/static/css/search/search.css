@@ -249,3 +249,26 @@
 .seperator {
 	color:var(--color-placeholder);
 }
+
+/* 스크랩 알림 */
+.scrap-notification {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	background-color: var(--color-main);
+	color: white;
+	padding: 15px 25px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	font-size: 14px;
+	font-weight: bold;
+	opacity: 0;
+	transform: translateY(20px);
+	transition: all 0.3s ease;
+	z-index: 10000;
+}
+
+.scrap-notification.show {
+	opacity: 1;
+	transform: translateY(0);
+}

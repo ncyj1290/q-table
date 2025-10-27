@@ -77,6 +77,10 @@ public class SearchController {
 		log.info("날짜" + vo.getDay());
 		log.info("시간" + vo.getTime());
 		log.info("입력값" + vo.getQuery());
+		log.info("가격cs " + vo.getPriceCs());
+		log.info("별점cs " + vo.getScoreCs());
+		log.info("리뷰수cs " + vo.getReviewCs());
+		log.info("커ㅏ서 " + vo.getCursor());
 		
 		Integer memberIdx = Optional.ofNullable(details)
 					                .map(d -> d.getMember())       

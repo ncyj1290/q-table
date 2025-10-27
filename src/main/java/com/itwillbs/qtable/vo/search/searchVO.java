@@ -19,6 +19,11 @@ public class searchVO {
 	private String query;
 	private List<String> keywords;
 	private Integer member_idx;
+	private Integer cursor;
+	private String limit;
+	private String priceCs;
+	private String reviewCs;
+	private String scoreCs;
 
 	public boolean isEmpty() {
 		//하나라도 있으면 false

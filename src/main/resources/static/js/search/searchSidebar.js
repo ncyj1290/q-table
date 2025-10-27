@@ -107,8 +107,15 @@ let searchState = {
 	sort : null,
 	day : null,
 	time : null,
-	query : null
+	query : null,
+	cursor: null,
+	limit: null,
+	reviewCs:null,
+	priceCs:null,
+	scoreCs:null
 }
+
+let isLoading = false;
 
 function updateQueryForFilter() {
 	const filter = $('#filter').val() == '' ? null :  $('#filter').val();
@@ -116,9 +123,12 @@ function updateQueryForFilter() {
 }
 
 function buildUrlAndFetchData() {
+	if(isLoading) return;
+	isLoading = true;
     const params = new URLSearchParams();
 	searchState.query = $('#query').val();
 	const values = Object.values(searchState);
+	
 	//유효성 판별 
     const hasAnyCondition = values.some(value => {
         if (Array.isArray(value)) {
@@ -126,14 +136,16 @@ function buildUrlAndFetchData() {
         }
         return value !== null && value !== ''; 
     });
+	
 	if(!hasAnyCondition) {
 		history.pushState(null, '', '/search');
 		searchState.sort = null;
 		console.log(searchState.sort);
 		alert('검색조건을 입력해주세요!');
+		isLoading = false;
 		return;
 	}
-
+	
 	//검색조건 있으면 아래 로직 실행 
     if (searchState.price) params.set('price', searchState.price);
     if (searchState.personCnt) params.set('personCnt', searchState.personCnt);
@@ -144,7 +156,16 @@ function buildUrlAndFetchData() {
 	}
     if (searchState.day) params.set('day', searchState.day);
     if (searchState.time) params.set('time', searchState.time);
+    if (searchState.cursor) params.set('cursor', searchState.cursor);
+    if (searchState.limit) {
+		params.set('limit', searchState.limit);	
+	} else {
+		params.set('limit', 10); // 기본값 10개 
+	}
     if (searchState.query) params.set('query', $('#query').val());
+   	params.set('priceCs', searchState.priceCs);
+    params.set('reviewCs', searchState.reviewCs);
+    params.set('scoreCs', searchState.scoreCs);
     
     searchState.atmosphere.forEach(v => params.append('atmosphere', v));
     searchState.facility.forEach(v => params.append('facility', v));
@@ -154,36 +175,48 @@ function buildUrlAndFetchData() {
     const baseUrl = "/api/search";
     const finalUrl = `${baseUrl}?${params.toString()}`;
 	const displayUrl = `/search?${params.toString()}`;
-    console.log("🚀 최종 생성된 URL:", finalUrl);
+    console.log("최종 생성된 URL:", finalUrl);
+	
 	$.ajax({
 		url:finalUrl,
 		type:"get",
 		dataType:"html",
 		success:function(res) {
-			$('.content').empty();
+			$('.no-result').hide();
 			$('.filter').show();
 			alert('호출성공');
 			$('.content').append(res);
 			history.pushState(null, '', displayUrl);
+			console.log(res);
+			const cursor = $('.content').children().last().data('cursor');
+			const reviewCs = $('.content').children().last().data('review-cursor');
+			const priceCs = $('.content').children().last().data('price-cursor');
+			const scoreCs = $('.content').children().last().data('score-cursor');
+			console.log(cursor);
+			searchState.cursor = cursor;
+			searchState.priceCs = priceCs;
+			searchState.reviewCs = reviewCs;
+			searchState.scoreCs = scoreCs;
+			isLoading = false;
+			
+			//불러온 요소 개수 
+			// 개수가 limit 보다 작을때? 더이상 불러올 값이 없으므로 다음 호출이 안되게 해야함 
+			// 개수가 딱 10개만 불러오고 이후에 값이 없을때? // 원래 결과가 없는 경우랑, 더 불러올 결과가 없는 경우 어케 나누지?  		
+			// 검색 조건이 바뀌었을땡 
 		},
 		error: function(error) {
 			console.log(error);
-			alert('호출실패')
+			alert('호출실패');
+			isLoading = false;		
 		}
-		
 	})
-//	$('#search-btn').attr('href', finalUrl);
 }
-
 //사이드바에서 선택한 키워드 쿼리에 적용 
 function updateQueryForSidebar(el) {
 	// 모달에서 선택된 키워드는 ㄲㅈ 
 	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
 	if(isModalEvent) return;
 	
-	
-	console.log('사이드바에서 선택된 이벤트 ');
-	console.log(el);
 	const price = $('#price-slider')[0].noUiSlider.get(true);
 	const atmosphere = $(el).data('atmosphere');
 	const facility = $(el).data('facility');
@@ -224,7 +257,6 @@ function updateSidebar() {
 	const selectBtn = `<span class="select show-modal">종류선택</span>`;
 	// 임시저장소값을 실제 저장소에 옮김 
 	filterState = JSON.parse(JSON.stringify(tempFilterState));
-	
 	renderKeyword(filterState.location, $('#locationArea'), $('#sidebar').find('#locReset'), selectBtn);
 	renderKeyword(filterState.food, $('#foodArea'), $('#sidebar').find('#foodReset'), selectBtn);
 }
@@ -457,22 +489,15 @@ function deleteKeyword(el) {
 		tempFilterState.food.code = tempFilterState.food.code.filter(fod => fod != code);
 		tempFilterState.food.code_label = tempFilterState.food.code_label.filter(fod => fod != code_label);
 	}
-	console.log(tempFilterState);
 	//개별로 다 삭제 했을때 키워드 목록창 가리기 
 	hideSelectedDiv();
 }
 
-//
-
-//
 function hideSelectedDiv() {
 	//개별로 다 삭제 했을때 키워드 목록창 가리기 
 	let childCnt = $('.selectedKeywords').find('.selectedKeyword').length;
 	if(!childCnt) $('.footer-modal').hide();
 }
-
-
-
 
 // 모달에서 휴지통 버튼 눌렀을때: 선택된 키워드 전부 삭제, active 효과 다 지우기 
 function deleteAll() {
@@ -482,14 +507,11 @@ function deleteAll() {
 	emptyTempFilterState();
 }
 
-
-
 // 모달 닫기
 function hideLocFoodModal () {
 	emptyTempFilterState();
 	$("#myModal").fadeOut(200);
 }
-
 
 function emptyTempFilterState() {
 	tempFilterState.food.code = [];

@@ -91,18 +91,18 @@
 		FROM store s
 		LEFT OUTER JOIN common_code cOpen ON s.open_time = cOpen.code -- 단일행 반환 
 		LEFT OUTER JOIN common_code cClose ON s.close_time = cClose.code  -- 단일행 반환 
-		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx  -- 이미지는 단일행 
+		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx and i.target_type = 'imguse_01'-- 이미지는 단일행 
 		left outer join review_status rs on s.store_idx = rs.store_idx -- 복수행 반환 
 		left outer join holiday h on s.store_idx = h.store_idx         -- 복수행 반환 
 		LEFT OUTER JOIN user_scrap us ON s.store_idx = us.store_idx    -- 복수행 반환 
 		<if test="vo.time != null">
 			cross join user_time ut
 		</if>
-		WHERE i.target_type = 'imguse_01'
+		WHERE 1=1
 		<if test="vo.loc != null">
 		    AND
 		    <foreach collection="vo.loc" item="locItem" open="(" separator="OR" close=")">
-		        (s.sigungu LIKE CONCAT('%', #{locItem}, '%') OR s.sido LIKE CONCAT('%', #{locItem}, '%'))
+		        (s.sigungu LIKE CONCAT(#{locItem}, '%') OR s.sido LIKE CONCAT(#{locItem}, '%'))
 		    </foreach>
 		</if>
 		<if test="vo.food != null">
@@ -186,33 +186,55 @@
 		        )
 		    </foreach>
 		</if>
-<!-- 		GROUP BY s.store_idx -->
-<!-- 		       , s.store_name -->
-<!-- 		       , s.sido -->
-<!-- 		       , i.image_url -->
-<!-- 		       , s.sigungu -->
-<!-- 		       , price -->
-<!-- 		       , is_24hour -->
-<!-- 		       , store_content -->
-<!-- 		       , cOpen.code_label -->
-<!-- 		       , cClose.code_label -->
-<!-- 		       , is_scrapped -->
-<!-- 		       , s.is_accept -->
+		<trim prefix="AND">
+		  	<choose>
+			    <when test="vo.sort == 'order by price asc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
+			        (s.price_avg > #{vo.priceCs} OR (s.price_avg = #{vo.priceCs} AND s.store_idx > #{vo.cursor}))
+			    </when>
+			    
+			    <when test="vo.sort == 'order by price desc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
+			        (#{vo.priceCs} > s.price_avg OR (s.price_avg = #{vo.priceCs} AND s.store_idx > #{vo.cursor}))
+			    </when>
+			    
+			    <when test="vo.sort == 'order by reviewCnt desc' and vo.reviewCs != null and vo.reviewCs != '' and vo.cursor != null and vo.cursor != ''">
+			        (#{vo.reviewCs} > rs.reviewCnt  OR ( ifnull(rs.reviewCnt,0) = #{vo.reviewCs} AND s.store_idx > #{vo.cursor}))
+			    </when>
+			    
+			    <when test='vo.sort == "order by score desc" and vo.scoreCs != null and vo.scoreCs != "" and vo.cursor != null and vo.cursor != ""'>
+			        (#{vo.scoreCs} > rs.score OR ( ifnull(rs.score,0.0) = #{vo.scoreCs} AND s.store_idx > #{vo.cursor}))
+			    </when>
+			</choose>
+		</trim>
+		GROUP BY s.store_idx
+		       , s.store_name
+		       , s.sido
+		       , i.image_url
+		       , s.sigungu
+		       , price
+		       , is_24hour
+		       , store_content
+		       , cOpen.code_label
+		       , cClose.code_label
+		       , is_scrapped
+		       , s.is_accept
+		       , rs.reviewCnt
   	    ORDER BY 
   	    <choose>
-            <when test="vo.sort == 'price asc'">
-                price ASC
+            <when test="vo.sort == 'order by price asc'">
+                price ASC 
             </when>
-            <when test="vo.sort == 'price desc'">
+            <when test="vo.sort == 'order by price desc'">
                 price DESC
             </when>
-            <when test="vo.sort == 'reviewCnt desc'">
+            <when test="vo.sort == 'order by reviewCnt desc'">
                 reviewCnt DESC
             </when>
-            <otherwise>
+            <when test="vo.sort == 'order by score desc'">
                 score DESC
-            </otherwise>
+            </when>
         </choose>
+        , store_idx ASC
+        LIMIT 10
 	</select>	
 	
 	

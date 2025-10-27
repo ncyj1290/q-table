@@ -64,6 +64,7 @@
        	       m.member_type,
        	       m.business_reg_no,
         	   m.member_status,
+        	   m.profile_img_url,
                c.code_label AS member_status_name,
         	   s.store_name,
         	   s.store_seat,
