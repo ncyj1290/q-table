@@ -108,7 +108,7 @@ public class SecurityConfig {
 	                "/privacy_policy", "/error/**", "/search**", "/store_detail_main**", 
 	                "/upload/**", "/api/storeDetail/**", "/oauth/**","/api/member_restore",
 	                "/api/search_getSubLocation","/send","/verify","/api/search", "/checkMemberId","/checkBusinessNo",
-	                "/ws-chat/**"
+	                "/ws-chat/**", "/api/find**/**"
 	            ).permitAll()
 	            
 	            .requestMatchers(
