@@ -130,6 +130,7 @@ public class AdminService {
 		if (vo != null) {
 			vo.applyMasking();
 		}
+		
 		return vo;
 	}
 

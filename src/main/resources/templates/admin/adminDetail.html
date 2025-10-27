@@ -118,7 +118,12 @@
 										<input type="text" class="component-write" readonly
 											th:value="${member.deposit}">
 									</div>
-									<div class="detail-item">
+									<div class="detail-item" th:if="${member.open_time == null}">
+										<label>매장 운영시간</label>
+										<input type="text" class="component-write" readonly
+											value="24시간 매장입니다.">
+									</div>
+									<div class="detail-item" th:if="${member.open_time != null}">
 										<label>매장 운영시간</label>
 										<input type="text" class="component-write" readonly
 											th:value="${member.open_time} + ' ~ ' + ${member.close_time}">

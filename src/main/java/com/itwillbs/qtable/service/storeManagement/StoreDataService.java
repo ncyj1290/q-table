@@ -48,6 +48,8 @@ public class StoreDataService {
 		model.addAttribute("spData", spData);
 	}
 	
+	/* ================================================== */
+	/* QR 코드날라간거 아니면 쓰지마시오. */
 	/* QR 없는 상점 가져오기 */
 	public List<StoreVO> selectNullQrStore(){
 		return storeData.selectNullQrStore();
@@ -73,6 +75,7 @@ public class StoreDataService {
 		}
 	}
 	
+	/* ================================================== */
 	/* 예약 받기 상태 토글 후 결과 반환 서비스 */
 	@Transactional
 	public StoreVO toggleAndGetAcceptStatus(int store_idx) {
