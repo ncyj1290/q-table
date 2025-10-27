@@ -10,7 +10,7 @@
 		<!-- Sidebar user panel (optional) -->
 		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 			<div class="image">
-				<img src="/img/profile.png" alt="프로필 사진" class="profile-img">
+				<img th:src="${#authentication.principal.member.profileImgUrl}" alt="프로필 사진" class="profile-img">
 			</div>
 			<div class="info user-info" sec:authorize="isAuthenticated()">
 				<span sec:authentication="principal.username"></span>님
@@ -138,7 +138,7 @@
 				<li class="nav-item">
 					<a href="/chat" class="nav-link">
 						<i class="nav-icon bi bi-bell"></i>
-						<p>고객지원 관리<span class="right badge badge-danger">2</span></p>
+						<p>고객지원 관리<span class="right badge badge-danger" id="adminChatBadge" style="display: none;"></span></p>
 					</a>
 				</li>
 			</ul>
