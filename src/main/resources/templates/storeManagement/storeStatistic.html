@@ -29,11 +29,25 @@
 					</div>
 					
 					<div class="detail-column">
-						<label class="info-data-label">예약 횟수</label>
 						
-						<canvas id="myChart" width="300" height="100"></canvas>
+						<!-- 통계 카테고리 -->
+						<div class="d-flex flex-row">
+							<label class="info-data-label">현재 통계:</label>
+							<select class="select-box" id="statistic_value">
+								<option th:each="code, i : ${stList}" th:text="${code.code_label}" th:value="${code.code}"></option>
+							</select>		
+						</div>
 						
+						<!-- 통계 날짜 단위 -->
+						<div class="d-flex flex-row gap-3">
+							<button class="positive-button s-bt" th:each="code, i : ${duList}" th:text="${code.code_label}"></button>
+						</div>
+						
+						<br>
+				
 					</div>
+					
+					<canvas id="chart_ui" width="800" height="200"></canvas>
 
 				</div>
 				<!-- 메인 컨텐츠 Layout End -->

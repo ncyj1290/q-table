@@ -64,6 +64,8 @@
 					         <a th:href="@{/reservation_list}">예약현황</a>
 					         <a th:href="@{/mypage_history}">방문내역</a>
 					         <a th:href="@{/mypage_scrap}">스크랩가게</a>
+							 <!-- 매장 관리자한테만 보이는 바로가기 -->
+							 <a sec:authorize="hasRole('mtype_03')" th:href="@{/store_management_main}">매장 관리자</a> 
 
 					         <!-- 로그아웃 강조 -->
 							 <form th:action="@{/logout}" method="post">
