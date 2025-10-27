@@ -95,28 +95,10 @@ document.body.addEventListener('click', async (e) => {
 	}
 });
 
+//모달 열고 닫기
 document.getElementById('mypage-closeCalendarModal').addEventListener('click', () => {
   document.getElementById('mypage-calendarModal').style.display = 'none';
 });
-
-//function updateReservationAjax(reservationData) {
-//    $.ajax({
-//        url: '/reservation_update',
-//        type: 'POST',
-//        contentType: 'application/json',
-//        data: JSON.stringify(reservationData),
-//        success: function(response) {
-//            if(response.success) {
-//                alert('예약이 성공적으로 변경되었습니다.');
-//                // 모달 닫기, 화면 갱신 등 후처리 추가 가능
-//            } else {
-//                alert(response.message || '예약 변경에 실패했습니다.');
-//            }
-//        },
-//        error: function() {
-//            alert('서버 통신 중 오류가 발생했습니다.');
-//        }
-//}
 
 
 

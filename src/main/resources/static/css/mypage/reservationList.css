@@ -40,6 +40,8 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-width: 0;
+  max-width: 600px; /* or 원하는 값 */
 }
 
 .store-title {
@@ -82,11 +84,15 @@
 }
 
 .date {
-  display: flex;
+  display: block;
   margin-top: 1px;
   font-size: 16px;
   color: var(--color-placeholder);
+  white-space: normal; /* 줄바꿈 가능 */
+  word-break: keep-all; /* 단어가 길어도 줄 바꿈 처리 */
+  overflow-wrap: break-word; /* 최신 브라우저 호환성 */
 }
+
 
 .reservation-buttons {
   margin-top: 10px;

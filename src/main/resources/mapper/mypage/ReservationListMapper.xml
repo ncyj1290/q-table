@@ -22,6 +22,9 @@
 	   (SELECT   ROUND(AVG(r.score), 2) 
 	      FROM   review r 
 	     WHERE   r.store_idx = s.store_idx) AS avgScore,
+<!--	     (SELECT COALESCE(ROUND(AVG(r.score), 2), 0) -->
+<!--   			FROM review r -->
+<!--  		   WHERE r.store_idx = s.store_idx) AS avgScore-->
 	   			 CONCAT(rv.reserve_date, ' ', rv.reserve_time) AS reserve_dt
 		  FROM 	 reservation rv
 				 JOIN store s ON rv.store_idx = s.store_idx
