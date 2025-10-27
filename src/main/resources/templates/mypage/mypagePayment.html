@@ -22,21 +22,23 @@
 		<div class="payment-list">
 
 			<div class="payment-item">
-				<img src="/img/food1.jpg" class="store-img" />
+				<img src="/img/food1.jpg" th:each="item : ${upcomingList}" class="store-img" />
 				<div class="payment-info">
 					<div class="store-title">
 						<div class="name-star-group">
-							<span class="store-name">야끼니꾸 서면점</span>
-							<span class="star">★ 4.8(647)</span>
+							<span th:text="${item.store_name}" class="store-name"></span> <span
+								th:text="'★ ' + ${item.avgScore}" class="star"></span>
 						</div>
+						<img src="/img/scrap.png" class="scrap-icon" th:attr="data-store-idx=${item['store_idx']}" />
 					</div>
-					<span class="content">예약금 | 1000원</span>
-					<span class="content">우설 2개</span>
-					<span class="content">모듬 구이 1개</span>
+					<span class="content">매장 번호 | &nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
+					<span class="content">매장 주소 | &nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
+					<span class="content">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}"> </span></span>
 				</div>
 				<div class="payment-price">
 					<span class="price-label">결제 금액</span>
 					<div class="price-row">
+						<button class="negative-button">환불하기</button>
 						<span class="price-old">20,000원</span>
 						<span class="price-new">18,000원</span>
 					</div>

@@ -1,21 +1,88 @@
 // 프로필 이미지 클릭 시 파일 선택 창 열기
+//const profileImage = document.getElementById('profileImage');
+//const fileInput = document.getElementById('fileInput');
+//
+//profileImage.addEventListener('click', function() {
+//  fileInput.click();
+//});
+//
+//// 파일 선택 후 이미지 미리보기
+//fileInput.addEventListener('change', function(event) {
+//  const reader = new FileReader();
+//  reader.onload = function(e) {
+//    profileImage.src = e.target.result;
+//  };
+//  if (event.target.files[0]) {
+//    reader.readAsDataURL(event.target.files[0]);
+//
+//    // 파일 서버로 전송
+//    const formData = new FormData();
+//    formData.append('profileImage', event.target.files[0]);
+//
+//    $.ajax({
+//      url: '/uploadProfileImage',
+//      type: 'POST',
+//      data: formData,
+//      processData: false,
+//      contentType: false,
+//      success: function() {
+//        alert('이미지가 성공적으로 저장되었습니다.');
+//      },
+//      error: function() {
+//        alert('이미지 저장에 실패했습니다.');
+//      }
+//    });
+//  }
+//});
+
 const profileImage = document.getElementById('profileImage');
 const fileInput = document.getElementById('fileInput');
+const profileMenu = document.getElementById('profileMenu');
+const changeImageBtn = document.getElementById('changeImageBtn');
+const resetImageBtn = document.getElementById('resetImageBtn');
 
-profileImage.addEventListener('click', function() {
-  fileInput.click();
+// 클릭 시 메뉴 보여주기
+profileImage.addEventListener('click', function(e) {
+  profileMenu.style.display = 'block';
+  const rect = profileImage.getBoundingClientRect();
+  profileMenu.style.left = (rect.left + window.scrollX - 570) + 'px';
+  profileMenu.style.top = (rect.top + window.scrollY + 30) + 'px';
+  console.log(rect.left, rect.bottom); 
 });
 
-// 파일 선택 후 이미지 미리보기
+
+// 이미지 변경 버튼 누를 때 파일창 열기
+changeImageBtn.addEventListener('click', function() {
+  fileInput.click();
+  profileMenu.style.display = 'none';
+});
+
+// 기본 이미지로 변경 버튼
+resetImageBtn.addEventListener('click', function() {
+  // 서버에 기본 이미지로 변경 요청
+  $.ajax({
+    url: '/resetProfileImage',
+    type: 'POST',
+    success: function() {
+      profileImage.src = '/img/profile.png'; 
+      alert('기본 이미지로 변경되었습니다.');
+    },
+    error: function() {
+      alert('기본 이미지로 변경에 실패했습니다.');
+    }
+  });
+  profileMenu.style.display = 'none';
+});
+
+// 파일 선택 후 기존 로직 유지
 fileInput.addEventListener('change', function(event) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    profileImage.src = e.target.result;
-  };
   if (event.target.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      profileImage.src = e.target.result;
+    };
     reader.readAsDataURL(event.target.files[0]);
 
-    // 파일 서버로 전송
     const formData = new FormData();
     formData.append('profileImage', event.target.files[0]);
 
@@ -34,6 +101,15 @@ fileInput.addEventListener('change', function(event) {
     });
   }
 });
+
+
+// 메뉴 외부 클릭 시 닫기
+document.addEventListener('click', function(e) {
+  if (!profileMenu.contains(e.target) && e.target !== profileImage) {
+    profileMenu.style.display = 'none';
+  }
+});
+
 
 // 금액 불러오기
 $(document).ready(function() {

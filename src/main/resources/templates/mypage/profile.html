@@ -2,11 +2,18 @@
 	<div class="form-box"
 		style="background-color: #FABFBF; width: 800px; height: 200px; display: flex; align-items: center;">
 		<div>
-			<!--기본 프로필 사진-->
-			<img th:src="${#authentication.principal.member.profileImgUrl}" alt="프로필 사진" class="profile-img" id="profileImage">
-<!--			<img src="/img/profile.png" alt="프로필 사진" class="profile-img" id="profileImage">-->
-			<!-- 숨겨진 파일 입력 -->
-			<input type="file" id="fileInput" accept="image/*" class="profile-img" style="display:none">
+			<!--기본 프로필-->
+			<img th:src="${#authentication.principal.member.profileImgUrl}" alt="프로필 사진" class="profile-img"
+				id="profileImage">
+			<!--			<input type="file" id="fileInput" accept="image/*" class="profile-img" style="display:none">-->
+			<!-- 숨겨진 파일 입력창 -->
+			<input type="file" id="fileInput" accept="image/*" class="profile-img" style="display:none;">
+
+			<!-- 팝업 메뉴: 처음엔 숨김 상태 -->
+			<div id="profileMenu" style="display:none; position:absolute; z-index:100;">
+				<button id="changeImageBtn" class="negative-button" type="button">이미지 변경</button>
+				<button id="resetImageBtn" class="negative-button" type="button">기본 이미지</button>
+			</div>
 		</div>
 
 		<div class="profile-info">

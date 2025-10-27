@@ -61,20 +61,33 @@ public class MyPageController {
 	private final StoreDetailService storeService;
 
 	private final FileUploadService fileUploadService;
-	
-	private final ReservationService reservationService;	
-	
+
+	private final ReservationService reservationService;
+
 	@GetMapping("/mypage_main")
 	public String mypageMain() {
 
 		return "mypage/mypageMain";
 	}
 
-	@GetMapping("/mypage_payment")
-	public String mypagePayment() {
-
-		return "mypage/mypagePayment";
-	}
+	// 결제 내역
+//	@GetMapping("/mypage_payment")
+//	public String mypagePayment(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
+//			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
+//
+//		Member member = userDetails.getMember();
+//		String memberIdx = getMemberIdx(userDetails);
+//
+//		// 결제완료만 필터
+//		if (reserveResult == null || reserveResult.isEmpty()) {
+//			reserveResult = "rsrt_01";
+//		}
+//
+//		List<Map<String, Object>> upcomingList = reservationListervice.getUpcomingList(memberIdx, reserveResult);
+//		model.addAttribute("upcomingList", upcomingList);
+//
+//		return "mypage/mypagePayment";
+//	}
 
 	@GetMapping("/reservation_cancel")
 	public String reservationCancel() {
@@ -190,13 +203,10 @@ public class MyPageController {
 	@PostMapping("/scrap/toggle")
 	@ResponseBody
 	public Map<String, Object> toggleScrap(@RequestParam("storeIdx") int storeIdx,
-	                                      @AuthenticationPrincipal QtableUserDetails qtable) {
-	    int memberIdx = qtable.getMember().getMemberIdx();
-	    boolean isScrapped = scrapService.toggleScrap(memberIdx, storeIdx);
-	    return Map.of(
-	        "status", "success",
-	        "isScrapped", isScrapped
-	    );
+			@AuthenticationPrincipal QtableUserDetails qtable) {
+		int memberIdx = qtable.getMember().getMemberIdx();
+		boolean isScrapped = scrapService.toggleScrap(memberIdx, storeIdx);
+		return Map.of("status", "success", "isScrapped", isScrapped);
 	}
 
 	// 방문내역 불러오기
@@ -257,42 +267,42 @@ public class MyPageController {
 		}
 		return Collections.singletonMap("success", success);
 	}
-	
-	 //예약변경 모달
-	   @GetMapping("reserv_change")
-	   public String reservChange(@AuthenticationPrincipal QtableUserDetails userDetails,
-	                        @RequestParam("store_idx") Integer storeIdx, Model model) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-	      // 매장 기본 정보 조회
-	      Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
-	      List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);
-	      
-	      model.addAttribute("holiday", storeData.getOrDefault("holiday", List.of()));
-	      model.addAttribute("availableTimes", reservationTimeData);
-	      
-	      return "storeDetail/fragments/reservationCalendar :: reservationCalendar";
-	   }
-	
-	   // 예약 변경
-	   @PostMapping("/reservation_update")
-	   @ResponseBody
-	   public Map<String, Object> updateReservation(@RequestBody Map<String, Object> reservationData,
-	                                     @AuthenticationPrincipal QtableUserDetails userDetails) {
-	      Integer memberIdx = Integer.valueOf(getMemberIdx(userDetails));
-	       Map<String, Object> response = new HashMap<>();
-	       Map<String, Object> result = reservationService.processReservation(reservationData, memberIdx);
 
-	       if (result.get("reserve_idx") != null) {
-	           // 성공적으로 업데이트된 경우
-	           response.put("success", true);
-	           response.putAll(result); // reserve_idx, message 등 같이 반환
-	       } else {
-	           // 실패 시
-	           response.put("success", false);
-	           response.put("message", "예약 변경에 실패했습니다. 입력값을 확인해 주세요.");
-	       }
-	       return response;
-	   }
-	   
+	// 예약변경 모달
+	@GetMapping("reserv_change")
+	public String reservChange(@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam("store_idx") Integer storeIdx, Model model) {
+		// 매장 기본 정보 조회
+		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
+		List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);
+
+		model.addAttribute("holiday", storeData.getOrDefault("holiday", List.of()));
+		model.addAttribute("availableTimes", reservationTimeData);
+
+		return "storeDetail/fragments/reservationCalendar :: reservationCalendar";
+	}
+
+	// 예약 변경
+	@PostMapping("/reservation_update")
+	@ResponseBody
+	public Map<String, Object> updateReservation(@RequestBody Map<String, Object> reservationData,
+			@AuthenticationPrincipal QtableUserDetails userDetails) {
+		Integer memberIdx = Integer.valueOf(getMemberIdx(userDetails));
+		Map<String, Object> response = new HashMap<>();
+		Map<String, Object> result = reservationService.processReservation(reservationData, memberIdx);
+
+		if (result.get("reserve_idx") != null) {
+			// 성공적으로 업데이트된 경우
+			response.put("success", true);
+			response.putAll(result); // reserve_idx, message 등 같이 반환
+		} else {
+			// 실패 시
+			response.put("success", false);
+			response.put("message", "예약 변경에 실패했습니다. 입력값을 확인해 주세요.");
+		}
+		return response;
+	}
+
 	// q-money 금액 불러오기
 	@GetMapping("/mypage/qmoneyBalance")
 	@ResponseBody
@@ -404,28 +414,49 @@ public class MyPageController {
 
 	// 프로필 업로드
 	@PostMapping("/uploadProfileImage")
-	public ResponseEntity<String> uploadProfileImage(
-	        @AuthenticationPrincipal QtableUserDetails qtable,
-	        @RequestParam("profileImage") MultipartFile profileImage) {
+	public ResponseEntity<String> uploadProfileImage(@AuthenticationPrincipal QtableUserDetails qtable,
+			@RequestParam("profileImage") MultipartFile profileImage) {
 
-	    try {
-	        int memberIdx = qtable.getMember().getMemberIdx();
+		try {
+			int memberIdx = qtable.getMember().getMemberIdx();
 
-	        // 파일 업로드 후 경로 반환
-	        String imageUrl = fileUploadService.saveFileAndGetPath(profileImage);
+			// 파일 업로드 후 경로 반환
+			String imageUrl = fileUploadService.saveFileAndGetPath(profileImage);
 
-	        // 반환된 경로(DB 저장)
-	        passwordService.updateProfileImage(memberIdx, imageUrl);
+			// 반환된 경로(DB 저장)
+			passwordService.updateProfileImage(memberIdx, imageUrl);
 
-	        // 세션의 프로필 이미지 즉시 갱신
-	        qtable.getMember().setProfileImgUrl(imageUrl);
+			// 세션의 프로필 이미지 즉시 갱신
+			qtable.getMember().setProfileImgUrl(imageUrl);
 
-	        return ResponseEntity.ok("이미지가 성공적으로 업로드되었습니다.");
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body("이미지 업로드 중 오류가 발생했습니다.");
-	    }
+			return ResponseEntity.ok("이미지가 성공적으로 업로드되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 중 오류가 발생했습니다.");
+		}
+	}
+
+	// 기본 이미지로 변경
+	@PostMapping("/resetProfileImage")
+	public ResponseEntity<String> resetProfileImage(@AuthenticationPrincipal QtableUserDetails qtable) {
+
+		try {
+			int memberIdx = qtable.getMember().getMemberIdx();
+
+			// 기본 이미지 경로 할당
+			String defaultImageUrl = "/img/profile.png";
+
+			// DB 반영
+			passwordService.updateProfileImage(memberIdx, defaultImageUrl);
+
+			// 세션 반영
+			qtable.getMember().setProfileImgUrl(defaultImageUrl);
+
+			return ResponseEntity.ok("기본 이미지로 변경되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("기본 이미지 변경 중 오류가 발생했습니다.");
+		}
 	}
 
 	// 음식 취향
@@ -445,18 +476,16 @@ public class MyPageController {
 		int memberIdx = qtable.getMember().getMemberIdx();
 		return passwordService.getFoodPrefs(memberIdx);
 	}
-	
+
 	@GetMapping("/mypage_pick")
-	public String mypageMain(@AuthenticationPrincipal QtableUserDetails userDetails, Model model, 
+	public String mypageMain(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
 			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
 		String memberIdx = getMemberIdx(userDetails);
-		
+
 		List<Map<String, Object>> upcomingList = reservationListervice.getUpcomingList(memberIdx, reserveResult);
 		model.addAttribute("upcomingList", upcomingList);
-		
-	    return "mypage_pick";
-	}
-	
 
+		return "mypage_pick";
+	}
 
 }
