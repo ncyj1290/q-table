@@ -24,13 +24,13 @@ function scrapAjax(el) {
 			//스크랩 취소
 			if($(el).attr('src') == onScrap) {
 				$(el).attr('src', offScrap)
-				alert('스크랩 취소 되었습니다.')
+				showNotification("스크랩 취소 되었습니다");
 				return;
 			}
 			//스크랩
 			if($(el).attr('src') == offScrap) {
-				$(el).attr('src', onScrap)
-				alert('스크랩 되었습니다.')
+				$(el).attr('src', onScrap);
+				showNotification("스크랩 되었습니다");
 				return;
 			}
 		},
@@ -56,8 +56,26 @@ function scrapAjax(el) {
 	
 } 
 
-function scrapToggle(el) {
-	
-	
+// 알림 표시
+function showNotification(message) {
+	// 기존 알림 제거
+	$('.scrap-notification').remove();
+
+	// 알림 생성
+	const $notification = $('<div class="scrap-notification">' + message + '</div>');
+	$('body').append($notification);
+
+	// 페이드인
+	setTimeout(function() {
+		$notification.addClass('show');
+	}, 10);
+
+	// 3초 후 페이드아웃 후 제거
+	setTimeout(function() {
+		$notification.removeClass('show');
+		setTimeout(function() {
+			$notification.remove();
+		}, 300);
+	}, 3000);
 }
 

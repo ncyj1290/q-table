@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.exception.AccountRestoreRequiredException;
 import com.itwillbs.qtable.repository.MemberRepository;
+import com.itwillbs.qtable.service.member.MemberJoinService;
 import com.itwillbs.qtable.vo.member.KakaoMemberVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -37,8 +38,10 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final MemberRepository repo;
     private final HttpSession httpSession;
     private final RestTemplate restTemplate = new RestTemplate(); // 배송지 API 호출용
+    private MemberJoinService memberJoinService = new MemberJoinService(null,null,null,null,null,null);
     @Value("${kakao.shipping-address-uri}")
     private String kakaoShippingAddressUri;
+    
     
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -171,6 +174,7 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .qMoney(500)
                 .mailAuthStatus(true)
                 .socialId(vo.getSocialId())
+                .nickName(memberJoinService.generateRandomNickname())
                 .build();
     }
 }
