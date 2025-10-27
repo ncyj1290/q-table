@@ -17,10 +17,11 @@ max-width: none; /* 부모 max-width 제한 제거 */
 
 
 .header{
-	max-width: none !important;
 	min-width: 1900px !important;
 	
 }
+
+
 
 /* 스크롤 시 drop 클래스 */
 .header.drop {

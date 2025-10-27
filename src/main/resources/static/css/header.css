@@ -9,7 +9,11 @@
     max-height: 35px;
 }
 
-
+[th\:fragment="HeaderFragment"] {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
 
 /* 드롭다운 메뉴 */
 .dropdown-menu {
