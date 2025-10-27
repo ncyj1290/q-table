@@ -12,7 +12,7 @@ import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
 
 @RestController
-public class storeProfileController {
+public class StoreProfileController {
 
 	@Autowired
 	StoreData storeData;
