@@ -20,7 +20,7 @@ public class searchVO {
 	private List<String> keywords;
 	private Integer member_idx;
 	private Integer cursor;
-	private String limit;
+	private Integer limit;
 	private String priceCs;
 	private String reviewCs;
 	private String scoreCs;

@@ -1,11 +1,12 @@
 <th:block th:fragment="searchResult">
 	<div class="result"
 		 th:unless="${storeList.isEmpty()}"
-		 th:each="store : ${storeList}"
+		 th:each="store,state : ${storeList}"
 		 th:data-cursor="${store.store_idx}"
 		 th:data-score-cursor="${store.score}"
 		 th:data-review-cursor="${store.reviewCnt}"
-		 th:data-price-cursor="${store.price}"> 
+		 th:data-price-cursor="${store.price}"
+		 th:data-hasNext="${state.last} ? ${hasNext.hasNext} : ''"> 
 		<div class="result-content" 
 		     > <!-- th:unless="${모델값.isEmpty()}" th:each="변수명 : ${모델값}"-->
 			<div class="result-text-area">

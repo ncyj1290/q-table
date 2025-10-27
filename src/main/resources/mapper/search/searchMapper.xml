@@ -234,7 +234,7 @@
             </when>
         </choose>
         , store_idx ASC
-        LIMIT 10
+        LIMIT #{vo.limit} 
 	</select>	
 	
 	

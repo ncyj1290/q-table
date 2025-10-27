@@ -122,7 +122,29 @@ function updateQueryForFilter() {
 	searchState.sort = filter;
 }
 
+// 내일 할일 
+// 처음 검색 할때 쓰는 함수와 
+// 쿼리 파라미터 값 셋팅, 셋팅된 값으로 ajax 호출, 호출후 렌더링, 호출한 주소로 url 바꾸기(히스토리.푸쉬스테이트)
+
+// 추가 불러오는 함수 분리 해야함 
+// 로딩중인지 판별, isNext 판별, ajax 호출
+
+// 주안점 
+// 두 함수 ajax 호출할때 url 처리를 어떻게 할것인가? 
+// base가 되는 /api/search 까지는 전역 변수로 써야함 
+// 그 뒤에 오는 쿼리 파라미터는 각 함수에서 다시 설정 해줘야함 
+// -> 처음 검색 쿼리 파라미터는 조건값들은 현재 값으로ㅓ 쓰되, 커서 값은 null로 해줘야함 
+// => 추가 불러오는 쿼리 파라미터는 커서값은 현재 값으로 써야함, 
+// =>결국 분리 해야하니까 intersectionObserver 적용시키자. 
+
 function buildUrlAndFetchData() {
+//	const hasNext = $('.result').last().data('hasNext');
+//	if(!hasNext) {
+//		const el = '<div> 더이상 불러올 결과가 없습니다.</div>'
+//		$('.content').append(el);
+//		return;
+//	}	
+	
 	if(isLoading) return;
 	isLoading = true;
     const params = new URLSearchParams();
@@ -185,14 +207,13 @@ function buildUrlAndFetchData() {
 			$('.no-result').hide();
 			$('.filter').show();
 			alert('호출성공');
+			const cursor = $(res).last().last().data('cursor');
+			const reviewCs = $(res).last().last().data('review-cursor');
+			const priceCs = $(res).last().last().data('price-cursor');
+			const scoreCs = $(res).last().last().data('score-cursor');
+			
 			$('.content').append(res);
 			history.pushState(null, '', displayUrl);
-			console.log(res);
-			const cursor = $('.content').children().last().data('cursor');
-			const reviewCs = $('.content').children().last().data('review-cursor');
-			const priceCs = $('.content').children().last().data('price-cursor');
-			const scoreCs = $('.content').children().last().data('score-cursor');
-			console.log(cursor);
 			searchState.cursor = cursor;
 			searchState.priceCs = priceCs;
 			searchState.reviewCs = reviewCs;
@@ -200,8 +221,8 @@ function buildUrlAndFetchData() {
 			isLoading = false;
 			
 			//불러온 요소 개수 
-			// 개수가 limit 보다 작을때? 더이상 불러올 값이 없으므로 다음 호출이 안되게 해야함 
-			// 개수가 딱 10개만 불러오고 이후에 값이 없을때? // 원래 결과가 없는 경우랑, 더 불러올 결과가 없는 경우 어케 나누지?  		
+			// 리스트 개수가 11개 일때 마지막 값은 지우고 플래그 전달 더 있다는 -> 더있다. 불러오는 함수 계속 실행 
+			// 리스트 개수가 10개 이하일때 마지막값 안지우고 플래그 전달 이제 없다는  -> 더 없다. 불러오는 함수 리턴 해서 실행막기 		
 			// 검색 조건이 바뀌었을땡 
 		},
 		error: function(error) {

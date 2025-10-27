@@ -14,7 +14,9 @@ import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.search.searchVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
+@Log
 @RequiredArgsConstructor
 @Service
 public class searchService {
@@ -58,7 +60,7 @@ public class searchService {
 	}
 	
 	// 검색결과 정보들 가져오기 
-	public List<Map<String, Object>> getResult(searchVO vo) {
+	public Map<String, Object> getResult(searchVO vo) {
 		String query = vo.getQuery(); 
 		if (query != null && !query.trim().isEmpty()) {
 		    String[] words = query.split("\\s+"); 
@@ -71,8 +73,27 @@ public class searchService {
 		    vo.setKeywords(null);
 		    vo.setQuery(null);
 		}
-        
-		return mapper.getResult(vo);
+		
+		vo.setLimit(vo.getLimit() + 1);
+		
+		Map<String, Object> hasNext = new HashMap<String,Object>();
+		List<Map<String,Object>> storeList = mapper.getResult(vo);
+		int listSize = storeList.size();
+		if(listSize == 11) {
+			storeList.removeLast();
+			hasNext.put("hasNext", true);
+		} else {
+			hasNext.put("hasNext", false);
+		}
+		
+		// 플레그와 데이터를 함께 가져가기 위함 
+		Map<String, Object> resultList = new HashMap<>();
+		resultList.put("storeList", storeList);
+		resultList.put("hasNext", hasNext);
+		// 리스트 개수가 11개 일때 마지막 값은 지우고 플래그 전달 더 있다는 -> 더있다. 불러오는 함수 계속 실행 
+		// 리스트 개수가 10개 이하일때 마지막값 안지우고 플래그 전달 이제 없다는  -> 더 없다. 불러오는 함수 리턴 해서 실행막기 
+		
+		return resultList;
 	}
 	
 }
