@@ -24,6 +24,13 @@
 		and img.target_type = 'imguse_01'
 	</select>
 	
+	<!-- 회원 IDX로 매장 IDX 가져오는거 -->
+	<select id="selectStoreIdxByMemberIdx">
+		select store_idx
+		from store
+		where member_idx = #{member_idx}
+	</select>
+	
 	<!-- QR 코드 없는 Store에 QR 생성 및 삽입 -->
 	<select id="selectNullQrStore">
 		select store_idx 

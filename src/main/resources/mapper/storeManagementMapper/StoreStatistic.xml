@@ -5,7 +5,30 @@
 	
 <mapper namespace="com.itwillbs.qtable.mapper.storeManagementMapper.StoreStatistic">
 
+	<select id="selectStatisticDate">
+		with recursive months as(
+			select date_format(date_sub(curdate(), interval 11 month), '%Y-%m-01') as m
+			union all
+			select date_add(m, interval 1 month) from months
+			where m &lt; date_format(curdate(), '%Y-%m-01')	
+		)
+		, resv as(
+			select date_format(reserve_date, '%Y-%m-01') as m
+			,count(*) as cnt
+			from reservation
+			where store_idx = #{store_idx}
+			<if test="code != null and code != ''">
+				and reserve_result = #{code}
+			</if>
+			and reserve_date &gt;= date_format(date_sub(curdate(), interval 11 month), '%Y-%m-01')
+			and reserve_date &lt; date_format(date_add(curdate(), interval 1 month), '%Y-%m-01')
+			group by date_format(reserve_date, '%Y-%m-01')
+		)
+		select date_format(months.m, '%Y-%m') as mth
+			,coalesce(resv.cnt, 0) as month_count
+		from months
+		left join resv on resv.m = months.m
+		order by mth
+	</select>
 
-
-	
 </mapper>

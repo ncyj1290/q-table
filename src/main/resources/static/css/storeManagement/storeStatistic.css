@@ -6,7 +6,13 @@
 }
 
 .sub-layout{
-	height: 800px !important;
+	height: fit-content !important;
+	gap: 5px !important;
+}
+
+.s-canvas{
+	border: 1px solid var(--color-main);
+	border-radius: 5px;
 }
 
 
@@ -57,6 +63,10 @@
 	width: 50px
 }
 
+.type-bt.active{
+	background-color: var(--color-main);
+	color: white;
+}
 
 
 

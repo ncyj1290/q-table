@@ -5,6 +5,10 @@
 		<!-- 통계 라이브러리(charts.js) -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 		<script src="/js/storeManagement/storeStatistic.js"></script>
+		<script id="init_statistic" type="application/json" th:inline="javascript">
+			/*[[${initStatistic}]]*/
+		</script>
+		
 		
 	    <link rel="stylesheet" th:href="@{/css/storeManagement/commonStoreManagement.css}">
 		<link rel="stylesheet" th:href="@{/css/storeManagement/storeStatistic.css}">
@@ -29,7 +33,7 @@
 					</div>
 					
 					<div class="detail-column">
-						
+
 						<!-- 통계 카테고리 -->
 						<div class="d-flex flex-row">
 							<label class="info-data-label">현재 통계:</label>
@@ -37,17 +41,20 @@
 								<option th:each="code, i : ${stList}" th:text="${code.code_label}" th:value="${code.code}"></option>
 							</select>		
 						</div>
-						
-						<!-- 통계 날짜 단위 -->
-						<div class="d-flex flex-row gap-3">
-							<button class="positive-button s-bt" th:each="code, i : ${duList}" th:text="${code.code_label}"></button>
-						</div>
-						
-						<br>
-				
+
 					</div>
 					
-					<canvas id="chart_ui" width="800" height="200"></canvas>
+					<!-- 그래프 모양 선택 버튼 -->
+					<div class="d-flex flex-row">
+						<button class="type-bt negative-button active" id="bar_bt" data-type="bar">바 모양</button>
+						<button class="type-bt negative-button" id="line_bt" data-type="line">선 모양</button>
+					</div>
+					
+					<canvas id="s_canvas" width="800" height="200" class="s-canvas"></canvas>
+					
+					<div class="d-flex flex-row">
+						<label style="color: red; font-size: 12px;">*통계 단위는 월 단위, 1년 기간 입니다.</label>	
+					</div>
 
 				</div>
 				<!-- 메인 컨텐츠 Layout End -->

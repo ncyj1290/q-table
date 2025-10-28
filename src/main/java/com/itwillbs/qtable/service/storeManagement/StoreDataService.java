@@ -48,6 +48,11 @@ public class StoreDataService {
 		model.addAttribute("spData", spData);
 	}
 	
+	/* 회원 idx로 매장 idx 찾아오는 서비스 */
+	public int selectStoreIdxByMemberIdx(int member_idx) {
+		return storeData.selectStoreIdxByMemberIdx(member_idx);
+	}
+	
 	/* ================================================== */
 	/* QR 코드날라간거 아니면 쓰지마시오. */
 	/* QR 없는 상점 가져오기 */

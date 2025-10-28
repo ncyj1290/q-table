@@ -17,6 +17,9 @@ public interface StoreData {
 	/* 매장 프로필 정보들 들고오는 쿼리문 */
 	StoreVO selectStoreProfileByOwnerIdx(@Param("member_idx") int member_idx);
 	
+	/* 회원 idx로 매장 idx 가져오는거 */
+	int selectStoreIdxByMemberIdx(@Param("member_idx") int member_idx);
+	
 	/* QR 코드 없는 Store 불러오기 */
 	List<StoreVO> selectNullQrStore();
 
