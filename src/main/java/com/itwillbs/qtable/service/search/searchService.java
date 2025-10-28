@@ -80,6 +80,7 @@ public class searchService {
 		List<Map<String,Object>> storeList = mapper.getResult(vo);
 		int listSize = storeList.size();
 		if(listSize == 11) {
+			log.info("이게왜 트루냐");
 			storeList.removeLast();
 			hasNext.put("hasNext", true);
 		} else {

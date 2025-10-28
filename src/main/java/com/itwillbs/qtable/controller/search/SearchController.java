@@ -88,9 +88,9 @@ public class SearchController {
 					                .orElse(null);                 
 		if (memberIdx == null) log.info("비회원입니다");
 		vo.setMember_idx(memberIdx);
-		
-		model.addAttribute("storeList", searchService.getResult(vo).get("storeList"));
-		model.addAttribute("hasNext", searchService.getResult(vo).get("hasNext"));
+		Map<String,Object> result = searchService.getResult(vo);
+		model.addAttribute("storeList", result.get("storeList"));
+		model.addAttribute("hasNext", result.get("hasNext"));
 		return "search/searchResult :: searchResult";
 	}
 	

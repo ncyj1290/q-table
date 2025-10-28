@@ -272,3 +272,66 @@
 	opacity: 1;
 	transform: translateY(0);
 }
+
+/* 무한 ㅠ스크롤 로더  */
+#loader {
+	margin-top: 30px;
+	padding: 20px;
+	text-align: center;
+	display: flex; /* 내부 스피너와 텍스트를 정렬하기 위해 */
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	visibility: hidden; 
+	opacity: 0;
+	transition: visibility 0s 0.3s, opacity 0.3s linear;
+}
+
+/* 로딩 중일 때만 보이도록 */
+#loader.visible {
+	visibility: visible;
+	opacity: 1;
+	transition: visibility 0s, opacity 0.3s linear;
+}
+
+/* ----- 스피너 스타일 ----- */
+.spinner {
+	border: 5px solid #f3f3f3; /* Light grey */
+	border-top: 5px solid #3498db; /* Blue */
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	animation: spin 1s linear infinite; /* 1초 동안 선형 애니메이션, 무한 반복 */
+	margin-bottom: 10px; /* 로딩 텍스트와 간격 */
+}
+
+/* 스피너 애니메이션 정의 */
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+/* 로딩 텍스트 스타일 */
+.loading-text {
+	color: #555;
+	font-size: 1em;
+}
+
+#scrollTop {
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  position: fixed;
+  bottom: 30px;  /* 하단에서 30px */
+  right: 30px;   /* 우측에서 30px */
+}
+#scrollTop img{
+  /* 이미지 크기 조절 */
+  width: 45px;
+  height: 45px;
+  opacity: 0.8; /* 살짝 투명하게 */
+}
+
+#scrollTop:hover img{
+  opacity: 1; /* 마우스 올리면 진하게 */
+}

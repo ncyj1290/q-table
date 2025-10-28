@@ -66,12 +66,7 @@ $(function() {
 	
 	$('.select-box').on('change', '#filter',updateQueryForFilter);
 	
-	$('#search-btn').on('click', buildUrlAndFetchData);
-	$('#query').on('keydown', function(event) {
-	    if (event.key === 'Enter' || event.which === 13) {
-	        buildUrlAndFetchData();
-	    }
-	});
+	
 });
 
 // 모달 상태관리를 용이하게 하기 위한 변수 선언 
@@ -112,10 +107,9 @@ let searchState = {
 	limit: null,
 	reviewCs:null,
 	priceCs:null,
-	scoreCs:null
+	scoreCs:null,
+	hasNext: null
 }
-
-let isLoading = false;
 
 function updateQueryForFilter() {
 	const filter = $('#filter').val() == '' ? null :  $('#filter').val();
@@ -137,101 +131,8 @@ function updateQueryForFilter() {
 // => 추가 불러오는 쿼리 파라미터는 커서값은 현재 값으로 써야함, 
 // =>결국 분리 해야하니까 intersectionObserver 적용시키자. 
 
-function buildUrlAndFetchData() {
-//	const hasNext = $('.result').last().data('hasNext');
-//	if(!hasNext) {
-//		const el = '<div> 더이상 불러올 결과가 없습니다.</div>'
-//		$('.content').append(el);
-//		return;
-//	}	
-	
-	if(isLoading) return;
-	isLoading = true;
-    const params = new URLSearchParams();
-	searchState.query = $('#query').val();
-	const values = Object.values(searchState);
-	
-	//유효성 판별 
-    const hasAnyCondition = values.some(value => {
-        if (Array.isArray(value)) {
-            return value.length > 0;
-        }
-        return value !== null && value !== ''; 
-    });
-	
-	if(!hasAnyCondition) {
-		history.pushState(null, '', '/search');
-		searchState.sort = null;
-		console.log(searchState.sort);
-		alert('검색조건을 입력해주세요!');
-		isLoading = false;
-		return;
-	}
-	
-	//검색조건 있으면 아래 로직 실행 
-    if (searchState.price) params.set('price', searchState.price);
-    if (searchState.personCnt) params.set('personCnt', searchState.personCnt);
-    if (searchState.sort) {
-		params.set('sort', searchState.sort);
-	} else {
-		params.set('sort', 'order by score desc'); // 정렬기능 기본값 설정 
-	}
-    if (searchState.day) params.set('day', searchState.day);
-    if (searchState.time) params.set('time', searchState.time);
-    if (searchState.cursor) params.set('cursor', searchState.cursor);
-    if (searchState.limit) {
-		params.set('limit', searchState.limit);	
-	} else {
-		params.set('limit', 10); // 기본값 10개 
-	}
-    if (searchState.query) params.set('query', $('#query').val());
-   	params.set('priceCs', searchState.priceCs);
-    params.set('reviewCs', searchState.reviewCs);
-    params.set('scoreCs', searchState.scoreCs);
-    
-    searchState.atmosphere.forEach(v => params.append('atmosphere', v));
-    searchState.facility.forEach(v => params.append('facility', v));
-    searchState.food.forEach(v => params.append('food', v));
-    searchState.loc.forEach(v => params.append('loc', v));
 
-    const baseUrl = "/api/search";
-    const finalUrl = `${baseUrl}?${params.toString()}`;
-	const displayUrl = `/search?${params.toString()}`;
-    console.log("최종 생성된 URL:", finalUrl);
-	
-	$.ajax({
-		url:finalUrl,
-		type:"get",
-		dataType:"html",
-		success:function(res) {
-			$('.no-result').hide();
-			$('.filter').show();
-			alert('호출성공');
-			const cursor = $(res).last().last().data('cursor');
-			const reviewCs = $(res).last().last().data('review-cursor');
-			const priceCs = $(res).last().last().data('price-cursor');
-			const scoreCs = $(res).last().last().data('score-cursor');
-			
-			$('.content').append(res);
-			history.pushState(null, '', displayUrl);
-			searchState.cursor = cursor;
-			searchState.priceCs = priceCs;
-			searchState.reviewCs = reviewCs;
-			searchState.scoreCs = scoreCs;
-			isLoading = false;
-			
-			//불러온 요소 개수 
-			// 리스트 개수가 11개 일때 마지막 값은 지우고 플래그 전달 더 있다는 -> 더있다. 불러오는 함수 계속 실행 
-			// 리스트 개수가 10개 이하일때 마지막값 안지우고 플래그 전달 이제 없다는  -> 더 없다. 불러오는 함수 리턴 해서 실행막기 		
-			// 검색 조건이 바뀌었을땡 
-		},
-		error: function(error) {
-			console.log(error);
-			alert('호출실패');
-			isLoading = false;		
-		}
-	})
-}
+
 //사이드바에서 선택한 키워드 쿼리에 적용 
 function updateQueryForSidebar(el) {
 	// 모달에서 선택된 키워드는 ㄲㅈ 

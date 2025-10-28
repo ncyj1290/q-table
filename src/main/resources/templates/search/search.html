@@ -9,10 +9,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
-	<script th:src="@{/js/search/search.js}"></script>
 	<script th:src="@{/js/search/searchSidebar.js}"></script>
 	<script th:src="@{/js/search/locFoodModal.js}"></script>
 	<script th:src="@{/js/search/dateModal.js}"></script>
+	<script th:src="@{/js/search/search.js}"></script>
 </head>
 <body>
 	<!--  Header 
@@ -112,6 +112,10 @@
 					</div>
 				</section>
 			</div>
+		</div>
+		<div id="loader">
+			<div class="spinner"></div>
+        	<div class="loading-text">좀 더 맛있는 식당을 찾기위해 노력중이에요!</div>
 		</div>
 		<div class="modal-area">
 			<th:block th:replace="~{search/locFoodModal :: locFoodModal}"></th:block>
