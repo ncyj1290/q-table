@@ -46,6 +46,7 @@ public class SearchController {
 		List<Map<String,Object>> timeList = searchService.getTime();
 		model.addAttribute("timeList", timeList);
 		
+		log.info(vo.toString());
 		if(vo.isEmpty()) {
 			model.addAttribute("storeList", new searchVO());
 			model.addAttribute("isFirst", true);
@@ -57,7 +58,9 @@ public class SearchController {
 								.orElse(null);                 
 		if (memberIdx == null) log.info("비회원입니다");
 		vo.setMember_idx(memberIdx);
-		model.addAttribute("storeList", searchService.getResult(vo));
+		Map<String,Object> result = searchService.getResult(vo);
+		model.addAttribute("storeList", result.get("storeList"));
+		model.addAttribute("hasNext", result.get("hasNext"));
 		return "search/search";
 	}
 	

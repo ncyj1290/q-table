@@ -116,26 +116,8 @@ function updateQueryForFilter() {
 	searchState.sort = filter;
 }
 
-// 내일 할일 
-// 처음 검색 할때 쓰는 함수와 
-// 쿼리 파라미터 값 셋팅, 셋팅된 값으로 ajax 호출, 호출후 렌더링, 호출한 주소로 url 바꾸기(히스토리.푸쉬스테이트)
-
-// 추가 불러오는 함수 분리 해야함 
-// 로딩중인지 판별, isNext 판별, ajax 호출
-
-// 주안점 
-// 두 함수 ajax 호출할때 url 처리를 어떻게 할것인가? 
-// base가 되는 /api/search 까지는 전역 변수로 써야함 
-// 그 뒤에 오는 쿼리 파라미터는 각 함수에서 다시 설정 해줘야함 
-// -> 처음 검색 쿼리 파라미터는 조건값들은 현재 값으로ㅓ 쓰되, 커서 값은 null로 해줘야함 
-// => 추가 불러오는 쿼리 파라미터는 커서값은 현재 값으로 써야함, 
-// =>결국 분리 해야하니까 intersectionObserver 적용시키자. 
-
-
-
 //사이드바에서 선택한 키워드 쿼리에 적용 
 function updateQueryForSidebar(el) {
-	// 모달에서 선택된 키워드는 ㄲㅈ 
 	const isModalEvent = $(el).closest('.modal-overlay').length > 0;
 	if(isModalEvent) return;
 	
@@ -154,7 +136,6 @@ function updateQueryForSidebar(el) {
             searchState.atmosphere.push(atmosphere);
         }
     }
-
     if (facility) {
         const alreadyExists = searchState.facility.includes(facility);
         if (alreadyExists) {
@@ -163,7 +144,6 @@ function updateQueryForSidebar(el) {
             searchState.facility.push(facility);
         }
     }
-	
 }
 
 //지역,음식 모달에서 선택한 키워드 쿼리에 적용 

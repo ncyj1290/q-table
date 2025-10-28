@@ -25,7 +25,7 @@
 			<div class="filter-content">
 				<div class="filter">
 					<span class="search-title">맛집을 소개합니다!</span>
-					<div class="select-box">
+					<div class="select-box"> 
 						<select id="filter">
 							<option value="score desc">별점순</option>
 							<option value="reviewCnt desc">리뷰 많은순</option>
@@ -35,12 +35,17 @@
 					</div>
 				</div>
 				<section class="content">
-					<th:block th:fragment="searchResult">
+					<th:block th:fragment="searchResult" th:unless="${isFirst}">
 						<div class="result"
-							th:unless="${isFirst}"
-							th:each="store : ${storeList}"> 
+							 th:unless="${storeList.isEmpty()}"
+							 th:each="store,state : ${storeList}"
+							 th:data-cursor="${store.store_idx}"
+							 th:data-score-cursor="${store.score}"
+							 th:data-review-cursor="${store.reviewCnt}"
+							 th:data-price-cursor="${store.price}"
+							 th:data-hasNext="${state.last} ? ${hasNext.hasNext} : ''"> 
 							<div class="result-content" 
-								> <!-- th:unless="${모델값.isEmpty()}" th:each="변수명 : ${모델값}"-->
+							     > <!-- th:unless="${모델값.isEmpty()}" th:each="변수명 : ${모델값}"-->
 								<div class="result-text-area">
 									<div class="result-text-area-top">
 										<div class="store-name-scrap">
@@ -90,7 +95,7 @@
 							<a th:if="${store.is_accept}" class="positive-button" th:href="@{store_detail_main(store_idx=${store.store_idx})}">예약하러 가기</a>
 							<a th:unless="${store.is_accept}" class="negative-button" th:text="|현재 예약이 불가합니다 식당으로 문의 바랍니다|"></a>
 						</div>
-						<div class="no-result" th:if="${storeList.isEmpty() and !isFirst}"> <!-- th:if="${모델값.isEmpty()}" -->
+						<div class="no-result" th:if="${storeList.isEmpty()}"> <!-- th:if="${모델값.isEmpty()}" -->
 							<img src="img/Q_money_norice.png" alt="큐머니아이콘">
 							<h4>조건에 맞는 가게가 없어요.</h4>
 							<ul>

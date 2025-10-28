@@ -15,13 +15,28 @@ $(function() {
 	    }
 	});
 	
+	// 상세 페이지에서 뒤로가기했을때, searchState 값이 없어져서 버그 나던 문제 해결
+	const reviewCs = $('.result').last().data('review-cursor');
+	const priceCs = $('.result').last().data('price-cursor');
+	const scoreCs = $('.result').last().data('score-cursor');
+	const cursor = $('.result').last().data('cursor');
+	const hasNext = $('.result').last().data('hasnext');
+	if(hasNext) searchState.hasNext = hasNext;
+	if(reviewCs) searchState.reviewCs = reviewCs;
+	if(scoreCs) searchState.scoreCs = scoreCs;
+	if(cursor) searchState.cursor = cursor;
+	if(priceCs) searchState.priceCs = priceCs;
+	
 	// 옵저버 
 	let isLoading = false;
 	const loader = $('#loader');
 	const observerCallback = (entries, observer) => {
 		const entry = entries[0];
+		console.log('작동은 하니')
+		console.log(entry.isIntersecting)
+		console.log(!isLoading)
+		console.log(searchState.hasNext)
 		if (entry.isIntersecting && !isLoading && searchState.hasNext) {
-			console.log('이거는 언제 실행되냐')
 			observer.unobserve(loader[0]);
 			loadMoreItems();
 		} 
@@ -31,6 +46,7 @@ $(function() {
         rootMargin: '0px',  
         threshold: 0.1    
     };
+	
 	const observer = new IntersectionObserver(observerCallback, observerOptions);
 	if (loader.length > 0) {
     	observer.observe(loader[0]); // jQuery 객체가 아닌 순수 DOM 요소를 전달
@@ -90,7 +106,7 @@ $(function() {
 
 	    const baseUrl = "/api/search";
 	    const finalUrl = `${baseUrl}?${params.toString()}`;
-		const displayUrl = `/search?${params.toString()}`;
+		let displayUrl = `/search?${params.toString()}`;
 	    console.log("최종 생성된 URL:", finalUrl);
 		
 		$.ajax({
@@ -101,12 +117,12 @@ $(function() {
 				$('.no-result').hide();
 				$('.content').empty();
 				$('.filter').show();
-				alert('호출성공');
-				const cursor = $(res).last().last().data('cursor');
 				const reviewCs = $(res).last().last().data('review-cursor');
 				const priceCs = $(res).last().last().data('price-cursor');
 				const scoreCs = $(res).last().last().data('score-cursor');
+				const cursor = $(res).last().last().data('cursor');
 				const hasNext = $(res).last().last().data('hasnext');
+				displayUrl = displayUrl + '&hasNext=' + hasNext;
 				$('.content').append(res);
 				history.pushState(null, '', displayUrl);
 				searchState.cursor = cursor;
@@ -176,7 +192,7 @@ $(function() {
 
 	    const baseUrl = "/api/search";
 	    const finalUrl = `${baseUrl}?${params.toString()}`;
-		const displayUrl = `/search?${params.toString()}`;
+		let displayUrl = `/search?${params.toString()}`;
 	    console.log("최종 생성된 URL:", finalUrl);
 		
 		$.ajax({
@@ -184,13 +200,13 @@ $(function() {
 			type:"get",
 			dataType:"html",
 			success:function(res) {
-				alert('호출성공');
 				const cursor = $(res).last().last().data('cursor');
 				const reviewCs = $(res).last().last().data('review-cursor');
 				const priceCs = $(res).last().last().data('price-cursor');
 				const scoreCs = $(res).last().last().data('score-cursor');
 				const hasNext = $(res).last().last().data('hasnext');
 				searchState.hasNext = hasNext;
+				displayUrl = displayUrl + '&hasNext=' + hasNext;
 				$('.content').append(res);
 				if(hasNext) {
 	                observer.observe(loader[0]);
