@@ -1,283 +1,329 @@
 .horizontal-line {
 	background-color: #ddd !important;
 }
-.main-container {
-width: 100%;
-max-width: none; /* 부모 max-width 제한 제거 */
+body{
+	align-items: stretch; 
 }
+.main-container {
+	width: 100%;
+	max-width: none;
+	/* 부모 max-width 제한 제거 */
+}
+
 /* 공통 카드 스타일 */
 .card-list {
-    display: flex;
-    gap: 15px;                  /* 카드 사이 간격 */
-    overflow-x: hidden;           /* 가로 스크롤 */
-    scroll-behavior: smooth;    /* 부드러운 스크롤 */
-    padding-bottom: 10px;       /* 스크롤바 여백 */
-    width: 100%;
+	display: flex;
+	gap: 15px;
+	/* 카드 사이 간격 */
+	overflow-x: hidden;
+	/* 가로 스크롤 */
+	scroll-behavior: smooth;
+	/* 부드러운 스크롤 */
+	padding-bottom: 10px;
+	/* 스크롤바 여백 */
+	width: 100%;
 }
 
 
-.header{
-	min-width: 1900px !important;
-	
+.header {
+	position: relative;
+	min-width: 100% !important;
+	padding: 0 20px !important;
+	height: 60px;
 }
 
 
 
 /* 스크롤 시 drop 클래스 */
 .header.drop {
-    position: fixed; /* 상단 고정 */
-    transform: translateX(-50%); /* 중앙 정렬 */
-    animation: dropHeader 0.3s forwards;
+	position: fixed;
+	/* 중앙 정렬 */
+	animation: dropHeader 0.3s forwards;
+	border-bottom: 1px solid #ddd;
 }
 
 @keyframes dropHeader {
-  0% {
-    top: -5rem;
-  }
-  100% {
-    top: 0;
-  }
+	0% {
+		top: -5rem;
+	}
+
+	100% {
+		top: 0;
+	}
+}
+.horizontal-line {
+	min-width: 100%;	
+	margin-bottom: 0px !important;
 }
 
-
 .card-list::-webkit-scrollbar {
-    height: 8px;
+	height: 8px;
 }
 
 .card-list::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 4px;
+	background-color: rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
 }
 
 .card {
 	min-width: 200px;
-    max-width: 200px;
+	max-width: 200px;
 
-    height: 250px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    flex-shrink: 0;
-    overflow: hidden;   /* 카드 밖으로 이미지 안넘어가게 */
+	height: 250px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	flex-shrink: 0;
+	overflow: hidden;
+	/* 카드 밖으로 이미지 안넘어가게 */
 }
 
 .card-image {
-    width: 100%;
-    height: 130px;   /* 카드 높이 고정 */
-    overflow: hidden;
+	width: 100%;
+	height: 130px;
+	/* 카드 높이 고정 */
+	overflow: hidden;
 	border-radius: 10px;
 	position: relative;
 }
 
 .card-image img {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 	border-radius: 10px;
-    object-fit: cover; /*화면에 꽉차게 대신 세로 높이 고정이라 비율에맞게 이미지 잘릴수도있음*/
-    object-position: center;
-    display: block;
+	object-fit: cover;
+	/*화면에 꽉차게 대신 세로 높이 고정이라 비율에맞게 이미지 잘릴수도있음*/
+	object-position: center;
+	display: block;
 }
+
 .overlay-text {
 	position: absolute;
-	top:10px;
+	top: 10px;
 	left: 12px;
 	color: #fff;
 	font-size: 17px;
 	font-weight: bold;
-	text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
-.no_image{
+.no_image {
 	position: absolute;
-	top:50px;
-	left: 50px;	
+	top: 50px;
+	left: 50px;
 	color: gray;
 	font-weight: bold;
 }
+
 .card-info {
-    height: 50%;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    text-align: left;
-	
+	height: 50%;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	text-align: left;
+
 }
 
 .card-info h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
+	margin: 0;
+	font-size: 16px;
+	font-weight: bold;
 	font-size: 14px;
 }
 
 .card-info p {
-    white-space: normal;      /* 줄바꿈 허용 */
-    word-break: break-word;   /* 단어 중간도 줄바꿈 가능 */
-    overflow-wrap: anywhere;  /* 길이가 너무 길면 자동 줄바꿈 */
-    margin: 0px 0;            /* 필요하면 여백 조정 */
+	white-space: normal;
+	/* 줄바꿈 허용 */
+	word-break: break-word;
+	/* 단어 중간도 줄바꿈 가능 */
+	overflow-wrap: anywhere;
+	/* 길이가 너무 길면 자동 줄바꿈 */
+	margin: 0px 0;
+	/* 필요하면 여백 조정 */
 	font-size: 10px;
-	
+
 }
 
 .location-list .card {
-    min-width: 200px;
-    height: 100px;       /* 높이 작게 */
+	min-width: 200px;
+	height: 100px;
+	/* 높이 작게 */
 }
+
 .alllocation-list .card {
-    min-width: 350px;
-    height: 200px;       /* 높이 작게 */
+	min-width: 350px;
+	height: 200px;
+	/* 높이 작게 */
 }
+
 .restaurant-section:last-of-type .alllocation-list {
-    justify-content: center;  /* 가로 가운데 정렬 */
+	justify-content: center;
+	/* 가로 가운데 정렬 */
 }
 
 /* 섹션 공통 */
 .section {
-    width: 100%;
-    overflow-x: hidden;         /* 좌우 영역 넘치면 숨김 */
-    padding: 20px;
+	width: 100%;
+	overflow-x: hidden;
+	/* 좌우 영역 넘치면 숨김 */
+	padding: 20px;
 }
 
 .section h5 {
-    margin: 0 0 2vh 20%;
-    padding: 0;
+	margin: 0 0 2vh 20%;
+	padding: 0;
 }
 
 /* 좌우 스크롤 버튼 */
 .scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background-color: rgba(255, 255, 255, 0.8);
+	border: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .scroll-btn.right::after {
-    content: '';
-    border: solid #333;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 6px;
-    transform: rotate(-45deg);
+	content: '';
+	border: solid #333;
+	border-width: 0 2px 2px 0;
+	display: inline-block;
+	padding: 6px;
+	transform: rotate(-45deg);
 }
 
 .scroll-btn.left::after {
-    content: '';
-    border: solid #333;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 6px;
-    transform: rotate(135deg);
+	content: '';
+	border: solid #333;
+	border-width: 0 2px 2px 0;
+	display: inline-block;
+	padding: 6px;
+	transform: rotate(135deg);
 }
 
 .scroll-btn.left {
-    left: 5px;
+	left: 5px;
 }
 
 .scroll-btn.right {
-    right: 5px;
+	right: 5px;
 }
 
 
 .restaurant-wrapper {
-    overflow-x: auto;     
-    white-space: nowrap;  
-    width: 1100px;
-    margin: 0 auto;
+	overflow-x: auto;
+	white-space: nowrap;
+	width: 1100px;
+	margin: 0 auto;
 }
 
 .main-banner-full {
-    position: relative;            /* 텍스트 절대 위치 기준 */
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
-    display: flex;                 /* flex로 텍스트 중앙 정렬 */
-    justify-content: center;       /* 가로 중앙 */
-    align-items: center;           /* 세로 중앙 */
-	margin: -10;
+	position: relative;
+	width: 100%;
+	height: 400px;
+	overflow: hidden;
+	display: flex;
+	/* flex로 텍스트 중앙 정렬 */
+	justify-content: center;
+	/* 가로 중앙 */
+	align-items: center;
+	/* 세로 중앙 */
+	/*	margin: -10;*/
 }
 
 .main-banner-full img {
-    position: absolute;            /* 텍스트 위에 이미지 배치 */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;             /* 이미지 영역 꽉 채우기 */
-    z-index: 1;
+	/*    position: absolute;             텍스트 위에 이미지 배치 */
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* 이미지 영역 꽉 채우기 */
+	z-index: 1;
 }
 
 .banner-text {
-	position: absolute;       /* 부모 기준 절대 위치 */
-    top: 50%;                 /* 부모 높이의 50% */
-    left: 50%;                /* 부모 너비의 50% */
-    transform: translate(-50%, 0%);           /* flex 자식으로 중앙 고정 */
-    color: #fff;
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-    z-index: 2;                    /* 이미지 위에 표시 */
-    padding: 10px 20px;
+	position: absolute;
+	/* 부모 기준 절대 위치 */
+	top: 50%;
+	/* 부모 높이의 50% */
+	left: 50%;
+	/* 부모 너비의 50% */
+	transform: translate(-50%, 0%);
+	/* flex 자식으로 중앙 고정 */
+	color: #fff;
+	text-align: center;
+	font-size: 32px;
+	font-weight: bold;
+	text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+	z-index: 2;
+	/* 이미지 위에 표시 */
+	padding: 10px 20px;
 }
+
 .banner-text h3 {
-    font-size: 36px;
-    margin: 0;
-    font-weight: bold;
+	font-size: 36px;
+	margin: 0;
+	font-weight: bold;
 	margin-bottom: 350px;
 	text-shadow:
-	     1px 1px 0 #000,
-	    -1px 1px 0 #000,
-	     1px -1px 0 #000,
-	    -1px -1px 0 #000;
+		1px 1px 0 #000,
+		-1px 1px 0 #000,
+		1px -1px 0 #000,
+		-1px -1px 0 #000;
 }
 
 
 
 .reset-content-style {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    box-sizing: border-box;
+	margin: 0 !important;
+	padding: 0 !important;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .star-container {
-    display: flex;
-    align-items: center;  /* 수직 가운데 정렬 */
-    gap: 3px;             /* 별점과 리뷰 수 간격 */
+	display: flex;
+	align-items: center;
+	/* 수직 가운데 정렬 */
+	gap: 3px;
+	/* 별점과 리뷰 수 간격 */
 }
 
 .star-wrapper {
-    display: inline-block;
-    font-size: 17px;       /* 별 크기 */
-    position: relative;
-    color: #ddd;           /* 회색 배경 별 */
+	display: inline-block;
+	font-size: 17px;
+	/* 별 크기 */
+	position: relative;
+	color: #ddd;
+	/* 회색 배경 별 */
 }
 
 .stars {
-    position: relative;
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 /* 노란색 채움 */
 .stars::before {
-    content: '★★★★★';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: var(--star-percent); /* 퍼센트로 채움 */
-    overflow: hidden;
-    white-space: nowrap;
-    color: var(--color-star);
+	content: '★★★★★';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: var(--star-percent);
+	/* 퍼센트로 채움 */
+	overflow: hidden;
+	white-space: nowrap;
+	color: var(--color-star);
 }
 
 .review-count {

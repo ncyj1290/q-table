@@ -28,6 +28,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 		           COUNT(r.review_idx) AS review_count
 		    FROM store s
 		    LEFT JOIN review r ON s.store_idx = r.store_idx
+		    WHERE s.store_status = 'srst_01'
 		    GROUP BY s.store_idx, s.store_name, s.sido, s.deposit, s.full_address, s.open_time, s.close_time
 		    ORDER BY avg_score DESC
 		    

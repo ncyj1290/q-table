@@ -64,19 +64,19 @@ window.addEventListener("DOMContentLoaded", function() {
 });
 
 
-//$(document).on('click', '.card-image', function() {
-//    const loc = $(this).data('loc');   
-//    const code = $(this).data('code');
-//
-//    console.log('클릭한 카드 지역:', loc, 'code:', code);
-//
-//    // 세션스토리지에 저장 (JSON.stringify 사용)
-//    const locObj = {
-//        code: code,
-//        code_label: loc
-//    };
-//    sessionStorage.setItem('searchLoc', JSON.stringify(locObj));
-//
-//    // search 페이지로 이동
-//    window.location.href = '/search';
-//});
+$(document).on('click', '.location', function() {
+    const loc = $(this).data('loc');   
+    const code = $(this).data('code');
+
+    console.log('클릭한 카드 지역:', loc, 'code:', code);
+
+    // 세션스토리지에 저장 (JSON.stringify 사용)
+    const locObj = {
+        code: code,
+        code_label: loc
+    };
+    sessionStorage.setItem('searchLoc', JSON.stringify(locObj));
+
+    // search 페이지로 이동
+    window.location.href = '/search';
+});

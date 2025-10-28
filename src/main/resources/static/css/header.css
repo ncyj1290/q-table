@@ -1,221 +1,239 @@
 .profile-dropdown {
-    position: relative;
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 .profile-icon {
-    cursor: pointer;
-    max-width: 25px;
-    max-height: 35px;
+	cursor: pointer;
+	max-width: 25px;
+	max-height: 35px;
 }
 
 [th\:fragment="HeaderFragment"] {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 /* 드롭다운 메뉴 */
 .dropdown-menu {
-    display: none;
-    position: absolute;
+	display: none;
+	position: absolute;
 	top: calc(100% + 5px);
-    right: 0;
-    width: 200px;
-    background-color: white;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    z-index: 100;
-    padding: 10px 0;
-    font-size: 14px;
+	right: 0;
+	width: 200px;
+	background-color: white;
+	border: none;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	z-index: 100;
+	padding: 10px 0;
+	font-size: 14px;
 }
 
 
 /* 프로필 정보 */
 .header-profile-info {
-    display: flex;
-    align-items: center;
-    padding: 7px;
-    border-bottom: 1px solid #ddd;
+	display: flex;
+	align-items: center;
+	padding: 7px;
+	border-bottom: 1px solid #ddd;
 }
 
 .header-profile-img {
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 50%;
-    margin-right: 10px;
+	width: 40px !important;
+	height: 40px !important;
+	border-radius: 50%;
+	margin-right: 10px;
 }
 
 .user-name {
-    font-weight: bold;
+	font-weight: bold;
 	color: #555;
 }
 
 .user-email {
-    font-size: 10px;
-    color: #999;
+	font-size: 10px;
+	color: #999;
 }
 
 /* 메뉴 항목 */
 .dropdown-menu a {
-    display: block;
-    padding: 8px 15px;
-    text-decoration: none;
-    color: #333 !important; /* 최우선 적용 */
+	display: block;
+	padding: 8px 15px;
+	text-decoration: none;
+	color: #333 !important;
 }
 
 .dropdown-menu a:hover {
-    background-color: #f0f0f0;
+	background-color: #f0f0f0;
 }
 
 /* 로그아웃 강조 */
 .dropdown-menu .logout {
-    color: red;
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    padding: 8px 15px;
-    font-size: 14px;
+	color: red;
+	background: none;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	text-align: left;
+	padding: 8px 15px;
+	font-size: 14px;
 }
 
 /* 추가 링크 스타일 */
 .dropdown-menu a.add-later {
-    color: #007bff;
-    font-size: 12px;
+	color: #007bff;
+	font-size: 12px;
 }
 
 .header {
-
-    display: flex;
-    justify-content: space-between; /* 로고 - 검색창 - 로그인 버튼 균등 배치 */
-    align-items: center;
-    padding: 5px 15px;
-    background: #fff;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0;
+	background: #fff;
 	min-width: 1400px;
-	max-width: 1400px;  /* 기존 최대 너비 유지 */
-	margin: 0 auto;     /* 중앙 정렬 */
-    box-sizing: border-box;
-    margin: 0 auto;
-	
-	position: static;
-	z-index: 20; /* 배너 위로 올라오도록 */
+	max-width: 1400px;
+	margin: 0 auto;
+	box-sizing: border-box;
+	margin: 0 auto;
+
+	z-index: 20;
 }
 
 
-.horizontal-line{
+.horizontal-line {
 	width: 100%;
 	max-width: 1400px;
 	height: 1px;
 	background-color: var(--color-main);
 	border: none;
-	margin: 10px auto;
 	box-sizing: border-box;
+	margin: 5px 0;
 }
 
 .header img {
-	width: 150px;   /* 원하는 너비로 지정 */
+	width: 150px;
+	/* 원하는 너비로 지정 */
 	height: auto;
 	object-fit: contain;
 }
+
 /* 로그인 버튼 */
 .loginoff {
-    background-color: var(--color-main);
-    border-radius: 10px;
-    padding: 5px 15px;
-    cursor: pointer;
-    border: none;
-    margin: 0;   /* 불필요 margin 제거 */
-}
-.loginoff a {
-    text-decoration: none;
-    color: #fff;
+	background-color: var(--color-main);
+	border-radius: 10px;
+	padding: 5px 15px;
+	cursor: pointer;
+	border: none;
+	margin: 0;
+	/* 불필요 margin 제거 */
 }
 
-.loginoff a:link, .loginoff a:visited, .loginoff a:hover, .loginoff a:active {
-    text-decoration: none;   /* 모든 상태에서 밑줄 제거 */
-    color: #fff;          /* 모든 상태에서 글자색 동일 */
+.loginoff a {
+	text-decoration: none;
+	color: #fff;
 }
+
+.loginoff a:link,
+.loginoff a:visited,
+.loginoff a:hover,
+.loginoff a:active {
+	text-decoration: none;
+	/* 모든 상태에서 밑줄 제거 */
+	color: #fff;
+	/* 모든 상태에서 글자색 동일 */
+}
+
 /* 검색창 */
 .search-box {
-  flex: 1;                /* 가운데 공간 차지 */
-  max-width: 412px;       /* 너무 넓어지지 않게 제한 */
-  display: flex;
-  align-items: center;
-  border: 2px solid var(--color-focus);
-  border-radius: 25px;
-  padding: 5px 16px;
-  margin: 0 20px;         /* 좌우 살짝만 여백 */
-  justify-content: space-between;
-  cursor: pointer;
+	flex: 1 1 auto;
+	/* grow:1, shrink:1, 기본폭 auto */
+	/* 필요 시 최소폭 지정 */
+	max-width: 412px;
+	display: flex;
+	align-items: center;
+	border: 2px solid var(--color-focus);
+	border-radius: 25px;
+	padding: 5px 16px;
+	margin: 0 20px;
+	/* 좌우 살짝만 여백 */
+	justify-content: space-between;
+	cursor: pointer;
 }
-.search-box > span {
+
+.search-box>span {
 	color: var(--color-placeholder);
 }
+
 .search-box input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 14px;
+	flex: 1;
+	border: none;
+	outline: none;
+	font-size: 14px;
 }
 
 .search-box a {
-  display: flex;
-  flex-direction: row;
-  border: none;
-  background: none;
-  color: #9bb0c8;
-  cursor: pointer;
-  font-size: 16px;
-  text-decoration: none;
-  gap: 132px;
-  justify-content: space-around;
-  align-items: center;
-}
-.menu-icons a {
-  color:var(--color-main); /* 기존 아이콘 색상과 동일하게 */
-  text-decoration: none; /* 밑줄 제거 */
-}
-/* 메뉴 아이콘 */
-.menu-icons {
-  display: flex;
-  gap: 25px;
-  font-size: 25px;
-  color:var(--color-main);
-  cursor: pointer;
-  margin-top: 5px;
+	display: flex;
+	flex-direction: row;
+	border: none;
+	background: none;
+	color: #9bb0c8;
+	cursor: pointer;
+	font-size: 16px;
+	text-decoration: none;
+	gap: 132px;
+	justify-content: space-around;
+	align-items: center;
 }
 
-.menu-icons > a > img {
-    max-width: 25px;
-    max-height: 35px;
+.menu-icons a {
+	color: var(--color-main);
+	/* 기존 아이콘 색상과 동일하게 */
+	text-decoration: none;
+	/* 밑줄 제거 */
+}
+
+/* 메뉴 아이콘 */
+.menu-icons {
+	display: flex;
+	gap: 25px;
+	font-size: 25px;
+	color: var(--color-main);
+	cursor: pointer;
+	margin-top: 5px;
+}
+
+.menu-icons>a>img {
+	max-width: 25px;
+	max-height: 35px;
 }
 
 /* 채팅 아이콘 래퍼 */
 .chat-icon-wrapper {
-    position: relative;
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 }
 
 /* 헤더 채팅 배지 */
 .header-chat-badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background-color: var(--color-main);
-    color: white;
-    border-radius: 50%;
-    min-width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 2px;
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	background-color: var(--color-main);
+	color: white;
+	border-radius: 50%;
+	min-width: 18px;
+	height: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 2px;
 }
+
 /*.modal {*/
 /*  display: none;*/
 /*  position: fixed;*/
@@ -238,7 +256,7 @@
 /*  box-shadow: 0 2px 10px rgba(0,0,0,0.2);*/
 /*}*/
 
- 
+
 /*.close-btn {*/
 /*  position: absolute;*/
 /*  right: 15px;*/
