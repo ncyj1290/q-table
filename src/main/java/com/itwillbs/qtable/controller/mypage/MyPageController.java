@@ -27,7 +27,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.service.FileUploadService;
+import com.itwillbs.qtable.service.member.MemberService;
 import com.itwillbs.qtable.service.mypage.PasswordService;
+import com.itwillbs.qtable.service.mypage.PaymentListService;
 import com.itwillbs.qtable.service.mypage.ReservationListService;
 import com.itwillbs.qtable.service.mypage.ReviewService;
 import com.itwillbs.qtable.service.mypage.ScrapService;
@@ -63,6 +65,11 @@ public class MyPageController {
 	private final FileUploadService fileUploadService;
 
 	private final ReservationService reservationService;
+	
+	private final MemberService memberService;
+	
+	private final PaymentListService paymentListService;
+	
 
 	@GetMapping("/mypage_main")
 	public String mypageMain() {
@@ -70,30 +77,6 @@ public class MyPageController {
 		return "mypage/mypageMain";
 	}
 
-	// 결제 내역
-//	@GetMapping("/mypage_payment")
-//	public String mypagePayment(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
-//			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
-//
-//		Member member = userDetails.getMember();
-//		String memberIdx = getMemberIdx(userDetails);
-//
-//		// 결제완료만 필터
-//		if (reserveResult == null || reserveResult.isEmpty()) {
-//			reserveResult = "rsrt_01";
-//		}
-//
-//		List<Map<String, Object>> upcomingList = reservationListervice.getUpcomingList(memberIdx, reserveResult);
-//		model.addAttribute("upcomingList", upcomingList);
-//
-//		return "mypage/mypagePayment";
-//	}
-
-	@GetMapping("/reservation_cancel")
-	public String reservationCancel() {
-
-		return "mypage/reservationCancel";
-	}
 
 	@GetMapping("/qmoney_charge")
 	public String qmoneycharge() {
@@ -110,13 +93,47 @@ public class MyPageController {
 	public String cardEdit() {
 		return "mypage/cardEdit";
 	}
-
+	
 	@GetMapping("/member_delete")
-	public String memberDelete() {
-
-		return "mypage/memberDelete";
+	public String memberDeletePage(
+	    @AuthenticationPrincipal QtableUserDetails userDetails) {
+	  
+	  if (userDetails == null) {
+	    return "redirect:/login";
+	  }
+	  
+	  return "mypage/memberDelete";  // HTML 파일 반환
 	}
 
+	@PostMapping("/member_delete")
+	  public ResponseEntity<Map<String, Object>> memberDelete(
+	      @AuthenticationPrincipal QtableUserDetails userDetails,
+	      @RequestParam(value = "password") String password,
+	      @RequestParam(value = "agree") boolean agree) {
+
+	    Map<String, Object> response = new HashMap<>();
+
+	    if (userDetails == null) {
+	      response.put("success", false);
+	      response.put("message", "로그인이 필요합니다");
+	      return ResponseEntity.status(401).body(response);
+	    }
+
+	    int memberIdx = userDetails.getMember().getMemberIdx();
+	    
+	    boolean result = passwordService.memberDelete(memberIdx, password, agree);
+	    
+	    if (result) {
+	      response.put("success", true);
+	      response.put("message", "회원탈퇴가 완료되었습니다");
+	      return ResponseEntity.ok(response);
+	    } else {
+	      response.put("success", false);
+	      response.put("message", "회원탈퇴 처리 중 오류가 발생했습니다");
+	      return ResponseEntity.status(500).body(response);
+	    }
+	  }
+	
 	@GetMapping("/profile_settings")
 	public String profileSettings() {
 
@@ -271,38 +288,22 @@ public class MyPageController {
 	// 예약변경 모달
 	@GetMapping("reserv_change")
 	public String reservChange(@AuthenticationPrincipal QtableUserDetails userDetails,
-			@RequestParam("store_idx") Integer storeIdx, Model model) {
+							   @RequestParam("store_idx") Integer storeIdx,
+							   @RequestParam("people") Integer people,
+							   @RequestParam("reserve_time") String reserveTime,
+							   Model model) {
 		// 매장 기본 정보 조회
 		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
 		List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);
 
 		model.addAttribute("holiday", storeData.getOrDefault("holiday", List.of()));
 		model.addAttribute("availableTimes", reservationTimeData);
-
+		model.addAttribute("reservedPeople", people);
+		model.addAttribute("reservedTime", reserveTime);  
+		
 		return "storeDetail/fragments/reservationCalendar :: reservationCalendar";
 	}
-
-	// 예약 변경
-	@PostMapping("/reservation_update")
-	@ResponseBody
-	public Map<String, Object> updateReservation(@RequestBody Map<String, Object> reservationData,
-			@AuthenticationPrincipal QtableUserDetails userDetails) {
-		Integer memberIdx = Integer.valueOf(getMemberIdx(userDetails));
-		Map<String, Object> response = new HashMap<>();
-		Map<String, Object> result = reservationService.processReservation(reservationData, memberIdx);
-
-		if (result.get("reserve_idx") != null) {
-			// 성공적으로 업데이트된 경우
-			response.put("success", true);
-			response.putAll(result); // reserve_idx, message 등 같이 반환
-		} else {
-			// 실패 시
-			response.put("success", false);
-			response.put("message", "예약 변경에 실패했습니다. 입력값을 확인해 주세요.");
-		}
-		return response;
-	}
-
+	
 	// q-money 금액 불러오기
 	@GetMapping("/mypage/qmoneyBalance")
 	@ResponseBody
@@ -487,5 +488,24 @@ public class MyPageController {
 
 		return "mypage_pick";
 	}
+	
+	// 결제 내역
+	   @GetMapping("/mypage_payment")
+	   public String mypagePayment(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
+	         @RequestParam(value = "reserveResult", required = false) String reserveResult) {
+
+	      Member member = userDetails.getMember();
+	      String memberIdx = getMemberIdx(userDetails);
+
+	      // 결제완료만 필터
+	      if (reserveResult == null || reserveResult.isEmpty()) {
+	         reserveResult = "rsrt_01";
+	      }
+
+	      List<Map<String, Object>> upcomingList = paymentListService.getPaymentList(memberIdx, reserveResult);
+	      model.addAttribute("upcomingList", upcomingList);
+	//
+	      return "mypage/mypagePayment";
+	   }
 
 }

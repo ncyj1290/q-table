@@ -8,11 +8,11 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageCalendar.css}">
 	<link rel="stylesheet" th:href="@{/css/storeDetail/storeDetail.css}">
+	<script th:src="@{/js/storeDetail/dynamicCalendar.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
-	<script th:src="@{/js/storeDetail/dynamicCalendar.js}" defer></script>
 	<script th:src="@{/js/common/pagination.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>예약 현황</title>
@@ -39,12 +39,14 @@
 			<!-- 방문예정 탭 -->
 			<th:block th:fragment="listFragment">
 				<div id="visit" class="tab-content visit">
-					<div class="reservation-item" th:each="item : ${upcomingList}">
+					<div class="reservation-item" th:each="item : ${upcomingList}"  >
 						<img th:src="@{${item.store_img}}" class="store-img" />
 						<div class="reservation-info">
 							<div class="store-title">
 								<div class="name-star-group">
-									<span th:text="${item.store_name}" class="store-name"></span>
+									<span th:text="${item.store_name}" class="store-name"
+									 th:data-store-idx="${item['store_idx']}"
+									 style="cursor:pointer;"x></span>
 									<span class="star" th:text="'★ ' + ${item.avgScore}"></span>
 								</div>
 								<img src="/img/scrap.png" class="scrap-icon"
@@ -58,7 +60,11 @@
 								<button class="negative-button" style="margin-right: 10px;" data-type="cancelBtn"
 									th:data-reserve-idx="${item['reserve_idx']}">예약 취소</button>
 								<button class="positive-button" data-type="changeBtn"
-									th:data-store-idx="${item.store_idx}">예약 변경</button>
+									th:data-store-idx="${item.store_idx}"
+									th:data-reserve-idx="${item.reserve_idx}"
+									th:data-people="${item.person_count}"
+									th:data-reserve-time="${item.reserve_time}"
+									>예약 변경</button>
 
 							</div>
 						</div>

@@ -2,6 +2,7 @@
 	layout:decorate="~{common/layouts/defaultLayout}">
 <head>
 	<link rel="stylesheet" th:href="@{/css/mypage/memberDelete.css}">
+	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
 </head>
 <body>
 		<div layout:fragment="Content">
@@ -9,7 +10,7 @@
 			    <img th:src="@{/img/background.png}" alt="배경 이미지">
 					<h1 class="memberdelete-text">회원 탈퇴</h1>
 			    		<p class="delete-text">	예약 사이트 이용 약관 <br>
-							제1조 (목적) 본 약관은 본 사이트(이하 ‘Q-TABLE’)를 이용하는 회원과 서비스 제공자 간의 권리, <br>의무 및 책임사항, 기타
+							제1조 (목적) 본 약관은 본 사이트(이하 ‘Q-TABLE’)를 이용하는 회원과 서비스 제공자 간의 권리, <br>의무 및 책임사항, 기타
 							필요한 사항을 규정함을 목적으로 합니다.<br>
 							<br>
 							제2조 (용어의 정의)<br>
@@ -43,21 +44,21 @@
 							긴급한 경우 사전 공지 없이 서비스가 중단될 수 있으며, 
 							      이에 따른 손해에 대해 서비스는 책임을 지지 않습니다.<br>
 							<br>
-							제9조 (회원의 의무) 회원은 관계 법령, 본 약관, 서비스 이용안내 및 주의사항을 준수하여야 하며,
+							제9조 (회원의 의무) 회원은 관계 법령, 본 약관, 서비스 이용안내 및 주의사항을 준수하여야 하며,
 							서비스 운영을 방해해서는 안 됩니다.<br>
 							<br>
-							제10조 (면책조항) 서비스는 천재지변, 불가항력적 사유로 인한 서비스 장애에 대해 책임을 지지 않습니다.<br>
+							제10조 (면책조항) 서비스는 천재지변, 불가항력적 사유로 인한 서비스 장애에 대해 책임을 지지 않습니다.<br>
 						</p>
 						<div class="password-check">
-							비밀번호 확인 <input type="password" class="component-write">
+							비밀번호 확인 <input type="password" id="passwordInput" class="component-write">
 							
 						</div>
 						<div class="memberdelete-check">
-							<input type="checkbox" class="component-checkbox">
+							<input type="checkbox" id="agreeCheckbox" class="component-checkbox">
 						    <label for="agree" class="check">상기 탈퇴 정책을 모두 확인하였으며, 이에 동의합니다. (필수)</label>
 						</div>
 						<div class="last">
-							<button type="button" class="positive-button button"> 탈퇴</button>
+							<button type="button" id="memberDeleteBtn" class="positive-button button"> 탈퇴</button>
 						</div>
 			</div>
 			

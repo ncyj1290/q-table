@@ -8,6 +8,8 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
+	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
+	
 	<meta charset="UTF-8">
 	<title>scrap</title>
 </head>
@@ -29,12 +31,14 @@
 
 
 		<div class="scrap-list">
-			<div th:each="item : ${upcomingList}" class="scrap-item">
+			<div th:each="item : ${upcomingList}" class="scrap-item" >
 				<img th:src="${item['store_img']}" class="store-img" />
 				<div class="scrap-info">
 					<div class="store-title">
 						<div class="name-star-group">
-							<span class="store-name" th:text="${item['store_name']}"></span>
+							<span class="store-name" th:text="${item['store_name']}"
+							 th:data-store-idx="${item['store_idx']}"
+							 style="cursor:pointer;"></span>
 							<span class="star" th:text="'★ ' + ${item['avgScore']}"></span>
 						</div>
 						<img src="/img/scrap_full.png" class="scrap-icon"

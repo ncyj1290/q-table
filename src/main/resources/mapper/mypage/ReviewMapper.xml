@@ -12,7 +12,8 @@
 			   , r.content
 			   , r.create_at
 			   , s.store_name
-			   , 
+			   , s.store_idx
+			   ,
 	   (SELECT 	 CONCAT('[', GROUP_CONCAT(JSON_QUOTE(i.image_url) ORDER BY i.image_idx ASC), ']')
           FROM 	 image i
      	 WHERE 	 i.target_type = 'imguse_05' 

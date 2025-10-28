@@ -9,6 +9,7 @@
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/mypageReview.js}" defer></script>
+	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>review</title>
 </head>
@@ -27,7 +28,9 @@
 				<div class="review-info">
 					<div class="store-title">
 						<div class="name-star-group">
-							<span class="store-name" th:text="${review.store_name}"></span>
+							<span class="store-name" th:text="${review.store_name}" 
+								th:data-store-idx="${review['store_idx']}" 
+								style="cursor:pointer;"></span>
 							<span class="star" th:text="'★' + ${review.avgScore}"></span>
 						</div>
 					</div>

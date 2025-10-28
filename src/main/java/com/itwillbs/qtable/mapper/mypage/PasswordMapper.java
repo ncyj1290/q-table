@@ -31,5 +31,11 @@ public interface PasswordMapper {
     // 이미지 업로드
     int updateProfileImage(@Param("memberIdx") int memberIdx, @Param("profileImgUrl") String profileImgUrl);
 
+    // 회원 상태 업데이트
+    int updateMemberStatus(@Param("memberIdx") int memberIdx, @Param("status") String status);
+
+    //예약상태 업데이트
+    int updateReservationStatus(@Param("memberIdx") int memberIdx, @Param("status") String status);
+
     
 }

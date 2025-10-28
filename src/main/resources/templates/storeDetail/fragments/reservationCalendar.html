@@ -38,7 +38,12 @@
             <div class="form-row">
                 <div class="form-group-vertical">
                     <label class="form-label">인원수</label>
-                    <input type="number" id="person-count" class="person-count-input" value="0" min="1" max="100">
+					<input type="number" id="person-count" class="person-count-input" 
+							th:value="${reservedPeople != null} ? ${reservedPeople} : 0" 
+							value="0" min="1" max="100"
+							th:readonly="${reservedPeople != null}"
+						    th:style="${reservedPeople != null} ? 'background-color:#fffff; cursor:not-allowed;' : ''">
+							
                 </div>
                 <div class="form-group-vertical">
                     <label class="form-label">시간</label>
@@ -46,7 +51,9 @@
                         <select id="reservation-time">
                             <option th:each="time : ${availableTimes}"
                                     th:value="${time}"
-                                    th:text="${time}"></option>
+                                    th:text="${time}"
+									th:selected="${reservedTime != null} ? ${time.equals(#strings.substring(reservedTime, 0, 5))} : false">
+							</option>
                         </select>
                     </div>
                 </div>

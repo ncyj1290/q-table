@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.qtable.mapper.mypage.PasswordMapper;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -84,4 +85,47 @@ public class PasswordService {
         passwordMapper.updateProfileImage(memberIdx, imageUrl);
     }
 
+    @Transactional
+    public boolean memberDelete(int memberIdx, String password, boolean agree) {
+      
+      // 1. 약관 동의 확인
+      if (!agree) {
+        System.out.println("탈퇴 정책 미동의");
+        return false;
+      }
+
+      // 2. 비밀번호 체크
+      if (password == null || password.isEmpty()) {
+        System.out.println("비밀번호 입력 안됨");
+        return false;
+      }
+
+      // 3. 현재 비밀번호 확인 (checkCurrentPassword 메서드 사용)
+      if (!checkCurrentPassword(memberIdx, password)) {
+        System.out.println("비밀번호 불일치");
+        return false;
+      }
+
+      // 4. 비밀번호 검증
+      if (!passwordEncoder.matches(password, password)) {
+        System.out.println("비밀번호 불일치");
+        return false;
+      }
+
+      // 5. 회원탈퇴 처리 (상태 변경)
+      int updateResult = passwordMapper.updateMemberStatus(memberIdx, "WITHDRAWN");
+      if (updateResult == 0) {
+        System.out.println("회원 상태 업데이트 실패");
+        return false;
+      }
+      
+      // 6. 관련 데이터 처리 (예약 취소)
+      passwordMapper.updateReservationStatus(memberIdx, "CANCELLED");
+
+      System.out.println("회원탈퇴 완료: " + memberIdx);
+      return true;
+    }
+
 }
+
+
