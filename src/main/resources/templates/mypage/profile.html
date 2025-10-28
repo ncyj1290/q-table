@@ -24,8 +24,9 @@
 					<a th:href="@{/}">
 						<img src="/img/mypage_month.png" alt="달력" class="mypage_month" />
 					</a>
-					<a th:href="@{/chat}">
+					<a th:href="@{/chat}" class="mypage-chat-icon-wrapper">
 						<img src="/img/mypage_messenger.png" alt="메세지" class="mypage_messenger" />
+						<span class="mypage-chat-badge" id="mypageChatBadge" style="display: none;"></span>
 					</a>
 					<a th:href="@{/setting}">
 						<img src="/img/profile_settings.png" alt="설정" class="profile_settings" />

@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.zxing.WriterException;
 import com.itwillbs.qtable.config.QtableUserDetails;
+import com.itwillbs.qtable.entity.Member;
+import com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreCommonCode;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreReservation;
+import com.itwillbs.qtable.repository.MemberRepository;
+import com.itwillbs.qtable.service.chat.ChatService;
 import com.itwillbs.qtable.service.storeManagement.QrService;
 import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import com.itwillbs.qtable.service.storeManagement.StoreReservationService;
@@ -24,6 +28,8 @@ import com.itwillbs.qtable.vo.PageVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.storeManagement.ReservationVO;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
+
+import java.util.Map;
 
 @Controller
 public class StoreReservationController {
@@ -43,6 +49,15 @@ public class StoreReservationController {
 	
 	@Autowired
 	StoreCommonCode storeCommonCode;
+
+	@Autowired
+	ChatService chatService;
+
+	@Autowired
+	StoreDetailMapper storeDetailMapper;
+
+	@Autowired
+	MemberRepository memberRepository;
 
 	/* 예약 목록 페이지 */
 	@GetMapping("/store_reservation_list")
@@ -101,10 +116,41 @@ public class StoreReservationController {
 	/* 예약 결과 변경 및 Ridirect to previous reservation detail page */ 
 	@PostMapping("/modify_store_reservation_result")
 	public String modifyStoreReservationResult(ReservationVO reservationVo){
+
+		storeReservationService.updateReservationResult(reservationVo);
+
+		String chatMessage = null;
+		Integer storeOwnerIdx = storeDetailMapper.getStoreMemberIdx(reservationVo.getStore_idx());
+
+		// 예약 결과에 따른 처리 및 메시지 설정
 		
-		int res = storeReservationService.updateReservationResult(reservationVo);		
-		if(reservationVo.getReserve_result().equals("rsrt_02")) storeReservationService.updateNoShowCount(reservationVo.getMember_idx());
+		// 방문 완료 처리
+		if(reservationVo.getReserve_result().equals("rsrt_01")) {
+			chatMessage = "[방문 완료 안내]\n저희 매장을 방문해 주셔서 감사합니다! 다음에도 꼭 방문해 주세요!";
 		
+	    // 노쇼 처리
+		} else if(reservationVo.getReserve_result().equals("rsrt_02")) {
+			storeReservationService.updateNoShowCount(reservationVo.getMember_idx());
+			Member member = memberRepository.findById(reservationVo.getMember_idx()).orElse(null);
+			if (member != null) {
+				int noShowCount = member.getNoShowCount();
+				chatMessage = "[노쇼 처리 안내]\n예약 시간에 방문하지 않으셔서 노쇼로 처리되었습니다.\n" +
+						"현재 노쇼 횟수: " + noShowCount + "회\n" +
+						(noShowCount >= 2 ? "노쇼 2회 이상으로 예약이 제한됩니다." : "노쇼 2회 누적 시 예약이 제한되오니 주의해 주세요.");
+			}
+		
+		// 예약 거부 처리
+		} else if(reservationVo.getReserve_result().equals("rsrt_04") && reservationVo.getDeny_reason() != null && !reservationVo.getDeny_reason().trim().isEmpty()) {
+			chatMessage = "[예약 거부 안내]\n" + reservationVo.getDeny_reason();
+		}
+
+		// 채팅 메시지 전송
+		if(chatMessage != null && storeOwnerIdx != null) {
+			Map<String, Object> chatRoom = chatService.insertOrGetChatRoom(reservationVo.getMember_idx(), reservationVo.getStore_idx());
+			Integer roomIdx = (Integer) chatRoom.get("room_idx");
+			chatService.insertChat(chatMessage, storeOwnerIdx, roomIdx);
+		}
+
 		return "redirect:/store_reservation_detail?reserve_idx=" +  reservationVo.getReserve_idx();
 	}
 	

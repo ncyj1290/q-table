@@ -32,6 +32,18 @@
 		 WHERE member_idx = #{memberIdx}
 		   AND room_type = 'room_02'
 	</select>
+
+	<!-- 관리자 채팅방 조회 (room_idx 반환) -->
+	<select id="getAdminChatRoom" resultType="map">
+		SELECT room_idx
+			 , room_type
+			 , member_idx
+			 , store_idx
+		  FROM chat_room
+		 WHERE member_idx = #{memberIdx}
+		   AND room_type = 'room_02'
+		 LIMIT 1
+	</select>
 	
 	<!-- 사용자의 모든 채팅방 목록 조회 (상대방 정보 포함) -->
 	<select id="getChatRoomListByMember" resultType="map">

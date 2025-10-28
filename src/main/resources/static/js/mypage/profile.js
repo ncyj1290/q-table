@@ -80,4 +80,35 @@ $(document).ready(function() {
         const formattedBalance = Number(data.balance).toLocaleString('ko-KR'); // 천 단위 쉼표
         $('#qmoneyBalance').text(formattedBalance + '원');
     });
+
+    // 마이페이지 채팅 배지 업데이트
+    updateMypageChatBadge();
 });
+
+// 마이페이지 채팅 배지 업데이트 함수
+function updateMypageChatBadge() {
+    const $badge = $('#mypageChatBadge');
+
+    // 배지 요소가 없으면 (비로그인 상태) 리턴
+    if ($badge.length === 0) {
+        return;
+    }
+
+    $.ajax({
+        url: '/api/chat/unread/total',
+        type: 'POST',
+        success: function(response) {
+            if (response.success) {
+                const totalUnread = response.totalUnread;
+                if (totalUnread > 0) {
+                    $badge.text(totalUnread).show();
+                } else {
+                    $badge.hide();
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Failed to fetch unread count:', error);
+        }
+    });
+}

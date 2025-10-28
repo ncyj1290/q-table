@@ -20,6 +20,7 @@ import com.itwillbs.qtable.entity.Jeongsan;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.entity.Store;
 import com.itwillbs.qtable.mapper.admin.AdminMapper;
+import com.itwillbs.qtable.mapper.chat.chatMapper;
 import com.itwillbs.qtable.mapper.storeDetail.StoreDetailMapper;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
 import com.itwillbs.qtable.repository.JeongsanRepository;
@@ -28,6 +29,7 @@ import com.itwillbs.qtable.repository.PaymentRepository;
 import com.itwillbs.qtable.repository.StoreRepository;
 import com.itwillbs.qtable.repository.SubscribeRepository;
 import com.itwillbs.qtable.repository.UserLogRepository;
+import com.itwillbs.qtable.service.chat.ChatService;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
@@ -73,6 +75,12 @@ public class AdminService {
 
 	@Autowired
 	private StoreData storedata;
+
+	@Autowired
+	private ChatService chatService;
+
+	@Autowired
+	private chatMapper chatMapper;
 
 	// 관리자 메인화면 일주일간 신규 회원
 	public int countNewMembers() {
@@ -202,16 +210,35 @@ public class AdminService {
 		Store store = storeRepository.findById(storeIdx).orElseThrow();
 		String newStatus = StoreUpdateVO.getStore_status();
 		store.setStoreStatus(newStatus);
-		store.setProcessedAt(LocalDateTime.now()); // 처리 시각 기록
+		store.setProcessedAt(LocalDateTime.now());
 
-		// Store_status가 정상인지 확인
-		if ("srst_01".equals(newStatus) || "srst_02".equals(newStatus)) {
-			// 승인, 보류일 경우, 반려 사유를 null
+		Integer storeMemberIdx = store.getMemberIdx();
+		String chatMessage = null;
+		
+		// 입점 승인 처리
+		if ("srst_01".equals(newStatus)) {
 			store.setRejectionReason(null);
-			;
-		} else {
-			// 반려일 경우 반려 사유를 저장
+			chatMessage = "[입점 신청 승인 안내]\n축하합니다! 입점 신청이 승인되었습니다.";
+		// 입점 보류
+		} else if ("srst_02".equals(newStatus)) {
+			store.setRejectionReason(null);
+		// 입점 거부 처리
+		} else if ("srst_03".equals(newStatus)) {
 			store.setRejectionReason(StoreUpdateVO.getRejection_reason());
+			if (StoreUpdateVO.getRejection_reason() != null && !StoreUpdateVO.getRejection_reason().trim().isEmpty()) {
+				chatMessage = "[입점 신청 거부 안내]\n" + StoreUpdateVO.getRejection_reason();
+			}
+		}
+		
+		// 채팅 메시지 전송
+		if (chatMessage != null) {
+			chatService.ensureAdminChatRoomExists(storeMemberIdx);
+			Map<String, Object> adminChatRoom = chatMapper.getAdminChatRoom(storeMemberIdx);
+			Integer roomIdx = (Integer) adminChatRoom.get("room_idx");
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			QtableUserDetails userDetails = (QtableUserDetails) authentication.getPrincipal();
+			Integer adminMemberIdx = userDetails.getMember().getMemberIdx();
+			chatService.insertChat(chatMessage, adminMemberIdx, roomIdx);
 		}
 
 	}
@@ -306,19 +333,33 @@ public class AdminService {
 	@Transactional
 	public void updateJeongsanStatus(Integer jeongsanIdx, JeongsanUpdateVO JeongsanUpdateVO) {
 		Jeongsan jeongsan = jeongsanRepository.findById(jeongsanIdx).orElseThrow();
-
 		String newStatus = JeongsanUpdateVO.getCalculate_result();
-
 		jeongsan.setCalculateResult(newStatus);
-		jeongsan.setProcessedAt(LocalDateTime.now()); // 처리 시각 기록
+		jeongsan.setProcessedAt(LocalDateTime.now());
 
-		// jeongsan_status가 정상인지 확인
-		if ("ctrt_01".equals(newStatus) || "ctrt_02".equals(newStatus)) {
-			// 승인, 보류일 경우, 탈퇴 사유를 null
+		Integer storeMemberIdx = jeongsan.getMemberIdx();
+		String chatMessage = null;
+
+		if ("ctrt_01".equals(newStatus)) {
 			jeongsan.setRejectionReason(null);
-		} else {
-			// 거부일 경우 거부 사유를 저장
+			chatMessage = "[정산 완료 안내]\n정산이 완료되었습니다. 등록하신 계좌로 입금이 완료되었습니다.";
+		} else if ("ctrt_02".equals(newStatus)) {
+			jeongsan.setRejectionReason(null);
+		} else if ("ctrt_03".equals(newStatus)) {
 			jeongsan.setRejectionReason(JeongsanUpdateVO.getRejection_reason());
+			if (JeongsanUpdateVO.getRejection_reason() != null && !JeongsanUpdateVO.getRejection_reason().trim().isEmpty()) {
+				chatMessage = "[정산 반려 안내]\n" + JeongsanUpdateVO.getRejection_reason();
+			}
+		}
+
+		if (chatMessage != null) {
+			chatService.ensureAdminChatRoomExists(storeMemberIdx);
+			Map<String, Object> adminChatRoom = chatMapper.getAdminChatRoom(storeMemberIdx);
+			Integer roomIdx = (Integer) adminChatRoom.get("room_idx");
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			QtableUserDetails userDetails = (QtableUserDetails) authentication.getPrincipal();
+			Integer adminMemberIdx = userDetails.getMember().getMemberIdx();
+			chatService.insertChat(chatMessage, adminMemberIdx, roomIdx);
 		}
 
 	}

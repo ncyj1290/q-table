@@ -35,7 +35,10 @@ public interface chatMapper {
 	
 	// 관리자 채팅방이 이미 있는지 조회
 	public Integer getAdminChatRoomByMember(Integer memberIdx);
-	
+
+	// 관리자 채팅방 조회 (room_idx 반환)
+	public Map<String, Object> getAdminChatRoom(Integer memberIdx);
+
 	// 채팅방 updated_at 갱신
 	public void updateChatRoomTimestamp(@Param("roomIdx") Integer roomIdx);
 

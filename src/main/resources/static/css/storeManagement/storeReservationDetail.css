@@ -49,5 +49,21 @@
 
 /* 데이터 라벨 스타 */
 .info-data-label{
-	font-size: 20px;	
+	font-size: 20px;
+}
+
+/* disabled 버튼 스타일 */
+button:disabled,
+button[disabled] {
+	opacity: 0.5;
+	cursor: not-allowed !important;
+	pointer-events: none;
+}
+
+button:disabled:hover,
+button:disabled:active,
+button[disabled]:hover,
+button[disabled]:active {
+	background-color: inherit;
+	transform: none;
 }
