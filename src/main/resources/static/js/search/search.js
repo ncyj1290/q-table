@@ -36,7 +36,8 @@ $(function() {
 		console.log(entry.isIntersecting)
 		console.log(!isLoading)
 		console.log(searchState.hasNext)
-		if (entry.isIntersecting && !isLoading && searchState.hasNext) {
+//		&& searchState.hasNext
+		if (entry.isIntersecting && !isLoading) {
 			observer.unobserve(loader[0]);
 			loadMoreItems();
 		} 
@@ -122,7 +123,7 @@ $(function() {
 				const scoreCs = $(res).last().last().data('score-cursor');
 				const cursor = $(res).last().last().data('cursor');
 				const hasNext = $(res).last().last().data('hasnext');
-				displayUrl = displayUrl + '&hasNext=' + hasNext;
+//				displayUrl = displayUrl + '&hasNext=' + hasNext;
 				$('.content').append(res);
 				history.pushState(null, '', displayUrl);
 				searchState.cursor = cursor;
@@ -206,7 +207,7 @@ $(function() {
 				const scoreCs = $(res).last().last().data('score-cursor');
 				const hasNext = $(res).last().last().data('hasnext');
 				searchState.hasNext = hasNext;
-				displayUrl = displayUrl + '&hasNext=' + hasNext;
+//				displayUrl = displayUrl + '&hasNext=' + hasNext;
 				$('.content').append(res);
 				if(hasNext) {
 	                observer.observe(loader[0]);
