@@ -127,6 +127,12 @@ public class StoreDetailController {
 			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
 
 		Map<String, Object> response = new HashMap<>();
+		
+		if (userDetails == null) {
+			response.put("success", false);
+			response.put("message", "로그인이 필요한 서비스입니다.");
+			return response;
+		}
 
 		try {
 			Member member = userDetails.getMember();

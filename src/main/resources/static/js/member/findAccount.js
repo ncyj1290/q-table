@@ -203,7 +203,7 @@ $(function(){
 			url: apiUrl,
 			type: 'POST',
 			data: {
-				user_id: $firstInput.val(),
+				first_input: $firstInput.val(),
 				user_email: $userEmail.val()
 			},
 			success: function(response){
@@ -259,13 +259,8 @@ $(function(){
 			return;
 		}
 
-		// API 엔드포인트 선택
-		const apiUrl = currentTab === 'id'
-			? '/api/findId/email/verify'
-			: '/api/findPw/email/verify';
-
 		$.ajax({
-			url: apiUrl,
+			url: '/api/findIdPw/email/verify',
 			type: 'POST',
 			data: {
 				verification_code: $verificationCode.val(),
@@ -275,13 +270,13 @@ $(function(){
 				handleAjaxSuccess(response, function(res) {
 					// 타이머 중지
 					stopAllTimers();
-
 					if (currentTab === 'id') {
 						// 아이디 찾기 - 아이디 표시
 						$idResultArea.show();
 						$idResultText.text(res.memberId + ' 입니다.');
 					} else {
 						// 비밀번호 찾기 - 비밀번호 재설정 폼 표시
+						alert("인증이 완료되었습니다.");
 						$pwResultArea.show();
 					}
 				}, '인증번호 확인에 실패했습니다.');
@@ -296,7 +291,8 @@ $(function(){
 	function resetPassword() {
 		const newPw = $newPassword.val();
 		const confirmPw = $newPasswordConfirm.val();
-
+		const userId = $firstInput.val()
+		
 		// 검증
 		if (!newPw.trim()) {
 			alert('새 비밀번호를 입력해주세요.');
@@ -315,8 +311,9 @@ $(function(){
 			url: '/api/findPw/reset',
 			type: 'POST',
 			data: {
-				user_id: $firstInput.val(),
-				new_password: newPw
+				user_id: userId,
+				new_password: newPw,
+				new_password_confirm: confirmPw
 			},
 			success: function(response){
 				handleAjaxSuccess(response, function(res) {

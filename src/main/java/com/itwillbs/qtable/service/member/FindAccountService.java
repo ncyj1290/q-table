@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.itwillbs.qtable.controller.email.EmailController.AuthUtil;
 import com.itwillbs.qtable.entity.EmailVerification;
 import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.repository.EmailVerificationRepository;
@@ -26,12 +25,15 @@ public class FindAccountService {
 	
 	private final EmailService emailService;
 	
+	private final PasswordEncoder passwordEncoder;
+	
 	private final MemberRepository memberRepository;
 	private final EmailVerificationRepository emailVerificationRepository;
 	
-	public void sendVerificationEmail(String userId, String userEmail) {
+	// 이메일 인증 번호 발송 (id찾기)
+	public void sendIdVerificationEmail(String userName, String userEmail) {
 		Member member = 
-				memberRepository.findByMemberNameAndEmail(userId, userEmail)
+				memberRepository.findByMemberNameAndEmail(userName, userEmail)
 				.orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다"));
 		
 		String authCode = AuthUtil.generateAuthCode();
@@ -44,13 +46,26 @@ public class FindAccountService {
         }
         
         // 인증번호 DB 저장
-        EmailVerification verification = new EmailVerification();
-        verification.setEmail(userEmail);
-        verification.setVerification_code(authCode);
-        verification.setCreateAt(LocalDateTime.now());
-        verification.setExpiresAt(LocalDateTime.now().plusMinutes(5));
-        emailVerificationRepository.save(verification);
+        saveVerificationHistory(userEmail, authCode);
+	}
+	
+	
+	// 이메일 인증 번호 발송
+	public void sendPwVerificationEmail(String userId, String userEamil) {
+//		Member member = memberRepository.findByMemberIdAndEmail(userId, userEamil)
+//				.orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
 		
+		String authCode = AuthUtil.generateAuthCode();
+		
+		// 인증번호 생성 및 이메일 발송
+        try {
+             emailService.sendHtmlEmail(userId, authCode);
+        } catch (Exception e) {
+            
+        }
+        
+        // 인증번호 DB 저장
+        saveVerificationHistory(userEamil, authCode);
 	}
 	
 	// 인증번호 확인(id)
@@ -85,13 +100,28 @@ public class FindAccountService {
 		// 인증 성공 - 회원 정보 조회
 		Member member = memberRepository.findByEmail(email)
 				.orElseThrow(() -> new RuntimeException("해당 이메일의 회원 정보가 존재하지 않습니다."));
-
+		
+		// 인증 상태값 변경
+		verification.setVerified(true);
+		emailVerificationRepository.save(verification);
+		
 		result.put("success", true);
 		result.put("memberId", member.getMemberId());
 
 		return result;
 	}
 	
+	// 비밀번호 변경 
+	@Transactional
+	public void resetPassword(String userId, String newPw) {
+		Member member = memberRepository.findByMemberId(userId)
+				.orElseThrow(()-> new RuntimeException("해당 id의 회원이 존재하지 않습니다."));
+		
+		// 비밀번호 암호화
+		String encodedNewPw = passwordEncoder.encode(newPw);
+		
+		member.setMemberPw(encodedNewPw);
+	}
 	
 	// 랜덤 코드 생성
 	public class AuthUtil {
@@ -101,4 +131,16 @@ public class FindAccountService {
 			return String.valueOf(code);
 		}
 	}
+	
+	// 이메일 인증 코드 내역 db 저장
+	public void saveVerificationHistory(String userEmail, String authCode) {
+		EmailVerification verification = new EmailVerification();
+        verification.setEmail(userEmail);
+        verification.setVerification_code(authCode);
+        verification.setCreateAt(LocalDateTime.now());
+        verification.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+        emailVerificationRepository.save(verification);
+	}
+
+
 }
