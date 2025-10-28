@@ -17,5 +17,9 @@ public interface PaymentMapper {
 	
     // 카드 결제
     List<PaymentVO> selectPaymentsByMerchantUid(String merchantUid);
+
+    // 환불
+    int updatePaymentStatus(PaymentVO pay);
+
 	
 }

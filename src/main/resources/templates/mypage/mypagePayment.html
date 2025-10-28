@@ -19,37 +19,54 @@
 			<span class="payment-label">결제 내역</span>
 		</div>
 
-		<div class="payment-list">
+			<!-- 결제 리스트 -->
+			<div class="payment-list">
+				<!-- 결제 항목 반복 -->
+				<div class="payment-item" th:each="item : ${upcomingList}">
 
-			<div class="payment-item">
-				<img src="/img/food1.jpg" th:each="item : ${upcomingList}" class="store-img" />
-				<div class="payment-info">
-					<div class="store-title">
-						<div class="name-star-group">
-							<span th:text="${item.store_name}" class="store-name"></span> <span
-								th:text="'★ ' + ${item.avgScore}" class="star"></span>
+					<!-- 가게 이미지 -->
+					<img th:src="${item['store_img'] != null ? item['store_img'] : '/img/Q_money.png'}" class="store-img" />
+
+
+					<!-- 결제 정보 -->
+					<div class="payment-info">
+						<div class="store-title">
+							<div class="name-star-group">
+								<span th:text="${item != null and item['store_name'] != null ? item['store_name'] : 'Q-money 충전'}" class="payment-label"></span>
+							</div>
 						</div>
-						<img src="/img/scrap.png" class="scrap-icon" th:attr="data-store-idx=${item['store_idx']}" />
-					</div>
-					<span class="content">매장 번호 | &nbsp;<span class="desc" th:text="${item.store_phone}"></span></span>
-					<span class="content">매장 주소 | &nbsp;<span class="desc" th:text="${item.full_address}"></span></span>
-					<span class="content">예약 시간 | &nbsp;<span class="desc" th:text="${item.reserve_dt}"> </span></span>
-				</div>
-				<div class="payment-price">
-					<span class="price-label">결제 금액</span>
-					<div class="price-row">
-						<button class="negative-button">환불하기</button>
-						<span class="price-old">20,000원</span>
-						<span class="price-new">18,000원</span>
-					</div>
-				</div>
 
+						<span class="content">
+							매장 주소 | &nbsp;
+							<span class="desc" th:text="${item['full_address'] != null ? item['full_address'] : 'Q-money 충전'}"></span>
+						</span>
+
+						<span class="content">
+							예약 시간 | &nbsp;
+							<span class="desc" th:text="${item['reserve_dt'] != null ? item['reserve_dt'] : 'Q-money 충전'}"></span>
+						</span>
+						<span class="content">
+							결제 시간 | &nbsp;
+							<span class="desc" th:text="${item['payment_date'] != null ? item['payment_date'] : '가게 정보 없음'}"></span>
+						</span>
+					</div>
+
+					<!-- 결제 금액 -->
+					<div class="payment-price">
+						<span class="price-label">결제 금액</span>
+						<div class="price-row">
+							<button class="negative-button" id="refund-button">환불하기</button>
+							<!--                    <span class="price-old">20,000원</span>-->
+							<span class="price-new" th:text="${item['payment_amount'] != null ? item['payment_amount'] : '가게 정보 없음'}"></span>
+						</div>
+					</div>
+				</div>
 			</div>
+
+<!--			<div th:replace="~{mypage/pick :: mainnav}"></div>-->
+
+
 		</div>
-
-
-		<div th:replace="mypage/pick :: mainnav"></div>
-	</div>
 
 </body>
 

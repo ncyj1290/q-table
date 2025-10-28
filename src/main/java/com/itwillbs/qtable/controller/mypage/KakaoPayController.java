@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.service.pay.KakaoPayService;
+import com.itwillbs.qtable.vo.myPage.KakaoCancelResponse;
 import com.itwillbs.qtable.vo.myPage.KakaoReadyResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -19,17 +20,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class KakaoPayController {
 
-	
-		private final KakaoPayService kakaoPayService;
+	private final KakaoPayService kakaoPayService;
 
-	    // 카카오페이 결제 요청 (프론트에서 Ajax 호출)
-	    @PostMapping(value = "/qmoneyCharge", produces = "application/json")
-	    public KakaoReadyResponse readyToKakaoPay(@AuthenticationPrincipal QtableUserDetails qtable,
-	                                              @RequestBody Map<String, String> request) {
-	        String payment_idx = request.get("payment_idx");
-	        String amount = request.get("amount");
-	        return kakaoPayService.KakaoPayReady(qtable, payment_idx, amount);
-	    }
+	// 카카오페이 결제 요청 (프론트에서 Ajax 호출)
+	@PostMapping(value = "/qmoneyCharge", produces = "application/json")
+	public KakaoReadyResponse readyToKakaoPay(@AuthenticationPrincipal QtableUserDetails qtable,
+			@RequestBody Map<String, String> request) {
+		String payment_idx = request.get("payment_idx");
+		String amount = request.get("amount");
+		return kakaoPayService.KakaoPayReady(qtable, payment_idx, amount);
+	}
 
+	// 결제 취소(환불) 요청
+	@PostMapping(value = "/cancelQmoneyPayment", produces = "application/json")
+	public KakaoCancelResponse cancelQmoneyPayment(@RequestBody Map<String, Object> request) {
+		String tid = (String) request.get("tid");
+		int cancelAmount = (int) request.get("cancelAmount"); // 환불 금액
+		int cancelTaxFreeAmount = (int) request.get("cancelTaxFreeAmount"); // 비과세 금액
+
+		// KakaoPayService의 환불 메서드 호출
+		return kakaoPayService.cancelPayment(tid, cancelAmount, cancelTaxFreeAmount);
+	}
 
 }

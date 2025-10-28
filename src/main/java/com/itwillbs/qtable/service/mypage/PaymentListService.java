@@ -17,13 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PaymentListService {
 
-	/* 방문예정 예약 리스트 조회 */
-//	public List<Map<String, Object>> getPaymentList(String memberIdx, String reserveResult) {
-//		Map<String, Object> params = new HashMap<>();
-//		params.put("member_idx", memberIdx);
-//		params.put("reserve_result", reserveResult);
-//		List<Map<String, Object>> result = PaymentListMapper.getMyPaymentList(params);
-//		return result;
-//	}
+	private final PaymentListMapper paymentListMapper;
+	
+	/* 결제 리스트 조회 */
+	public List<Map<String, Object>> getPaymentList(String memberIdx, String reserveResult) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("member_idx", memberIdx);
+		params.put("reserve_result", reserveResult);
+		List<Map<String, Object>> result = paymentListMapper.getMyPaymentList(params);
+		return result;
+	}
 
 }

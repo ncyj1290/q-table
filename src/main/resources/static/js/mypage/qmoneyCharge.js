@@ -149,3 +149,38 @@ $(document).ready(function() {
 	});
 });
 
+
+// 카카오페이 환불
+$('.refund-button').click(function() {
+    // 결제 내역에서 TID, 환불액 등 가져옴
+    var tid = $(this).data('tid');
+    var cancelAmount = $(this).data('amount'); // 실제 환불 금액
+    var cancelTaxFreeAmount = 0; 
+
+    let token = $("meta[name='_csrf']").attr('content');
+    let header = $("meta[name='_csrf_header']").attr('content');
+
+    $.ajax({
+        url: '/mypage/cancelQmoneyPayment',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+            tid: tid,
+            cancelAmount: cancelAmount,
+            cancelTaxFreeAmount: cancelTaxFreeAmount,
+            cancelVatAmount: cancelVatAmount
+        }),
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function(data) {
+            alert('[translate:환불이 완료되었습니다.]');
+            location.reload();
+        },
+        error: function(xhr, status, error) {
+            alert('[translate:환불 처리 중 오류가 발생했습니다.]');
+        }
+    });
+});
+

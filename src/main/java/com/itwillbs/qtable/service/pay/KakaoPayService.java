@@ -16,6 +16,7 @@ import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.mapper.pay.PaymentMapper;
 import com.itwillbs.qtable.util.SessionUtils;
 import com.itwillbs.qtable.vo.myPage.KakaoApproveResponse;
+import com.itwillbs.qtable.vo.myPage.KakaoCancelResponse;
 import com.itwillbs.qtable.vo.myPage.KakaoReadyResponse;
 import com.itwillbs.qtable.vo.myPage.PaymentVO;
 
@@ -150,6 +151,51 @@ public class KakaoPayService {
 
         return total;
     }
+    
+    
+    // 결제 취소(환불)
+    public KakaoCancelResponse cancelPayment(String tid, int cancelAmount, int taxFreeAmount) {
+        HttpHeaders headers = getHeaders();
+        
+        Map<String, Object> params = new HashMap<>();
+        params.put("cid", kakaoPayProperties.getCid());
+        params.put("tid", tid); // 전달받은 tid 사용
+        params.put("cancel_amount", cancelAmount);
+        params.put("cancel_tax_free_amount", taxFreeAmount);
+        
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(params, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        
+        // 카카오페이 환불 API 요청 (응답타입 변경)
+        KakaoCancelResponse response = restTemplate.postForObject(
+            "https://open-api.kakaopay.com/online/v1/payment/cancel",
+            requestEntity, KakaoCancelResponse.class);
+        
+        return response;
+    }
+
+    public KakaoCancelResponse cancelPaymentAndSave(Map<String, Object> params) {
+        // Map에서 값 추출
+        String tid = (String) params.get("tid");
+        int cancelAmount = (int) params.get("cancelAmount");
+        int cancelTaxFreeAmount = (int) params.get("cancelTaxFreeAmount");
+        int cancelVatAmount = (int) params.get("cancelVatAmount");
+
+        KakaoCancelResponse response = cancelPayment(tid, cancelAmount, cancelTaxFreeAmount);
+
+        if (response != null && "CANCEL_PAYMENT".equals(response.getStatus())) {
+            PaymentVO pay = new PaymentVO();
+            pay.setExternal_transaction_idx(response.getTid());
+            pay.setPay_status("pyst_02"); // 환불 완료 상태 코드
+            pay.setPayment_amount(response.getApproved_cancel_amount().getTotal());
+
+            paymentService.updatePaymentStatus(pay);
+        }
+
+        return response;
+    }
+
+
 
 	
 }

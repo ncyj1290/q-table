@@ -3,7 +3,6 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--<mapper namespace="com.itwillbs.qtable.mapper.mypage.kakaoPayMapper">-->
 <mapper namespace="com.itwillbs.qtable.mapper.pay.PaymentMapper">
 	
 	<insert id="insertPayment"  parameterType="com.itwillbs.qtable.vo.myPage.PaymentVO">
@@ -59,6 +58,26 @@
 	    WHERE pay_reference = #{merchantUid} 
 	    ORDER BY payment_date DESC
     </select>
+	
+	<!-- 환불 -->
+	<update id="updatePaymentCancelStatus" parameterType="com.itwillbs.qtable.vo.myPage.PaymentVO">
+	    UPDATE payment
+	    SET pay_status = #{pay_status},
+	        payment_amount = #{payment_amount}, 
+	        cancel_date = NOW() 
+	    WHERE external_transaction_idx = #{external_transaction_idx}
+	</update>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>

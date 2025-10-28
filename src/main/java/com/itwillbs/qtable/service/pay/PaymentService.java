@@ -32,4 +32,10 @@ public class PaymentService {
 		return paymentMapper.selectPaymentsByMerchantUid(merchantUid);
 	}
 
+	// 환불
+	public void updatePaymentStatus(PaymentVO pay) {
+	    paymentMapper.updatePaymentStatus(pay);
+	}
+
+
 }

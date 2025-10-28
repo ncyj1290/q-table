@@ -5,32 +5,41 @@
 
 <mapper namespace="com.itwillbs.qtable.mapper.mypage.PaymentListMapper">
 	
-	<!--예약 관련 select-->
+    <!-- 결제 관련 select -->
 	<select id="getMyPaymentList" resultType="map">
 		SELECT
-				 s.store_idx
-			   , s.store_name
-			   , s.store_content
-			   , s.store_phone
-		       , s.full_address
-		       , rv.reserve_idx
-		       , 
-	   (SELECT 	 image_url
-		  FROM   image
-	     WHERE   target_type = 'imguse_01'
-	       AND   target_idx = s.store_idx LIMIT 1) AS store_img,
-	   (SELECT   ROUND(AVG(r.score), 2) 
-	      FROM   review r 
-	     WHERE   r.store_idx = s.store_idx) AS avgScore,
-	   			 CONCAT(rv.reserve_date, ' ', rv.reserve_time) AS reserve_dt
-		  FROM 	 reservation rv
-				 JOIN store s ON rv.store_idx = s.store_idx
-		 WHERE 	 rv.member_idx = #{member_idx}
-	<if test="reserve_result != null and reserve_result != ''">
-    	   AND 	 rv.reserve_result = #{reserve_result}
-    </if>
-	  ORDER BY 	 rv.created_at DESC
-	</select>	
+		  p.payment_idx,
+		  p.payment_amount,
+		  p.payment_date,
+		  p.pay_way,
+		  s.store_idx,
+		  s.store_name,
+		  s.store_content,
+		  s.store_phone,
+		  s.full_address,
+		  (SELECT image_url
+		     FROM image
+		    WHERE target_type = 'imguse_01'
+		      AND target_idx = s.store_idx
+		    LIMIT 1) AS store_img,
+		  CONCAT(rv.reserve_date, ' ', rv.reserve_time) AS reserve_dt,
+		  rv.reserve_result
+		FROM payment p
+		LEFT JOIN reservation rv 
+		  ON p.reference_idx = rv.reserve_idx 
+		LEFT JOIN store s 
+		  ON rv.store_idx = s.store_idx
+		WHERE p.member_idx = #{member_idx}
+		  AND p.pay_status = 'pyst_01'
+		ORDER BY p.payment_date DESC
+	</select>
+
+
+
+
+
+
+
 	
 	
 	
