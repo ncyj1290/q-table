@@ -68,7 +68,8 @@ body{
 .card {
 	min-width: 200px;
 	max-width: 200px;
-
+	position: relative; /* ★ absolute 자식 위치 기준을 지정해줌 */
+		cursor: pointer;
 	height: 250px;
 	background-color: #ffffff;
 	border-radius: 10px;
@@ -80,7 +81,6 @@ body{
 .card-image {
 	width: 100%;
 	height: 130px;
-	/* 카드 높이 고정 */
 	overflow: hidden;
 	border-radius: 10px;
 	position: relative;
@@ -94,6 +94,11 @@ body{
 	/*화면에 꽉차게 대신 세로 높이 고정이라 비율에맞게 이미지 잘릴수도있음*/
 	object-position: center;
 	display: block;
+	
+}
+
+.local{
+	z-index: 10;   
 }
 
 .overlay-text {
@@ -104,6 +109,7 @@ body{
 	font-size: 17px;
 	font-weight: bold;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+	pointer-events: none; 
 }
 
 .no_image {
@@ -133,13 +139,9 @@ body{
 
 .card-info p {
 	white-space: normal;
-	/* 줄바꿈 허용 */
 	word-break: break-word;
-	/* 단어 중간도 줄바꿈 가능 */
 	overflow-wrap: anywhere;
-	/* 길이가 너무 길면 자동 줄바꿈 */
 	margin: 0px 0;
-	/* 필요하면 여백 조정 */
 	font-size: 10px;
 
 }

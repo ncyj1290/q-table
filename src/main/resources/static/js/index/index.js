@@ -70,13 +70,27 @@ $(document).on('click', '.location', function() {
 
     console.log('클릭한 카드 지역:', loc, 'code:', code);
 
-    // 세션스토리지에 저장 (JSON.stringify 사용)
-    const locObj = {
-        code: code,
-        code_label: loc
-    };
-    sessionStorage.setItem('searchLoc', JSON.stringify(locObj));
+    // URL 쿼리 파라미터 생성
+    const params = new URLSearchParams();
+    params.set('sort', 'order by score desc');
+    params.set('limit', 10);
+    if (loc) params.set('loc', loc);
+    if (code) params.set('code', code);
 
     // search 페이지로 이동
-    window.location.href = '/search';
+    const targetUrl = `/search?${params.toString()}`;
+    window.location.href = targetUrl;
+});
+
+
+$(function() {
+    $(document).on('click', '.local', function(e) {
+        const loc = $(this).find('.overlay-text').text().trim();
+        const encodedLoc = encodeURIComponent(loc);
+
+        const targetUrl = `http://localhost:8080/search?sort=order+by+score+desc&limit=10&query=${encodedLoc}&priceCs=null&reviewCs=null&scoreCs=null`;
+        
+        // 이동
+        window.location.href = targetUrl;
+    });
 });
