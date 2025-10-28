@@ -1,11 +1,7 @@
 package com.itwillbs.qtable.controller.storeManagement;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,12 +58,9 @@ public class StoreReservationController {
 		/* 예약 리스트 가져오는 부분 + 페이지네이션*/
 		PageVO pageVo = PagingHandler.pageHandler(pageNum, () -> storeReservationService.countReservationByStoreIdx(storeIdx, filter));
 		List<ReservationVO> reservationList = storeReservationService.selectReservationByStoreIdx(storeIdx, pageVo.getStartRow(), pageVo.getListLimit(), filter);
-		
 		/* 예약 결과 공통 코드 */
 		List<CommonCodeVO> resvList = storeCommonCode.selectCommonCodeForStore("reservation_result", null);
-		
-		System.out.println("ResvList Check: " + resvList);
-		
+
 		/* 모델에 다 때려박기 */
 		model.addAttribute("reservationList", reservationList);
 		model.addAttribute("pageVo", pageVo);

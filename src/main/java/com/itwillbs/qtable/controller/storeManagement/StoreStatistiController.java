@@ -48,8 +48,6 @@ public class StoreStatistiController {
 		model.addAttribute("stList", stList);
 		
 		List<Map<String, Object>> initStatistic = storeStatisticService.selectStatisticDate(storeIdx, null);
-		System.out.println(initStatistic.toString());
-		
 		model.addAttribute("initStatistic", initStatistic);
 		
 		return "storeManagement/storeStatistic";

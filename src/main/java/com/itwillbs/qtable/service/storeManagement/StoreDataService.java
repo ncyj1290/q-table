@@ -44,7 +44,6 @@ public class StoreDataService {
 		
 		/* 스토어 기본(프로필) 정보고 spData라는 이름으로 들어감 */
 		StoreVO spData = storeData.selectStoreProfileByOwnerIdx(member_idx);
-
 		model.addAttribute("spData", spData);
 	}
 	
@@ -65,8 +64,6 @@ public class StoreDataService {
 	public void updateQrCodeForNullStore() throws WriterException, IOException {
 		
 		List<StoreVO> sList = storeData.selectNullQrStore();
-		
-		System.out.println(sList.toString());
 		
 		for(StoreVO s : sList) {
 			

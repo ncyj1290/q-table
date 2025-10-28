@@ -26,7 +26,7 @@
 						<h3>구독권 구매</h3>	
 					</div>
 					
-					<div style="color: var(--color-main); margin-left: 150px;">구독 만기일: <b th:text="${subscribe != null ? #dates.format(subscribe.subscribe_end, 'yyyy-MM-dd HH:mm') : '구독권을 구매하지 않으셨습니다.'}">100 Day</b></div> 
+					<div style="color: var(--color-main); margin-left: 150px;">구독 만기일: <b th:text="${subscribe != null ? #dates.format(subscribe.subscribe_end, 'yyyy-MM-dd HH:mm') : '구독권을 구매하지 않으셨습니다.'}"></b></div> 
 					
 					<!-- 구매 가능한 구독권 출력 -->
 					<div class="row-component" th:each="sUnit, i : ${mUnitList}" th:switch="${sUnit.code}">

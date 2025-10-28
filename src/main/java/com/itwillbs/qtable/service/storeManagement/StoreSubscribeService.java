@@ -55,9 +55,6 @@ public class StoreSubscribeService {
 			
 			/* 기존 구독 여부 확인해서 VO, StartDay, EndDay 설정 */
 			SubscribeVO sub = isSubscribe? storeSubscribe.selectSubscribe(member_idx) : new SubscribeVO();
-			
-			System.out.println("Check Sub TO STring: " + sub.toString());
-			
 			LocalDateTime today = LocalDateTime.now();
 			
 			/* 만기일이 현재시간보다 늦으면 활성화, 아니면 비활성화 상태 */
@@ -66,10 +63,7 @@ public class StoreSubscribeService {
 			/* 시작일, 만기일 */
 			LocalDateTime startDay = isActive? sub.getSubscribe_start().toLocalDateTime() : today;
 			LocalDateTime endDay = isActive? sub.getSubscribe_end().toLocalDateTime().plusDays(plusDate) : startDay.plusDays(plusDate);
-			
-			System.out.println("Check StartDay: " + startDay);
-			System.out.println("Check EndDay: " + endDay);
-			
+
 			/* VO 데이터 세팅 */
 			sub.setMember_idx(member_idx);
 			sub.setSubscribe_start(Timestamp.valueOf(startDay));

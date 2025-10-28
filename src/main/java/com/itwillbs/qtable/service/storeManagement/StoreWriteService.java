@@ -106,8 +106,6 @@ public class StoreWriteService {
 		
 		String[] addressDiv = address.split(" ");
 		
-		System.out.println("Check Address Div: " + addressDiv.toString());
-		
 		storeVO.setSido(addressDiv[0]);
 		storeVO.setSigungu(addressDiv[1]);
 		
@@ -243,21 +241,14 @@ public class StoreWriteService {
 		
 		String[] addressDiv = address.split(" ");
 		
-		System.out.println("Check Address Div: " + addressDiv.toString());
-		
 		storeVO.setSido(addressDiv[0]);
 		storeVO.setSigungu(addressDiv[1]);
-		
-		System.out.println(storeVO.getSido());
-		System.out.println(storeVO.getSigungu());
-		
 		
 		String fullAdd = postCode + ", " + address + ", " + addDetail;
 		storeVO.setFull_address(fullAdd);
 		
 		/* 1차 Insert -> Store 기본 정보 수정 */
 		int storeRes = storeWrite.updateStoreBasicData(storeVO);
-		System.out.println("Basic Data Updated Result: " + storeRes);
 		
 		/* ------------------------------------------------------------------------------------ */
 		/* 프로필 이미지 수정 */

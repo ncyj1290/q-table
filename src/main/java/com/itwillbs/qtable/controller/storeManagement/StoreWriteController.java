@@ -9,22 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.multipart.MultipartFile;
-import com.itwillbs.qtable.config.QtableAccessDeniedHandler;
 import com.itwillbs.qtable.config.QtableUserDetails;
-import com.itwillbs.qtable.mapper.storeManagementMapper.StoreData;
 import com.itwillbs.qtable.mapper.storeManagementMapper.StoreWrite;
 import com.itwillbs.qtable.service.FileUploadService;
 import com.itwillbs.qtable.service.storeManagement.StoreDataService;
 import com.itwillbs.qtable.service.storeManagement.StoreWriteService;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
-import com.itwillbs.qtable.vo.storeManagement.StoreIngredient;
-import com.itwillbs.qtable.vo.storeManagement.StoreMenu;
-import com.itwillbs.qtable.vo.storeManagement.StorePicture;
 import com.itwillbs.qtable.vo.storeManagement.StoreVO;
 
-import jakarta.servlet.http.HttpSession;
-
+/* 매장 등록, 수정 관련 컨트롤러 */
 @Controller
 public class StoreWriteController {
 	

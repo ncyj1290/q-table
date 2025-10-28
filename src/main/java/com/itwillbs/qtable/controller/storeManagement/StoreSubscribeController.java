@@ -64,7 +64,6 @@ public class StoreSubscribeController {
 		boolean bool = true;
 		
 		Map<String, Object> result = new HashMap<String, Object>();
-		System.out.println("Check MemberIDX: " + memberIdx + " QMONEY: " + qMoney);
 
 		/* 큐머니 부족하면 부정 결과 */
 		if(qMoney < cost) {

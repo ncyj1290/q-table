@@ -1,8 +1,5 @@
 package com.itwillbs.qtable.controller.storeManagement;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -28,6 +25,9 @@ public class StoreManagementController {
 		
 		/* 프로필 정보 가져와서 집어넣는건데 spData란 이름으로 모델에 집어넣게 될거임 */
 		storeDataService.injectStoreProfileByOwnerIdx(model, user.getMember().getMemberIdx());
+		
+		String member_id = user.getMember().getMemberId();
+		model.addAttribute("member_id", member_id);
 		
 		return "storeManagement/storeManagementMain";
 	}
