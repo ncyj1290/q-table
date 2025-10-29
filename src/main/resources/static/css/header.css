@@ -110,7 +110,7 @@
 	background-color: var(--color-main);
 	border: none;
 	box-sizing: border-box;
-	margin: 5px 0;
+	margin: 10px 0;
 }
 
 .header img {
