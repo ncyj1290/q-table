@@ -64,7 +64,7 @@ $(function() {
 		hideSelectedDiv();
 	})
 	
-	$('.select-box').on('change', '#filter',updateQueryForFilter);
+	
 	
 	
 });
@@ -111,10 +111,6 @@ let searchState = {
 	hasNext: null
 }
 
-function updateQueryForFilter() {
-	const filter = $('#filter').val() == '' ? null :  $('#filter').val();
-	searchState.sort = filter;
-}
 
 //사이드바에서 선택한 키워드 쿼리에 적용 
 function updateQueryForSidebar(el) {
@@ -150,7 +146,6 @@ function updateQueryForSidebar(el) {
 function updateQueryForLocFood() {
 	searchState.loc = filterState.location.code_label;
 	searchState.food = filterState.food.code;
-	
 }
 
 // 적용하기 버튼 눌러서 모달에 반영 

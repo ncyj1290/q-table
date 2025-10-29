@@ -6,12 +6,12 @@
     width: 100%;
     max-width: 1385px;
     margin: 0 auto;
-    padding: 20px 0px;
     gap: 20px;
     position:relative;
 	flex-direction: column;
 }
 .sidebar-content{
+	margin-top: 20px !important;
 	display: flex;
 	flex-direction: row;
 	gap: 30px;

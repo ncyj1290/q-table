@@ -15,29 +15,23 @@ $(function() {
 	    }
 	});
 	
-	// 상세 페이지에서 뒤로가기했을때, searchState 값이 없어져서 버그 나던 문제 해결
-	const reviewCs = $('.result').last().data('review-cursor');
-	const priceCs = $('.result').last().data('price-cursor');
-	const scoreCs = $('.result').last().data('score-cursor');
-	const cursor = $('.result').last().data('cursor');
-	const hasNext = $('.result').last().data('hasnext');
-	if(hasNext) searchState.hasNext = hasNext;
-	if(reviewCs) searchState.reviewCs = reviewCs;
-	if(scoreCs) searchState.scoreCs = scoreCs;
-	if(cursor) searchState.cursor = cursor;
-	if(priceCs) searchState.priceCs = priceCs;
+	$('.select-box').on('change', '#filter',loadInitialItems);
+	$('.filter').hide();
+	// 검색 결과를 조회하고 나서 다시 search 페이지 요청 했을때 결과 보존하기
+	const urlParams = new URLSearchParams(window.location.search);
+	urlToState(urlParams);
+	urlToElement(urlParams);
 	
 	// 옵저버 
 	let isLoading = false;
 	const loader = $('#loader');
 	const observerCallback = (entries, observer) => {
 		const entry = entries[0];
-		console.log('작동은 하니')
-		console.log(entry.isIntersecting)
-		console.log(!isLoading)
-		console.log(searchState.hasNext)
-//		&& searchState.hasNext
+			console.log("여기")
+			console.log(entry.isIntersecting)
+			console.log(!isLoading)
 		if (entry.isIntersecting && !isLoading) {
+			console.log('실행된다.')
 			observer.unobserve(loader[0]);
 			loadMoreItems();
 		} 
@@ -55,10 +49,10 @@ $(function() {
 	
 	function loadInitialItems() {
 		if(isLoading) return;
-		//쿼리 파라미터 값 셋팅, 셋팅된 값으로 ajax 호출, 호출후 렌더링, 호출한 주소로 url 바꾸기(히스토리.푸쉬스테이트)
-		observer.unobserve(loader[0]);
+		observer.observe(loader[0]);
 		const params = new URLSearchParams(); // 파라미터 셋팅을 위한 인스턴스 생성 
-		searchState.query = $('#query').val(); // 사용자 입력값 가져오기 
+		// 정렬 설정 값 셋팅
+		const filter = $('#filter').val() == '' ? null :  $('#filter').val();
 		const values = Object.values(searchState); // 유효성 판별을 위한 값 추출 
 		
 		//유효성 판별 
@@ -68,18 +62,17 @@ $(function() {
 	        }
 	        return value !== null && value !== ''; 
 	    });
-		
-		// 입력값 아무것도 없을때 리턴 
 		if(!hasAnyCondition) {
 			history.pushState(null, '', '/search');
 			searchState.sort = null;
-			console.log(searchState.sort);
 			alert('검색조건을 입력해주세요!');
 			isLoading = false;
 			return;
 		}
 		
 		//검색조건 있으면 아래 로직 실행 
+		searchState.query = $('#query').val(); // 사용자 입력값 가져오기 
+		searchState.sort = filter; 
 	    if (searchState.query) params.set('query', $('#query').val());
 	    if (searchState.personCnt) params.set('personCnt', searchState.personCnt);
 	    if (searchState.day) params.set('day', searchState.day);
@@ -123,25 +116,26 @@ $(function() {
 				const scoreCs = $(res).last().last().data('score-cursor');
 				const cursor = $(res).last().last().data('cursor');
 				const hasNext = $(res).last().last().data('hasnext');
-//				displayUrl = displayUrl + '&hasNext=' + hasNext;
-				$('.content').append(res);
 				history.pushState(null, '', displayUrl);
 				searchState.cursor = cursor;
 				searchState.priceCs = priceCs;
 				searchState.reviewCs = reviewCs;
 				searchState.scoreCs = scoreCs;
 				searchState.hasNext = hasNext;
-				if($(res).hasClass('no-result')) return;
+				$('.content').append(res);
+				if($(res).hasClass('no-result')) {
+					observer.unobserve(loader[0]);
+					isLoading = false;
+					return;	
+				}
+				scrollTop();
 				if(hasNext) {
+					loader.show();
 					observer.observe(loader[0]);
 				} else {
-					noResult();
+					loader.hide();
 				}
 				isLoading = false;
-				//불러온 요소 개수 
-				// 리스트 개수가 11개 일때 마지막 값은 지우고 플래그 전달 더 있다는 -> 더있다. 불러오는 함수 계속 실행 
-				// 리스트 개수가 10개 이하일때 마지막값 안지우고 플래그 전달 이제 없다는  -> 더 없다. 불러오는 함수 리턴 해서 실행막기 		
-				// 검색 조건이 바뀌었을땡 
 			},
 			error: function(error) {
 				console.log(error);
@@ -154,8 +148,9 @@ $(function() {
 	
 	
 	function loadMoreItems() { // 무한 스크롤 로드 
-		if(isLoading) return; // 로딩중 ㄲㅈ 
-		
+		if(isLoading || $('.no-result').data('first')) {
+			return; // 로딩중 ㄲㅈ	
+		} 
 		loader.addClass('visible');
 		isLoading = true;
 		const params = new URLSearchParams(); // 파라미터 셋팅을 위한 인스턴스 생성 
@@ -207,14 +202,21 @@ $(function() {
 				const scoreCs = $(res).last().last().data('score-cursor');
 				const hasNext = $(res).last().last().data('hasnext');
 				searchState.hasNext = hasNext;
-//				displayUrl = displayUrl + '&hasNext=' + hasNext;
+				if($(res).hasClass('no-result')) { 
+					observer.unobserve(loader[0]);
+	                loader.hide();
+					showNotification("더 이상 불러올 결과가 없습니다!");
+					scrollTop();
+					isLoading = false;
+					return;	
+				}
 				$('.content').append(res);
+				scrollTop();
 				if(hasNext) {
 	                observer.observe(loader[0]);
 	            } else {
 					observer.unobserve(loader[0]);
 	                loader.hide();
-					noResult();
 	            }
 				history.pushState(null, '', displayUrl);
 				searchState.cursor = cursor;
@@ -223,11 +225,6 @@ $(function() {
 				searchState.scoreCs = scoreCs;
 				searchState.hasNext = hasNext;
 				isLoading = false;
-				
-				//불러온 요소 개수 
-				// 리스트 개수가 11개 일때 마지막 값은 지우고 플래그 전달 더 있다는 -> 더있다. 불러오는 함수 계속 실행 
-				// 리스트 개수가 10개 이하일때 마지막값 안지우고 플래그 전달 이제 없다는  -> 더 없다. 불러오는 함수 리턴 해서 실행막기 		
-				// 검색 조건이 바뀌었을땡 
 			},
 			error: function(error) {
 				console.log(error);
@@ -246,11 +243,55 @@ $(function() {
 	
 });
 
-function noResult () {
-	const el = `<hr> 
-				<div id="scrollTop">
-				<span>맨 위로 가기</span>
-				<img src="/img/Q_money.png" alt="맨 위로 스크롤" > 
+function urlToElement(urlParams) {
+	$('#query').val(urlParams.get('query'));
+	if(urlParams.get('sort')){
+		$('#filter').val(urlParams.get('sort'));
+	} else {
+		$('#filter').val('score desc');
+	}
+}
+
+function urlToState(urlParams) {
+	const reviewCs = $('.result').last().data('review-cursor');
+	const priceCs = $('.result').last().data('price-cursor');
+	const scoreCs = $('.result').last().data('score-cursor');
+	const cursor = $('.result').last().data('cursor');
+	const hasNext = $('.result').last().data('hasnext');
+	const query = urlParams.get('query');
+	const personCnt = urlParams.get('personCnt');
+	const day = urlParams.get('day');
+	const time = urlParams.get('time');
+	const price = urlParams.get('price');
+	const facility = urlParams.getAll('facility');
+	const loc = urlParams.getAll('loc');
+	const food = urlParams.getAll('food');
+	const limit = urlParams.get('limit');
+	const sort = urlParams.get('sort');
+	const atmosphere = urlParams.getAll('atmosphere');
+	if (hasNext) searchState.hasNext = hasNext;
+	if (reviewCs) searchState.reviewCs = reviewCs;
+	if (scoreCs) searchState.scoreCs = scoreCs;
+	if (cursor) searchState.cursor = cursor;
+	if (priceCs) searchState.priceCs = priceCs;
+	if (query) searchState.query = query;
+	if (personCnt) searchState.personCnt = personCnt;
+	if (day) searchState.day = day;
+	if (time) searchState.time = time;
+	if (price) searchState.price = price;
+	if (facility) searchState.facility = facility;
+	if (loc) searchState.loc = loc;
+	if (food) searchState.food = food;
+	if (limit) searchState.limit = limit;
+	if (sort) searchState.sort = sort;
+	if (atmosphere) searchState.atmosphere = atmosphere;
+}
+
+
+function scrollTop () {
+	const el = `<div id="scrollTop">
+					<span>맨 위로 가기</span>
+					<img src="/img/Q_money.png" alt="맨 위로 스크롤" > 
 				</div>`
     $('.content').append(el);
 }

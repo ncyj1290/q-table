@@ -98,7 +98,13 @@
 		<if test="vo.time != null">
 			cross join user_time ut
 		</if>
-		WHERE 1=1
+		WHERE s.store_status = 'srst_01'
+		  AND EXISTS (
+		  	  SELECT 1 
+		  	    FROM subscribe sub
+		  	   WHERE s.member_idx = sub.member_idx    
+		  	     AND NOW() BETWEEN sub.subscribe_start and sub.subscribe_end
+		  )
 		<if test="vo.loc != null">
 		    AND
 		    <foreach collection="vo.loc" item="locItem" open="(" separator="OR" close=")">
@@ -188,19 +194,19 @@
 		</if>
 		<trim prefix="AND">
 		  	<choose>
-			    <when test="vo.sort == 'order by price asc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
+			    <when test="vo.sort == 'price asc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
 			        (s.price_avg > #{vo.priceCs} OR (s.price_avg = #{vo.priceCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
 			    
-			    <when test="vo.sort == 'order by price desc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
+			    <when test="vo.sort == 'price desc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
 			        (#{vo.priceCs} > s.price_avg OR (s.price_avg = #{vo.priceCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
 			    
-			    <when test="vo.sort == 'order by reviewCnt desc' and vo.reviewCs != null and vo.reviewCs != '' and vo.cursor != null and vo.cursor != ''">
+			    <when test="vo.sort == 'reviewCnt desc' and vo.reviewCs != null and vo.reviewCs != '' and vo.cursor != null and vo.cursor != ''">
 			        (#{vo.reviewCs} > rs.reviewCnt  OR ( ifnull(rs.reviewCnt,0) = #{vo.reviewCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
 			    
-			    <when test='vo.sort == "order by score desc" and vo.scoreCs != null and vo.scoreCs != "" and vo.cursor != null and vo.cursor != ""'>
+			    <when test="vo.sort == 'score desc' and vo.scoreCs != null and vo.scoreCs != '' and vo.cursor != null and vo.cursor != ''">
 			        (#{vo.scoreCs} > rs.score OR ( ifnull(rs.score,0.0) = #{vo.scoreCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
 			</choose>
@@ -220,20 +226,20 @@
 		       , rs.reviewCnt
   	    ORDER BY 
   	    <choose>
-            <when test="vo.sort == 'order by price asc'">
-                price ASC 
+            <when test="vo.sort == 'price asc'">
+                price ASC,
             </when>
-            <when test="vo.sort == 'order by price desc'">
-                price DESC
+            <when test="vo.sort == 'price desc'">
+                price DESC,
             </when>
-            <when test="vo.sort == 'order by reviewCnt desc'">
-                reviewCnt DESC
+            <when test="vo.sort == 'reviewCnt desc'">
+                reviewCnt DESC,
             </when>
-            <when test="vo.sort == 'order by score desc'">
-                score DESC
+            <when test="vo.sort == 'score desc'">
+                score DESC,
             </when>
         </choose>
-        , store_idx ASC
+        store_idx ASC
         LIMIT #{vo.limit} 
 	</select>	
 	
