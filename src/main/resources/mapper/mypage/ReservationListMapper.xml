@@ -43,15 +43,19 @@
    </update>
    
 	<!--예약 결제정보 한 건 조회 -->
-	<select id="findPaymentByMemberIdx"  resultType="map">
-	  SELECT   payment_idx
-	  		 , member_idx
-	  		 , payment_amount
-	  		 , pay_type
-	    FROM   payment
-	   WHERE   member_idx = #{member_idx}
-	   LIMIT   1
+	<select id="findPaymentByMemberIdx" resultType="map">
+	  SELECT   p.payment_idx
+	         , p.member_idx
+	         , p.payment_amount
+	         , p.pay_type
+	    FROM   payment p
+  INNER JOIN   reservation r 
+          ON   p.reserve_idx = r.reserve_idx
+	   WHERE   r.member_idx = #{memberIdx}
+	     AND   r.store_idx = #{storeIdx}
+	     AND   r.reserve_idx = #{reserveIdx} <!-- 필요한 경우 예약번호 조건 추가 -->
 	</select>
+
 	
 	<!--멤버 Q머니 환불-->
 	<update id="refundQmoney" parameterType="map">

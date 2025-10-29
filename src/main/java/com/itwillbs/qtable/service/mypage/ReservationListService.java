@@ -57,20 +57,27 @@ public class ReservationListService {
 			moneyParams.put("memberIdx", memberIdx);
 			moneyParams.put("amount", amount);
 			reservationListMapper.refundQmoney(moneyParams);
-			System.out.println("환불 반영 결과: " + moneyParams);
+			System.out.println("refundQmoney 파라미터: " + moneyParams);
+			int refundCount = reservationListMapper.refundQmoney(moneyParams);
+			if (refundCount == 0) {
+	            System.out.println("Qmoney 환불 업데이트 실패");
+	            return false;
+	        }
+	        System.out.println("환불 반영 결과: " + moneyParams);
 
 			// 5. 결제 row의 pay_type을 환불 상태(pyus_04)로 변경
 			Map<String, Object> updateTypeParams = new HashMap<>();
 			updateTypeParams.put("paymentIdx", payment.get("payment_idx"));
 			updateTypeParams.put("payType", "pyus_04");
 			reservationListMapper.updatePaymentType(updateTypeParams);
-
-			System.out.println("payment: " + payment);
-			System.out.println("pay_type: " + payment.get("pay_type"));
-			System.out.println("payment_amount: " + payment.get("payment_amount"));
+			 int updatePayCount = reservationListMapper.updatePaymentType(updateTypeParams);
+		        if (updatePayCount == 0) {
+		            System.out.println("결제 상태 업데이트 실패");
+		            return false;
+		        }
 
 		}
-		return true; // 성공!
+		return true; 
 	}
 
 	// pick 랜덤 값 받기
