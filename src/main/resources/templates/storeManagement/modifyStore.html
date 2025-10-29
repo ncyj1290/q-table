@@ -166,14 +166,14 @@
 					<label class="title-label"><h4>*음식 분류 카테고리(중복 가능)</h4></label>
 				</div>
 				
-				<div class="component-layout-column" th:with="selected=${sData.store_category != null ? sData.store_category : T(java.util.Collections).emptyList()}">
+				<div class="component-layout-column" th:with="selected=${sData.store_category != null ? sData.store_category : null}">
 					
 					<!-- Store Category -> Country -->
 					<label class="title-label" style="align-self: start;"><h5>국가별</h5></label>
 					
 					<div th:each="lineIdx : ${#numbers.sequence(0, (ctCountryList.size() - 1) / 6)}" class="check-box-line-layout">
 						<div th:each="ctCountry, iterStat : ${ctCountryList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
-							<input type="checkbox"  th:value="${ctCountry.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctCountry.code)}">
+							<input type="checkbox"  th:value="${ctCountry.code}" name="store_category" class="component-checkbox" th:checked="${selected != null and selected.contains(ctCountry.code)}">
 							<label th:text="${ctCountry.code_label}"></label>	
 						</div>
 					</div>
@@ -185,7 +185,7 @@
 										
 					<div th:each="lineIdx : ${#numbers.sequence(0, (ctMeatList.size() - 1) / 6)}" class="check-box-line-layout">
 						<div th:each="ctMeat, iterStat : ${ctMeatList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
-							<input type="checkbox"  th:value="${ctMeat.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctMeat.code)}">
+							<input type="checkbox"  th:value="${ctMeat.code}" name="store_category" class="component-checkbox" th:checked="${selected != null and selected.contains(ctMeat.code)}">
 							<label th:text="${ctMeat.code_label}"></label>	
 						</div>
 					</div>
@@ -197,7 +197,7 @@
 										
 					<div th:each="lineIdx : ${#numbers.sequence(0, (ctSeafoodList.size() - 1) / 6)}" class="check-box-line-layout">
 						<div th:each="ctSeafood, iterStat : ${ctSeafoodList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
-							<input type="checkbox"  th:value="${ctSeafood.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctSeafood.code)}">
+							<input type="checkbox"  th:value="${ctSeafood.code}" name="store_category" class="component-checkbox" th:checked="${selected != null and selected.contains(ctSeafood.code)}">
 							<label th:text="${ctSeafood.code_label}"></label>	
 						</div>
 					</div>
@@ -209,7 +209,7 @@
 					
 					<div th:each="lineIdx : ${#numbers.sequence(0, (ctDrinkList.size() - 1) / 6)}" class="check-box-line-layout">
 						<div th:each="ctDrink, iterStat : ${ctDrinkList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
-							<input type="checkbox"  th:value="${ctDrink.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctDrink.code)}">
+							<input type="checkbox"  th:value="${ctDrink.code}" name="store_category" class="component-checkbox" th:checked="${selected != null and selected.contains(ctDrink.code)}">
 							<label th:text="${ctDrink.code_label}"></label>	
 						</div>
 					</div>
@@ -221,7 +221,7 @@
 										
 					<div th:each="lineIdx : ${#numbers.sequence(0, (ctCafeList.size() - 1) / 6)}" class="check-box-line-layout">
 						<div th:each="ctCafe, iterStat : ${ctCafeList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
-							<input type="checkbox"  th:value="${ctCafe.code}" name="store_category" class="component-checkbox" th:checked="${selected.contains(ctCafe.code)}">
+							<input type="checkbox"  th:value="${ctCafe.code}" name="store_category" class="component-checkbox" th:checked="${selected != null and selected.contains(ctCafe.code)}">
 							<label th:text="${ctCafe.code_label}"></label>	
 						</div>
 					</div>
@@ -235,10 +235,10 @@
 					<label class="title-label"><h4>편의 시설(중복 가능)</h4></label>
 				</div>
 
-				<div class="component-layout-row" th:with="selected=${sData.amenity_list != null ? sData.amenity_list : T(java.util.Collections).emptyList()}">
+				<div class="component-layout-row" th:with="selected=${sData.amenity_list != null ? sData.amenity_list : null}">
 					<input type="hidden" name="store_amenity" id="store_facilities">
 
-					<button type="button" th:each="facility, i : ${facilityList}" th:class="facility-button" th:value="${facility.code}" th:classappend="${selected.contains(facility.code)} ? ' active' : ''">
+					<button type="button" th:each="facility, i : ${facilityList}" th:class="facility-button" th:value="${facility.code}" th:classappend="${selected != null and selected.contains(facility.code)} ? ' active' : ''">
 						<img th:src="@{'/icons/store_facility/' + ${facility.code} + '.png'}" class="facility-icon-size">
 					</button>
 				</div>
@@ -291,11 +291,11 @@
 					<label class="title-label"><h4>매장 분위기(중복 가능)</h4></label>
 				</div>
 				
-				<div class="component-layout-column" th:with="selected=${sData.store_atmosphere != null ? sData.store_atmosphere : T(java.util.Collections).emptyList()}">
+				<div class="component-layout-column" th:with="selected=${sData.store_atmosphere != null ? sData.store_atmosphere : null}">
 				    <!-- 한 줄 6개씩 -->
 				    <div th:each="lineIdx : ${#numbers.sequence(0, (atmosphereList.size() - 1) / 6)}" class="check-box-line-layout">
 				        <div th:each="atmo, iterStat : ${atmosphereList}" th:if="${iterStat.index >= lineIdx * 6 and iterStat.index < (lineIdx + 1) * 6}" class="checkbox-layout-row">
-				            <input type="checkbox" name="store_atmosphere" class="component-checkbox" th:value="${atmo.code}" th:checked="${selected.contains(atmo.code)}">
+				            <input type="checkbox" name="store_atmosphere" class="component-checkbox" th:value="${atmo.code}" th:checked="${selected != null and selected.contains(atmo.code)}">
 				            <label th:text="${atmo.code_label}">분위기</label>
 				        </div>
 				    </div>
