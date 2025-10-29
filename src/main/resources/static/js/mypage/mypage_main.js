@@ -50,12 +50,10 @@ function showTab(tabId, element, reserveResult) {
 $(document).on('click', 'button[data-type="cancelBtn"]', function() {
 	console.log('예약 취소 버튼 클릭됨');
 	const reserveIdx = $(this).data('reserveIdx');
-	console.log(reserveIdx);  // 값이 찍히는지 확인
 	if (!reserveIdx) {
 		alert('예약 ID가 없습니다.');
 		return;
 	}
-	console.log('예약 ID:', reserveIdx);
 	$.ajax({
 		url: '/reservation_cancel',
 		type: 'POST',
@@ -65,8 +63,6 @@ $(document).on('click', 'button[data-type="cancelBtn"]', function() {
 			if (resp.success) {
 				const cancelTabLabel = document.querySelector('.reserve-label[data-tab="cancel"]');
 				showTab('cancel', cancelTabLabel, 'rsrt_03');
-				fetchCanceledReservations();
-				console.log('응답:', resp);
 			} else {
 				alert('예약 취소에 실패했습니다.');
 			}

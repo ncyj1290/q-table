@@ -34,7 +34,6 @@
 	  ORDER BY 	 rv.created_at DESC
 	</select>	
 	
-	
 	<!-- 예약 상태 업데이트 -->
    <update id="updateReservationStatus">
    	  UPDATE reservation
@@ -42,7 +41,32 @@
        WHERE reserve_idx = #{reserve_idx}
          AND member_idx = #{member_idx}
    </update>
+   
+	<!--예약 결제정보 한 건 조회 -->
+	<select id="findPaymentByMemberIdx"  resultType="map">
+	  SELECT   payment_idx
+	  		 , member_idx
+	  		 , payment_amount
+	  		 , pay_type
+	    FROM   payment
+	   WHERE   member_idx = #{member_idx}
+	   LIMIT   1
+	</select>
 	
+	<!--멤버 Q머니 환불-->
+	<update id="refundQmoney" parameterType="map">
+	  UPDATE member
+	     SET q_money = q_money + #{amount}
+	   WHERE member_idx = #{member_idx}
+	</update>
+	
+	<!--결제 상태 업데이트-->
+	<update id="updatePaymentType" parameterType="map">
+	  UPDATE payment
+  		 SET pay_type = #{pay_type}
+ 	   WHERE payment_idx = #{payment_idx}
+	</update>
+
 	<!--  하단 광고  -->
 	<select id="selectRandomStores">
 	  SELECT * FROM store

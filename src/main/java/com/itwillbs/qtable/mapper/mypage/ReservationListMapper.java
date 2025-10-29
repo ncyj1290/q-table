@@ -18,7 +18,15 @@ public interface ReservationListMapper {
 					            @Param("member_idx") String member_idx,
 					            @Param("reserve_result") String reserve_result);
 
+	// 예약 결제정보 한 건 조회
+	Map<String, Object> findPaymentByMemberIdx(String memberIdx);
+
+	//멤버테이블 Q머니 환불
+	int refundQmoney(Map<String, Object> params);
 	
+	//결제 상태 업데이트
+	int updatePaymentType(Map<String, Object> params);
+
 	//pick 랜덤 값 받기
 	List<Map<String, Object>> selectRandomStores();
 
