@@ -6,6 +6,8 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypagePaymentHistory.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
+	<script th:src="@{/js/mypage/profile.js}" defer></script>
+	<script th:src="@{/js/mypage/qmoneyCharge.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>scrap</title>
 </head>
@@ -55,9 +57,10 @@
 					<div class="payment-price">
 						<span class="price-label">결제 금액</span>
 						<div class="price-row">
-							<button class="negative-button" id="refund-button">환불하기</button>
+							<button class="negative-button refund-button"
+							        th:data-tid="${item['tid']}" th:data-amount="${item['payment_amount']}">환불하기</button>
 							<!--                    <span class="price-old">20,000원</span>-->
-							<span class="price-new" th:text="${item['payment_amount'] != null ? item['payment_amount'] : '가게 정보 없음'}"></span>
+							<span class="price-new" th:text="${item['payment_amount'] != null ? item['payment_amount'] + '원' : '가게 정보 없음'}"></span>
 						</div>
 					</div>
 				</div>

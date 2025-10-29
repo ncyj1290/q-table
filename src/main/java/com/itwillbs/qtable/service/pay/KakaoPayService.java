@@ -127,6 +127,9 @@ public class KakaoPayService {
 
         // DB 저장
         paymentService.savePayment(pay);
+        
+        // member.qmoney 컬럼에 결제 금액 누적
+        paymentMapper.increaseQmoney(member_idx, approveResponse.getAmount().getTotal());
 
 		return approveResponse;
 	}
@@ -135,6 +138,11 @@ public class KakaoPayService {
     public List<PaymentVO> getPaymentsByMember(int memberIdx) {
         return paymentMapper.selectPaymentsByMember(memberIdx);
     }
+    
+    public int getQmoneyBalance(int memberIdx) {
+        return paymentMapper.selectQmoneyByMemberIdx(memberIdx);
+    }
+
     
     // q-money 합산해서 가져오기
     public int getTotalQmoney(int memberIdx) {
@@ -156,36 +164,37 @@ public class KakaoPayService {
     // 결제 취소(환불)
     public KakaoCancelResponse cancelPayment(String tid, int cancelAmount, int taxFreeAmount) {
         HttpHeaders headers = getHeaders();
-        
+
         Map<String, Object> params = new HashMap<>();
         params.put("cid", kakaoPayProperties.getCid());
-        params.put("tid", tid); // 전달받은 tid 사용
+        params.put("tid", tid);
         params.put("cancel_amount", cancelAmount);
         params.put("cancel_tax_free_amount", taxFreeAmount);
-        
+
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(params, headers);
         RestTemplate restTemplate = new RestTemplate();
-        
-        // 카카오페이 환불 API 요청 (응답타입 변경)
-        KakaoCancelResponse response = restTemplate.postForObject(
+
+        return restTemplate.postForObject(
             "https://open-api.kakaopay.com/online/v1/payment/cancel",
-            requestEntity, KakaoCancelResponse.class);
-        
-        return response;
+            requestEntity,
+            KakaoCancelResponse.class
+        );
     }
 
     public KakaoCancelResponse cancelPaymentAndSave(Map<String, Object> params) {
-        // Map에서 값 추출
         String tid = (String) params.get("tid");
+        System.out.println("cancelPaymentAndSave tid = " + tid);
         int cancelAmount = (int) params.get("cancelAmount");
         int cancelTaxFreeAmount = (int) params.get("cancelTaxFreeAmount");
-        int cancelVatAmount = (int) params.get("cancelVatAmount");
 
         KakaoCancelResponse response = cancelPayment(tid, cancelAmount, cancelTaxFreeAmount);
 
-        if (response != null && "CANCEL_PAYMENT".equals(response.getStatus())) {
+        if (response != null 
+            && response.getApproved_cancel_amount() != null
+            && response.getApproved_cancel_amount().getTotal() > 0) {
+
             PaymentVO pay = new PaymentVO();
-            pay.setExternal_transaction_idx(response.getTid());
+            pay.setExternal_transaction_idx(tid);
             pay.setPay_status("pyst_02"); // 환불 완료 상태 코드
             pay.setPayment_amount(response.getApproved_cancel_amount().getTotal());
 
@@ -194,6 +203,9 @@ public class KakaoPayService {
 
         return response;
     }
+
+    
+    
 
 
 

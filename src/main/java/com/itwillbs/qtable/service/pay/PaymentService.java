@@ -34,8 +34,19 @@ public class PaymentService {
 
 	// 환불
 	public void updatePaymentStatus(PaymentVO pay) {
-	    paymentMapper.updatePaymentStatus(pay);
+	    paymentMapper.updatePaymentCancelStatus(pay);
 	}
 
+
+	public void refundPayment(PaymentVO pay, int refundAmount) {
+        // 결제 상태 변경
+        pay.setPay_status("pyst_02");
+        paymentMapper.updatePaymentCancelStatus(pay);
+
+        // Q-money 차감
+        paymentMapper.decreaseQmoney(pay.getMember_idx(), refundAmount);
+    }
+	
+	
 
 }

@@ -61,10 +61,10 @@
 
 		<div class="recommend-cards" th:if="${!#lists.isEmpty(upcomingList)}">
 			<div class="card" th:each="store : ${upcomingList}">
-				<img th:src="@{${store['imageUrl']}}" alt="가게 이미지">
+				<img th:src="${store['store_img']}" class="store-img" />
 				<p class="name" th:text="${store['store_name']}"></p>
-				<p class="rating" th:text="'⭐ ' + ${store['rating']}"></p>
-				<p class="price" th:text="${store['price_avg']}"></p>
+				<p class="rating" th:text="'★ ' + ${store['avgScore']}"></p>
+				<p class="price" th:text="${store['full_address']}"></p>
 			</div>
 		</div>
 	</section>

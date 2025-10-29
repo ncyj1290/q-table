@@ -57,6 +57,9 @@ public class PortOneService {
         // DB 저장
         paymentService.savePortOne(pay);
         System.out.println("Inserting Payment: " + pay);
+        
+        // member.qmoney 컬럼에 결제 금액 누적
+        paymentMapper.increaseQmoney(pay.getMember_idx(), pay.getPayment_amount());
 
         
         return true;

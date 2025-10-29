@@ -43,7 +43,12 @@
          AND member_idx = #{member_idx}
    </update>
 	
-	
+	<!--  하단 광고  -->
+	<select id="selectRandomStores">
+	  SELECT * FROM store
+	  ORDER BY RAND()
+	  LIMIT 10
+	</select>
 	
 
 	

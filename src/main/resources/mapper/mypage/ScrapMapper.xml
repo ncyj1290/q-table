@@ -47,12 +47,7 @@
         AND store_idx = #{storeIdx}
     </select>
     
-	<!--  하단 광고  -->
-	<select id="selectRandomStores">
-	  SELECT * FROM store
-	  ORDER BY RAND()
-	  LIMIT #{limit}
-	</select>
+
 
 
 </mapper>

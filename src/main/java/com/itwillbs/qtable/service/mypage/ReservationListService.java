@@ -35,7 +35,12 @@ public class ReservationListService {
 	    int updateCount = reservationListMapper.updateReservationStatus(reserveIdx, memberIdx, "rsrt_03");
 	    return updateCount > 0;
 	}
-	
-	
+
+	// pick 랜덤 값 받기
+    public List<Map<String, Object>> getRandomStores() {
+        return reservationListMapper.selectRandomStores();
+    }
+
+
 	
 }

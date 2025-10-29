@@ -112,3 +112,18 @@ function updateMypageChatBadge() {
         }
     });
 }
+
+
+// 결제 내역 천 단위 구분하기
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.price-new').forEach(function(el) {
+    let text = el.textContent.trim();
+    // 숫자만 추출
+    let amount = text.replace(/[^0-9]/g, '');
+    if (amount) {
+      // 숫자를 쉼표 포함 문자열로 변환 + '원' 붙임
+      el.textContent = Number(amount).toLocaleString('ko-KR') + '원';
+    }
+  });
+});
+

@@ -28,6 +28,7 @@
   padding: 8px;
   flex-shrink: 0;
   text-align: center;
+  align-items: center; /* 수평, 수직 모두 중앙 */
 }
 
 .card img {
@@ -41,7 +42,7 @@
 .card .name {
   font-weight: 600;
   font-size: 14px;
-  margin-bottom: 4px;
+  margin-bottom: -15px;
 }
 
 .card .rating {

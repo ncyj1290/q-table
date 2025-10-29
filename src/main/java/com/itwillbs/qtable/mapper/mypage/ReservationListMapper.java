@@ -18,6 +18,9 @@ public interface ReservationListMapper {
 					            @Param("member_idx") String member_idx,
 					            @Param("reserve_result") String reserve_result);
 
+	
+	//pick 랜덤 값 받기
+	List<Map<String, Object>> selectRandomStores();
 
 
 

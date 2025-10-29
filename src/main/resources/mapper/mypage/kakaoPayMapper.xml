@@ -13,6 +13,7 @@
 		pay_status,
 		pay_way,
 		pay_type,
+		pay_reference,
 		external_transaction_idx 
 	) values (
 		#{member_idx},
@@ -21,6 +22,7 @@
 		#{pay_status},
 		#{pay_way},
 		#{pay_type},
+		#{pay_reference},
 		#{external_transaction_idx}
 	)
 	</insert>	
@@ -58,25 +60,39 @@
 	    WHERE pay_reference = #{merchantUid} 
 	    ORDER BY payment_date DESC
     </select>
+    
+	<!--    멤버 테이블 -->
+    <update id="increaseQmoney">
+	    UPDATE member
+	    SET q_money = IFNULL(q_money, 0) + #{amount}
+	    WHERE member_idx = #{memberIdx}
+	</update>
+	
+	<!--	q-money 합산-->
+	<select id="selectQmoneyByMemberIdx" parameterType="int" resultType="int">
+	    SELECT IFNULL(q_money, 0) 
+	    FROM member 
+	    WHERE member_idx = #{memberIdx}
+	</select>
+
+
 	
 	<!-- 환불 -->
 	<update id="updatePaymentCancelStatus" parameterType="com.itwillbs.qtable.vo.myPage.PaymentVO">
 	    UPDATE payment
 	    SET pay_status = #{pay_status},
 	        payment_amount = #{payment_amount}, 
-	        cancel_date = NOW() 
+	        payment_date = NOW() 
 	    WHERE external_transaction_idx = #{external_transaction_idx}
 	</update>
+	
+	<!-- Q-money 차감 -->
+	<update id="decreaseQmoney">
+	    UPDATE member
+	    SET qmoney = qmoney - #{amount}
+	    WHERE member_idx = #{memberIdx}
+	</update>
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
