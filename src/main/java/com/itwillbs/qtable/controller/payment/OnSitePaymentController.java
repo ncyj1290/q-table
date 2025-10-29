@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.qtable.config.QtableUserDetails;
 import com.itwillbs.qtable.entity.Member;
@@ -31,29 +32,35 @@ public class OnSitePaymentController {
 	public String onSitePayment(
 			@RequestParam("store_idx") Integer storeIdx,
 			@AuthenticationPrincipal QtableUserDetails userDetails,
-			Model model) {
+			Model model,
+			RedirectAttributes redirectAttributes) {
 
 		// 로그인한 회원 정보 가져오기
 		Member member = userDetails.getMember();
 		Integer memberIdx = member.getMemberIdx();
 
-		// 매장 정보 조회
-		Map<String, Object> store = onSitePaymentService.getStoreInfo(storeIdx);
-		model.addAttribute("store", store);
+		try {
+			// 매장 정보 조회
+			Map<String, Object> store = onSitePaymentService.getStoreInfo(storeIdx);
+			model.addAttribute("store", store);
 
-		// 매장 이미지 조회
-		String storeImage = onSitePaymentService.getStoreImage(storeIdx);
-		model.addAttribute("storeImage", storeImage);
+			// 매장 이미지 조회
+			String storeImage = onSitePaymentService.getStoreImage(storeIdx);
+			model.addAttribute("storeImage", storeImage);
 
-		// 예약 정보 조회 (회원 + 매장 + 오늘 날짜)
-		ReservationVO reservation = onSitePaymentService.getReservationInfo(memberIdx, storeIdx);
-//		log.info("=======================" + reservation.toString());
-		model.addAttribute("reservation", reservation);
+			// 예약 정보 조회 (회원 + 매장 + 오늘 날짜)
+			ReservationVO reservation = onSitePaymentService.getReservationInfo(memberIdx, storeIdx);
+			model.addAttribute("reservation", reservation);
 
-		int qMoney = onSitePaymentService.getMemberQMoney(memberIdx);
-		model.addAttribute("qMoney", qMoney);
+			int qMoney = onSitePaymentService.getMemberQMoney(memberIdx);
+			model.addAttribute("qMoney", qMoney);
 
-		return "payment/onSitePayment";
+			return "payment/onSitePayment";
+
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+			return "redirect:/reservation_list";
+		}
 	}
 
 	// 현장 결제 처리 API

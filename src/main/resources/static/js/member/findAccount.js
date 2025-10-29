@@ -5,6 +5,11 @@ let currentTab = 'id'; // 현재 탭 (id or pw)
 let resendTimerInterval = null; // 재발송 타이머
 let verificationTimerInterval = null; // 인증번호 만료 타이머
 
+// 비밀번호 유효성 검사 변수
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+let isPasswordValid = false;
+let isPasswordMatch = false;
+
 $(function(){
 	// ===================================
 	// DOM 캐싱
@@ -39,6 +44,10 @@ $(function(){
 
 	// 비밀번호 재설정
 	$pwResetBtn.on('click', resetPassword);
+
+	// 비밀번호 실시간 유효성 검사
+	$newPassword.on('keyup', validatePassword);
+	$newPasswordConfirm.on('keyup', validatePasswordMatch);
 
 	// ===================================
 	// 함수 정의
@@ -99,6 +108,14 @@ $(function(){
 		$verificationCode.val('');
 		$newPassword.val('');
 		$newPasswordConfirm.val('');
+
+		// 비밀번호 유효성 검사 상태 초기화
+		isPasswordValid = false;
+		isPasswordMatch = false;
+
+		// 에러 메시지 초기화
+		$("#newPwMsg").text('').removeClass('error success');
+		$("#confirmNewPwMsg").text('').removeClass('error success');
 	}
 
 	// 모든 타이머 중지
@@ -287,22 +304,71 @@ $(function(){
 		});
 	}
 
+	// 비밀번호 유효성 검사
+	function validatePassword() {
+		const password = $newPassword.val().trim();
+		const $newPwMsg = $("#newPwMsg");
+
+		if (password === "") {
+			$newPwMsg.text("비밀번호를 입력해주세요").removeClass("success").addClass("error");
+			isPasswordValid = false;
+			return;
+		}
+		if (!passwordRegex.test(password)) {
+			$newPwMsg.text("8~16자, 영문/숫자/특수문자 포함").removeClass("success").addClass("error");
+			isPasswordValid = false;
+			return;
+		}
+		$newPwMsg.text("사용 가능한 비밀번호입니다").removeClass("error").addClass("success");
+		isPasswordValid = true;
+
+		// 비밀번호 확인란이 이미 입력되어 있다면 일치 검사도 다시 수행
+		if ($newPasswordConfirm.val()) {
+			validatePasswordMatch();
+		}
+	}
+
+	// 비밀번호 일치 검사
+	function validatePasswordMatch() {
+		const password = $newPassword.val();
+		const confirmPw = $newPasswordConfirm.val();
+		const $confirmNewPwMsg = $("#confirmNewPwMsg");
+
+		if (confirmPw === "") {
+			$confirmNewPwMsg.text("비밀번호 확인을 입력해주세요").removeClass("success").addClass("error");
+			isPasswordMatch = false;
+			return;
+		}
+
+		if (password === confirmPw) {
+			$confirmNewPwMsg.text("비밀번호가 일치합니다.").removeClass("error").addClass("success");
+			isPasswordMatch = true;
+		} else {
+			$confirmNewPwMsg.text("비밀번호가 일치하지 않습니다.").removeClass("success").addClass("error");
+			isPasswordMatch = false;
+		}
+	}
+
 	// 비밀번호 재설정
 	function resetPassword() {
 		const newPw = $newPassword.val();
 		const confirmPw = $newPasswordConfirm.val();
 		const userId = $firstInput.val()
-		
+
 		// 검증
 		if (!newPw.trim()) {
 			alert('새 비밀번호를 입력해주세요.');
 			return;
 		}
-		if (newPw.length < 8) {
-			alert('비밀번호는 8자 이상이어야 합니다.');
+		if (!isPasswordValid) {
+			alert('사용할 수 없는 비밀번호입니다. 8~16자, 영문/숫자/특수문자를 포함해주세요.');
 			return;
 		}
-		if (newPw !== confirmPw) {
+		if (!confirmPw.trim()) {
+			alert('비밀번호 확인을 입력해주세요.');
+			return;
+		}
+		if (!isPasswordMatch) {
 			alert('비밀번호가 일치하지 않습니다.');
 			return;
 		}

@@ -19,6 +19,7 @@ function initCalendar(containerSelector) {
 	const $calendarTitle = $(containerSelector + ' .calendar-title');
 	const $calendarDays = $(containerSelector + ' .calendar-days');
 	const $calendarNavBtns = $(containerSelector + ' .calendar-nav-btn');
+	const noShowCount = $("#noShowCount").val();
 
 	// 휴무 요일
 	let closedDays = [];
@@ -254,6 +255,7 @@ function initCalendar(containerSelector) {
 
 		// 인원수 입력 확인
 		const personCount = $(containerSelector + ' #person-count').val().trim();
+		
 		if (!personCount || personCount === '0') {
 			alert('인원수를 입력해주세요.');
 			return;
@@ -263,6 +265,12 @@ function initCalendar(containerSelector) {
 		const time = $(containerSelector + ' #reservation-time').val();
 		if (!time) {
 			alert('시간을 선택해주세요.');
+			return;
+		}
+		
+		// 노쇼 카운트 2회 이상 고객 예약 불가능
+		if (noShowCount > 2){
+			alert("2번 이상 노쇼를 한 고객은 예약이 불가능합니다.");
 			return;
 		}
 
@@ -303,4 +311,15 @@ $(function() {
 	if ($('body .calendar-container').length > 0) {
 		initCalendar('body');
 	}
+	
+	// 인원수 입력 필드 포커스/블러 이벤트
+	$('#person-count').on('focus', function() {
+		if ($(this).val() === '0') {
+			$(this).val('');
+		}
+	}).on('blur', function() {
+		if ($(this).val() === '') {
+			$(this).val('0');
+		}
+	});
 });

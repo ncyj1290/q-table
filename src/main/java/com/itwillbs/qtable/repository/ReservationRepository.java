@@ -15,4 +15,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 	Optional<Reservation> findByMemberIdxAndStoreIdxAndReserveDate(
 		Integer memberIdx, Integer storeIdx, LocalDate reserveDate);
 
+	// 회원 + 매장 + 날짜 + 예약 결과로 예약 조회
+	Optional<Reservation> findByMemberIdxAndStoreIdxAndReserveDateAndReserveResult(
+		Integer memberIdx, Integer storeIdx, LocalDate reserveDate, String reserveResult);
+
 }

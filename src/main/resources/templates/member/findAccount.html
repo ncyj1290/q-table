@@ -50,10 +50,14 @@
 		<div class="result-area" id="pw-result-area">
 			<p class="result-desc">새로운 비밀번호를 입력해주세요.</p>
 			<div class="password-reset-form">
-				<input type="password" placeholder="새 비밀번호" class="component-write" id="new-password">
-				<span id="newPwMsg" class="validation-msg"></span>
-				<input type="password" placeholder="비밀번호 확인" class="component-write" id="new-password-confirm">
-				<span id="confirmNewPwMsg" class="validation-msg"></span>
+				<div class="password-input-group">
+					<input type="password" placeholder="새 비밀번호" class="component-write" id="new-password">
+					<span id="newPwMsg" class="validation-msg"></span>
+				</div>
+				<div class="password-input-group">
+					<input type="password" placeholder="비밀번호 확인" class="component-write" id="new-password-confirm">
+					<span id="confirmNewPwMsg" class="validation-msg"></span>
+				</div>
 				<button class="positive-button" id="pw-reset-btn">비밀번호 변경</button>
 			</div>
 		</div>

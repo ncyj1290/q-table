@@ -109,16 +109,42 @@
 .password-reset-form {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
-	width: 300px;
+	gap: 15px;
+	width: 550px;
 	margin: 0 auto;
 	align-items: center;
 }
 
-.password-reset-form .component-write {
+.password-input-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	width: 100%;
+	margin-left: 300px;
+}
+
+.password-reset-form .component-write {
+	width: 250px;
+	flex-shrink: 0;
 }
 
 .password-reset-form .positive-button {
-	width: 50%;
+	width: 150px;
+}
+
+/* 유효성 검사 메시지 스타일 */
+.validation-msg {
+	flex: 1;
+	font-size: 0.9em;
+	font-weight: bold;
+	text-align: left;
+	white-space: nowrap;
+}
+
+.validation-msg.error {
+	color: red;
+}
+
+.validation-msg.success {
+	color: green;
 }

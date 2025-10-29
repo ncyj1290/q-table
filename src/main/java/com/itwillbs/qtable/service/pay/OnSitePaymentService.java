@@ -51,20 +51,19 @@ public class OnSitePaymentService {
 		LocalDate today = LocalDate.now();
 
 		Reservation reservation = reservationRepository
-			.findByMemberIdxAndStoreIdxAndReserveDate(memberIdx, storeIdx, today)
-			.orElseThrow(() -> new RuntimeException("오늘 예약이 없습니다"));
+			.findByMemberIdxAndStoreIdxAndReserveDateAndReserveResult(memberIdx, storeIdx, today, "rsrt_05")
+			.orElseThrow(() -> new RuntimeException("오늘 해당매장에 관한 예약이 존재하지 않습니다."));
 
 		return new ReservationVO(reservation);
 	}
 	
-	// 사용자 큐머니 조회
-	public int getMemberQMoney(Integer memberIdx) {
-		
-		Member member = memberRepository.findById(memberIdx).orElse(null);
-		int qMoney = member.getQMoney();
-		
-		return qMoney;
+	// 회원 큐머니 조회 (DB에서 최신 값)
+	public Integer getMemberQMoney(Integer memberIdx) {
+		return memberRepository.findById(memberIdx)
+			.map(member -> member.getQMoney())
+			.orElse(0);
 	}
+
 
 	// 매장 대표 이미지 조회
 	public String getStoreImage(Integer storeIdx) {

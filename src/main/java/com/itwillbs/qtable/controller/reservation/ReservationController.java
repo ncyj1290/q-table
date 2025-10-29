@@ -38,13 +38,17 @@ public class ReservationController {
 			Model model) {
 
 		Member member = userDetails.getMember();
+		Integer memberIdx = member.getMemberIdx();
 
 		// 매장 정보 조회
 		Map<String, Object> storeInfo = reservationService.getStoreInfo(storeIdx);
 
+		// DB에서 최신 큐머니 조회
+		Integer userQMoney = reservationService.getMemberQMoney(memberIdx);
+
 		// Model에 담기
 		model.addAttribute("storeInfo", storeInfo);
-		model.addAttribute("userQMoney", member.getQMoney());
+		model.addAttribute("userQMoney", userQMoney);
 		model.addAttribute("storeIdx", storeIdx);
 		model.addAttribute("reserveIdx", reserveIdx);
 		model.addAttribute("reserveDate", reserveDate);
@@ -61,8 +65,13 @@ public class ReservationController {
 												@AuthenticationPrincipal QtableUserDetails userdetail) {
 		
 		Member member = userdetail.getMember();
-		
 		Map<String, Object> response = new HashMap<>();
+		
+		// 노쇼 카운트 2회 
+		if (member.getNoShowCount() > 2) {
+			response.put("message", "2번 이상 노쇼를 한 고객은 예약이 불가능합니다.");
+			return response;
+		}
 		
 		try {
 			Integer memberIdx = member.getMemberIdx();

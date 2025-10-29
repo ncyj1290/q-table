@@ -38,18 +38,25 @@ public class StoreDetailController {
 			@AuthenticationPrincipal QtableUserDetails userDetails,
 			@RequestParam("store_idx") Integer storeIdx,
 			Model model) {
-		
+
 		// 매장 기본 정보 조회
 		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
 		model.addAllAttributes(storeData);
 
-		// 스크랩 여부 조회 (로그인 한 경우만)
+		// 스크랩, 노쇼 카운트 조회
 		boolean isScrapped = false;
 		if (userDetails != null) {
 			Member member = userDetails.getMember();
 			Integer memberIdx = member.getMemberIdx();
+			
+			// 스크랩 여부
 			isScrapped = storeService.isStoreScrapped(storeIdx, memberIdx);
+
+			// 노쇼 카운트 
+			Integer noShowCount = member.getNoShowCount();
+			model.addAttribute("noShowCount", noShowCount);
 		}
+
 		model.addAttribute("isScrapped", isScrapped);
 
 		// 매장 메뉴 섹션 조회 

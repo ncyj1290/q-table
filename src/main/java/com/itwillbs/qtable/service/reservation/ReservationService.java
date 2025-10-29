@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.mapper.reservation.ReservationMapper;
+import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.service.pay.PaymentHistoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class ReservationService {
 
 	private final ReservationMapper reservationMapper;
 	private final PaymentHistoryService paymentHistoryService;
+	private final MemberRepository memberRepository;
 
 	// 매장 정보 조회
 	public Map<String, Object> getStoreInfo(Integer storeIdx) {
@@ -31,6 +34,13 @@ public class ReservationService {
 		}
 
 		return storeInfo;
+	}
+
+	// 회원 큐머니 조회 (DB에서 최신 값)
+	public Integer getMemberQMoney(Integer memberIdx) {
+		return memberRepository.findById(memberIdx)
+			.map(member -> member.getQMoney())
+			.orElse(0);
 	}
 
 	// 예약 처리 (등록 또는 수정) + 큐머니 차감 + 결제내역
@@ -107,6 +117,14 @@ public class ReservationService {
 	@Transactional
 	public Map<String, Object> updateReservation(Map<String, Object> reservationData, Integer memberIdx) {
 		try {
+			// 노쇼 횟수 확인
+			Member member = memberRepository.findById(memberIdx)
+				.orElseThrow(() -> new RuntimeException("회원 정보를 찾을 수 없습니다."));
+			
+			if (member.getNoShowCount() > 2) {
+				throw new RuntimeException("노쇼 횟수 초과로 예약 변경이 불가능합니다. 관리자에게 문의해주세요.");
+			}
+
 			reservationData.put("member_idx", memberIdx);
 			int result = reservationMapper.updateReservation(reservationData);
 

@@ -97,11 +97,32 @@ $(function() {
 		writeReview();
 	});
 
-	// 리뷰 좋아요 토글 
+	// 리뷰 좋아요 토글
 	$('#reviews-list').on('click', '.review-like-btn', function() {
 		const $btn = $(this);
 		const reviewIdx = $btn.data('review-idx');
 		toggleReviewLike(reviewIdx, $btn);
+	});
+
+	// 리뷰 이미지 클릭 시 확대
+	$('#reviews-list').on('click', '.review-image img', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		const imgSrc = $(this).attr('src');
+		$('#reviewModalImage').attr('src', imgSrc);
+		$('#reviewImageModal').css({'display': 'flex'});
+	});
+
+	// 모달 닫기 - X 버튼
+	$('.close-review-modal').on('click', function() {
+		$('#reviewImageModal').hide();
+	});
+
+	// 모달 닫기 - 배경 클릭
+	$('#reviewImageModal').on('click', function(e) {
+		if (e.target.id === 'reviewImageModal') {
+			$(this).hide();
+		}
 	});
 
 	// ===================================
