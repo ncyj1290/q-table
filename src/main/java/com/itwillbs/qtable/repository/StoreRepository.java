@@ -15,25 +15,33 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	// member_idx 컬럼으로 Store 엔티티를 찾는 메소드
 	Optional<Store> findByMemberIdx(Integer member_idx);
 
+	@Query(value = """
+			SELECT s.store_idx,
+			       s.store_name,
+			       s.sido,
+			       s.deposit,
+			       s.full_address,
+			       s.open_time,
+			       s.close_time,
+			       COALESCE(AVG(r.score),0) AS avg_score,
+			       COUNT(r.review_idx) AS review_count
+			FROM store s
+			LEFT JOIN review r ON s.store_idx = r.store_idx
+			INNER JOIN subscribe sub ON s.member_idx = sub.member_idx
+			WHERE s.store_status = 'srst_01' AND s.is_accept = true
+			GROUP BY s.store_idx, s.store_name, s.sido, s.deposit, s.full_address, s.open_time, s.close_time
+			ORDER BY avg_score DESC , review_count DESC
+
+			""", nativeQuery = true)
+	List<Object[]> findStoresWithAvgScoreNative();
 
 	@Query(value = """
-		    SELECT s.store_idx,
-		           s.store_name,
-		           s.sido,
-		           s.deposit,
-		           s.full_address,
-		           s.open_time,
-		           s.close_time,
-		           COALESCE(AVG(r.score),0) AS avg_score,
-		           COUNT(r.review_idx) AS review_count
-		    FROM store s
-		    LEFT JOIN review r ON s.store_idx = r.store_idx
-		    INNER JOIN subscribe sub ON s.member_idx = sub.member_idx
-		    WHERE s.store_status = 'srst_01' AND s.is_accept = true
-		    GROUP BY s.store_idx, s.store_name, s.sido, s.deposit, s.full_address, s.open_time, s.close_time
-		    ORDER BY avg_score DESC , review_count DESC
-		    
-		    """, nativeQuery = true)
-		List<Object[]> findStoresWithAvgScoreNative();
-
+		    SELECT s.sigungu AS region,
+		           COUNT(r.reserve_idx) AS reservationCount
+		    FROM reservation r
+		    INNER JOIN store s ON r.store_idx = s.store_idx
+		    GROUP BY s.sigungu
+		    ORDER BY reservationCount DESC
+		""", nativeQuery = true)
+		List<Object[]> findPopularRegionsByReservationCountNative();
 }

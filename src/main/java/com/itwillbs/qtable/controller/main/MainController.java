@@ -24,8 +24,9 @@ public class MainController {
 	private final StoreService storeService;
 	private final ImageService imageService;
 	private final MemberJoinService memberJoinService;
+
 	@GetMapping("/")
-	public String home(Model model,searchVO searchVO) {
+	public String home(Model model, searchVO searchVO) {
 		List<Store> stores = storeService.getStoresOrderByAvgRating();
 
 		// 1. 스토어 idx 리스트 수집
@@ -44,18 +45,19 @@ public class MainController {
 		// 전체 stores 리스트에서 Sido가 "부산"인 매장만 필터링하여 busanStores 리스트에 저장
 		List<Store> busanStores = stores.stream().filter(s -> "부산".equals(s.getSido())).toList();
 		List<Store> seoulStores = stores.stream().filter(s -> "서울".equals(s.getSido())).toList();
-		
-		
-		// 그룹 코드("time")를 기준으로 공통 코드를 조회하는 기능 
-		List<CommonCodeVO> timeCodes  = memberJoinService.getCodesByGroup("time");
+
+		// 그룹 코드("time")를 기준으로 공통 코드를 조회하는 기능
+		List<CommonCodeVO> timeCodes = memberJoinService.getCodesByGroup("time");
 		// 인기 지역 조회
 		
+		model.addAttribute("regions", storeService.getPopularRegions());
+        
 		// 6. 모델에 추가
 		model.addAttribute("stores", stores);
 		model.addAttribute("busanStores", busanStores);
 		model.addAttribute("seoulStores", seoulStores);
-		
-		//공통 코드 모델에담아서
+
+		// 공통 코드 모델에담아서
 		model.addAttribute("timeCodes", timeCodes);
 		return "index";
 	}

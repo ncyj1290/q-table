@@ -98,5 +98,14 @@ public class Store {
     //뷰
     @Transient
     private Image mainImage;
+    
+    @Transient
+    private Long storeCount;
+
+    @Transient
+    private String imageUrl;
+    
+    @Transient
+    private String regionCode;
 
 }

@@ -15,7 +15,6 @@
 				<h3>쉽고 간편한 식당 예약을 여기에서 한번에</h3>
 			</div>
 		</div>
-
 		<div class="section restaurant-section">
 			<h5>추천 레스토랑</h5>
 			<div class="restaurant-wrapper" style="position: relative;">
@@ -50,9 +49,7 @@
 										th:if="${timeCode.code == stores[i].openTime}"
 										th:text="${timeCode.code_label}">시작시간</span>
 									<span th:if="${stores[i].openTime == null}">정보 없음</span>
-
 									~
-
 									<span th:each="timeCode : ${timeCodes}"
 										th:if="${timeCode.code == stores[i].closeTime}"
 										th:text="${timeCode.code_label}">종료시간</span>
@@ -60,7 +57,6 @@
 								</p>
 							</div>
 						</a>
-
 						<!-- 데이터가 없는 경우 빈 카드 -->
 						<div th:if="${i >= stores.size()}">
 							<div class="card-image" style="background:#f0f0f0;">
@@ -84,76 +80,25 @@
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list location-list">
+					<div class="card" th:each="region : ${regions}">
+						<div class="location card-image" th:attr="data-loc=${region.sigungu}"
+							data-code="region.regionCode">
 
-				
-					<div class="card">
-						<div class="location card-image"  data-loc="종로구" data-code="loc_002">
-							<img src="/img/local/Gyeongbokgung.png" alt="종로구">
-							<span class="overlay-text">종로</span>
+							<!-- 지역 이미지 -->
+							<img th:src="${region.imageUrl}" th:alt="${region.sigungu}">
+
+							<!-- 오버레이 텍스트 -->
+							<span class="overlay-text" th:text="${region.sigungu}"></span>
+							<div class="store-count">
+								<span th:text="  ${region.storeCount}+'건'"></span>
+							</div>
 						</div>
 					</div>
-					<div class="card">
-						<div class="location card-image" data-loc="중구" data-code="loc_054">
-							<img src="/img/local/Myeongdong.png" alt="중구">
-							<span class="overlay-text">명동</span>
-						</div>
-					</div>
-					<div class="card">
-						<div class="location card-image" data-loc="해운대구" data-code="loc_036">
-							<img src="/img/local/Haeundae.png" alt="해운대구">
-							<span class="overlay-text">해운대</span>
-						</div>
-					</div>
-					<div class="card">
-						<div class="location card-image"  data-loc="마포구" data-code="loc_015">
-							<img src="/img/local/Hongdae.png" alt="마포구">
-							<span class="overlay-text">홍대</span>
-						</div>
-					</div>
-					<div class="card">
-						<div class="location card-image"  data-loc="수영구" data-code="loc_041">
-							<img src="/img/local/Gwangalli.png" alt="수영구">
-							<span class="overlay-text">광안리</span>
-						</div>
-					</div>
-					<div class="card">
-						<div class="location card-image"  data-loc="제주시" data-code="loc_268">
-							<img src="/img/local/jeju.png" alt="제주시">
-							<span class="overlay-text">제주</span>
-						</div>
-					</div>
-					<div class="card">
-						<div class="location card-image"  data-loc="천안시" data-code="loc_165">
-							<img src="/img/local/Cheonan.png" alt="천안시">
-							<span class="overlay-text">천안</span>
-						</div>
-					</div>
-					<div class="card">
-					<div class="card-wrapper">
-					    <div class="location card-image" data-loc="연수구" data-code="loc_057">
-					        <img src="/img/local/Incheon.png" alt="연수구">
-					        <span class="overlay-text">인천</span>
-					    </div>
-					</div>
-					</div>
-					<div class="card">
-						<div class="location card-image"  data-loc="여수시" data-code="loc_200">
-							<img src="/img/local/Odongdo.png" alt="여수시">
-							<span class="overlay-text">여수</span>
-						</div>
-					</div>
-					<div class="card">
-						<div class="location card-image"  data-loc="용산구" data-code="loc_004">
-							<img src="/img/local/Namsan.png" alt="용산구">
-							<span class="overlay-text">용산구</span>
-						</div>
-					</div>
+
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
 		</div>
-
-
 		<div class="section restaurant-section">
 			<h5>서울 인기 레스토랑</h5>
 			<div class="restaurant-wrapper" style="position: relative;">
@@ -187,9 +132,7 @@
 										th:if="${timeCode.code == seoulStores[i].openTime}"
 										th:text="${timeCode.code_label}">시작시간</span>
 									<span th:if="${seoulStores[i].openTime == null}">정보 없음</span>
-
 									~
-
 									<span th:each="timeCode : ${timeCodes}"
 										th:if="${timeCode.code == seoulStores[i].closeTime}"
 										th:text="${timeCode.code_label}">종료시간</span>
@@ -197,7 +140,6 @@
 								</p>
 							</div>
 						</a>
-
 						<!-- 데이터가 없는 경우 빈 카드 -->
 						<div th:if="${i >= seoulStores.size()}">
 							<div class="card-image" style="background:#f0f0f0;">
@@ -210,9 +152,7 @@
 								<p>영업시간: -</p>
 							</div>
 						</div>
-
 					</div>
-
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
@@ -252,9 +192,7 @@
 										th:if="${timeCode.code == busanStores[i].openTime}"
 										th:text="${timeCode.code_label}">시작시간</span>
 									<span th:if="${busanStores[i].openTime == null}">정보 없음</span>
-
 									~
-
 									<span th:each="timeCode : ${timeCodes}"
 										th:if="${timeCode.code == busanStores[i].closeTime}"
 										th:text="${timeCode.code_label}">종료시간</span>
@@ -262,7 +200,6 @@
 								</p>
 							</div>
 						</a>
-
 						<!-- 데이터가 없는 경우 빈 카드 -->
 						<div th:if="${i >= busanStores.size()}">
 							<div class="card-image" style="background:#f0f0f0;">
@@ -275,9 +212,7 @@
 								<p>영업시간: -</p>
 							</div>
 						</div>
-
 					</div>
-
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>
@@ -305,7 +240,7 @@
 					<span class="overlay-text">대전</span>
 				</div>
 				<div class="local card">
-					<img src="/img/local/Gyeongju.jpg" alt="경주">
+					<img src="/img/local/Gyeongju.png" alt="경주">
 					<span class="overlay-text">경주</span>
 				</div>
 				<div class="local card">
