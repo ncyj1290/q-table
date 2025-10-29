@@ -31,7 +31,7 @@ public class SecurityConfig {
 	//로그인 성공 핸들러 
 	private final LoginSuccessHandler successHandler;
 	// 403 에러 핸들러 
-	private final QtableAccessDeniedHandler accessDeniedHandler;
+//	private final QtableAccessDeniedHandler accessDeniedHandler;
     // 소셜 로그인 유저디테일 서비스 
 	private final QtableOAuth2UserService oAuth2UserService;
 	// 소셜 로그인 예외 핸들러 
@@ -188,7 +188,6 @@ public class SecurityConfig {
 			    )
 				.userDetailsService(qtableUserDetailsService) //커스텀한 객체로 사용하기
 				.build();
-		 		// 더 해야하는거:  jwt? 
 	}
 	
 	@Bean
@@ -197,7 +196,6 @@ public class SecurityConfig {
 	        String redirectUrl;
 	        System.err.println("인증 실패 예외: " + exception.getClass().getName());
 	        System.err.println("메시지: " + exception.getMessage());
-	        // 이제 이 조건문이 정상적으로 true가 될 수 있습니다! ✅
 	        if (exception instanceof AccountRestoreRequiredException) {
 	            // 탈퇴 회원일 경우, 복구 페이지나 특정 쿼리 파라미터와 함께 리다이렉트
 	            redirectUrl = "/login?error=DELETED_ACCOUNT";

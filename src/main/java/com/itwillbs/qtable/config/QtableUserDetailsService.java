@@ -22,7 +22,6 @@ public class QtableUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Member member = repo.findByMemberId(username)
 					        .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다"));
-		
 		return new QtableUserDetails(member);
 	}
 }

@@ -40,8 +40,6 @@
 		 where group_code = 'time';
 	</select>
 	
-	
-	
 	<select id="getResult">
 		<trim prefix="WITH" suffixOverrides=",">
 			 user_scrap AS (
@@ -49,19 +47,19 @@
 			       FROM scrap 
 			      WHERE member_idx = #{vo.member_idx}
 			 ),
-			 review_status as (
-			 	select store_idx
+			 review_status AS (
+			 	SELECT store_idx
 			 	     , COUNT(review_idx) reviewCnt
 		     		 , IFNULL(ROUND(SUM(score)/COUNT(review_idx),1),0) score
-			 	  from review 
-			  group by store_idx
+			 	  FROM review 
+			  GROUP BY store_idx
 			 ),
-			 holiday as (
-			 	select store_idx 
+			 holiday AS (
+			 	SELECT store_idx 
 			 	     , IFNULL(GROUP_CONCAT(DISTINCT(cHoliday.code_label) ORDER BY cHoliday.code), '') 'holiday'
-			 	  from store_holiday sh 
-			 	  join common_code cHoliday on sh.store_holiday = cHoliday.code
-			  group by store_idx 
+			 	  FROM store_holiday sh 
+			 	  JOIN common_code cHoliday ON sh.store_holiday = cHoliday.code
+			  GROUP BY store_idx 
 			 ),
 		 	<if test="vo.time != null">
 			    user_time AS (
@@ -89,21 +87,21 @@
                     ELSE 0
 			      END AS is_scrapped
 		FROM store s
-		LEFT OUTER JOIN common_code cOpen ON s.open_time = cOpen.code -- 단일행 반환 
-		LEFT OUTER JOIN common_code cClose ON s.close_time = cClose.code  -- 단일행 반환 
-		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx and i.target_type = 'imguse_01'-- 이미지는 단일행 
-		left outer join review_status rs on s.store_idx = rs.store_idx -- 복수행 반환 
-		left outer join holiday h on s.store_idx = h.store_idx         -- 복수행 반환 
-		LEFT OUTER JOIN user_scrap us ON s.store_idx = us.store_idx    -- 복수행 반환 
+		LEFT OUTER JOIN common_code cOpen ON s.open_time = cOpen.code 
+		LEFT OUTER JOIN common_code cClose ON s.close_time = cClose.code  
+		LEFT OUTER JOIN image i ON s.store_idx = i.target_idx AND i.target_type = 'imguse_01'
+		LEFT OUTER JOIN review_status rs ON s.store_idx = rs.store_idx  
+		LEFT OUTER JOIN holiday h ON s.store_idx = h.store_idx        
+		LEFT OUTER JOIN user_scrap us ON s.store_idx = us.store_idx    
 		<if test="vo.time != null">
-			cross join user_time ut
+			CROSS JOIN user_time ut
 		</if>
 		WHERE s.store_status = 'srst_01'
 		  AND EXISTS (
 		  	  SELECT 1 
 		  	    FROM subscribe sub
 		  	   WHERE s.member_idx = sub.member_idx    
-		  	     AND NOW() BETWEEN sub.subscribe_start and sub.subscribe_end
+		  	     AND NOW() BETWEEN sub.subscribe_start AND subscribe_end
 		  )
 		<if test="vo.loc != null">
 		    AND
@@ -123,22 +121,22 @@
 		    )
 		</if>
 		<if test="vo.atmosphere != null">
-		    and exists ( 
-		        select 1 
-		          from store_atmosphere st 
-		         where st.store_idx = s.store_idx 
-		           and st.store_atmosphere in
+		    AND EXISTS ( 
+		        SELECT 1 
+		          FROM store_atmosphere st 
+		         WHERE st.store_idx = s.store_idx 
+		           AND st.store_atmosphere IN
 				       <foreach collection="vo.atmosphere" item="atmoItem" open="(" separator="," close=")">
 				       	#{atmoItem}
 				       </foreach>
 		    )
 		</if>
 		<if test="vo.facility != null">
-		 and exists ( 
-		        select 1 
-		          from store_amenity sa
-		         where sa.store_idx = s.store_idx 
-		    	   and sa.store_amenity in
+		 AND EXISTS ( 
+		        SELECT 1 
+		          FROM store_amenity sa
+		         WHERE sa.store_idx = s.store_idx 
+		    	   AND sa.store_amenity IN
 				    <foreach collection="vo.facility" item="facilityItem" open="(" separator="," close=")">
 				        #{facilityItem}
 				    </foreach>
@@ -155,7 +153,7 @@
 			</choose>
 		</if>
 		<if test="vo.personCnt != null">
-			and s.store_seat >= #{vo.personCnt}
+			AND s.store_seat >= #{vo.personCnt}
 		</if>
 		<if test="vo.day != null">
 			AND NOT EXISTS (SELECT 1  
@@ -166,16 +164,14 @@
 		<if test="vo.time != null">
 		    <![CDATA[
 		        AND (
-		                s.is_24hour = 1 
-		                OR 
-		                (
-		                    (cOpen.code_label > cClose.code_label AND 
-		                        (ut.code_label  >= cOpen.code_label OR ut.code_label  <= cClose.code_label))
-		                    OR
-		                    (cOpen.code_label <= cClose.code_label AND 
-		                        (ut.code_label  >= cOpen.code_label AND ut.code_label <= cClose.code_label))
-		                )
-		            )
+	                s.is_24hour = 1 
+	                OR 
+	                (
+                    	(cOpen.code_label > cClose.code_label AND (ut.code_label  >= cOpen.code_label OR ut.code_label  <= cClose.code_label))
+	                    OR
+	                    (cOpen.code_label <= cClose.code_label AND (ut.code_label  >= cOpen.code_label AND ut.code_label <= cClose.code_label))
+	                )
+		    	)
 		    ]]>
 		</if>
 		<if test="vo.keywords != null and !vo.keywords.isEmpty()">
@@ -197,17 +193,14 @@
 			    <when test="vo.sort == 'price asc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
 			        (s.price_avg > #{vo.priceCs} OR (s.price_avg = #{vo.priceCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
-			    
 			    <when test="vo.sort == 'price desc' and vo.priceCs != null and vo.priceCs != '' and vo.cursor != null and vo.cursor != ''">
 			        (#{vo.priceCs} > s.price_avg OR (s.price_avg = #{vo.priceCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
-			    
 			    <when test="vo.sort == 'reviewCnt desc' and vo.reviewCs != null and vo.reviewCs != '' and vo.cursor != null and vo.cursor != ''">
-			        (#{vo.reviewCs} > rs.reviewCnt  OR ( ifnull(rs.reviewCnt,0) = #{vo.reviewCs} AND s.store_idx > #{vo.cursor}))
+			        (#{vo.reviewCs} > rs.reviewCnt  OR (IFNULL(rs.reviewCnt,0) = #{vo.reviewCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
-			    
 			    <when test="vo.sort == 'score desc' and vo.scoreCs != null and vo.scoreCs != '' and vo.cursor != null and vo.cursor != ''">
-			        (#{vo.scoreCs} > rs.score OR ( ifnull(rs.score,0.0) = #{vo.scoreCs} AND s.store_idx > #{vo.cursor}))
+			        (#{vo.scoreCs} > rs.score OR (IFNULL(rs.score,0.0) = #{vo.scoreCs} AND s.store_idx > #{vo.cursor}))
 			    </when>
 			</choose>
 		</trim>

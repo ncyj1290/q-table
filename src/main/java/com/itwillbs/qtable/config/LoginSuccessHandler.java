@@ -34,8 +34,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws IOException, ServletException {
 		
-		
-		
 		// 리다이렉트 url 설정 
 		boolean isAdmin = authentication.getAuthorities().stream()
 			    .anyMatch(authority -> authority.getAuthority().equals("ROLE_mtype_01"));
@@ -63,8 +61,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 		QtableUserDetails userDetails = (QtableUserDetails)authentication.getPrincipal();
 		
 		// 멤버 idx, ip 
-		log.info("사용자 idx "+ userDetails.getMember().getMemberIdx());
-		log.info("사용자 ip "+request.getRemoteAddr());
 		userLog.setMember_idx(userDetails.getMember().getMemberIdx());
 		userLog.setIp_address(userIp);
 		repo.save(userLog);// 로그 디비 저장

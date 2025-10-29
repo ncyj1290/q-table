@@ -18,19 +18,17 @@
 	 					</div>
 	 				</div>
 	 				<div class="locfood-content" id="sub-location">
-	 					<div class="locFoodModal" id="sub-location-container"> <!-- keywords 삭제 -->
+	 					<div class="locFoodModal" id="sub-location-container">
 	 						<div th:each="locLarge, state: ${locLargeList}" 
 	 							 class="subLoc-container keywords"
 	 							 th:data-loclarge="${locLarge.code}"
 	 							 th:style="${state.index == 0} ? 'display: flex;' : 'display: none;'">
 	 							<th:block th:each="locSub, state :${locSubList}">
-<!-- 	 							<span th:if="${state.index == 0}" class="keyword location" th:data-loc-food="${locLarge.code}" th:text="|${locLarge.code_label} 전체|"></span> -->
 	 							<span th:if="${locLarge.code == locSub.parent_code}"
 	 								  th:text="${locSub.code_label}"
 	 								  class="keyword location" th:data-loc-food="${locSub.code}"></span>
 	 							</th:block>
  							</div>
-<!-- 	 					<span class="keyword location">서울전체</span> -->
 	 					</div>
 	 				</div>
 	 			</div>
@@ -74,7 +72,6 @@
 	        <div class="footer-modal">
 	        	<div class="selectedKeywords">
 	        		<span class="delete-keyword" id="delete-all-btn"><i class="bi bi-trash"></i></span>
-<!-- 	        		<span class="selectedKeyword active">이자카야<span class="delete active">&times;</span></span> -->
 	        	</div>
 	        </div>
 	        <button id="apply-btn" class="active">적용하기</button>

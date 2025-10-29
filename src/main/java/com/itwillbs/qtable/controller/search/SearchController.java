@@ -46,7 +46,6 @@ public class SearchController {
 		List<Map<String,Object>> timeList = searchService.getTime();
 		model.addAttribute("timeList", timeList);
 		
-		log.info(vo.toString());
 		if(vo.isEmpty()) {
 			model.addAttribute("storeList", new searchVO());
 			model.addAttribute("isFirst", true);
@@ -69,27 +68,10 @@ public class SearchController {
 			, Model model
 			, @AuthenticationPrincipal QtableUserDetails details) {
 		
-		log.info("입력값");
-		log.info("지역" + vo.getLoc());
-		log.info("음식" + vo.getFood());
-		log.info("분위기" + vo.getAtmosphere());
-		log.info("편의시설" + vo.getFacility());
-		log.info("좌석수" + vo.getPersonCnt());
-		log.info("가격" + vo.getPrice());
-		log.info("정렬" + vo.getSort());
-		log.info("날짜" + vo.getDay());
-		log.info("시간" + vo.getTime());
-		log.info("입력값" + vo.getQuery());
-		log.info("가격cs " + vo.getPriceCs());
-		log.info("별점cs " + vo.getScoreCs());
-		log.info("리뷰수cs " + vo.getReviewCs());
-		log.info("커ㅏ서 " + vo.getCursor());
-		
 		Integer memberIdx = Optional.ofNullable(details)
 					                .map(d -> d.getMember())       
 					                .map(m -> m.getMemberIdx())    
 					                .orElse(null);                 
-		if (memberIdx == null) log.info("비회원입니다");
 		vo.setMember_idx(memberIdx);
 		Map<String,Object> result = searchService.getResult(vo);
 		model.addAttribute("storeList", result.get("storeList"));

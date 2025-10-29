@@ -15,11 +15,8 @@
 	<script th:src="@{/js/search/search.js}"></script>
 </head>
 <body>
-	<!--  Header 
-    <th:block th:replace="~{common/fragments/header :: HeaderFragment}"></th:block>-->
     
 	<th:block layout:fragment="Content">
-	<!-- <div class="main-container"> -->
 		<div class="sidebar-content">
 			<th:block th:replace="~{search/searchSidebar :: searchSidebar}"></th:block>
 			<div class="filter-content">
@@ -44,8 +41,7 @@
 							 th:data-review-cursor="${store.reviewCnt}"
 							 th:data-price-cursor="${store.price}"
 							 th:data-hasNext="${state.last} ? ${hasNext.hasNext} : ''"> 
-							<div class="result-content" 
-							     > <!-- th:unless="${모델값.isEmpty()}" th:each="변수명 : ${모델값}"-->
+							<div class="result-content"> 
 								<div class="result-text-area">
 									<div class="result-text-area-top">
 										<div class="store-name-scrap">
@@ -95,7 +91,7 @@
 							<a th:if="${store.is_accept}" class="positive-button" th:href="@{store_detail_main(store_idx=${store.store_idx})}">예약하러 가기</a>
 							<a th:unless="${store.is_accept}" class="negative-button" th:text="|현재 예약이 불가합니다 식당으로 문의 바랍니다|"></a>
 						</div>
-						<div class="no-result" th:if="${storeList.isEmpty()}"> <!-- th:if="${모델값.isEmpty()}" -->
+						<div class="no-result" th:if="${storeList.isEmpty()}"> 
 							<img src="img/Q_money_norice.png" alt="큐머니아이콘">
 							<h4>조건에 맞는 가게가 없어요.</h4>
 							<ul>

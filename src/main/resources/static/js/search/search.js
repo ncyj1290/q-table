@@ -27,11 +27,8 @@ $(function() {
 	const loader = $('#loader');
 	const observerCallback = (entries, observer) => {
 		const entry = entries[0];
-			console.log("여기")
-			console.log(entry.isIntersecting)
-			console.log(!isLoading)
+//		if(!searchState.hasNext) showNotification();
 		if (entry.isIntersecting && !isLoading) {
-			console.log('실행된다.')
 			observer.unobserve(loader[0]);
 			loadMoreItems();
 		} 
@@ -110,7 +107,6 @@ $(function() {
 			success:function(res) {
 				$('.no-result').hide();
 				$('.content').empty();
-				$('.filter').show();
 				const reviewCs = $(res).last().last().data('review-cursor');
 				const priceCs = $(res).last().last().data('price-cursor');
 				const scoreCs = $(res).last().last().data('score-cursor');
@@ -123,18 +119,15 @@ $(function() {
 				searchState.scoreCs = scoreCs;
 				searchState.hasNext = hasNext;
 				$('.content').append(res);
-				if($(res).hasClass('no-result')) {
+				if($(res).hasClass('no-result')) { // 처음 검색부터 결과가 없음 
 					observer.unobserve(loader[0]);
 					isLoading = false;
 					return;	
 				}
 				scrollTop();
-				if(hasNext) {
-					loader.show();
-					observer.observe(loader[0]);
-				} else {
-					loader.hide();
-				}
+				$('.filter').show();
+				observer.observe(loader[0]);
+//				if(hasNext) loader.show();
 				isLoading = false;
 			},
 			error: function(error) {
@@ -146,11 +139,9 @@ $(function() {
 		
 	}
 	
-	
 	function loadMoreItems() { // 무한 스크롤 로드 
-		if(isLoading || $('.no-result').data('first')) {
-			return; // 로딩중 ㄲㅈ	
-		} 
+		if(isLoading || $('.no-result').data('first')) return; 
+		
 		loader.addClass('visible');
 		isLoading = true;
 		const params = new URLSearchParams(); // 파라미터 셋팅을 위한 인스턴스 생성 
@@ -203,8 +194,8 @@ $(function() {
 				const hasNext = $(res).last().last().data('hasnext');
 				searchState.hasNext = hasNext;
 				if($(res).hasClass('no-result')) { 
-					observer.unobserve(loader[0]);
-	                loader.hide();
+//					observer.observe(loader[0]);
+	                loader.removeClass('visible');
 					showNotification("더 이상 불러올 결과가 없습니다!");
 					scrollTop();
 					isLoading = false;

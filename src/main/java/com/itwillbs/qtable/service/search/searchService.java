@@ -22,20 +22,6 @@ import lombok.extern.java.Log;
 public class searchService {
 	
 	private final SearchKeywordListMapper mapper;
-//	private static Map<String, String> DAY_MAPPING_MAP = new HashMap<>();
-//
-//	static {
-//	     DAY_MAPPING_MAP = Map.of(
-//	         "토,일", "평일",
-//	         "토", "평일, 일",
-//	         "월", "화~일",
-//	         "화", "화 휴무",
-//	         "수", "수 휴무",
-//	         "목", "목 휴무",
-//	         "금", "금 휴무",
-//	         "", "매일"
-//	     );
-//	}
 	
 	
 	public void selectSeatCntPriceRange(Model model) {
@@ -80,7 +66,6 @@ public class searchService {
 		List<Map<String,Object>> storeList = mapper.getResult(vo);
 		int listSize = storeList.size();
 		if(listSize == 11) {
-			log.info("이게왜 트루냐");
 			storeList.removeLast();
 			hasNext.put("hasNext", true);
 		} else {
@@ -91,8 +76,6 @@ public class searchService {
 		Map<String, Object> resultList = new HashMap<>();
 		resultList.put("storeList", storeList);
 		resultList.put("hasNext", hasNext);
-		// 리스트 개수가 11개 일때 마지막 값은 지우고 플래그 전달 더 있다는 -> 더있다. 불러오는 함수 계속 실행 
-		// 리스트 개수가 10개 이하일때 마지막값 안지우고 플래그 전달 이제 없다는  -> 더 없다. 불러오는 함수 리턴 해서 실행막기 
 		
 		return resultList;
 	}
