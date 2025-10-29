@@ -94,6 +94,24 @@ public class MyPageController {
 		return "mypage/cardEdit";
 	}
 	
+	@GetMapping("/profile_settings")
+	public String profileSettings() {
+
+		return "mypage/profileSettings";
+	}
+
+	@GetMapping("/password")
+	public String password() {
+
+		return "mypage/password";
+	}
+	
+	private String getMemberIdx(QtableUserDetails userDetails) {
+		Member member = userDetails.getMember();
+		return String.valueOf(member.getMemberIdx());
+		// String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨
+	}
+	
 	@GetMapping("/member_delete")
 	public String memberDeletePage(
 	    @AuthenticationPrincipal QtableUserDetails userDetails) {
@@ -106,18 +124,10 @@ public class MyPageController {
 	}
 
 	@PostMapping("/member_delete")
-	  public ResponseEntity<Map<String, Object>> memberDelete(
-	      @AuthenticationPrincipal QtableUserDetails userDetails,
-	      @RequestParam(value = "password") String password,
-	      @RequestParam(value = "agree") boolean agree) {
-
+	  public ResponseEntity<Map<String, Object>> memberDelete(@AuthenticationPrincipal QtableUserDetails userDetails,
+														      @RequestParam(value = "password") String password,
+														      @RequestParam(value = "agree") boolean agree) {
 	    Map<String, Object> response = new HashMap<>();
-
-	    if (userDetails == null) {
-	      response.put("success", false);
-	      response.put("message", "로그인이 필요합니다");
-	      return ResponseEntity.status(401).body(response);
-	    }
 
 	    int memberIdx = userDetails.getMember().getMemberIdx();
 	    
@@ -130,28 +140,10 @@ public class MyPageController {
 	    } else {
 	      response.put("success", false);
 	      response.put("message", "회원탈퇴 처리 중 오류가 발생했습니다");
-	      return ResponseEntity.status(500).body(response);
+	      return ResponseEntity.ok(response);
 	    }
 	  }
 	
-	@GetMapping("/profile_settings")
-	public String profileSettings() {
-
-		return "mypage/profileSettings";
-	}
-
-	@GetMapping("/password")
-	public String password() {
-
-		return "mypage/password";
-	}
-
-	private String getMemberIdx(QtableUserDetails userDetails) {
-		Member member = userDetails.getMember();
-		return String.valueOf(member.getMemberIdx());
-		// String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨
-	}
-
 	// 리뷰 가져오기
 	@GetMapping("/mypage_review")
 	public String mypageReview(@AuthenticationPrincipal QtableUserDetails userDetails, Model model) throws Exception {
