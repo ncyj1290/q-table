@@ -65,18 +65,16 @@ public class MyPageController {
 	private final FileUploadService fileUploadService;
 
 	private final ReservationService reservationService;
-	
+
 	private final MemberService memberService;
-	
+
 	private final PaymentListService paymentListService;
-	
 
 	@GetMapping("/mypage_main")
 	public String mypageMain() {
 
 		return "mypage/mypageMain";
 	}
-
 
 	@GetMapping("/qmoney_charge")
 	public String qmoneycharge() {
@@ -93,7 +91,7 @@ public class MyPageController {
 	public String cardEdit() {
 		return "mypage/cardEdit";
 	}
-	
+
 	@GetMapping("/profile_settings")
 	public String profileSettings() {
 
@@ -105,45 +103,43 @@ public class MyPageController {
 
 		return "mypage/password";
 	}
-	
+
 	private String getMemberIdx(QtableUserDetails userDetails) {
 		Member member = userDetails.getMember();
 		return String.valueOf(member.getMemberIdx());
 		// String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨
 	}
-	
+
 	@GetMapping("/member_delete")
-	public String memberDeletePage(
-	    @AuthenticationPrincipal QtableUserDetails userDetails) {
-	  
-	  if (userDetails == null) {
-	    return "redirect:/login";
-	  }
-	  
-	  return "mypage/memberDelete";  // HTML 파일 반환
+	public String memberDeletePage(@AuthenticationPrincipal QtableUserDetails userDetails) {
+
+		if (userDetails == null) {
+			return "redirect:/login";
+		}
+
+		return "mypage/memberDelete"; // HTML 파일 반환
 	}
 
 	@PostMapping("/member_delete")
-	  public ResponseEntity<Map<String, Object>> memberDelete(@AuthenticationPrincipal QtableUserDetails userDetails,
-														      @RequestParam(value = "password") String password,
-														      @RequestParam(value = "agree") boolean agree) {
-	    Map<String, Object> response = new HashMap<>();
+	public ResponseEntity<Map<String, Object>> memberDelete(@AuthenticationPrincipal QtableUserDetails userDetails,
+			@RequestParam(value = "password") String password, @RequestParam(value = "agree") boolean agree) {
+		Map<String, Object> response = new HashMap<>();
 
-	    int memberIdx = userDetails.getMember().getMemberIdx();
-	    
-	    boolean result = passwordService.memberDelete(memberIdx, password, agree);
-	    
-	    if (result) {
-	      response.put("success", true);
-	      response.put("message", "회원탈퇴가 완료되었습니다");
-	      return ResponseEntity.ok(response);
-	    } else {
-	      response.put("success", false);
-	      response.put("message", "회원탈퇴 처리 중 오류가 발생했습니다");
-	      return ResponseEntity.ok(response);
-	    }
-	  }
-	
+		int memberIdx = userDetails.getMember().getMemberIdx();
+
+		boolean result = passwordService.memberDelete(memberIdx, password, agree);
+
+		if (result) {
+			response.put("success", true);
+			response.put("message", "회원탈퇴가 완료되었습니다");
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", false);
+			response.put("message", "회원탈퇴 처리 중 오류가 발생했습니다");
+			return ResponseEntity.ok(response);
+		}
+	}
+
 	// 리뷰 가져오기
 	@GetMapping("/mypage_review")
 	public String mypageReview(@AuthenticationPrincipal QtableUserDetails userDetails, Model model) throws Exception {
@@ -280,10 +276,8 @@ public class MyPageController {
 	// 예약변경 모달
 	@GetMapping("reserv_change")
 	public String reservChange(@AuthenticationPrincipal QtableUserDetails userDetails,
-							   @RequestParam("store_idx") Integer storeIdx,
-							   @RequestParam("people") Integer people,
-							   @RequestParam("reserve_time") String reserveTime,
-							   Model model) {
+			@RequestParam("store_idx") Integer storeIdx, @RequestParam("people") Integer people,
+			@RequestParam("reserve_time") String reserveTime, Model model) {
 		// 매장 기본 정보 조회
 		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
 		List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);
@@ -291,11 +285,11 @@ public class MyPageController {
 		model.addAttribute("holiday", storeData.getOrDefault("holiday", List.of()));
 		model.addAttribute("availableTimes", reservationTimeData);
 		model.addAttribute("reservedPeople", people);
-		model.addAttribute("reservedTime", reserveTime);  
-		
+		model.addAttribute("reservedTime", reserveTime);
+
 		return "storeDetail/fragments/reservationCalendar :: reservationCalendar";
 	}
-	
+
 	// q-money 금액 불러오기
 	@GetMapping("/mypage/qmoneyBalance")
 	@ResponseBody
@@ -303,9 +297,13 @@ public class MyPageController {
 		int memberIdx = userDetails.getMember().getMemberIdx();
 
 		// 서비스에서 총 Q-money 계산
-		int totalQmoney = kakaoPayService.getTotalQmoney(memberIdx);
+//		int totalQmoney = kakaoPayService.getTotalQmoney(memberIdx);
 
-		Map<String, Object> result = Map.of("balance", totalQmoney);
+		// member 테이블에서 q_money 값을 직접 조회
+		int qmoneyBalance = kakaoPayService.getQmoneyBalance(memberIdx);
+
+//		Map<String, Object> result = Map.of("balance", totalQmoney);
+		Map<String, Object> result = Map.of("balance", qmoneyBalance);
 		return result;
 	}
 
@@ -475,29 +473,33 @@ public class MyPageController {
 			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
 		String memberIdx = getMemberIdx(userDetails);
 
-		List<Map<String, Object>> upcomingList = reservationListervice.getUpcomingList(memberIdx, reserveResult);
-		model.addAttribute("upcomingList", upcomingList);
+//		List<Map<String, Object>> upcomingList = reservationListervice.getUpcomingList(memberIdx, reserveResult);
+//		model.addAttribute("upcomingList", upcomingList);
+
+		// 랜덤 추천 가게 리스트 가져오기
+		List<Map<String, Object>> randomStoreList = reservationListervice.getRandomStores();
+		model.addAttribute("upcomingList", randomStoreList);
 
 		return "mypage_pick";
 	}
-	
+
 	// 결제 내역
-	   @GetMapping("/mypage_payment")
-	   public String mypagePayment(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
-	         @RequestParam(value = "reserveResult", required = false) String reserveResult) {
+	@GetMapping("/mypage_payment")
+	public String mypagePayment(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
+			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
 
-	      Member member = userDetails.getMember();
-	      String memberIdx = getMemberIdx(userDetails);
+		Member member = userDetails.getMember();
+		String memberIdx = getMemberIdx(userDetails);
 
-	      // 결제완료만 필터
-	      if (reserveResult == null || reserveResult.isEmpty()) {
-	         reserveResult = "rsrt_01";
-	      }
+		// 결제완료만 필터
+		if (reserveResult == null || reserveResult.isEmpty()) {
+			reserveResult = "rsrt_01";
+		}
 
-	      List<Map<String, Object>> upcomingList = paymentListService.getPaymentList(memberIdx, reserveResult);
-	      model.addAttribute("upcomingList", upcomingList);
-	//
-	      return "mypage/mypagePayment";
-	   }
+		List<Map<String, Object>> upcomingList = paymentListService.getPaymentList(memberIdx, reserveResult);
+		model.addAttribute("upcomingList", upcomingList);
+		//
+		return "mypage/mypagePayment";
+	}
 
 }
