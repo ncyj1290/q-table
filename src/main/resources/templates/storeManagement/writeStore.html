@@ -34,12 +34,12 @@
 				
 				<div class="component-layout-row">
 					<label for="store_phone" inputmode="numeric" class="input-label"><b>*매장 전화번호</b></label>
-					<input type="text" class="component-write" placeholder="매장 전화번호: - 제외 숫자 11자리를 입력하세요." id="store_phone" name="store_phone" maxlength="11">	
+					<input type="text" class="component-write input_num" placeholder="매장 전화번호: - 제외 숫자 11자리를 입력하세요." id="store_phone" name="store_phone" maxlength="11">	
 				</div>
 				
 				<div class="component-layout-row">
 					<label for="store_account_number" inputmode="numeric" class="input-label"><b>*매장 계좌번호</b></label>
-					<input type="text" class="component-write" placeholder="매장 계좌번호 - 숫자만 입력하세요." id="account_number" name="account_number">
+					<input type="text" class="component-write input_num" placeholder="매장 계좌번호 - 숫자만 입력하세요." id="account_number" name="account_number">
 						
 					<select  name="bank_code" class="select-box">
 						<option th:each="bank, i : ${bankList}" th:value="${bank.code}" th:text="${bank.code_label}"></option>
@@ -69,12 +69,12 @@
 				
 				<div class="component-layout-row">
 					<label for="total_seat" class="input-label"><b>*총 좌석 수</b></label>
-					<input type="text" class="component-write" placeholder="매장 내 총 좌석수 입력" id="store_seat" name="store_seat">	
+					<input type="text" class="component-write input_num" placeholder="매장 내 총 좌석수 입력" id="store_seat" name="store_seat">	
 				</div>
 								
 				<div class="component-layout-row">
 					<label for="reservation_deposit" class="input-label"><b>예약금 설정</b></label>
-					<input type="text" class="component-write" placeholder="예약금 입력" id="deposit" name="deposit">	
+					<input type="text" class="component-write input_num" placeholder="예약금 입력" id="deposit" name="deposit">	
 					<b>원</b>
 				</div>
 				<label class="info-picture-label" style="margin-left: 100px; color: red;">* 예약금을 받지 않을 예정이면, 0을 입력하세요.</label>
@@ -299,7 +299,7 @@
 				</div>
 				
 				<div class="component-layout-row">
-					<input type="text" class="component-write" placeholder="숫자만 입력하세요" id="price_avg" name="price_avg"><b>원</b>
+					<input type="text" class="component-write input_num" placeholder="숫자만 입력하세요" id="price_avg" name="price_avg"><b>원</b>
 				</div>
 				
 				<div class="horizontal-line"></div>
@@ -334,7 +334,7 @@
 								
 								<div class="menu-element-row">
 									<label class="menu-label"><b>가격</b></label>
-									<input type="text" data-field="price" class="component-write" placeholder="메뉴 가격을 작성하세요..">	
+									<input type="text" data-field="price" class="component-write price_input input_num" placeholder="메뉴 가격을 작성하세요..">	
 								</div>
 								
 								<div class="menu-element-row">
@@ -344,7 +344,7 @@
 								
 								<div class="menu-element-row">
 									<label class="menu-label"><b>중량</b></label>
-									<input type="text" data-field="menu_gram" class="component-write menu-weight-size" placeholder="단위: (g)">
+									<input type="text" data-field="menu_gram" class="component-write menu-weight-size input_num" placeholder="단위: (g)">
 									<b>(g)</b>
 								</div>
 

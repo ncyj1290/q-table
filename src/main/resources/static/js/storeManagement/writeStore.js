@@ -21,19 +21,25 @@ $(function() {
 	/* 재료 정보 담는 레이아웃 */
 	const $menuList = $(".menu-layout");
 
+	
 	/* ==================================== */
 	/* Handlers */
 	/* ==================================== */
 	/* 숫자가 아닌 문자 제거 함수 */
-	function onlyNumHandler($el){
-		let inputVal =  $el.val();
-//		$el.val(inputVal.replace(/[^-0-9]/g, ""));
+	function onlyNumHandler($el) {
+		let inputVal = $el.val();
 		$el.val(inputVal.replace(/\D/g, ""));
 	}
 	
 	
+	/* 메뉴에 숫자 들어가는 애들 */
+	$(".input_num").on("keyup", function(){
+		onlyNumHandler($(this));
+	});
+	
+	
 	/* 매장 프로필 이미지 표시 */
-	$(document).on('change', '.store-profile-layout input[type="file"]', function () {
+	$(document).on('change', '.store-profile-layout input[type="file"]', function(){
 		
 		const file = this.files && this.files[0];
 		const $row = $(this).closest('.store-profile-layout');
@@ -45,7 +51,7 @@ $(function() {
 			return;
 		}
 		 const url = URL.createObjectURL(file);
-			$img.attr('src', url).one('load', function () {
+			$img.attr('src', url).one('load', function(){
 			URL.revokeObjectURL(url);
 		});
 		
@@ -67,47 +73,7 @@ $(function() {
 		}).open();
 	});
 
-	/* ==================================== */
-	/* 매장 전화번호 */
-	/* ==================================== */
-	/* 숫자 제외 입력 거부 */
-	$("#store_phone").on("keyup", function(){
-		onlyNumHandler($(this));
-	});
-	
-	/* ==================================== */
-	/* 매장 계좌번호 */
-	/* ==================================== */
-	/* 숫자 제외 입력 거부 */
-	$("#account_number").on("keyup", function(){
-		onlyNumHandler($(this));
-	});
-	
-	/* ==================================== */
-	/* 총 좌석 수 */
-	/* ==================================== */
-	/* 숫자 제외 입력 거부 */
-	$("#store_seat").on("keyup", function(){
-		onlyNumHandler($(this));
-	});
 
-	/* ==================================== */
-	/* 예약금 */
-	/* ==================================== */
-	/* 숫자 제외 입력 거부 */
-	$("#deposit").on("keyup", function(){
-		onlyNumHandler($(this));
-	});
-	
-	/* ==================================== */
-	/* 예약금 */
-	/* ==================================== */
-	/* 숫자 제외 입력 거부 */
-	$("#price_avg").on("keyup", function(){
-		onlyNumHandler($(this));
-	});
-	
-	
 	/* ==================================== */
 	/* 매장 운영 시간 */
 	/* ==================================== */
@@ -120,6 +86,7 @@ $(function() {
 		$("#open_time").prop("disabled", isChecked);
 		$("#close_time").prop("disabled", isChecked);
 	});
+	
 	
 	/* ==================================== */
 	/* 휴일 선택 */
@@ -135,6 +102,7 @@ $(function() {
 		
 		$("#holidays").val(selected.join(",")); 
 	});
+	
 	
 	/* ==================================== */
 	/* 매장 이미지 */
@@ -168,17 +136,7 @@ $(function() {
 		
 		const file = this.files && this.files[0];
 		const $row = $(this).closest('.store_picture_element');
-//		const $img = $row.find('img.store-profile');
 		const $name = $row.find('.sp-name');
-		
-//		if (!file) { 
-//			$img.attr('src', DEFAULT_IMG);
-//			return;
-//		}
-//		 const url = URL.createObjectURL(file);
-//			$img.attr('src', url).one('load', function () {
-//			URL.revokeObjectURL(url);
-//		});
 		
 		if ($name.length) $name.text(file.name);
 	});
@@ -202,6 +160,7 @@ $(function() {
 		});
 	}
 		
+	
 	/* ==================================== */
 	/* 편의 시설 */
 	/* ==================================== */
@@ -216,6 +175,7 @@ $(function() {
 		
 		$("#store_facilities").val(selected.join(",")); 
 	});
+	
 	
 	/* ==================================== */
 	/* 식자재 정보 */
@@ -254,12 +214,14 @@ $(function() {
 		reindexIng();				
 	});
 	
+	
 	/* 식자재 삭제 */
 	$ingList.on("click", ".ing-remove-bt", function(){
 		const $element = $(this).closest(".ingredient-layout-row");
 		$element.remove();
 		reindexIng();
 	});
+	
 	
 	/* 매장 메뉴 목록 리인덱싱 */
 	function reindexIng(){
@@ -271,6 +233,7 @@ $(function() {
 			});
 		});
 	}
+	
 	
 	/* ==================================== */
 	/* 매장 메뉴 */
@@ -302,7 +265,7 @@ $(function() {
 						
 						<div class="menu-element-row">
 							<label class="menu-label"><b>가격</b></label>
-							<input type="text" data-field="price" class="component-write" placeholder="메뉴 가격을 작성하세요..">	
+							<input type="text" data-field="price" class="component-write input_num" placeholder="메뉴 가격을 작성하세요..">	
 						</div>
 						
 						<div class="menu-element-row">
@@ -312,7 +275,7 @@ $(function() {
 						
 						<div class="menu-element-row">
 							<label class="menu-label"><b>중량</b></label>
-							<input type="text" data-field="menu_gram" class="component-write menu-weight-size" placeholder="단위: (g)">
+							<input type="text" data-field="menu_gram" class="component-write menu-weight-size input_num" placeholder="단위: (g)">
 							<b>(g)</b>
 						</div>
 					</div>
@@ -326,6 +289,7 @@ $(function() {
 		reindexMenu()
 	});
 	
+
 	/* 메뉴 이미지 업로드 시 => 표시 */
 	$(document).on('change', '.menu-layout-row input[type="file"][data-field="menu_picture"]', function () {
 		
@@ -351,6 +315,7 @@ $(function() {
 		reindexMenu()
 	});
 	
+	
 	/* 매장 메뉴 목록 리인덱싱 */
 	function reindexMenu(){
 		
@@ -373,7 +338,6 @@ $(function() {
 	});
 	
 	
-	
 	/* ==================================== */
 	/* Submit */
 	/* ==================================== */
@@ -391,14 +355,10 @@ $(function() {
 		form.submit();
 	});
 	
+	
 	/* ==================================== */
 	/* 검사 로직 모음 */
 	/* ==================================== */
-	/* 임시 검사 버튼 */
-	$("#test_bt").on("click", function(){
-		checkPhoneNum();
-	});
-	
 	/* 입력란 공백 검사 */
 	function checkInputNull(){
 		
@@ -413,7 +373,7 @@ $(function() {
 			
 			/* 입력란 공백이면 Alert + Focus And Return */
 			if(isEmpty){
-				alert("빈칸 채워라");
+				alert("빈칸을 채워주세요!");
 				$el.focus();
 				return false;
 			}
@@ -422,6 +382,7 @@ $(function() {
 		/* 검사 통과 시 true 반환 */
 		return true
 	}
+	
 	
 	/* 휴대전화 번호 글자 길이 */
 	function checkPhoneNum(){
