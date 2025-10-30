@@ -7,16 +7,14 @@
 	<select id="countNewMembers">
 		SELECT COUNT(*)
 		  FROM member
-		 WHERE member_type = 'mtype_02'
-	       AND signup_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+	     WHERE signup_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
 	</select>
 	
 	<!-- 관리자 메인화면 일주일간 신규 매장회원 -->
 	<select id="countNewStoreMembers">
 		SELECT COUNT(*)
-		  FROM member
-		 WHERE member_type = 'mtype_03'
-	       AND signup_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+		  FROM store
+	     WHERE processed_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
 	</select>
 	
 	<!-- 관리자 메인화면 1일 신규 입점 신청-->
