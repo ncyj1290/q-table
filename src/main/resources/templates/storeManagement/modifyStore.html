@@ -90,8 +90,9 @@
 				</div>
 				
 				<div class="component-layout-row">
-					<textarea type="text" class="component-write" placeholder="" id="store_content" name="store_content" th:text="${sData.store_content}"></textarea>
+					<textarea type="text" class="component-write" placeholder="최대 160자" id="store_content" name="store_content" th:text="${sData.store_content}" maxlength="160"></textarea>
 				</div>
+				<label class="info-picture-label" style="margin-left: 100px; color: red; font-size: 11px;">* 최대 160자 까지 입력할 수 있습니다.</label>
 				
 				<div class="horizontal-line"></div>
 				
