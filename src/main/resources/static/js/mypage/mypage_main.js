@@ -1,4 +1,7 @@
 let currentStat = "rsrt_05";  // 기본 예약상태 초기값 할당
+function formatAmountWithComma(amount) {
+    return String(amount).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function showTab(tabId, element, reserveResult) {
 
@@ -45,34 +48,9 @@ function showTab(tabId, element, reserveResult) {
 		}
 	});
 }
-
-//// 예약취소 업데이트
-//$(document).on('click', 'button[data-type="cancelBtn"]', function() {
-//	console.log('예약 취소 버튼 클릭됨');
-//	const reserveIdx = $(this).data('reserveIdx');
-//	if (!reserveIdx) {
-//		alert('예약 ID가 없습니다.');
-//		return;
-//	}
-//	$.ajax({
-//		url: '/reservation_cancel',
-//		type: 'POST',
-//		data: { reserveIdx },
-//		success: function(resp) {
-//			console.log(reserveIdx);
-//			if (resp.success) {
-//				const cancelTabLabel = document.querySelector('.reserve-label[data-tab="cancel"]');
-//				showTab('cancel', cancelTabLabel, 'rsrt_03');
-//			} else {
-//				alert('예약 취소에 실패했습니다.');
-//			}
-//		},
-//		error: function() {
-//			alert('네트워크 오류가 발생했습니다.');
-//		}
-//	});
-//});
-
+function formatWithComma(amount) {
+    return Number(amount).toLocaleString('ko-KR');
+}
 $(document).on('click', 'button[data-type="cancelBtn"]', function() {
     console.log('예약 취소 버튼 클릭됨');
     const reserveIdx = $(this).data('reserveIdx');
@@ -90,13 +68,12 @@ $(document).on('click', 'button[data-type="cancelBtn"]', function() {
             if (resp.success) {
                 // 큐머니 프로필 즉시 반영
                 if (typeof resp.qmoney !== "undefined") {
-                    $(".qmoney-amount").text(resp.qmoney + " Q"); // 실제 큐머니 표기 셀렉터로 교체
+					const formatted = formatWithComma(resp.qmoney);
+                    $("#qmoneyBalance").text(formatted + "원"); 
                 }
-                // 취소 탭 UI 처리
                 const cancelTabLabel = document.querySelector('.reserve-label[data-tab="cancel"]');
                 showTab('cancel', cancelTabLabel, 'rsrt_03');
-                // 성공 얼럿
-                alert('예약이 정상적으로 취소되고 환불 처리되었습니다.');
+                alert('예약이 취소되었습니다.');
             } else {
                 alert('예약 취소에 실패했습니다.');
             }

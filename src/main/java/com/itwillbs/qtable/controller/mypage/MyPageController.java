@@ -110,6 +110,7 @@ public class MyPageController {
 		// String memberIdx = getMemberIdx(userDetails); 이거 복사해서 넣으면 됨
 	}
 
+	//회원탈퇴 페이지 접속
 	@GetMapping("/member_delete")
 	public String memberDeletePage(@AuthenticationPrincipal QtableUserDetails userDetails) {
 
@@ -119,7 +120,8 @@ public class MyPageController {
 
 		return "mypage/memberDelete"; // HTML 파일 반환
 	}
-
+	
+	// 회원 탈퇴
 	@PostMapping("/member_delete")
 	public ResponseEntity<Map<String, Object>> memberDelete(@AuthenticationPrincipal QtableUserDetails userDetails,
 			@RequestParam(value = "password") String password, @RequestParam(value = "agree") boolean agree) {
@@ -254,27 +256,7 @@ public class MyPageController {
 		return (upcomingList != null && !upcomingList.isEmpty()) ? "mypage/reservationList" : "mypage/mypageMain";
 	}
 
-//	// 예약취소 업데이트
-//	@PostMapping("/reservation_cancel")
-//	@ResponseBody
-//	public Map<String, Object> reservationCancel(@RequestParam("reserveIdx") int reserveIdx,
-//			@AuthenticationPrincipal QtableUserDetails userDetails) {
-//
-//		String memberIdx = getMemberIdx(userDetails);
-//
-//		boolean success = false;
-//		int qmoney = 0;
-//		
-//		try {
-//			// 서비스 호출로 예약 상태 취소로 변경
-//			success = reservationListervice.cancelReservation(memberIdx, reserveIdx);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			success = false;
-//		}
-//		return Collections.singletonMap("success", success);
-//	}
-
+	// 예약취소 
 	@PostMapping("/reservation_cancel")
 	@ResponseBody
 	public Map<String, Object> reservationCancel(
