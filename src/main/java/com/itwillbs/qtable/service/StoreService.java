@@ -68,6 +68,10 @@ public class StoreService {
 	                case "산청군" -> "/img/local/Sancheong.png";
 	                case "군위군" -> "/img/local/Gunwi.png";
 	                case "갈매로" -> "/img/local/Galmae.png";
+	                case "서귀포시" -> "/img/local/Seogwipo.png";
+	                case "철원군" -> "/img/local/Cheorwon.png";
+	                case "금정구" -> "/img/local/Beomeosa.png";
+	                
 	                
 	                
 	                default -> "/img/local/default.png";

@@ -74,6 +74,7 @@ $(document).on('click', '.location', function() {
 	
     params.set('sort', 'score desc');
     params.set('limit', 10);
+	// 세종특별시 같은경우 유일하게 시군구가 없어서 시군구가 시 군 구 로 안끝나면 세종특별시인걸로.. 
 	if (!loc || !/(시|군|구)$/.test($.trim(loc))) {
 	        loc = '세종특별자치시';
 	    }
