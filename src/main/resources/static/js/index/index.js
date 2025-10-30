@@ -65,18 +65,20 @@ window.addEventListener("DOMContentLoaded", function() {
 
 
 $(document).on('click', '.location', function() {
-    const loc = $(this).data('loc');   
-    const code = $(this).data('code');
+    let loc = $(this).data('loc');   
 
-    console.log('클릭한 카드 지역:', loc, 'code:', code);
 
     // URL 쿼리 파라미터 생성
     const params = new URLSearchParams();
-    params.set('sort', 'order by score desc');
+	
+	
+    params.set('sort', 'score desc');
     params.set('limit', 10);
+	if (!loc || !/(시|군|구)$/.test($.trim(loc))) {
+	        loc = '세종특별자치시';
+	    }
     if (loc) params.set('loc', loc);
-    if (code) params.set('code', code);
-
+	
     // search 페이지로 이동
     const targetUrl = `/search?${params.toString()}`;
     window.location.href = targetUrl;
@@ -88,7 +90,7 @@ $(function() {
         const loc = $(this).find('.overlay-text').text().trim();
         const encodedLoc = encodeURIComponent(loc);
 
-        const targetUrl = `http://localhost:8080/search?sort=score+desc&limit=10&query=${encodedLoc}&priceCs=null&reviewCs=null&scoreCs=null`;
+             const targetUrl = `http://localhost:8080/search?sort=score+desc&limit=10&query=${encodedLoc}&loc=${encodedLoc}`
         
         // 이동
         window.location.href = targetUrl;

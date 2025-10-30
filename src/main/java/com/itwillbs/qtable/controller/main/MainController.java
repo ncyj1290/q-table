@@ -26,7 +26,7 @@ public class MainController {
 	private final MemberJoinService memberJoinService;
 
 	@GetMapping("/")
-	public String home(Model model, searchVO searchVO) {
+	public String home(Model model) {
 		List<Store> stores = storeService.getStoresOrderByAvgRating();
 
 		// 1. 스토어 idx 리스트 수집

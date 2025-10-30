@@ -77,15 +77,14 @@
 		</div>
 		<div class="section restaurant-section location-section">
 			<h5 style="display: inline-flex; align-items: center; font-weight: 600; font-size: 18px;">
-			  인기지역
-			  <span style="font-size: 13px; color: #999; margin-left: 6px;">(예약 수 기준)</span>
+				인기지역
+				<span style="font-size: 13px; color: #999; margin-left: 6px;">(예약 수 기준)</span>
 			</h5>
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>
 				<div class="card-list location-list">
 					<div class="card" th:each="region : ${regions}">
-						<div class="location card-image" th:attr="data-loc=${region.sigungu}"
-							data-code="region.regionCode">
+						<div class="location card-image" th:attr="data-loc=${region.sigungu}">
 
 							<!-- 지역 이미지 -->
 							<img th:src="${region.imageUrl}" th:alt="${region.sigungu}">
@@ -97,7 +96,13 @@
 							</div>
 						</div>
 					</div>
-
+					<div th:if="${regions.size() < 10}" th:each="i : ${#numbers.sequence(1, 10 - regions.size())}">
+						<div class="card">
+							<div class="card-image" style="background:#f0f0f0;">
+								<span class="no_image">NO IMAGE</span>
+							</div>
+						</div>
+					</div>
 				</div>
 				<button class="scroll-btn right"></button>
 			</div>

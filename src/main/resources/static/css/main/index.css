@@ -122,12 +122,21 @@ body{
 	pointer-events: none; 
 }
 
+/*.no_image {*/
+/*	position: absolute;*/
+/*	top: 50px;*/
+/*	left: 50px;*/
+/*	color: gray;*/
+/*	font-weight: bold;*/
+/*}*/
 .no_image {
-	position: absolute;
-	top: 50px;
-	left: 50px;
-	color: gray;
-	font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 중앙으로 이동 */
+    color: gray;
+    font-weight: bold;
+    text-align: center;
 }
 
 .card-info {

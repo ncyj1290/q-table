@@ -27,8 +27,9 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 			       COUNT(r.review_idx) AS review_count
 			FROM store s
 			LEFT JOIN review r ON s.store_idx = r.store_idx
-			INNER JOIN subscribe sub ON s.member_idx = sub.member_idx
-			WHERE s.store_status = 'srst_01' AND s.is_accept = true
+			INNER JOIN member m ON s.member_idx = m.member_idx
+			INNER JOIN subscribe sub ON s.member_idx = sub.member_idx AND NOW() BETWEEN sub.subscribe_start AND sub.subscribe_end
+			WHERE s.store_status = 'srst_01' AND s.is_accept = true and m.member_status = 'mstat_01'
 			GROUP BY s.store_idx, s.store_name, s.sido, s.deposit, s.full_address, s.open_time, s.close_time
 			ORDER BY avg_score DESC , review_count DESC
 
@@ -36,12 +37,17 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	List<Object[]> findStoresWithAvgScoreNative();
 
 	@Query(value = """
-		    SELECT s.sigungu AS region,
-		           COUNT(r.reserve_idx) AS reservationCount
-		    FROM reservation r
-		    INNER JOIN store s ON r.store_idx = s.store_idx
-		    GROUP BY s.sigungu
-		    ORDER BY reservationCount DESC
-		""", nativeQuery = true)
-		List<Object[]> findPopularRegionsByReservationCountNative();
+			    SELECT s.sigungu AS region,
+			           COUNT(r.reserve_idx) AS reservationCount
+			    FROM reservation r
+			    INNER JOIN store s ON r.store_idx = s.store_idx
+			    INNER JOIN member m ON s.member_idx = m.member_idx
+			    INNER JOIN subscribe sub ON s.member_idx = sub.member_idx
+			    AND NOW() BETWEEN sub.subscribe_start AND sub.subscribe_end
+				WHERE m.member_status = 'mstat_01'
+			    AND s.store_status = 'srst_01'
+			    GROUP BY s.sigungu
+			    ORDER BY reservationCount DESC
+			""", nativeQuery = true)
+	List<Object[]> findPopularRegionsByReservationCountNative();
 }
