@@ -86,6 +86,16 @@ public class OnSitePaymentService {
 		Member owner = memberRepository.findById(store.getMemberIdx())
 			.orElseThrow(() -> new RuntimeException("매장 소유자 정보를 찾을 수 없습니다."));
 
+		// 예약 정보 확인 (오늘 예약이 있는지 검증)
+		Reservation reservation = reservationRepository
+			.findByMemberIdxAndStoreIdxAndReserveDate(memberIdx, storeIdx, LocalDate.now())
+			.orElseThrow(() -> new RuntimeException("오늘 해당 매장에 대한 예약이 존재하지 않습니다."));
+
+		// 예약 상태가 "예약 완료" 또는 "방문 완료"인지 확인
+		if (!"rsrt_05".equals(reservation.getReserveResult()) && !"rsrt_01".equals(reservation.getReserveResult())) {
+			throw new RuntimeException("결제 가능한 예약 상태가 아닙니다.");
+		}
+
 		// 큐머니 잔액 확인
 		if (customer.getQMoney() < amount) {
 			throw new RuntimeException("큐머니 잔액이 부족합니다.");
@@ -107,12 +117,8 @@ public class OnSitePaymentService {
 				.paymentDate(LocalDateTime.now())
 				.build();
 
-		// 예약 상태 변경
-		Reservation reservation = reservationRepository
-			.findByMemberIdxAndStoreIdxAndReserveDate(memberIdx, store.getStoreIdx(), LocalDate.now())
-			.orElseThrow(() -> new RuntimeException("오늘 예약 정보를 찾을 수 없습니다."));
-
-		reservation.setReserveResult("rsrt_01"); // 방문완료
+		// 예약 상태를 "방문 완료"로 변경
+		reservation.setReserveResult("rsrt_01");
 
 		// 결제 내역 db 저장
 		paymentRepository.save(payment);

@@ -73,8 +73,16 @@ public class OnSitePaymentController {
 
 		Map<String, Object> response = new HashMap<>();
 
-
 		try {
+			// 금액 검증 (금액관련은 서버에서 필수 -> 개발자도구로 해킹가능)
+			if (amount == null || amount <= 0) {
+				throw new RuntimeException("결제 금액은 0원보다 커야 합니다.");
+			}
+
+			if (amount > 1000000) {  // 최대 100만원 제한
+				throw new RuntimeException("결제 금액은 100만원을 초과할 수 없습니다.");
+			}
+
 			Member member = userDetails.getMember();
 
 			// 결제 처리 (고객/매장 qMoney 차감/증가 + 결제 기록)
