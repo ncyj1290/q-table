@@ -46,32 +46,67 @@ function showTab(tabId, element, reserveResult) {
 	});
 }
 
-// 예약취소 업데이트
+//// 예약취소 업데이트
+//$(document).on('click', 'button[data-type="cancelBtn"]', function() {
+//	console.log('예약 취소 버튼 클릭됨');
+//	const reserveIdx = $(this).data('reserveIdx');
+//	if (!reserveIdx) {
+//		alert('예약 ID가 없습니다.');
+//		return;
+//	}
+//	$.ajax({
+//		url: '/reservation_cancel',
+//		type: 'POST',
+//		data: { reserveIdx },
+//		success: function(resp) {
+//			console.log(reserveIdx);
+//			if (resp.success) {
+//				const cancelTabLabel = document.querySelector('.reserve-label[data-tab="cancel"]');
+//				showTab('cancel', cancelTabLabel, 'rsrt_03');
+//			} else {
+//				alert('예약 취소에 실패했습니다.');
+//			}
+//		},
+//		error: function() {
+//			alert('네트워크 오류가 발생했습니다.');
+//		}
+//	});
+//});
+
 $(document).on('click', 'button[data-type="cancelBtn"]', function() {
-	console.log('예약 취소 버튼 클릭됨');
-	const reserveIdx = $(this).data('reserveIdx');
-	if (!reserveIdx) {
-		alert('예약 ID가 없습니다.');
-		return;
-	}
-	$.ajax({
-		url: '/reservation_cancel',
-		type: 'POST',
-		data: { reserveIdx },
-		success: function(resp) {
-			console.log(reserveIdx);
-			if (resp.success) {
-				const cancelTabLabel = document.querySelector('.reserve-label[data-tab="cancel"]');
-				showTab('cancel', cancelTabLabel, 'rsrt_03');
-			} else {
-				alert('예약 취소에 실패했습니다.');
-			}
-		},
-		error: function() {
-			alert('네트워크 오류가 발생했습니다.');
-		}
-	});
+    console.log('예약 취소 버튼 클릭됨');
+    const reserveIdx = $(this).data('reserveIdx');
+    if (!reserveIdx) {
+        alert('예약 ID가 없습니다.');
+        return;
+    }
+    $.ajax({
+        url: '/reservation_cancel',
+        type: 'POST',
+        data: { reserveIdx },
+		dataType: 'json',
+        success: function(resp) {
+            console.log(reserveIdx, resp);
+            if (resp.success) {
+                // 큐머니 프로필 즉시 반영
+                if (typeof resp.qmoney !== "undefined") {
+                    $(".qmoney-amount").text(resp.qmoney + " Q"); // 실제 큐머니 표기 셀렉터로 교체
+                }
+                // 취소 탭 UI 처리
+                const cancelTabLabel = document.querySelector('.reserve-label[data-tab="cancel"]');
+                showTab('cancel', cancelTabLabel, 'rsrt_03');
+                // 성공 얼럿
+                alert('예약이 정상적으로 취소되고 환불 처리되었습니다.');
+            } else {
+                alert('예약 취소에 실패했습니다.');
+            }
+        },
+        error: function() {
+            alert('네트워크 오류가 발생했습니다.');
+        }
+    });
 });
+
 
 // 예약변경 모달을 연 후, 프래그먼트 html이 동적으로 삽입된 이후 실행!
 document.body.addEventListener('click', async (e) => {

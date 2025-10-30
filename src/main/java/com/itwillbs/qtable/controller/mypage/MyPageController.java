@@ -254,30 +254,54 @@ public class MyPageController {
 		return (upcomingList != null && !upcomingList.isEmpty()) ? "mypage/reservationList" : "mypage/mypageMain";
 	}
 
-	// 예약취소 업데이트
+//	// 예약취소 업데이트
+//	@PostMapping("/reservation_cancel")
+//	@ResponseBody
+//	public Map<String, Object> reservationCancel(@RequestParam("reserveIdx") int reserveIdx,
+//			@AuthenticationPrincipal QtableUserDetails userDetails) {
+//
+//		String memberIdx = getMemberIdx(userDetails);
+//
+//		boolean success = false;
+//		int qmoney = 0;
+//		
+//		try {
+//			// 서비스 호출로 예약 상태 취소로 변경
+//			success = reservationListervice.cancelReservation(memberIdx, reserveIdx);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			success = false;
+//		}
+//		return Collections.singletonMap("success", success);
+//	}
+
 	@PostMapping("/reservation_cancel")
 	@ResponseBody
-	public Map<String, Object> reservationCancel(@RequestParam("reserveIdx") int reserveIdx,
-			@AuthenticationPrincipal QtableUserDetails userDetails) {
+	public Map<String, Object> reservationCancel(
+	    @RequestParam("reserveIdx") int reserveIdx,
+	    @AuthenticationPrincipal QtableUserDetails userDetails) {
 
-		String memberIdx = getMemberIdx(userDetails);
+	    String memberIdx = getMemberIdx(userDetails);
+	    boolean success = reservationListervice.cancelReservation(memberIdx, reserveIdx); // 예외 안 던진다고 가정
 
-		boolean success = false;
-		try {
-			// 서비스 호출로 예약 상태 취소로 변경
-			success = reservationListervice.cancelReservation(memberIdx, reserveIdx);
-		} catch (Exception e) {
-			e.printStackTrace();
-			success = false;
-		}
-		return Collections.singletonMap("success", success);
+	    int qmoney = 0;
+	    if (success) {
+	        qmoney = reservationListervice.getQmoney(memberIdx); // 환불 성공 시 최신 큐머니 조회
+	    }
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("success", success);
+	    result.put("qmoney", qmoney);
+	    return result;
 	}
 
 	// 예약변경 모달
 	@GetMapping("reserv_change")
 	public String reservChange(@AuthenticationPrincipal QtableUserDetails userDetails,
-			@RequestParam("store_idx") Integer storeIdx, @RequestParam("people") Integer people,
-			@RequestParam("reserve_time") String reserveTime, Model model) {
+							   @RequestParam("store_idx") Integer storeIdx, 
+							   @RequestParam("people") Integer people,
+							   @RequestParam("reserve_time") String reserveTime, 
+							   Model model) {
 		// 매장 기본 정보 조회
 		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
 		List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);

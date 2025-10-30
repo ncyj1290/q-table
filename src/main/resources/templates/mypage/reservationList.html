@@ -62,7 +62,8 @@
 							<span class="date" th:text="${item.store_content}"></span></span>
 							<div class="reservation-buttons">
 								<button class="negative-button" style="margin-right: 10px;" data-type="cancelBtn"
-									th:data-reserve-idx="${item['reserve_idx']}">예약 취소</button>
+									th:data-reserve-idx="${item['reserve_idx']}"
+									th:data-reference-idx="5001">예약 취소</button>
 								<button class="positive-button" data-type="changeBtn"
 									th:data-store-idx="${item.store_idx}"
 									th:data-reserve-idx="${item.reserve_idx}"

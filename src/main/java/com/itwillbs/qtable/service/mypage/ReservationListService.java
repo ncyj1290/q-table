@@ -21,7 +21,7 @@ public class ReservationListService {
 
 	private final ReservationListMapper reservationListMapper;
 
-	/* 방문예정 예약 리스트 조회 */
+	// 방문예정 예약 리스트 조회
 	public List<Map<String, Object>> getUpcomingList(String memberIdx, String reserveResult) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("member_idx", memberIdx);
@@ -30,56 +30,48 @@ public class ReservationListService {
 		return result;
 	}
 
-//	public boolean cancelReservation(String memberIdx, int  reserveIdx) {
-//	    // 예약 상태 취소로 변경 쿼리 수행 예시
-//	    int updateCount = reservationListMapper.updateReservationStatus(reserveIdx, memberIdx, "rsrt_03");
-//	    return updateCount > 0;
-//	}
-
+	// 예약취소
 	@Transactional
 	public boolean cancelReservation(String memberIdx, int reserveIdx) {
-		// 1. 예약 상태를 취소 변경
+		// 예약 상태를 취소 변경
 		int updateCount = reservationListMapper.updateReservationStatus(reserveIdx, memberIdx, "rsrt_03");
 		if (updateCount == 0)
-			return false; // 예약정보가 없거나 실패 시 종료
+			return false; 
 
-		// 2. 취소한 예약의 결제정보 한 건 조회 (예: reference_idx 기반)
-		Map<String, Object> payment = reservationListMapper.findPaymentByMemberIdx(memberIdx);
-		System.out.println("payment = " + payment);
-		// 3. 결제정보가 있고 Q머니 결제라면
+		// 취소한 예약의 결제정보 한 건 조회
+		Map<String, Object> payment = reservationListMapper.findPaymentByMemberIdx(reserveIdx, memberIdx);
+		
 		if (payment != null && "pyus_02".equals(payment.get("pay_type"))) {
 			Object amountObj = payment.get("payment_amount");
 			int amount = (amountObj instanceof Number) ? ((Number) amountObj).intValue()
 					: Integer.parseInt(String.valueOf(amountObj));
 
-			// 4. member 테이블 qmoney 칼럼에 결제금액 환불
+			// 결제금액 환불
 			Map<String, Object> moneyParams = new HashMap<>();
-			moneyParams.put("memberIdx", memberIdx);
+			moneyParams.put("reserve_idx", reserveIdx);
+			moneyParams.put("member_idx", memberIdx);
 			moneyParams.put("amount", amount);
-			reservationListMapper.refundQmoney(moneyParams);
-			System.out.println("refundQmoney 파라미터: " + moneyParams);
-			int refundCount = reservationListMapper.refundQmoney(moneyParams);
-			if (refundCount == 0) {
-	            System.out.println("Qmoney 환불 업데이트 실패");
+			
+			if (reservationListMapper.refundQmoney(moneyParams) == 0) {
 	            return false;
 	        }
-	        System.out.println("환불 반영 결과: " + moneyParams);
 
-			// 5. 결제 row의 pay_type을 환불 상태(pyus_04)로 변경
+			// 환불 상태 변경
 			Map<String, Object> updateTypeParams = new HashMap<>();
-			updateTypeParams.put("paymentIdx", payment.get("payment_idx"));
-			updateTypeParams.put("payType", "pyus_04");
-			reservationListMapper.updatePaymentType(updateTypeParams);
-			 int updatePayCount = reservationListMapper.updatePaymentType(updateTypeParams);
-		        if (updatePayCount == 0) {
-		            System.out.println("결제 상태 업데이트 실패");
-		            return false;
-		        }
+			updateTypeParams.put("payment_idx", payment.get("payment_idx"));
+			updateTypeParams.put("pay_type", "pyus_04");
 
+	        if (reservationListMapper.updatePaymentType(updateTypeParams) == 0) {
+	            return false;
+	        }
 		}
 		return true; 
 	}
-
+	
+	public int getQmoney(String memberIdx) {
+	    Integer qmoney = reservationListMapper.selectQmoneyByMemberIdx(memberIdx);
+	    return qmoney != null ? qmoney : 0;
+	}
 	// pick 랜덤 값 받기
 	public List<Map<String, Object>> getRandomStores() {
 		return reservationListMapper.selectRandomStores();
