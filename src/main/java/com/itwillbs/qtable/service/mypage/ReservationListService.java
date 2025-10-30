@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.qtable.mapper.mypage.ReservationListMapper;
+import com.itwillbs.qtable.vo.PageResponse;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class ReservationListService {
 	private final ReservationListMapper reservationListMapper;
 
 	// 방문예정 예약 리스트 조회
-	public List<Map<String, Object>> getUpcomingList(String memberIdx, String reserveResult) {
+	public List<Map<String, Object>> getUpcomingList(String memberIdx, String reserveResult
+															) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("member_idx", memberIdx);
 		params.put("reserve_result", reserveResult);
@@ -60,6 +62,7 @@ public class ReservationListService {
 			Map<String, Object> updateTypeParams = new HashMap<>();
 			updateTypeParams.put("payment_idx", payment.get("payment_idx"));
 			updateTypeParams.put("pay_type", "pyus_04");
+			updateTypeParams.put("payment_date", LocalDateTime.now());
 
 	        if (reservationListMapper.updatePaymentType(updateTypeParams) == 0) {
 	            return false;
@@ -68,6 +71,7 @@ public class ReservationListService {
 		return true; 
 	}
 	
+	// 큐머니 반영
 	public int getQmoney(String memberIdx) {
 	    Integer qmoney = reservationListMapper.selectQmoneyByMemberIdx(memberIdx);
 	    return qmoney != null ? qmoney : 0;
@@ -77,4 +81,23 @@ public class ReservationListService {
 		return reservationListMapper.selectRandomStores();
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

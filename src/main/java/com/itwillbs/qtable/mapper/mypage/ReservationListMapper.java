@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ReservationListMapper {
 
-	// 예약현황 조회
+	// 예약현황 조회 & 페이징
 	List<Map<String, Object>> getMyReservationList(Map<String, Object> params);
 
 	//예약상태 업데이트
@@ -22,16 +22,21 @@ public interface ReservationListMapper {
 	Map<String, Object> findPaymentByMemberIdx(@Param("reserve_idx") int reserve_idx,
 											   @Param("member_idx") String member_idx);
 
-	//멤버테이블 Q머니 환불
+	// 멤버테이블 Q머니 환불
 	int refundQmoney(Map<String, Object> params);
 	
-	//결제 상태 업데이트
+	// 결제 상태 업데이트
 	int updatePaymentType(Map<String, Object> params);
 
+	// 큐머니 반영
 	int selectQmoneyByMemberIdx(@Param("member_idx") String member_idx);
 
 	//pick 랜덤 값 받기
 	List<Map<String, Object>> selectRandomStores();
+	
+	
+
+
 
 
 

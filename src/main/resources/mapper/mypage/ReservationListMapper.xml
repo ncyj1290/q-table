@@ -52,7 +52,6 @@
 	   WHERE   member_idx = #{member_idx}
 	     AND   reference_idx = #{reserve_idx}
 	</select>
-
 	
 	<!--멤버 Q머니 환불-->
 	<update id="refundQmoney" parameterType="map">
@@ -64,10 +63,12 @@
 	<!--결제 상태 업데이트-->
 	<update id="updatePaymentType" parameterType="map">
 	  UPDATE payment
-  		 SET pay_type = #{pay_type}
+  		 SET pay_type = #{pay_type},
+  		 	 payment_date = #{payment_date}
  	   WHERE payment_idx = #{payment_idx}
 	</update>
 	
+	<!--qmoney-->
 	<select id="selectQmoneyByMemberIdx">
 	    SELECT q_money 
 	      FROM member 
@@ -81,6 +82,7 @@
 	  LIMIT 10
 	</select>
 	
-
+	
+	
 	
 </mapper>

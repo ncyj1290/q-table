@@ -73,11 +73,14 @@ document.addEventListener('click', function(e) {
   }
 });
 
-
+function formatWithComma(amount) {
+    return Number(amount).toLocaleString('ko-KR');
+}
 // 금액 불러오기
 $(document).ready(function() {
     $.getJSON('/mypage/qmoneyBalance', function(data) {
-        const formattedBalance = Number(data.balance).toLocaleString('ko-KR'); // 천 단위 쉼표
+//        const formattedBalance = Number(data.balance).toLocaleString('ko-KR'); // 천 단위 쉼표
+		const formattedBalance = formatWithComma(data.balance);
         $('#qmoneyBalance').text(formattedBalance + '원');
     });
 
