@@ -152,7 +152,7 @@ $(function() {
 								<img src="${review.profile_img_url}" alt="프로필">
 							</div>
 							<div>
-								<div class="reviewer-name">${review.member_name}</div>
+								<div class="reviewer-name">${review.nickname}</div>
 								<div class="star-rating">
 									<div class="stars-background">★★★★★</div>
 									<div class="stars-filled" style="width: ${starWidth}%;">★★★★★</div>

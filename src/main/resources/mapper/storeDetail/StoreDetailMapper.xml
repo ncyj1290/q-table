@@ -202,6 +202,7 @@
 		       r.review_idx
 		     , r.member_idx
 		     , COALESCE(m.member_name, '탈퇴한 회원') AS member_name
+		     , COALESCE(m.nickname, '탈퇴한 회원') AS nickname
 		     , COALESCE(m.profile_img_url, '/img/profile_default.jpg') AS profile_img_url
 		     , r.store_idx
 		     , DATE(r.create_at) AS create_at
