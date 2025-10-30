@@ -34,12 +34,12 @@ public class KakaoPayController {
 	// 결제 취소(환불) 요청
 	@PostMapping(value = "/cancelQmoneyPayment", produces = "application/json")
 	public KakaoCancelResponse cancelQmoneyPayment(@RequestBody Map<String, Object> request) {
-		String tid = (String) request.get("tid");
-		int cancelAmount = (int) request.get("cancelAmount"); // 환불 금액
-		int cancelTaxFreeAmount = (int) request.get("cancelTaxFreeAmount"); // 비과세 금액
+		String tid = ((String) request.get("tid")).trim();
+		int cancelAmount = ((Number) request.get("cancelAmount")).intValue(); // 환불 금액
+		int cancelTaxFreeAmount = ((Number) request.get("cancelTaxFreeAmount")).intValue();// 비과세 금액
 
-		// KakaoPayService의 환불 메서드 호출
 		return kakaoPayService.cancelPayment(tid, cancelAmount, cancelTaxFreeAmount);
 	}
+
 
 }

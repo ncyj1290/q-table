@@ -52,15 +52,15 @@
 
 	<section class="recommend-section">
 		<div sec:authorize="isAuthenticated()">
-			<h3 th:text="${#authentication.principal.member.memberName} + '님, 이 가게는 어때요?'"></h3>
+			<h3 th:text="${#authentication.principal.member.nickName} + '님, 이 가게는 어때요?'"></h3>
 		</div>
 
-		<div th:if="${#lists.isEmpty(upcomingList)}">
+		<div th:if="${#lists.isEmpty(recommendList)}">
 			<p>추천 가게가 없습니다.</p>
 		</div>
 
-		<div class="recommend-cards" th:if="${!#lists.isEmpty(upcomingList)}">
-			<div class="card" th:each="store : ${upcomingList}">
+		<div class="recommend-cards" th:if="${!#lists.isEmpty(recommendList)}">
+			<div class="card" th:each="store : ${recommendList}">
 				<img th:src="${store['store_img']}" class="store-img" />
 				<p class="name" th:text="${store['store_name']}"></p>
 				<p class="rating" th:text="'★ ' + ${store['avgScore']}"></p>

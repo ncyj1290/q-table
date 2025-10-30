@@ -93,6 +93,8 @@
 	    WHERE member_idx = #{memberIdx}
 	</update>
 
+
+	
 	
 	
 	

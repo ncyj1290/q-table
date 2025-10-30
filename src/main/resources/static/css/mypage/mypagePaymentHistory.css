@@ -10,7 +10,7 @@
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.payment-label{
+.payment-label {
 	color: var(--color-font);
 	font-size: 20px;
 	margin-right: 5px;
@@ -19,9 +19,9 @@
 }
 
 .spoon-icon {
-  width: 40px;
-  height: 40px;
-  vertical-align: middle;
+	width: 40px;
+	height: 40px;
+	vertical-align: middle;
 }
 
 .store-img {
@@ -86,9 +86,9 @@
 }
 
 .price-row {
-  display: flex;
-  gap: 8px; 
-  align-items: baseline;
+	display: flex;
+	gap: 8px;
+	align-items: baseline;
 }
 
 .price-old {
@@ -101,4 +101,19 @@
 	font-weight: bold;
 	font-size: 20px;
 	color: var(--color-font);
+}
+
+/*환불 css*/
+.payment-item.refund-item .payment-label {
+	color: #ed3c3c;
+	text-decoration: line-through;
+}
+
+.payment-item.refund-item .price-new {
+	color: #ed3c3c;
+	text-decoration: line-through;
+}
+
+.payment-item.refund-item .price-label {
+	color: #ed3c3c;
 }

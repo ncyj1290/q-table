@@ -121,8 +121,8 @@ public class KakaoPayService {
 		pay.setPay_status("pyst_01");  // 상태 코드
 		pay.setPay_way("pywy_02 ");
 		pay.setPay_type("pyus_01");  // 결제 유형
-		pay.setPay_reference(approveResponse.getTid());
-		pay.setExternal_transaction_idx(approveResponse.getAid());
+//		pay.setPay_reference();
+		pay.setExternal_transaction_idx(approveResponse.getTid());
 		pay.setItem_name(approveResponse.getItem_name());
 
         // DB 저장

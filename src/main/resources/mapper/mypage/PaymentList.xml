@@ -12,6 +12,7 @@
 		  p.payment_amount,
 		  p.payment_date,
 		  p.pay_way,
+		  p.pay_type,
 		  s.store_idx,
 		  s.store_name,
 		  s.store_content,
@@ -30,7 +31,7 @@
 		LEFT JOIN store s 
 		  ON rv.store_idx = s.store_idx
 		WHERE p.member_idx = #{member_idx}
-		  AND p.pay_status = 'pyst_01'
+		  AND (p.pay_status = 'pyst_01' OR p.pay_type = 'pyus_04')
 		ORDER BY p.payment_date DESC
 	</select>
 

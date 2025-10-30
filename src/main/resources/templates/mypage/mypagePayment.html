@@ -24,14 +24,14 @@
 			<!-- 결제 리스트 -->
 			<div class="payment-list">
 				<!-- 결제 항목 반복 -->
-				<div class="payment-item" th:each="item : ${upcomingList}">
+				<div class="payment-item" th:classappend="${item.pay_type == 'pyus_04'} ? ' refund-item' : ''" th:each="item : ${upcomingList}">
 
 					<!-- 가게 이미지 -->
 					<img th:src="${item['store_img'] != null ? item['store_img'] : '/img/Q_money.png'}" class="store-img" />
 
 
 					<!-- 결제 정보 -->
-					<div class="payment-info">
+					<div class="payment-info" >
 						<div class="store-title">
 							<div class="name-star-group">
 								<span th:text="${item != null and item['store_name'] != null ? item['store_name'] : 'Q-money 충전'}" class="payment-label"></span>
@@ -57,9 +57,12 @@
 					<div class="payment-price">
 						<span class="price-label">결제 금액</span>
 						<div class="price-row">
-							<button class="negative-button refund-button"
-							        th:data-tid="${item['tid']}" th:data-amount="${item['payment_amount']}">환불하기</button>
-							<!--                    <span class="price-old">20,000원</span>-->
+							<button th:if="${item['pay_type']} == 'pyus_01'" 
+							        class="negative-button refund-button"
+							        th:data-tid="${item['external_transaction_idx']}" 
+							        th:data-amount="${item['payment_amount']}">
+							  환불하기
+							</button>
 							<span class="price-new" th:text="${item['payment_amount'] != null ? item['payment_amount'] + '원' : '가게 정보 없음'}"></span>
 						</div>
 					</div>

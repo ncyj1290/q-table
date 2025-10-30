@@ -492,6 +492,7 @@ public class MyPageController {
 		return passwordService.getFoodPrefs(memberIdx);
 	}
 
+	// pick
 	@GetMapping("/mypage_pick")
 	public String mypageMain(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
 			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
@@ -502,7 +503,7 @@ public class MyPageController {
 
 		// 랜덤 추천 가게 리스트 가져오기
 		List<Map<String, Object>> randomStoreList = reservationListervice.getRandomStores();
-		model.addAttribute("upcomingList", randomStoreList);
+		model.addAttribute("randomStoreList", randomStoreList);
 
 		return "mypage_pick";
 	}

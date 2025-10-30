@@ -35,6 +35,7 @@
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+	max-width: 600px; /* or 원하는 값 */
 }
 
 .store-title {
@@ -72,6 +73,9 @@
 	margin-top: 8px;
 	font-size: 14px;
 	color: var(--color-placeholder);
+	white-space: normal; /* 줄바꿈 가능 */
+	word-break: keep-all; /* 단어가 길어도 줄 바꿈 처리 */
+	overflow-wrap: break-word; /* 최신 브라우저 호환성 */
 }
 
 .date {
