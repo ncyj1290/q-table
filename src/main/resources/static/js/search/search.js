@@ -50,6 +50,8 @@ $(function() {
 		const params = new URLSearchParams(); // 파라미터 셋팅을 위한 인스턴스 생성 
 		// 정렬 설정 값 셋팅
 		const filter = $('#filter').val() == '' ? null :  $('#filter').val();
+		searchState.sort = filter; 
+		searchState.query = $('#query').val(); // 사용자 입력값 가져오기 
 		const values = Object.values(searchState); // 유효성 판별을 위한 값 추출 
 		
 		//유효성 판별 
@@ -68,8 +70,6 @@ $(function() {
 		}
 		
 		//검색조건 있으면 아래 로직 실행 
-		searchState.query = $('#query').val(); // 사용자 입력값 가져오기 
-		searchState.sort = filter; 
 	    if (searchState.query) params.set('query', $('#query').val());
 	    if (searchState.personCnt) params.set('personCnt', searchState.personCnt);
 	    if (searchState.day) params.set('day', searchState.day);
