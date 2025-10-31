@@ -23,5 +23,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		// /upload/** 요청을 uploadPath 폴더로 매핑
 		registry.addResourceHandler("/upload/**")
 				.addResourceLocations("file:///" + absolutePath + "/");
+
+		// 정적 리소스 경로 명시적 설정 (WAR 배포 시 필요)
+		registry.addResourceHandler("/css/**")
+				.addResourceLocations("classpath:/static/css/");
+
+		registry.addResourceHandler("/js/**")
+				.addResourceLocations("classpath:/static/js/");
+
+		registry.addResourceHandler("/img/**")
+				.addResourceLocations("classpath:/static/img/");
 	}
 }
