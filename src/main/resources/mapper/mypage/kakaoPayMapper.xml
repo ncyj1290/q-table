@@ -89,7 +89,7 @@
 	<!-- Q-money 차감 -->
 	<update id="decreaseQmoney">
 	    UPDATE member
-	    SET qmoney = qmoney - #{amount}
+	    SET q_money = q_money - #{amount}
 	    WHERE member_idx = #{memberIdx}
 	</update>
 
