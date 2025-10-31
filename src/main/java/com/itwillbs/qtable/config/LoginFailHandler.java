@@ -34,10 +34,11 @@ public class LoginFailHandler extends SimpleUrlAuthenticationFailureHandler{
 		// 에러메시지 선언 
 		String msg;
 		
-		// 에러 타입별 메시지 달리 설정하기 
+		// 에러 타입별 메시지 달리 설정하기
 		if(exception instanceof BadCredentialsException) {
 			msg = "아이디 또는 비밀번호가 틀립니다";
-		} else if (exception instanceof AccountRestoreRequiredException) {
+		} else if (exception instanceof AccountRestoreRequiredException
+				|| (exception.getCause() instanceof AccountRestoreRequiredException)) {
 			msg = "탈퇴한 이력이 있습니다. 다시 복구하시겠습니까?";
 		} else {
 			msg = "로그인에 실패하였습니다. 관리자에게 문의하세요";

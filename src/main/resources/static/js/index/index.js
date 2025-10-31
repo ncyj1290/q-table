@@ -91,7 +91,7 @@ $(function() {
         const loc = $(this).find('.overlay-text').text().trim();
         const encodedLoc = encodeURIComponent(loc);
 
-             const targetUrl = `http://localhost:8080/search?sort=score+desc&limit=10&query=${encodedLoc}&loc=${encodedLoc}`
+             const targetUrl = `/search?sort=score+desc&limit=10&query=${encodedLoc}&loc=${encodedLoc}`
         
         // 이동
         window.location.href = targetUrl;

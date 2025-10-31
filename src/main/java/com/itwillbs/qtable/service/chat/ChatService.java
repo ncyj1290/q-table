@@ -114,7 +114,6 @@ public class ChatService {
 	public void ensureAdminChatRoomExists(Integer memberIdx) {
 		
 		Integer result = chatMapper.getAdminChatRoomByMember(memberIdx);
-		log.info(result.toString());
 		if (result == 0) {
 			Map<String, Object> params = new HashMap<>();
 			params.put("roomType", "room_02");

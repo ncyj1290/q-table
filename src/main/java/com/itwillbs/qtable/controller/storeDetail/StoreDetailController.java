@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,9 @@ public class StoreDetailController {
 
 	private final StoreDetailService storeService;
 	private final FileUploadService fileUploadService;
+
+	@Value("${kakao.map.api-key}")
+	private String kakaoMapApiKey;
 	
 	// 식당 상세 페이지 이동
 	@GetMapping("store_detail_main")
@@ -38,6 +42,9 @@ public class StoreDetailController {
 			@AuthenticationPrincipal QtableUserDetails userDetails,
 			@RequestParam("store_idx") Integer storeIdx,
 			Model model) {
+
+		// Kakao Map API 키 전달
+		model.addAttribute("kakaoMapApiKey", kakaoMapApiKey);
 
 		// 매장 기본 정보 조회
 		Map<String, Object> storeData = storeService.getStoreInfo(storeIdx);
@@ -79,15 +86,6 @@ public class StoreDetailController {
 		List<String> reservationTimeData = storeService.getAvailableReservationTimes(storeIdx);
 		model.addAttribute("availableTimes", reservationTimeData);
 		
-//		log.info("storeData: " + storeData.toString()); // 식당 정보 섹션
-//		log.info("categories: " + storeData.get("categories")); // 음식카테고리
-//		log.info("atmosphere: " + storeData.get("atmosphere")); // 분위기
-//		log.info("amenities: " + storeData.get("amenities")); // 편의시설
-//		log.info("menuData: " + menuData.toString()); // 메뉴 섹션
-//		log.info("review: " + reviewData.toString()); // 리뷰 섹션
-//		log.info("scoreDistribution: " + scoreDistribution.toString()); // 리뷰 별점 분포
-//		log.info("availableTimes: " + reservationTimeData.toString()); // 예약 가능 시간
-
 		return "storeDetail/storeDetailMain";
 	}
 
@@ -163,7 +161,6 @@ public class StoreDetailController {
 			reviewData.put("score", score);
 			reviewData.put("content", content);
 			reviewData.put("imagePaths", imagePaths);
-			log.info(imagePaths.toString());
 
 			storeService.insertReview(reviewData);
 
