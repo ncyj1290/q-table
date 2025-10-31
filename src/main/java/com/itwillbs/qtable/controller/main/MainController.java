@@ -17,9 +17,11 @@ import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.search.searchVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
 @Controller
 @RequiredArgsConstructor
+@Log
 public class MainController {
 	private final StoreService storeService;
 	private final ImageService imageService;

@@ -23,6 +23,7 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 			       s.full_address,
 			       s.open_time,
 			       s.close_time,
+			       s.is_24hour,
 			       COALESCE(AVG(r.score),0) AS avg_score,
 			       COUNT(r.review_idx) AS review_count
 			FROM store s
@@ -30,14 +31,17 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 			INNER JOIN member m ON s.member_idx = m.member_idx
 			INNER JOIN subscribe sub ON s.member_idx = sub.member_idx AND NOW() BETWEEN sub.subscribe_start AND sub.subscribe_end
 			WHERE s.store_status = 'srst_01' AND s.is_accept = true and m.member_status = 'mstat_01'
-			GROUP BY s.store_idx, s.store_name, s.sido, s.deposit, s.full_address, s.open_time, s.close_time
+			GROUP BY s.store_idx, s.store_name, s.sido, s.deposit, s.full_address, s.open_time, s.close_time,s.is_24hour
 			ORDER BY avg_score DESC , review_count DESC
 
 			""", nativeQuery = true)
 	List<Object[]> findStoresWithAvgScoreNative();
 
 	@Query(value = """
-			    SELECT s.sigungu AS region,
+			    select CASE 
+			         WHEN RIGHT(s.sigungu, 1) IN ('시', '군', '구') THEN s.sigungu
+			         ELSE '세종특별시'
+			     END AS region,
 			           COUNT(r.reserve_idx) AS reservationCount
 			    FROM reservation r
 			    INNER JOIN store s ON r.store_idx = s.store_idx

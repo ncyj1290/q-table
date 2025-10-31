@@ -45,15 +45,18 @@
 								<p th:text="'위치: ' + ${stores[i].fullAddress}">위치</p>
 								<p>
 									영업시간:
-									<span th:each="timeCode : ${timeCodes}"
-										th:if="${timeCode.code == stores[i].openTime}"
-										th:text="${timeCode.code_label}">시작시간</span>
-									<span th:if="${stores[i].openTime == null}">정보 없음</span>
-									~
-									<span th:each="timeCode : ${timeCodes}"
-										th:if="${timeCode.code == stores[i].closeTime}"
-										th:text="${timeCode.code_label}">종료시간</span>
-									<span th:if="${stores[i].closeTime == null}">정보 없음</span>
+									<!-- 24시간인경우-->
+									<span th:if="${stores[i].is24Hour}">24시간 영업</span>
+									<!--24시간이 아닌 경우 -->
+									<span th:unless="${stores[i].is24Hour}">
+										<span th:each="timeCode : ${timeCodes}"
+											th:if="${timeCode.code == stores[i].openTime}"
+											th:text="${timeCode.code_label}">시작시간</span>
+										~
+										<span th:each="timeCode : ${timeCodes}"
+											th:if="${timeCode.code == stores[i].closeTime}"
+											th:text="${timeCode.code_label}">종료시간</span>
+									</span>
 								</p>
 							</div>
 						</a>
@@ -136,15 +139,17 @@
 								<p th:text="'위치: ' + ${seoulStores[i].fullAddress}">위치</p>
 								<p>
 									영업시간:
-									<span th:each="timeCode : ${timeCodes}"
-										th:if="${timeCode.code == seoulStores[i].openTime}"
-										th:text="${timeCode.code_label}">시작시간</span>
-									<span th:if="${seoulStores[i].openTime == null}">정보 없음</span>
-									~
-									<span th:each="timeCode : ${timeCodes}"
-										th:if="${timeCode.code == seoulStores[i].closeTime}"
-										th:text="${timeCode.code_label}">종료시간</span>
-									<span th:if="${seoulStores[i].closeTime == null}">정보 없음</span>
+									<span th:if="${seoulStores[i].is24Hour}">24시간 영업</span>
+									<!--24시간이 아닌 경우 -->
+									<span th:unless="${seoulStores[i].is24Hour}">
+										<span th:each="timeCode : ${timeCodes}"
+											th:if="${timeCode.code == seoulStores[i].openTime}"
+											th:text="${timeCode.code_label}">시작시간</span>
+										~
+										<span th:each="timeCode : ${timeCodes}"
+											th:if="${timeCode.code == seoulStores[i].closeTime}"
+											th:text="${timeCode.code_label}">종료시간</span>
+									</span>
 								</p>
 							</div>
 						</a>
@@ -196,15 +201,17 @@
 								<p th:text="'위치: ' + ${busanStores[i].fullAddress}">위치</p>
 								<p>
 									영업시간:
-									<span th:each="timeCode : ${timeCodes}"
-										th:if="${timeCode.code == busanStores[i].openTime}"
-										th:text="${timeCode.code_label}">시작시간</span>
-									<span th:if="${busanStores[i].openTime == null}">정보 없음</span>
-									~
-									<span th:each="timeCode : ${timeCodes}"
-										th:if="${timeCode.code == busanStores[i].closeTime}"
-										th:text="${timeCode.code_label}">종료시간</span>
-									<span th:if="${busanStores[i].closeTime == null}">정보 없음</span>
+									<span th:if="${busanStores[i].is24Hour}">24시간 영업</span>
+									<!--24시간이 아닌 경우 -->
+									<span th:unless="${busanStores[i].is24Hour}">
+										<span th:each="timeCode : ${timeCodes}"
+											th:if="${timeCode.code == busanStores[i].openTime}"
+											th:text="${timeCode.code_label}">시작시간</span>
+										~
+										<span th:each="timeCode : ${timeCodes}"
+											th:if="${timeCode.code == busanStores[i].closeTime}"
+											th:text="${timeCode.code_label}">종료시간</span>
+									</span>
 								</p>
 							</div>
 						</a>

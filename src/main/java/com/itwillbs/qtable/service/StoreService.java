@@ -33,8 +33,9 @@ public class StoreService {
 	            store.setFullAddress((String)obj[4]);
 	            store.setOpenTime((String)obj[5]);
 	            store.setCloseTime((String)obj[6]);
-	            store.setAvgScore(((Number)obj[7]).doubleValue()); // @Transient 필드
-	            store.setReviewCount(((Number)obj[8]).intValue());
+	            store.set24Hour((boolean)obj[7]);
+	            store.setAvgScore(((Number)obj[8]).doubleValue()); // @Transient 필드
+	            store.setReviewCount(((Number)obj[9]).intValue());
 	            return store;
 	        }).collect(Collectors.toList());
 	    }

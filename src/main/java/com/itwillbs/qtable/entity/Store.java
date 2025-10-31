@@ -71,7 +71,7 @@ public class Store {
     private boolean isAccept;
 
     @Column(name = "is_24hour")
-    private boolean is24hour;
+    private boolean is24Hour;
 
     @Column(name = "bank_code", length = 30)
     private String bankCode;
