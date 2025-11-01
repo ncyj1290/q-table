@@ -4,8 +4,8 @@
 <head>
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageNav.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
-	<link rel="stylesheet" th:href="@{/css/mypage/mypageScrap.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/mypageScrap.css}">
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
 	<script th:src="@{/js/mypage/pick.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_main.js}" defer></script>
@@ -14,7 +14,7 @@
 	<title>scrap</title>
 </head>
 
-<body>
+<body class="scrap-mode">
 	<div layout:fragment="Content">
 		<div th:replace="~{mypage/profile :: mainnav}"></div>
 		<div th:replace="~{mypage/mypageNav :: mainnav}"></div>
@@ -23,12 +23,6 @@
 			<img src="/img/spoon.png" class="spoon-icon" alt="스푼 아이콘" />
 			<span class="scrap-label">스크랩</span>
 		</div>
-
-<!--		<div class="search-box"-->
-<!--			style="align-items: center; justify-content: center; display: flex;	 margin: 0 auto; margin-bottom: 10px; ">-->
-<!--			<input type="text" placeholder="스크랩한 가게를 검색해보세요">-->
-<!--		</div>-->
-
 
 		<div class="scrap-list">
 			<div th:each="item : ${upcomingList}" class="scrap-item" >

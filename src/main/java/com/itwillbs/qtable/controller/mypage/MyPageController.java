@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -473,21 +474,11 @@ public class MyPageController {
 		int memberIdx = qtable.getMember().getMemberIdx();
 		return passwordService.getFoodPrefs(memberIdx);
 	}
-
-	// pick
-	@GetMapping("/mypage_pick")
-	public String mypageMain(@AuthenticationPrincipal QtableUserDetails userDetails, Model model,
-			@RequestParam(value = "reserveResult", required = false) String reserveResult) {
-		String memberIdx = getMemberIdx(userDetails);
-
-//		List<Map<String, Object>> upcomingList = reservationListervice.getUpcomingList(memberIdx, reserveResult);
-//		model.addAttribute("upcomingList", upcomingList);
-
-		// 랜덤 추천 가게 리스트 가져오기
-		List<Map<String, Object>> randomStoreList = reservationListervice.getRandomStores();
-		model.addAttribute("randomStoreList", randomStoreList);
-
-		return "mypage_pick";
+	
+	// 하단 광고
+	@ModelAttribute("recommendList")
+	public List<Map<String, Object>> getRecommendList() {
+		return reservationListervice.getRandomStores();
 	}
 
 	// 결제 내역

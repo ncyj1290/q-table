@@ -76,6 +76,7 @@ public class ReservationListService {
 	    Integer qmoney = reservationListMapper.selectQmoneyByMemberIdx(memberIdx);
 	    return qmoney != null ? qmoney : 0;
 	}
+	
 	// pick 랜덤 값 받기
 	public List<Map<String, Object>> getRandomStores() {
 		return reservationListMapper.selectRandomStores();

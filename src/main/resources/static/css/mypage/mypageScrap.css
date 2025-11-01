@@ -91,3 +91,12 @@
 	font-size: 14px;
 	color: var(--color-font);
 }
+
+.scrap-mode .card .rating {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.scrap-mode .card .name {
+  margin-bottom: 0 !important;
+}
