@@ -48,6 +48,8 @@ function showTab(tabId, element, reserveResult) {
 		}
 	});
 }
+
+//예약취소
 function formatWithComma(amount) {
     return Number(amount).toLocaleString('ko-KR');
 }

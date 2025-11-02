@@ -97,8 +97,7 @@
 	max-width: 1400px;
 	margin: 0 auto;
 	box-sizing: border-box;
-	margin: 0 auto;
-
+	height: 100px;
 	z-index: 20;
 }
 
@@ -114,7 +113,7 @@
 }
 
 .header img {
-	width: 150px;
+	width: 160px;
 	/* 원하는 너비로 지정 */
 	height: auto;
 	object-fit: contain;
@@ -157,7 +156,7 @@
 	border: 2px solid var(--color-focus);
 	border-radius: 25px;
 	padding: 5px 16px;
-	margin: 0 20px;
+	margin: 5px 10px 0 0;
 	/* 좌우 살짝만 여백 */
 	justify-content: space-between;
 	cursor: pointer;
@@ -188,6 +187,11 @@
 	align-items: center;
 }
 
+.fas.fa-search:before{
+	margin-left:22px;
+}
+
+
 .menu-icons a {
 	color: var(--color-main);
 	/* 기존 아이콘 색상과 동일하게 */
@@ -202,7 +206,8 @@
 	font-size: 25px;
 	color: var(--color-main);
 	cursor: pointer;
-	margin-top: 5px;
+	margin: 5px 30px 0 0;
+	
 }
 
 .menu-icons>a>img {

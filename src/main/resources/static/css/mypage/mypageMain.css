@@ -21,3 +21,12 @@
 	font-size: 30px;
 	font-weight: bold;
 }
+
+.main-mode .card .rating {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.main-mode .card .name {
+  margin-bottom: 0 !important;
+}

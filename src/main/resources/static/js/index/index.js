@@ -97,3 +97,46 @@ $(function() {
         window.location.href = targetUrl;
     });
 });
+
+//메인 베너 이미지 슬라이드 (하윤)
+const banners = [
+  'img/banner.jpg',
+  'img/banner5.png',
+  'img/banner4.png',
+  'img/banner6.png'
+];
+
+const titles = [
+  '쉽고 간편한 식당 예약',
+  '당신만을 위한 맞춤 추천',
+  '최고의 맛집을 찾아서',
+  '지금 바로 Q-table에서 예약하세요'
+];
+
+const subtitles = [
+  'Q-table에서 한번에',
+  '당신의 취향에 딱 맞는 식당',
+  '신뢰받는 맛집과 서비스',
+  '특별한 경험을 약속합니다'
+];
+
+let currentIndex = 0;
+
+window.onload = () => {
+  const bannerImage = document.getElementById('bannerImage');
+  const bannerTitle = document.getElementById('bannerTitle');
+  const bannerSubtitle = document.getElementById('bannerSubtitle');
+
+  // 초기 값 세팅
+  bannerImage.src = banners[0];
+  bannerTitle.textContent = titles[0];
+  bannerSubtitle.textContent = subtitles[0];
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % banners.length;
+    bannerImage.src = banners[currentIndex];
+    bannerTitle.textContent = titles[currentIndex];
+    bannerSubtitle.textContent = subtitles[currentIndex];
+  }, 3000);
+};
+

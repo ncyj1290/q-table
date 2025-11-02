@@ -10,9 +10,11 @@
 <body>
 	<div layout:fragment="Content">
 		<div class="main-banner-full">
-			<img src="img/banner.jpg" alt="메인 배너">
+			<img id="bannerImage" src="img/banner.jpg" alt="메인 배너">
 			<div class="banner-text">
-				<h3>쉽고 간편한 식당 예약을 여기에서 한번에</h3>
+				<h3 id="bannerTitle"></h3> 
+    				<p id="bannerSubtitle"></p>
+    				<!--하윤-->
 			</div>
 		</div>
 		<div class="section restaurant-section">
@@ -81,7 +83,7 @@
 		<div class="section restaurant-section location-section">
 			<h5 style="display: inline-flex; align-items: center; font-weight: 600; font-size: 18px;">
 				인기지역
-				<span style="font-size: 13px; color: #999; margin-left: 6px;">(예약 수 기준)</span>
+				<span style="font-size: 13px; color: #999; margin-left: 6px;"></span>
 			</h5>
 			<div class="restaurant-wrapper" style="position: relative;">
 				<button class="scroll-btn left"></button>

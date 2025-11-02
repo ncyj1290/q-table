@@ -6,14 +6,16 @@
 	<link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/mypageMain.css}">
 	<link rel="stylesheet" th:href="@{/css/mypage/reservationList.css}">
+	<link rel="stylesheet" th:href="@{/css/mypage/pick.css}">
 	<script th:src="@{/js/mypage/mypage_button.js}" defer></script>
 	<script th:src="@{/js/mypage/mypage_main.js}"></script>
 	<script th:src="@{/js/mypage/profile.js}" defer></script>
+	<script th:src="@{/js/mypage/pick.js}" defer></script>
 	<meta charset="UTF-8">
 	<title>my_page</title>
 </head>
 
-<body>
+<body class="main-mode">
 	<div layout:fragment="Content">
 		<div th:replace="mypage/profile :: mainnav"></div>
 		<div th:replace="mypage/mypageNav :: mainnav"></div>
@@ -59,6 +61,7 @@
 			</div>
 			</th:block>
 		</div>
+		<div th:replace="mypage/pick :: mainnav"></div>
 	</div>
 
 </body>
