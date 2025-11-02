@@ -187,10 +187,6 @@
 	align-items: center;
 }
 
-.fas.fa-search:before{
-	margin-left:22px;
-}
-
 
 .menu-icons a {
 	color: var(--color-main);

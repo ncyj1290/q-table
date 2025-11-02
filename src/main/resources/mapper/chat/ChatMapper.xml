@@ -109,7 +109,21 @@
 			 , c.message_content
 			 , c.is_read
 			 , c.created_at
-			 , m.member_name AS sender_name
+			 , CASE
+			     -- 발신자가 매장 주인인 경우 매장명 표시
+			     WHEN EXISTS (
+			       SELECT 1 FROM chat_room cr
+			       JOIN store s ON cr.store_idx = s.store_idx
+			       WHERE cr.room_idx = c.room_idx
+			         AND cr.room_type = 'room_01'
+			         AND s.member_idx = c.sender_idx
+			     ) THEN (
+			       SELECT s.store_name FROM chat_room cr
+			       JOIN store s ON cr.store_idx = s.store_idx
+			       WHERE cr.room_idx = c.room_idx
+			     )
+			     ELSE m.member_name
+			   END AS sender_name
 			 , m.profile_img_url AS sender_profile_img
 		  FROM chat c
 		  LEFT JOIN member m ON c.sender_idx = m.member_idx
