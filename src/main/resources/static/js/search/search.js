@@ -127,7 +127,7 @@ $(function() {
 				scrollTop();
 				$('.filter').show();
 				observer.observe(loader[0]);
-//				if(hasNext) loader.show();
+				if(hasNext) loader.show();
 				isLoading = false;
 			},
 			error: function(error) {

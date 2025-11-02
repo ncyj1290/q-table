@@ -42,7 +42,6 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     @Value("${kakao.shipping-address-uri}")
     private String kakaoShippingAddressUri;
     
-    
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
@@ -55,7 +54,8 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        Member member = saveOrUpdate(registrationId, attributes, userRequest.getAccessToken().getTokenValue(), userNameAttributeName);
+        Member member = saveOrUpdate(registrationId, attributes, 
+            userRequest.getAccessToken().getTokenValue(), userNameAttributeName);
 
         return new QtableUserDetails(member, attributes);
     }

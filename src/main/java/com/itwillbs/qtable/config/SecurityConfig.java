@@ -125,14 +125,14 @@ public class SecurityConfig {
 				
 				// 로그인 폼 설정 
 				.formLogin(form -> form
-					.loginPage("/login") //로그인 페이지 경로 
-					.loginProcessingUrl("/loginPro") //로그인처리하는 경로 
-					.usernameParameter("id") //로그인 페이지에서 name값하고 일치시켜야함 
-					.passwordParameter("passwd") //로그인 페이지에서 name값하고 일치시켜야함 
-//					.defaultSuccessUrl("/") //성공시 이동하는 기본 경로 
-					.successHandler(successHandler) //  성공시 핸들러 
-					.failureHandler(failHandler) // 실패시 핸들러 
+					.loginPage("/login") 
+					.loginProcessingUrl("/loginPro") 
+					.usernameParameter("id")  
+					.passwordParameter("passwd") 
+					.successHandler(successHandler)
+					.failureHandler(failHandler)
 //					.failureUrl("/login?error=true") //로그인 실패시 이동하는 경로
+//					.defaultSuccessUrl("/") //성공시 이동하는 기본 경로 
 			 	)
 				.oauth2Login(oauth2 -> oauth2
 	                .loginPage("/login")  // 직접 만든 로그인 페이지 경로
