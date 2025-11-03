@@ -96,7 +96,7 @@ public class PasswordService {
 		}
 
 		// 회원탈퇴 처리
-		int updateResult = passwordMapper.updateMemberStatus(memberIdx, "mstat02");
+		int updateResult = passwordMapper.updateMemberStatus(memberIdx, "mstat_02");
 		if (updateResult == 0) {
 			return false;
 		}
