@@ -113,7 +113,7 @@ $(function() {
 
 			    // 공통 코드 저장 AJAX 요청
 			    $.ajax({
-			        url: 'api/comcode/common_codes',
+			        url: '/api/comcode/common_codes',
 			        type: 'POST',
 			        contentType: 'application/json',
 			        data: JSON.stringify(codes_data),

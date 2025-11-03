@@ -54,7 +54,7 @@ public interface AdminMapper {
 	List<SubscribeListVO> findSubscribeList();
 	
 	// 공통 코드 목록 리스트 조회
-	List<CommonCodeVO>findCommonCodeList();
+	List<CommonCodeVO> findCommonCodeList();
 	
 	// 공통 코드 상세 조회
 	CommonCodeVO findCommoncodeDetail(Integer common_idx);

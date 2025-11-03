@@ -206,7 +206,7 @@ public class AdminApiController {
     }
     
     // 공통코드 추가
-    @PostMapping("api/comcode/common_codes")
+    @PostMapping("/api/comcode/common_codes")
     public void saveCommonCode(@RequestBody List<CommonCodeVO> CommonCodeVO) {
 
     	adminService.saveCommonCode(CommonCodeVO);
