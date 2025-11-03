@@ -137,6 +137,6 @@ window.onload = () => {
     bannerImage.src = banners[currentIndex];
     bannerTitle.textContent = titles[currentIndex];
     bannerSubtitle.textContent = subtitles[currentIndex];
-  }, 3000);
+  }, 7000);
 };
 

@@ -295,11 +295,6 @@ body{
 	font-size: 50px;
 	margin: 0;
 	font-weight: bold;
-	text-shadow:
-    1px 1px 0 #000,
-    -1px 1px 0 #000,
-    1px -1px 0 #000,
-    -1px -1px 0 #000;
 }
 
 .reset-content-style {
