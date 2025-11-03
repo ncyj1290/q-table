@@ -110,7 +110,7 @@ public class AdminController {
 //	공통 코드 관리 페이지
 	@GetMapping("/comcode_list")
 	public String comCodeList() {
-		return "admin/comCodeList";
+		return "admin/comcodeList";
 	}
 	
 //	공통 코드 추가 페이지
