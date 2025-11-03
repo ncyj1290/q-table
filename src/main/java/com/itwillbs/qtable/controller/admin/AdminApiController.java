@@ -22,7 +22,8 @@ import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 import com.itwillbs.qtable.vo.admin.UserLogVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
+import com.itwillbs.qtable.vo.admin.AdminCommonCodeVO;
+import com.itwillbs.qtable.vo.admin.AdminCommonCodeGroupVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 
 @RestController
@@ -168,21 +169,21 @@ public class AdminApiController {
     
     // 공통 코드 목록 리스트 조회
 	@GetMapping("/api/commoncode")
-	public List<CommonCodeVO>findCommonCodeList() {
+	public List<AdminCommonCodeVO>findCommonCodeList() {
 
 		return adminService.findCommonCodeList();
 	}
 	
     // 공통 코드 상세 정보 조회
     @GetMapping("/api/commoncode/{commoncodeIdx}")
-    public CommonCodeVO findCommoncodeDetail(@PathVariable("commoncodeIdx") Integer commoncodeIdx) {
+    public AdminCommonCodeVO findCommoncodeDetail(@PathVariable("commoncodeIdx") Integer commoncodeIdx) {
         return adminService.findCommoncodeDetail(commoncodeIdx);
     }
     
     // 공통 코드 수정
     @PostMapping("/api/commoncode/{commoncodeIdx}/update")
     public void updateCommonCode(@PathVariable("commoncodeIdx") Integer commoncodeIdx,
-            					 @RequestBody CommonCodeVO CommonCodeVO) {
+            					 @RequestBody AdminCommonCodeVO CommonCodeVO) {
         
     	adminService.updateCommonCode(commoncodeIdx, CommonCodeVO);
     }
@@ -195,20 +196,20 @@ public class AdminApiController {
     
     // 공통코드 그룹 리스트
     @GetMapping("/api/common-code-groups")
-    public List<CommonCodeGroupVO> findAllGroups() {
+    public List<AdminCommonCodeGroupVO> findAllGroups() {
         return adminService.findAllGroups();
     }
     
     // 공통코드 그룹 추가
     @PostMapping("/api/common-code-groups")
-    public void saveCommonCodeGroup(@RequestBody CommonCodeGroupVO CommonCodeGroupVO) {
+    public void saveCommonCodeGroup(@RequestBody AdminCommonCodeGroupVO CommonCodeGroupVO) {
 
     	adminService.saveCommonCodeGroup(CommonCodeGroupVO);
     }
     
     // 공통코드 추가
     @PostMapping("/api/comcode/common_codes")
-    public void saveCommonCode(@RequestBody List<CommonCodeVO> CommonCodeVO) {
+    public void saveCommonCode(@RequestBody List<AdminCommonCodeVO> CommonCodeVO) {
 
     	adminService.saveCommonCode(CommonCodeVO);
     }

@@ -8,8 +8,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
+import com.itwillbs.qtable.vo.admin.AdminCommonCodeVO;
+import com.itwillbs.qtable.vo.admin.AdminCommonCodeGroupVO;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.PaymentListVO;
@@ -54,28 +54,28 @@ public interface AdminMapper {
 	List<SubscribeListVO> findSubscribeList();
 	
 	// 공통 코드 목록 리스트 조회
-	List<CommonCodeVO> findCommonCodeList();
+	List<AdminCommonCodeVO> findCommonCodeList();
 	
 	// 공통 코드 상세 조회
-	CommonCodeVO findCommoncodeDetail(Integer common_idx);
+	AdminCommonCodeVO findCommoncodeDetail(Integer common_idx);
 	
 	// 공통 코드 삭제
 	Integer deleteCommonCodeById(@Param("common_idx") Integer common_idx);
 	
 	// 공통 코드 수정
     void updateCommonCode(@Param("common_idx") Integer common_idx, 
-    					  @Param("CommonCodeVO") CommonCodeVO CommonCodeVO,
+    					  @Param("CommonCodeVO") AdminCommonCodeVO CommonCodeVO,
 					      @Param("updater_idx") Integer updater_idx,
 					      @Param("update_date") LocalDateTime update_date);
     
     // 공통 코드 그룹 리스트
-    List<CommonCodeGroupVO> findAllGroups();
+    List<AdminCommonCodeGroupVO> findAllGroups();
     
     // 공통 코드 그룹 추가
-    void saveCommonCodeGroup(CommonCodeGroupVO CommonCodeGroupVO);
+    void saveCommonCodeGroup(AdminCommonCodeGroupVO CommonCodeGroupVO);
     
     // 공통 코드 추가
-    void saveCommonCode(@Param("list") List<CommonCodeVO> CommonCodeVO);
+    void saveCommonCode(@Param("list") List<AdminCommonCodeVO> CommonCodeVO);
     
     // 회원 로그 목록 리스트 조회
     List<UserLogVO> findUserLogList();

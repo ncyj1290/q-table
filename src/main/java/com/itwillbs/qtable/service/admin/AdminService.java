@@ -30,8 +30,8 @@ import com.itwillbs.qtable.repository.StoreRepository;
 import com.itwillbs.qtable.repository.SubscribeRepository;
 import com.itwillbs.qtable.repository.UserLogRepository;
 import com.itwillbs.qtable.service.chat.ChatService;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
+import com.itwillbs.qtable.vo.admin.AdminCommonCodeVO;
+import com.itwillbs.qtable.vo.admin.AdminCommonCodeGroupVO;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
@@ -389,18 +389,18 @@ public class AdminService {
 	// ---------------------- 공통코드 ----------------------
 
 	// 공통 코드 목록 리스트
-	public List<CommonCodeVO> findCommonCodeList() {
+	public List<AdminCommonCodeVO> findCommonCodeList() {
 		return adminMapper.findCommonCodeList();
 	}
 
 	// 공통코드 상세 정보 조회
-	public CommonCodeVO findCommoncodeDetail(Integer common_idx) {
+	public AdminCommonCodeVO findCommoncodeDetail(Integer common_idx) {
 		return adminMapper.findCommoncodeDetail(common_idx);
 	}
 
 	// 공통 코드 업데이트
 	@Transactional
-	public void updateCommonCode(Integer common_idx, CommonCodeVO CommonCodeVO) {
+	public void updateCommonCode(Integer common_idx, AdminCommonCodeVO CommonCodeVO) {
 		
 		int currentAdminIdx = getCurrentAdminIdx();
 		LocalDateTime now = LocalDateTime.now();
@@ -414,12 +414,12 @@ public class AdminService {
 	}
 
 	// 그룹 목록 조회 메소드 (새로 추가)s
-	public List<CommonCodeGroupVO> findAllGroups() {
+	public List<AdminCommonCodeGroupVO> findAllGroups() {
 		return adminMapper.findAllGroups();
 	}
 
 	// 공통코드 그룹 추가
-	public void saveCommonCodeGroup(CommonCodeGroupVO CommonCodeGroupVO) {
+	public void saveCommonCodeGroup(AdminCommonCodeGroupVO CommonCodeGroupVO) {
 		
 		int currentAdminIdx = getCurrentAdminIdx();
 		
@@ -433,11 +433,11 @@ public class AdminService {
 	}
 
 	// 공통 코드 추가
-	public void saveCommonCode(List<CommonCodeVO> CommonCodeVO) {
+	public void saveCommonCode(List<AdminCommonCodeVO> CommonCodeVO) {
 		
 		int currentAdminIdx = getCurrentAdminIdx();
 		
-		for (CommonCodeVO vo : CommonCodeVO) {
+		for (AdminCommonCodeVO vo : CommonCodeVO) {
             // 각 VO에 생성자 ID 설정
             vo.setCreater_idx(currentAdminIdx);
         }
