@@ -30,6 +30,8 @@ import com.itwillbs.qtable.repository.StoreRepository;
 import com.itwillbs.qtable.repository.SubscribeRepository;
 import com.itwillbs.qtable.repository.UserLogRepository;
 import com.itwillbs.qtable.service.chat.ChatService;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
@@ -41,8 +43,7 @@ import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 import com.itwillbs.qtable.vo.admin.UserLogVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+
 
 import jakarta.transaction.Transactional;
 
@@ -412,7 +413,7 @@ public class AdminService {
 		return adminMapper.deleteCommonCodeById(common_idx);
 	}
 
-	// 그룹 목록 조회 메소드 (새로 추가)
+	// 그룹 목록 조회 메소드 (새로 추가)s
 	public List<CommonCodeGroupVO> findAllGroups() {
 		return adminMapper.findAllGroups();
 	}

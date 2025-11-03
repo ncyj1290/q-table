@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itwillbs.qtable.service.admin.AdminService;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.MemberListVO;
@@ -21,7 +23,6 @@ import com.itwillbs.qtable.vo.admin.StoreUpdateVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 import com.itwillbs.qtable.vo.admin.UserLogVO;
 import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 import com.itwillbs.qtable.vo.admin.JeongsanUpdateVO;
 
 @RestController

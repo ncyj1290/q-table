@@ -8,14 +8,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
+import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
 import com.itwillbs.qtable.vo.admin.JeongsanListVO;
 import com.itwillbs.qtable.vo.admin.MemberDetailVO;
 import com.itwillbs.qtable.vo.admin.PaymentListVO;
 import com.itwillbs.qtable.vo.admin.StoreListVO;
 import com.itwillbs.qtable.vo.admin.SubscribeListVO;
 import com.itwillbs.qtable.vo.admin.UserLogVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeGroupVO;
-import com.itwillbs.qtable.vo.commonCode.CommonCodeVO;
 
 @Mapper
 public interface AdminMapper {
