@@ -207,7 +207,8 @@ $(function() {
 	                observer.observe(loader[0]);
 	            } else {
 					observer.unobserve(loader[0]);
-	                loader.hide();
+                 	loader.removeClass('visible');
+					showNotification("더 이상 불러올 결과가 없습니다!");
 	            }
 				history.pushState(null, '', displayUrl);
 				searchState.cursor = cursor;
