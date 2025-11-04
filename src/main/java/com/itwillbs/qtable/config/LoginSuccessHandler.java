@@ -39,12 +39,14 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 			    .anyMatch(authority -> authority.getAuthority().equals("ROLE_mtype_01"));
 		boolean isStore = authentication.getAuthorities().stream()
 				.anyMatch(authority -> authority.getAuthority().equals("ROLE_mtype_03"));
+		boolean isMember = authentication.getAuthorities().stream()
+				.anyMatch(authority -> authority.getAuthority().equals("ROLE_mtype_02"));
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		String redirectUrl;
 		
-        if (savedRequest != null) {
+		if (savedRequest != null && isMember) {
             redirectUrl = savedRequest.getRedirectUrl();
-        } else if (isAdmin) {
+		} else if (isAdmin) {
         	redirectUrl = "/admin_main";
         } else if (isStore) {
         	redirectUrl = "/store_management_main";

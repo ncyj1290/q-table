@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,6 +25,7 @@ import com.itwillbs.qtable.entity.Member;
 import com.itwillbs.qtable.exception.AccountRestoreRequiredException;
 import com.itwillbs.qtable.repository.MemberRepository;
 import com.itwillbs.qtable.service.member.MemberJoinService;
+import com.itwillbs.qtable.service.mypage.RandomNickname;
 import com.itwillbs.qtable.vo.member.KakaoMemberVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -38,7 +40,8 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private final MemberRepository repo;
     private final HttpSession httpSession;
     private final RestTemplate restTemplate = new RestTemplate(); // 배송지 API 호출용
-    private MemberJoinService memberJoinService = new MemberJoinService(null,null,null,null,null,null);
+//    private MemberJoinService memberJoinService = new MemberJoinService(null,null,null,new RandomNickname(),null,null);
+    private final RandomNickname nickname;
     @Value("${kakao.shipping-address-uri}")
     private String kakaoShippingAddressUri;
     
@@ -68,10 +71,9 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     	if ("kakao".equals(registrationId)) {
     		String userId = registrationId + "_" + attributes.get(userNameAttributeName).toString();
 	        Optional<Member> optionalMember = repo.findByMemberId(userId);
-	        Member existingMember = optionalMember.get();
 	        
 	        if (optionalMember.isPresent()) {
-	            
+	        	Member existingMember = optionalMember.get();
 	        	if ("mstat_02".equals(existingMember.getMemberStatus())) {
 	        		httpSession.setAttribute("userIdForRestore", userId);
 	        		throw new AccountRestoreRequiredException("DELETED_ACCOUNT");
@@ -174,7 +176,7 @@ public class QtableOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .qMoney(500)
                 .mailAuthStatus(true)
                 .socialId(vo.getSocialId())
-                .nickName(memberJoinService.generateRandomNickname())
+                .nickName(nickname.generate())
                 .build();
     }
 }
